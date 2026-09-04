@@ -32,12 +32,21 @@ export default function SignupScreen({navigation}) {
     }
 
     setLoading(true);
-    const result = await dispatch(
-      signupUser({name: name.trim(), email: email.trim(), password}),
-    );
-    setLoading(false);
-    if (signupUser.rejected.match(result)) {
-      Alert.alert('Sign up failed', result.payload || 'Try again');
+    try {
+      const result = await dispatch(
+        signupUser({name: name.trim(), email: email.trim(), password}),
+      );
+      if (signupUser.rejected.match(result)) {
+        const errorMsg =
+          typeof result.payload === 'string'
+            ? result.payload
+            : result.error?.message || 'Try again';
+        Alert.alert('Sign up failed', errorMsg);
+      }
+    } catch (err) {
+      Alert.alert('Sign up failed', err?.message || 'An error occurred.');
+    } finally {
+      setLoading(false);
     }
   };
 

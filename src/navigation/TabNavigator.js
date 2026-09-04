@@ -1,12 +1,12 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {images} from '../assets';
 import {Header} from '../components';
 import colors from '../config/color';
 import {useSidebar} from '../context/SidebarContext';
 import HomeScreen from '../screen/HomeScreen';
-import KeywordSearchScreen from '../screen/KeywordSearchScreen';
+import SearchScreen from '../screen/SearchScreen';
 import ProfileScreen from '../screen/ProfileScreen';
 import SettingScreen from '../screen/SettingScreen';
 
@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 const ICONS = {
   Home: images.iconHome,
-  Search: images.iconHome,
+  Search: images.iconSearch,
   Profile: images.iconProfile,
   Settings: images.iconSettings,
 };
@@ -53,7 +53,7 @@ export default function TabNavigator() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen
         name="Search"
-        component={KeywordSearchScreen}
+        component={SearchScreen}
         options={{tabBarLabel: 'Search'}}
       />
       <Tab.Screen name="Profile" component={ProfileScreen} />

@@ -11,7 +11,7 @@ import styles from './style';
 
 const LINKS = [
   {label: 'Home', screen: 'Home', icon: images.iconHome},
-  {label: 'Search', screen: 'Search', icon: images.iconHome},
+  {label: 'Search', screen: 'Search', icon: images.iconSearch},
   {label: 'Profile', screen: 'Profile', icon: images.iconProfile},
   {label: 'Settings', screen: 'Settings', icon: images.iconSettings},
 ];

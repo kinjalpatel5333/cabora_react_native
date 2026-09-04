@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storageGetItem, storageSetItem} from '../../utils/storage';
 import {STORAGE_KEYS} from '../../config/setting';
 
 const initialState = {
@@ -9,20 +9,25 @@ const initialState = {
 };
 
 export const bootstrapApp = createAsyncThunk('app/bootstrap', async () => {
-  const [[, walkthrough], [, notifications]] = await AsyncStorage.multiGet([
-    STORAGE_KEYS.walkthrough,
-    STORAGE_KEYS.notifications,
-  ]);
-  return {
-    walkthroughSeen: walkthrough === '1',
-    notifications: notifications !== '0',
-  };
+  try {
+    const [walkthrough, notifications] = await Promise.all([
+      storageGetItem(STORAGE_KEYS.walkthrough),
+      storageGetItem(STORAGE_KEYS.notifications),
+    ]);
+    return {
+      walkthroughSeen: walkthrough === '1',
+      notifications: notifications !== '0',
+    };
+  } catch (err) {
+    console.error('bootstrapApp error:', err);
+    return {walkthroughSeen: false, notifications: true};
+  }
 });
 
 export const completeWalkthrough = createAsyncThunk(
   'app/completeWalkthrough',
   async () => {
-    await AsyncStorage.setItem(STORAGE_KEYS.walkthrough, '1');
+    await storageSetItem(STORAGE_KEYS.walkthrough, '1');
     return true;
   },
 );
@@ -30,7 +35,7 @@ export const completeWalkthrough = createAsyncThunk(
 export const setNotificationsEnabled = createAsyncThunk(
   'app/setNotifications',
   async enabled => {
-    await AsyncStorage.setItem(STORAGE_KEYS.notifications, enabled ? '1' : '0');
+    await storageSetItem(STORAGE_KEYS.notifications, enabled ? '1' : '0');
     return enabled;
   },
 );
