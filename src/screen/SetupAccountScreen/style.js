@@ -1,0 +1,168 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.white,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 20,
+      marginBottom: 20,
+    },
+    headerBtn: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      color: colors.navy[900],
+      fontSize: 17,
+      fontWeight: '700',
+    },
+    scroll: {
+      paddingHorizontal: 20,
+      paddingBottom: 24,
+    },
+    title: {
+      color: colors.navy[900],
+      fontSize: 28,
+      fontWeight: '800',
+      letterSpacing: -0.4,
+      marginBottom: 8,
+    },
+    subtitle: {
+      color: colors.gray[500],
+      fontSize: 14,
+      lineHeight: 20,
+      marginBottom: 20,
+    },
+    card: {
+      borderWidth: 1.5,
+      borderColor: colors.gray[200],
+      borderRadius: 20,
+      padding: 16,
+      marginBottom: 12,
+      backgroundColor: colors.white,
+    },
+    cardSelected: {
+      borderColor: colors.primary,
+      backgroundColor: colors.orange[50],
+    },
+    cardTop: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 12,
+    },
+    iconWrap: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    iconSelected: {
+      backgroundColor: colors.white,
+    },
+    copy: {
+      flex: 1,
+    },
+    cardTitle: {
+      color: colors.navy[900],
+      fontSize: 16,
+      fontWeight: '700',
+      marginBottom: 4,
+    },
+    cardBody: {
+      color: colors.gray[500],
+      fontSize: 13,
+      lineHeight: 18,
+    },
+    radio: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      borderWidth: 1.5,
+      borderColor: colors.gray[300],
+      backgroundColor: colors.white,
+      marginTop: 2,
+    },
+    radioOn: {
+      borderWidth: 6,
+      borderColor: colors.primary,
+      backgroundColor: colors.white,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.gray[200],
+      marginTop: 14,
+      marginBottom: 12,
+    },
+    dividerSelected: {
+      backgroundColor: colors.orange[200],
+    },
+    hint: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    hintText: {
+      flex: 1,
+      fontSize: 13,
+      fontWeight: '500',
+      color: colors.gray[500],
+    },
+    hintSuccess: {
+      color: colors.green[600],
+      fontWeight: '600',
+    },
+    note: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 10,
+      borderWidth: 1.5,
+      borderColor: colors.gray[200],
+      borderRadius: 20,
+      padding: 14,
+      marginTop: 4,
+      backgroundColor: colors.white,
+    },
+    noteText: {
+      flex: 1,
+      color: colors.navy[700],
+      fontSize: 13,
+      lineHeight: 19,
+    },
+    footer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 16,
+      paddingHorizontal: 20,
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: colors.gray[100],
+    },
+    pickedLabel: {
+      color: colors.gray[500],
+      fontSize: 13,
+    },
+    pickedValue: {
+      color: colors.navy[900],
+      fontSize: 20,
+      fontWeight: '800',
+      marginTop: 2,
+    },
+    continue: {
+      minWidth: 148,
+      borderRadius: 999,
+    },
+  });
+}

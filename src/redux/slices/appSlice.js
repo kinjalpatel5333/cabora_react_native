@@ -15,7 +15,7 @@ export const bootstrapApp = createAsyncThunk('app/bootstrap', async () => {
       storageGetItem(STORAGE_KEYS.notifications),
     ]);
     return {
-      walkthroughSeen: walkthrough === '1',
+      walkthroughSeen: false,
       notifications: notifications !== '0',
     };
   } catch (err) {

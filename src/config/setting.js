@@ -13,6 +13,17 @@ export const STORAGE_KEYS = {
 
 export const DEMO_MODE = true;
 
+export const APP_VERSION = '2.1.0 (2412)';
+export const APP_MARKET = 'Made for India';
+export const STORE_URL = 'https://cabora.app';
+
+/** Flip these when the backend reports an app-level splash gate. */
+export const SPLASH = {
+  holdOnSplash: false,
+  forceUpdate: false,
+  maintenance: false,
+};
+
 export const DEMO_CREDENTIALS = {
   email: 'demo@email.com',
   password: 'password',

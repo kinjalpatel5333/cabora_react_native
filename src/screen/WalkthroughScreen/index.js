@@ -4,6 +4,7 @@ import {
   FlatList,
   Image,
   Pressable,
+  StatusBar,
   Text,
   View,
 } from 'react-native';
@@ -12,36 +13,46 @@ import {images} from '../../assets';
 import {Button} from '../../components';
 import {useAppDispatch} from '../../redux/hooks';
 import {completeWalkthrough} from '../../redux/slices/appSlice';
-import styles from './style';
+import useThemedStyles from '../../components/useThemedStyles';
+import createStyles from './style';
 
 const {width} = Dimensions.get('window');
+const CURVE_HEIGHT = (96 / 390) * width;
 
 const SLIDES = [
   {
-    key: 'welcome',
-    image: images.walk1,
-    kicker: 'WELCOME',
-    title: 'Build faster',
-    body: 'A ready React Native starter with auth, navigation, and a dummy API you can swap out.',
+    key: 'booking',
+    image: images.walkBooking,
+    curve: images.walkCurveBooking,
+    kicker: 'FAST BOOKING',
+    title: 'Book a ride\nin three taps.',
+    body: 'Set your drop, pick a vehicle, confirm. No forms, no waiting on hold.',
+    action: 'Continue',
   },
   {
-    key: 'navigate',
-    image: images.walk2,
-    kicker: 'NAVIGATION',
-    title: 'Tabs and a sidebar',
-    body: 'Move around with a bottom tab bar, or open the side menu from the header.',
+    key: 'tracking',
+    image: images.walkTracking,
+    curve: images.walkCurveTracking,
+    kicker: 'LIVE TRACKING',
+    title: 'See every metre\nof the way.',
+    body: 'Live driver position, honest ETAs, and a link your family can follow.',
+    action: 'Continue',
   },
   {
-    key: 'account',
-    image: images.walk3,
-    kicker: 'ACCOUNT',
-    title: 'Your profile',
-    body: 'Sign in, update settings, and keep a local session while you wire a real backend.',
+    key: 'payments',
+    image: images.walkPayments,
+    curve: images.walkCurvePayments,
+    contain: true,
+    kicker: 'SECURE PAYMENTS',
+    title: 'Pay however\nsuits you.',
+    body: 'UPI, cards, wallet or cash. Fares are locked before you book — no surprises.',
+    action: 'Get started',
   },
 ];
 
 export default function WalkthroughScreen() {
   const insets = useSafeAreaInsets();
+  const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
   const listRef = useRef(null);
   const [index, setIndex] = useState(0);
@@ -49,22 +60,33 @@ export default function WalkthroughScreen() {
 
   const finish = () => dispatch(completeWalkthrough());
 
+  const goTo = next => {
+    if (next === index || next < 0 || next >= SLIDES.length) {
+      return;
+    }
+    setIndex(next);
+    listRef.current?.scrollToIndex({index: next, animated: true});
+  };
+
   const goNext = () => {
     if (last) {
       finish();
       return;
     }
-    listRef.current?.scrollToIndex({index: index + 1, animated: true});
+    goTo(index + 1);
   };
 
-  return (
-    <View style={[styles.root, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
-      <View style={styles.skipWrap}>
-        <Pressable onPress={finish} hitSlop={12}>
-          <Text style={styles.skip}>Skip</Text>
-        </Pressable>
-      </View>
+  const renderHero = item => (
+    <Image
+      source={item.image}
+      style={item.contain ? styles.payImage : styles.heroImage}
+      resizeMode={item.contain ? 'contain' : 'cover'}
+    />
+  );
 
+  return (
+    <View style={styles.root}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFD4AA" />
       <FlatList
         ref={listRef}
         data={SLIDES}
@@ -78,25 +100,68 @@ export default function WalkthroughScreen() {
           setIndex(next);
         }}
         renderItem={({item}) => (
-          <View style={[styles.slide, {width}]}>
-            <Image source={item.image} style={styles.image} resizeMode="contain" />
-            <Text style={styles.kicker}>{item.kicker}</Text>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.body}>{item.body}</Text>
+          <View style={[styles.page, {width}]}>
+            <View style={[styles.hero, {paddingTop: insets.top + 8}]}>
+              <View
+                style={[
+                  styles.heroFill,
+                  item.contain && styles.heroFillPay,
+                  item.contain && {paddingBottom: CURVE_HEIGHT * 0.5},
+                ]}>
+                {renderHero(item)}
+              </View>
+              <Image
+                source={item.curve}
+                style={[styles.wave, {height: CURVE_HEIGHT}]}
+                resizeMode="stretch"
+              />
+            </View>
+            <View
+              style={[
+                styles.panel,
+                {paddingBottom: Math.max(insets.bottom, 16)},
+              ]}>
+              <View style={styles.badge}>
+                <View style={styles.badgeDot} />
+                <Text style={styles.badgeLabel}>{item.kicker}</Text>
+              </View>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.body}>{item.body}</Text>
+              <View style={styles.dots}>
+                {SLIDES.map((slide, i) => (
+                  <Pressable
+                    key={slide.key}
+                    hitSlop={12}
+                    onPress={() => goTo(i)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Go to slide ${i + 1}`}>
+                    <View
+                      style={[styles.dot, i === index && styles.dotActive]}
+                    />
+                  </Pressable>
+                ))}
+              </View>
+              <Button
+                title={item.action}
+                onPress={goNext}
+                style={styles.cta}
+              />
+            </View>
           </View>
         )}
       />
-
-      <View style={styles.footer}>
-        <View style={styles.dots}>
-          {SLIDES.map((slide, i) => (
-            <View
-              key={slide.key}
-              style={[styles.dot, i === index && styles.dotActive]}
-            />
-          ))}
-        </View>
-        <Button title={last ? 'Get started' : 'Next'} onPress={goNext} />
+      <View
+        pointerEvents="box-none"
+        style={[styles.header, {top: insets.top + 8}]}>
+        <Image
+          source={images.walkLogo}
+          style={styles.logo}
+          resizeMode="contain"
+          accessibilityLabel="Cabora"
+        />
+        <Pressable onPress={finish} hitSlop={8} style={styles.skip}>
+          <Text style={styles.skipLabel}>Skip</Text>
+        </Pressable>
       </View>
     </View>
   );

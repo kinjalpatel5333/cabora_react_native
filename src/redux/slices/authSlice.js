@@ -150,6 +150,26 @@ export const loginUser = createAsyncThunk(
   },
 );
 
+export const loginWithPhone = createAsyncThunk(
+  'auth/loginPhone',
+  async ({phone, role}, {rejectWithValue}) => {
+    try {
+      const sessionUser = {
+        id: `phone-${phone}`,
+        name: role === 'driver' ? 'Driver' : 'Rider',
+        email: `${phone}@cabora.local`,
+        phone,
+        role: role || 'passenger',
+      };
+      const token = `local-token-${Date.now()}`;
+      await persistSession(token, sessionUser);
+      return {token, user: sessionUser};
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Verification failed');
+    }
+  },
+);
+
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
   await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
 });
@@ -187,6 +207,19 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Login failed';
+      })
+      .addCase(loginWithPhone.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginWithPhone.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+      })
+      .addCase(loginWithPhone.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Verification failed';
       })
       // signup
       .addCase(signupUser.pending, state => {

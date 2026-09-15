@@ -1,7 +1,6 @@
 import React from 'react';
-import {Alert, Switch, Text, View} from 'react-native';
-import {Button, Screen} from '../../components';
-import colors from '../../config/color';
+import {Alert, Text, View} from 'react-native';
+import {Button, Screen, Toggle} from '../../components';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {setNotificationsEnabled} from '../../redux/slices/appSlice';
 import {logoutUser} from '../../redux/slices/authSlice';
@@ -37,11 +36,9 @@ export default function SettingScreen() {
 
       <View style={styles.card}>
         <Row label="Notifications" hint="Demo toggle, stored on device">
-          <Switch
+          <Toggle
             value={notifications}
             onValueChange={value => dispatch(setNotificationsEnabled(value))}
-            trackColor={{false: colors.border, true: colors.primary}}
-            thumbColor={colors.white}
           />
         </Row>
         <Row
