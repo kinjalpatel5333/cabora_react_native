@@ -8,8 +8,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
-import {useAppDispatch} from '../../redux/hooks';
-import {loginWithPhone} from '../../redux/slices/authSlice';
 import createStyles from './style';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -31,14 +29,14 @@ const ROLES = [
     hint: 'Needs KYC · about 2 days',
     tone: 'warning',
   },
-  {
-    id: 'both',
-    label: 'Both',
-    title: 'Both',
-    body: 'Switch between riding and driving from one login.',
-    hint: 'Driving unlocks after KYC',
-    tone: 'info',
-  },
+  // {
+  //   id: 'both',
+  //   label: 'Both',
+  //   title: 'Both',
+  //   body: 'Switch between riding and driving from one login.',
+  //   hint: 'Driving unlocks after KYC',
+  //   tone: 'info',
+  // },
 ];
 
 function RoleIcon({id, selected, colors}) {
@@ -70,23 +68,19 @@ export default function SetupAccountScreen({navigation, route}) {
   const insets = useSafeAreaInsets();
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
-  const dispatch = useAppDispatch();
   const phone = route?.params?.mobile || '';
   const [selected, setSelected] = useState('passenger');
-  const [loading, setLoading] = useState(false);
 
   const picked = useMemo(
     () => ROLES.find(role => role.id === selected) || ROLES[0],
     [selected],
   );
 
-  const onContinue = async () => {
-    setLoading(true);
-    try {
-      await dispatch(loginWithPhone({phone, role: selected})).unwrap();
-    } catch (err) {
-      setLoading(false);
-    }
+  const onContinue = () => {
+    navigation.navigate('LocationPermission', {
+      mobile: phone,
+      role: selected,
+    });
   };
 
   return (
@@ -173,7 +167,6 @@ export default function SetupAccountScreen({navigation, route}) {
         <Button
           title="Continue"
           onPress={onContinue}
-          loading={loading}
           fullWidth={false}
           style={styles.continue}
         />

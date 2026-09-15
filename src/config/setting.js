@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   registeredUsers: 'cabora.auth.registered_users',
   walkthrough: 'cabora.app.walkthrough',
   notifications: 'cabora.app.notifications',
+  locationResolved: 'cabora.app.location_resolved',
 };
 
 export const DEMO_MODE = true;

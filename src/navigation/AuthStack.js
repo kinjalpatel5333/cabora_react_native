@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screen/LoginScreen';
 import OtpScreen from '../screen/OtpScreen';
 import SetupAccountScreen from '../screen/SetupAccountScreen';
+import LocationPermissionScreen from '../screen/LocationPermissionScreen';
 import SignupScreen from '../screen/SignupScreen';
 import colors from '../config/color';
 
@@ -31,6 +32,11 @@ export default function AuthStack() {
         name="SetupAccount"
         component={SetupAccountScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LocationPermission"
+        component={LocationPermissionScreen}
+        options={{headerShown: false, gestureEnabled: false}}
       />
       <Stack.Screen
         name="Signup"
