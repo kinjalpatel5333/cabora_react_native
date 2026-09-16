@@ -8,6 +8,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {useAppDispatch} from '../../redux/hooks';
+import {loginWithPhone} from '../../redux/slices/authSlice';
 import createStyles from './style';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -69,16 +71,25 @@ export default function SetupAccountScreen({navigation, route}) {
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const phone = route?.params?.mobile || '';
+  const dispatch = useAppDispatch();
   const [selected, setSelected] = useState('passenger');
+  const [loading, setLoading] = useState(false);
 
   const picked = useMemo(
     () => ROLES.find(role => role.id === selected) || ROLES[0],
     [selected],
   );
 
-  const onContinue = () => {
-    // Passenger → location → passenger Home (booking modals).
-    // Driver → location → driver home (separate from passenger screens).
+  const onContinue = async () => {
+    if (selected === 'driver' || selected === 'both') {
+      setLoading(true);
+      try {
+        await dispatch(loginWithPhone({phone, role: selected})).unwrap();
+      } catch (err) {
+        setLoading(false);
+      }
+      return;
+    }
     navigation.navigate('LocationPermission', {
       mobile: phone,
       role: selected,
@@ -169,6 +180,7 @@ export default function SetupAccountScreen({navigation, route}) {
         <Button
           title="Continue"
           onPress={onContinue}
+          loading={loading}
           fullWidth={false}
           style={styles.continue}
         />

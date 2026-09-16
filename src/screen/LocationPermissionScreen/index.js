@@ -11,7 +11,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, SearchField} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
-import {useAppDispatch} from '../../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {completeLocationPrompt} from '../../redux/slices/appSlice';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import {
@@ -98,13 +98,14 @@ function PlaceIcon({name, color}) {
   return <Feather name="clock" size={18} color={color} />;
 }
 
-export default function LocationPermissionScreen({route}) {
+export default function LocationPermissionScreen({navigation, route}) {
   const insets = useSafeAreaInsets();
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
+  const sessionRole = useAppSelector(state => state.auth.user?.role);
   const phone = route?.params?.mobile || '';
-  const role = route?.params?.role || 'passenger';
+  const role = route?.params?.role || sessionRole || 'passenger';
   const fromSetup = Boolean(phone);
   const [mode, setMode] = useState('prompt');
   const [search, setSearch] = useState('');
@@ -130,6 +131,8 @@ export default function LocationPermissionScreen({route}) {
       await dispatch(completeLocationPrompt(resolution)).unwrap();
       if (fromSetup) {
         await dispatch(loginWithPhone({phone, role})).unwrap();
+      } else if (role === 'driver' && navigation?.replace) {
+        navigation.replace('DriverHome');
       }
     } catch (err) {
       console.warn('Location finish failed', err);

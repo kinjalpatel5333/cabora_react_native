@@ -1,5 +1,5 @@
 export const images = {
-  logo: require('./images/logo.png'),
+  // logo: require('./images/logo.png'),
   cabOraLogo: require('./images/cabOra_logo.png'),
   cabOraMark: require('./images/cabOra_mark.png'),
   brandGlow: require('./images/Brand glow.png'),

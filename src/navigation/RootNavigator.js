@@ -5,7 +5,6 @@ import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import WalkthroughScreen from '../screen/WalkthroughScreen';
 import SplashScreen from '../screen/SplashScreen';
-import LocationPermissionScreen from '../screen/LocationPermissionScreen';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {bootstrapApp} from '../redux/slices/appSlice';
 import {bootstrapAuth} from '../redux/slices/authSlice';
@@ -32,11 +31,9 @@ const navTheme = {
 export default function RootNavigator() {
   const dispatch = useAppDispatch();
   const {token, bootstrapped: authReady} = useAppSelector(state => state.auth);
-  const {
-    walkthroughSeen,
-    locationResolved,
-    bootstrapped: appReady,
-  } = useAppSelector(state => state.app);
+  const {walkthroughSeen, bootstrapped: appReady} = useAppSelector(
+    state => state.app,
+  );
   const [phase, setPhase] = useState('loading');
 
   const runBoot = useCallback(async () => {
@@ -83,12 +80,10 @@ export default function RootNavigator() {
         <View style={styles.onboardingShell}>
           <WalkthroughScreen />
         </View>
-      ) : !token ? (
-        <AuthStack />
-      ) : !locationResolved ? (
-        <LocationPermissionScreen />
-      ) : (
+      ) : token ? (
         <AppStack />
+      ) : (
+        <AuthStack />
       )}
     </NavigationContainer>
   );

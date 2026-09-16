@@ -160,12 +160,30 @@ export const loginWithPhone = createAsyncThunk(
         email: `${phone}@cabora.local`,
         phone,
         role: role || 'passenger',
+        kycComplete: role !== 'driver',
       };
       const token = `local-token-${Date.now()}`;
       await persistSession(token, sessionUser);
       return {token, user: sessionUser};
     } catch (err) {
       return rejectWithValue(err?.message || 'Verification failed');
+    }
+  },
+);
+
+export const completeDriverKyc = createAsyncThunk(
+  'auth/completeDriverKyc',
+  async (_, {getState, rejectWithValue}) => {
+    try {
+      const {token, user} = getState().auth;
+      if (!token || !user) {
+        return rejectWithValue('No session');
+      }
+      const nextUser = {...user, kycComplete: true};
+      await persistSession(token, nextUser);
+      return nextUser;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Could not save documents');
     }
   },
 );
@@ -220,6 +238,9 @@ const authSlice = createSlice({
       .addCase(loginWithPhone.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Verification failed';
+      })
+      .addCase(completeDriverKyc.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
       // signup
       .addCase(signupUser.pending, state => {
