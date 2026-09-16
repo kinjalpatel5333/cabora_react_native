@@ -392,7 +392,7 @@ export default function OtpScreen({navigation, route}) {
         </View>
 
         <View
-          style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 16)}]}>
+          style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 8)}]}>
           <Button
             title={buttonTitle}
             onPress={onVerify}

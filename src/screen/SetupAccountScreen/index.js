@@ -77,6 +77,8 @@ export default function SetupAccountScreen({navigation, route}) {
   );
 
   const onContinue = () => {
+    // Passenger → location → passenger Home (booking modals).
+    // Driver → location → driver home (separate from passenger screens).
     navigation.navigate('LocationPermission', {
       mobile: phone,
       role: selected,
@@ -159,7 +161,7 @@ export default function SetupAccountScreen({navigation, route}) {
       </ScrollView>
 
       <View
-        style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 16)}]}>
+        style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 8)}]}>
         <View>
           <Text style={styles.pickedLabel}>You picked</Text>
           <Text style={styles.pickedValue}>{picked.label}</Text>

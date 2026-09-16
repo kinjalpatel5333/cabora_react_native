@@ -7,13 +7,15 @@ import {useSidebar} from '../../context/SidebarContext';
 import {useAuth} from '../../hooks/useAuth';
 import {useAppDispatch} from '../../redux/hooks';
 import {logoutUser} from '../../redux/slices/authSlice';
+import {bottomSafePad} from '../../utils/safeArea';
 import styles from './style';
 
 const LINKS = [
   {label: 'Home', screen: 'Home', icon: images.iconHome},
-  {label: 'Search', screen: 'Search', icon: images.iconSearch},
+  {label: 'Services', screen: 'Services', icon: images.iconSearch},
+  {label: 'Activity', screen: 'Activity', icon: images.iconSettings},
+  {label: 'Wallet', screen: 'Wallet', icon: images.iconProfile},
   {label: 'Profile', screen: 'Profile', icon: images.iconProfile},
-  {label: 'Settings', screen: 'Settings', icon: images.iconSettings},
 ];
 
 export default function DrawerContent() {
@@ -26,7 +28,7 @@ export default function DrawerContent() {
     <View
       style={[
         styles.root,
-        {paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16},
+        {paddingTop: insets.top + 16, paddingBottom: bottomSafePad(insets, 8)},
       ]}>
       <View style={styles.profile}>
         <Image source={images.avatar} style={styles.avatar} />

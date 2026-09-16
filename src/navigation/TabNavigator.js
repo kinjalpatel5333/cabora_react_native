@@ -1,22 +1,27 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {images} from '../assets';
 import {Header} from '../components';
-import colors from '../config/color';
+import colors, {palette} from '../config/color';
 import {useSidebar} from '../context/SidebarContext';
 import HomeScreen from '../screen/HomeScreen';
 import SearchScreen from '../screen/SearchScreen';
+import ActivityScreen from '../screen/ActivityScreen/index';
+import WalletScreen from '../screen/WalletScreen/index';
 import ProfileScreen from '../screen/ProfileScreen';
-import SettingScreen from '../screen/SettingScreen';
+import HomeTabBar from './HomeTabBar';
 
 const Tab = createBottomTabNavigator();
 
-const ICONS = {
-  Home: images.iconHome,
-  Search: images.iconSearch,
-  Profile: images.iconProfile,
-  Settings: images.iconSettings,
+const floatingTabBarStyle = {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  height: undefined,
+  backgroundColor: 'transparent',
+  borderTopWidth: 0,
+  elevation: 0,
+  shadowOpacity: 0,
 };
 
 export default function TabNavigator() {
@@ -24,40 +29,64 @@ export default function TabNavigator() {
 
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: route.name !== 'Search',
-        header: () => <Header title={route.name} />,
+      tabBar={props => <HomeTabBar {...props} />}
+      sceneContainerStyle={{backgroundColor: palette.map.land}}
+      screenOptions={{
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: {
-          backgroundColor: colors.surface,
-          borderTopColor: colors.border,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '700',
-        },
-        tabBarIcon: ({focused}) => (
-          <Image
-            source={ICONS[route.name]}
-            style={{width: 24, height: 24, opacity: focused ? 1 : 0.4}}
-          />
-        ),
-      })}
+        tabBarStyle: floatingTabBarStyle,
+      }}
       screenListeners={({navigation, route}) => ({
         focus: () => {
           setNavigator(navigation);
           setActiveTab(route.name);
         },
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{tabBarLabel: 'Search'}}
+        name="Home"
+        component={HomeScreen}
+        options={{headerShown: false, tabBarLabel: 'Home'}}
       />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Settings" component={SettingScreen} />
+      <Tab.Screen
+        name="Services"
+        component={SearchScreen}
+        options={{
+          headerShown: true,
+          header: () => <Header title="Services" />,
+          tabBarLabel: 'Services',
+          title: 'Services',
+        }}
+      />
+      <Tab.Screen
+        name="Activity"
+        component={ActivityScreen}
+        options={{
+          headerShown: true,
+          header: () => <Header title="Activity" />,
+          tabBarLabel: 'Activity',
+          title: 'Activity',
+        }}
+      />
+      <Tab.Screen
+        name="Wallet"
+        component={WalletScreen}
+        options={{
+          headerShown: true,
+          header: () => <Header title="Wallet" />,
+          tabBarLabel: 'Wallet',
+          title: 'Wallet',
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerShown: true,
+          header: () => <Header title="Profile" />,
+          tabBarLabel: 'Profile',
+          title: 'Profile',
+        }}
+      />
     </Tab.Navigator>
   );
 }

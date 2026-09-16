@@ -171,11 +171,11 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     actions: {
-      paddingTop: 24,
-      paddingBottom: 8,
+      paddingTop: 20,
+      paddingBottom: 4,
     },
     terms: {
-      marginTop: 16,
+      marginTop: 12,
       color: '#8B95A6',
       fontSize: 12,
       lineHeight: 16,

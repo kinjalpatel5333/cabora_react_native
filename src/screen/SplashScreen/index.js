@@ -14,6 +14,7 @@ import {images} from '../../assets';
 import {Button} from '../../components';
 import {APP_MARKET, APP_VERSION, STORE_URL} from '../../config/setting';
 import useThemedStyles from '../../components/useThemedStyles';
+import {bottomSafePad} from '../../utils/safeArea';
 import createStyles from './style';
 
 /** Default is loading. Set one other flag to true to show that screen. */
@@ -143,7 +144,7 @@ export default function SplashScreen({
           styles.content,
           {
             paddingTop: insets.top,
-            paddingBottom: Math.max(insets.bottom, 20),
+            paddingBottom: bottomSafePad(insets),
           },
         ]}>
         <View
