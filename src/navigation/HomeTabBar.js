@@ -44,6 +44,13 @@ export default function HomeTabBar({state, descriptors, navigation}) {
   const {colors} = useApp();
   const safeBottom = getTabBarBottomPadding(insets);
 
+  const focusedRoute = state.routes[state.index];
+  const focusedOptions = descriptors[focusedRoute.key]?.options;
+  const tabBarStyle = focusedOptions?.tabBarStyle;
+  if (tabBarStyle?.display === 'none') {
+    return null;
+  }
+
   return (
     <View
       pointerEvents="box-none"

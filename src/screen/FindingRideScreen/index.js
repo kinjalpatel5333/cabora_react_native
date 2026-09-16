@@ -16,6 +16,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {CoRiderMatchedSheet, DriverOnWaySheet, OnTripSheet} from './MatchedSheets';
+import RateTipScreen from './RateTipScreen';
+import RatedPaidScreen from './RatedPaidScreen';
+import TripCompletedScreen from './TripCompletedScreen';
 import createStyles from './style';
 
 const NEARBY = [
@@ -32,6 +35,7 @@ const ALT_RIDES = [
 const PULSE_COUNT = 3;
 const MATCH_MS = 5000;
 const ON_TRIP_MS = 5000;
+const COMPLETED_MS = 5000;
 const NO_DRIVER_MS = 12000;
 
 function RadarPulse({delay, styles}) {
@@ -88,8 +92,9 @@ export default function FindingRideModal({
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
-  const [phase, setPhase] = useState('searching'); // searching | pool | driver | onTrip | unavailable
+  const [phase, setPhase] = useState('searching'); // searching | pool | driver | onTrip | completed | rateTip | ratedPaid | unavailable
   const [searchKey, setSearchKey] = useState(0);
+  const [ratingResult, setRatingResult] = useState({rating: 5, tip: 20});
   const matchCoRiderRef = useRef(true);
 
   const spin = useRef(new Animated.Value(0)).current;
@@ -100,6 +105,7 @@ export default function FindingRideModal({
     if (!visible) {
       setPhase('searching');
       setSearchKey(0);
+      setRatingResult({rating: 5, tip: 20});
       spin.setValue(0);
       progress.setValue(0.12);
       tripProgress.setValue(0.38);
@@ -131,6 +137,15 @@ export default function FindingRideModal({
       return undefined;
     }
     const t = setTimeout(() => setPhase('onTrip'), ON_TRIP_MS);
+    return () => clearTimeout(t);
+  }, [visible, phase]);
+
+  // On Trip → Trip completed after 5s
+  useEffect(() => {
+    if (!visible || phase !== 'onTrip') {
+      return undefined;
+    }
+    const t = setTimeout(() => setPhase('completed'), COMPLETED_MS);
     return () => clearTimeout(t);
   }, [visible, phase]);
 
@@ -239,8 +254,36 @@ export default function FindingRideModal({
       visible={visible}
       transparent
       animationType="slide"
+      presentationStyle="overFullScreen"
       onRequestClose={onClose}
       statusBarTranslucent>
+      {phase === 'ratedPaid' ? (
+        <RatedPaidScreen
+          rating={ratingResult.rating}
+          tip={ratingResult.tip ?? 0}
+          onBackHome={onClose}
+          onBookAgain={onClose}
+        />
+      ) : phase === 'rateTip' ? (
+        <RateTipScreen
+          onClose={() => setPhase('completed')}
+          onSkip={onClose}
+          onSubmit={result => {
+            setRatingResult({
+              rating: result?.rating ?? 5,
+              tip: result?.tip ?? 0,
+            });
+            setPhase('ratedPaid');
+          }}
+        />
+      ) : phase === 'completed' ? (
+        <TripCompletedScreen
+          pickup={pickup}
+          drop={drop}
+          rideName={rideName}
+          onRate={() => setPhase('rateTip')}
+        />
+      ) : (
       <View style={styles.root} pointerEvents="box-none">
         <Pressable style={styles.backdrop} onPress={onClose} />
 
@@ -558,6 +601,7 @@ export default function FindingRideModal({
           ) : null}
         </View>
       </View>
+      )}
     </Modal>
   );
 }

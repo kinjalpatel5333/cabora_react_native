@@ -12,8 +12,10 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import BookForSomeoneElseModal from './BookForSomeoneElseModal';
 import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
+import ScheduleRideModal from './ScheduleRideModal';
 import createStyles from './style';
 
 const PROMO_OFF = 50;
@@ -79,6 +81,12 @@ export default function ChooseRideModal({
   const [selectedId, setSelectedId] = useState('sedan');
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [bookForSomeoneOpen, setBookForSomeoneOpen] = useState(false);
+  const [scheduledVehicle, setScheduledVehicle] = useState({
+    name: 'Comfort',
+    price: 1640,
+  });
   const [categoryId, setCategoryId] = useState('cab');
   const [paymentMethod, setPaymentMethod] = useState({
     id: 'upi',
@@ -90,6 +98,9 @@ export default function ChooseRideModal({
       setSelectedId('sedan');
       setPaymentOpen(false);
       setCategoryOpen(false);
+      setScheduleOpen(false);
+      setBookForSomeoneOpen(false);
+      setScheduledVehicle({name: 'Comfort', price: 1640});
       setCategoryId('cab');
       setPaymentMethod({id: 'upi', label: 'UPI • you@okaxis'});
     }
@@ -176,7 +187,9 @@ export default function ChooseRideModal({
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>Choose a ride</Text>
-            <Pressable style={styles.scheduleBtn}>
+            <Pressable
+              style={styles.scheduleBtn}
+              onPress={() => setScheduleOpen(true)}>
               <Feather name="calendar" size={15} color={colors.navy[800]} />
               <Text style={styles.scheduleText}>Schedule</Text>
             </Pressable>
@@ -293,6 +306,35 @@ export default function ChooseRideModal({
               drop,
               payment: paymentMethod,
             });
+          }}
+        />
+
+        <ScheduleRideModal
+          visible={scheduleOpen}
+          onClose={() => setScheduleOpen(false)}
+          paymentLabel={
+            paymentMethod.id === 'card'
+              ? 'HDFC ....4821'
+              : paymentMethod.label.replace('•', '·')
+          }
+          onChangePayment={() => setPaymentOpen(true)}
+          onConfirm={() => {
+            // Temporary: open Book for someone else after Confirm
+            setScheduledVehicle({name: 'Comfort', price: 1640});
+            setBookForSomeoneOpen(true);
+          }}
+        />
+
+        <BookForSomeoneElseModal
+          visible={bookForSomeoneOpen}
+          onClose={() => setBookForSomeoneOpen(false)}
+          paymentLabel="HDFC ....4821"
+          vehicleName={scheduledVehicle.name}
+          fare={scheduledVehicle.price}
+          onChangePayment={() => setPaymentOpen(true)}
+          onBook={() => {
+            setBookForSomeoneOpen(false);
+            setScheduleOpen(false);
           }}
         />
       </View>

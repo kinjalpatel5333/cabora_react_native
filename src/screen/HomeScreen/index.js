@@ -79,7 +79,11 @@ export default function HomeScreen() {
   const [pickupConfirmTrip, setPickupConfirmTrip] = useState(null);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
 
-  const displayName = user?.name || 'Aarav Mehta';
+  const rawName = user?.name?.trim();
+  const displayName =
+    !rawName || rawName === 'Rider'
+      ? 'Aarav Mehta'
+      : rawName;
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],
@@ -91,6 +95,39 @@ export default function HomeScreen() {
   const fabBottom = tabBarInset + Math.min(sheetMaxH, 320) + 8;
   const headerTop = insets.top + 8;
   const overlayOpen = routeOpen || chooseRideOpen || findingOpen;
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      tabBarStyle: overlayOpen
+        ? {display: 'none', height: 0, position: 'absolute'}
+        : {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: undefined,
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+    });
+    return () => {
+      navigation.setOptions({
+        tabBarStyle: {
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: undefined,
+          backgroundColor: 'transparent',
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+      });
+    };
+  }, [navigation, overlayOpen]);
 
   const openChooseRide = () => {
     setRouteOpen(false);
