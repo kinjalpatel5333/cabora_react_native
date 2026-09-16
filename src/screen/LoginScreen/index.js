@@ -158,7 +158,8 @@ export default function LoginScreen({navigation}) {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={[
             styles.scroll,
-            {paddingBottom: Math.max(insets.bottom, 16)},
+            // Keep content above the gesture bar without a tall colored strip.
+            {paddingBottom: Math.max(insets.bottom, 8)},
           ]}
           showsVerticalScrollIndicator={false}>
           <View style={styles.form}>

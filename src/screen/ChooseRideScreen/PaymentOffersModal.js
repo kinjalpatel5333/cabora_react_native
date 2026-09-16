@@ -1,0 +1,167 @@
+import React, {useEffect, useState} from 'react';
+import {
+  Dimensions,
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import {Feather} from '@react-native-vector-icons/feather/static';
+import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import useThemedStyles from '../../components/useThemedStyles';
+import {useApp} from '../../context/AppContext';
+import createStyles from './paymentOffersStyle';
+
+const METHODS = [
+  {
+    id: 'upi',
+    title: 'UPI',
+    subtitle: 'you@okaxis',
+    label: 'UPI • you@okaxis',
+    icon: 'currency-inr',
+  },
+  {
+    id: 'card',
+    title: 'HDFC Credit Card',
+    subtitle: '•••• 4821 · Expires 09/28',
+    label: 'Card •••• 4821',
+    icon: 'credit-card-outline',
+  },
+  {
+    id: 'wallet',
+    title: 'Cabora Wallet',
+    subtitle: 'Balance ₹1,240.00',
+    label: 'Wallet • ₹1,240',
+    icon: 'wallet-outline',
+  },
+  {
+    id: 'cash',
+    title: 'Cash',
+    subtitle: 'Pay the driver directly',
+    label: 'Cash',
+    icon: 'cash',
+  },
+];
+
+function MethodIcon({icon, active, colors}) {
+  const tint = active ? colors.white : colors.navy[700];
+  if (icon === 'credit-card-outline') {
+    return <Feather name="credit-card" size={20} color={tint} />;
+  }
+  if (icon === 'wallet-outline') {
+    return <MaterialDesignIcons name="wallet-outline" size={22} color={tint} />;
+  }
+  return <MaterialDesignIcons name="currency-inr" size={22} color={tint} />;
+}
+
+export default function PaymentOffersModal({
+  visible,
+  onClose,
+  selectedId = 'upi',
+  promoCode = 'CABORA50',
+  onSave,
+}) {
+  const insets = useSafeAreaInsets();
+  const styles = useThemedStyles(createStyles);
+  const {colors} = useApp();
+  const [draftId, setDraftId] = useState(selectedId);
+
+  useEffect(() => {
+    if (visible) {
+      setDraftId(selectedId || 'upi');
+    }
+  }, [visible, selectedId]);
+
+  const onSaveContinue = () => {
+    const method = METHODS.find(item => item.id === draftId) || METHODS[0];
+    onSave?.(method);
+    onClose?.();
+  };
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+      statusBarTranslucent>
+      <View style={styles.root} pointerEvents="box-none">
+        <Pressable style={styles.backdrop} onPress={onClose} />
+
+        <View
+          style={[
+            styles.sheet,
+            {
+              maxHeight: Dimensions.get('window').height * 0.78,
+              paddingBottom: Math.max(insets.bottom, 10) + 10,
+            },
+          ]}>
+          <View style={styles.grabber} />
+          <Text style={styles.title}>Payment & offers</Text>
+
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}>
+            {METHODS.map(method => {
+              const active = method.id === draftId;
+              return (
+                <Pressable
+                  key={method.id}
+                  onPress={() => setDraftId(method.id)}
+                  style={[
+                    styles.methodCard,
+                    active && styles.methodCardActive,
+                  ]}>
+                  <View
+                    style={[
+                      styles.methodIcon,
+                      active && styles.methodIconActive,
+                    ]}>
+                    <MethodIcon
+                      icon={method.icon}
+                      active={active}
+                      colors={colors}
+                    />
+                  </View>
+                  <View style={styles.methodCopy}>
+                    <Text style={styles.methodTitle}>{method.title}</Text>
+                    <Text style={styles.methodSub} numberOfLines={1}>
+                      {method.subtitle}
+                    </Text>
+                  </View>
+                  {active ? (
+                    <View style={styles.check}>
+                      <MaterialDesignIcons
+                        name="check-circle"
+                        size={24}
+                        color={colors.orange[500]}
+                      />
+                    </View>
+                  ) : null}
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+
+          <View style={styles.offerCard}>
+            <View style={styles.offerIcon}>
+              <Feather name="percent" size={18} color={colors.navy[800]} />
+            </View>
+            <Text style={styles.offerCode}>{promoCode}</Text>
+            <View style={styles.appliedBtn}>
+              <Text style={styles.appliedText}>Applied</Text>
+            </View>
+          </View>
+
+          <Pressable style={styles.saveBtn} onPress={onSaveContinue}>
+            <Text style={styles.saveText}>Save & continue</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  );
+}

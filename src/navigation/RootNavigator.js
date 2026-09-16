@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import WalkthroughScreen from '../screen/WalkthroughScreen';
@@ -10,8 +11,23 @@ import {bootstrapApp} from '../redux/slices/appSlice';
 import {bootstrapAuth} from '../redux/slices/authSlice';
 import {SPLASH} from '../config/setting';
 import {wait} from '../utils/network';
+import colors, {palette} from '../config/color';
 
 const MIN_SPLASH_MS = 1800;
+const ONBOARDING_BG = palette.navy[900];
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: colors.primary,
+    background: colors.white,
+    card: colors.white,
+    text: colors.text,
+    border: colors.border,
+    notification: colors.primary,
+  },
+};
 
 export default function RootNavigator() {
   const dispatch = useAppDispatch();
@@ -62,9 +78,11 @@ export default function RootNavigator() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       {!walkthroughSeen ? (
-        <WalkthroughScreen />
+        <View style={styles.onboardingShell}>
+          <WalkthroughScreen />
+        </View>
       ) : !token ? (
         <AuthStack />
       ) : !locationResolved ? (
@@ -75,3 +93,10 @@ export default function RootNavigator() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  onboardingShell: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: ONBOARDING_BG,
+  },
+});

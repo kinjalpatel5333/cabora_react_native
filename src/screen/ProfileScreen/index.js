@@ -29,6 +29,16 @@ export default function ProfileScreen() {
       <View style={styles.card}>
         <Row label="Name" value={user?.name || 'Demo user'} />
         <Row label="Email" value={user?.email || 'you@email.com'} />
+        <Row
+          label="Role"
+          value={
+            user?.role === 'driver'
+              ? 'Driver'
+              : user?.role === 'both'
+                ? 'Passenger + Driver'
+                : 'Passenger'
+          }
+        />
         <Row label="Member since" value="Demo session" last />
       </View>
 

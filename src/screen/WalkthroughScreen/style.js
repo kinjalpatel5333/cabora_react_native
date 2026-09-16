@@ -3,11 +3,24 @@ import {StyleSheet} from 'react-native';
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
-      flex: 1,
+      ...StyleSheet.absoluteFillObject,
       backgroundColor: colors.navy[900],
     },
+    list: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: colors.navy[900],
+    },
+    bottomFill: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.navy[900],
+      zIndex: 0,
+    },
     page: {
-      flex: 1,
+      flexDirection: 'column',
+      backgroundColor: colors.navy[900],
     },
     header: {
       position: 'absolute',
@@ -43,12 +56,14 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     hero: {
-      flex: 1.12,
+      flex: 1,
+      minHeight: 0,
       backgroundColor: '#FFD4AA',
       overflow: 'hidden',
     },
     heroFill: {
       flex: 1,
+      minHeight: 0,
     },
     heroFillPay: {
       alignItems: 'center',
@@ -61,7 +76,8 @@ export default function createStyles(colors) {
     },
     payImage: {
       width: '100%',
-      maxWidth: 322,
+      maxWidth: 280,
+      maxHeight: '100%',
       aspectRatio: 322 / 228,
     },
     wave: {
@@ -70,13 +86,13 @@ export default function createStyles(colors) {
       right: 0,
       bottom: -1,
       width: '100%',
-      height: 96,
       zIndex: 2,
     },
     panel: {
+      flexGrow: 0,
+      flexShrink: 0,
       backgroundColor: colors.navy[900],
       paddingHorizontal: 24,
-      paddingTop: 8,
     },
     badge: {
       alignSelf: 'flex-start',
@@ -89,7 +105,6 @@ export default function createStyles(colors) {
       paddingHorizontal: 12,
       paddingVertical: 6,
       borderRadius: 20,
-      marginBottom: 16,
     },
     badgeDot: {
       width: 6,
@@ -105,24 +120,20 @@ export default function createStyles(colors) {
     },
     title: {
       color: colors.white,
-      fontSize: 32,
       fontWeight: '800',
       letterSpacing: -0.4,
-      lineHeight: 38,
     },
     body: {
       color: 'rgba(195, 207, 223, 0.88)',
       fontSize: 15,
       lineHeight: 22,
       marginTop: 10,
-      marginBottom: 22,
     },
     dots: {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       gap: 8,
-      marginBottom: 16,
     },
     dot: {
       width: 8,

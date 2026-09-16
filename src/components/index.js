@@ -8,3 +8,5 @@ export {default as Toggle} from './Toggle';
 export {default as StatusBadge} from './StatusBadge';
 export {default as Toast, ToastProvider, useToast} from './Toast';
 export {default as Icon} from './Icon';
+export {default as MapBackdrop} from './MapBackdrop';
+export {default as ConfirmDialog} from './ConfirmDialog';

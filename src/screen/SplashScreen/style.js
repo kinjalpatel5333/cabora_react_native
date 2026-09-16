@@ -19,7 +19,7 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'flex-end',
       paddingHorizontal: 32,
-      paddingBottom: 18,
+      paddingBottom: 10,
     },
     brandLoading: {
       justifyContent: 'center',

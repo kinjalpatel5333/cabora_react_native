@@ -10,16 +10,21 @@ import {AppProvider} from './src/context/AppContext';
 import {ToastProvider} from './src/components';
 import {RootNavigator} from './src/navigation';
 import store from './src/redux/store';
+import colors from './src/config/color';
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{flex: 1, backgroundColor: '#08101E'}}>
+    <GestureHandlerRootView style={{flex: 1, backgroundColor: colors.white}}>
       <Provider store={store}>
-        <SafeAreaProvider style={{flex: 1, backgroundColor: '#08101E'}}>
+        <SafeAreaProvider style={{flex: 1, backgroundColor: colors.white}}>
           <AppProvider>
             <ToastProvider>
-              <StatusBar barStyle="light-content" backgroundColor="#08101E" />
-              <View style={{flex: 1, backgroundColor: '#08101E'}}>
+              <StatusBar
+                translucent
+                barStyle="dark-content"
+                backgroundColor="transparent"
+              />
+              <View style={{flex: 1, backgroundColor: colors.white}}>
                 <RootNavigator />
               </View>
             </ToastProvider>

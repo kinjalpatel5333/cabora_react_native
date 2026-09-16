@@ -29,7 +29,7 @@ export default function createStyles(colors) {
     },
     scroll: {
       paddingHorizontal: 20,
-      paddingBottom: 24,
+      paddingBottom: 12,
     },
     title: {
       color: colors.navy[900],
