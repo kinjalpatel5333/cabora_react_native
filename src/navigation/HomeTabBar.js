@@ -1,16 +1,18 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
+import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../context/AppContext';
-import {getTabBarBottomPadding} from './homeTabBarMetrics';
 
 const TABS = [
   {name: 'Home', label: 'Home', kind: 'home'},
+  {name: 'Dashboard', label: 'Dashboard', kind: 'home'},
   {name: 'Services', label: 'Services', kind: 'grid'},
   {name: 'Activity', label: 'Activity', kind: 'clock'},
+  {name: 'Earnings', label: 'Earnings', kind: 'rupee'},
   {name: 'Wallet', label: 'Wallet', kind: 'wallet'},
+  {name: 'Incentives', label: 'Incentives', kind: 'gift'},
   {name: 'Profile', label: 'Profile', kind: 'user'},
 ];
 
@@ -31,6 +33,14 @@ function TabGlyph({kind, color, active}) {
   if (kind === 'clock') {
     return <Feather name="clock" size={size} color={color} />;
   }
+  if (kind === 'rupee') {
+    return (
+      <MaterialDesignIcons name="currency-inr" size={size} color={color} />
+    );
+  }
+  if (kind === 'gift') {
+    return <Lucide name="gift" size={size} color={color} />;
+  }
   if (kind === 'wallet') {
     return (
       <MaterialDesignIcons name="wallet-outline" size={size} color={color} />
@@ -40,14 +50,10 @@ function TabGlyph({kind, color, active}) {
 }
 
 export default function HomeTabBar({state, descriptors, navigation}) {
-  const insets = useSafeAreaInsets();
   const {colors} = useApp();
-  const safeBottom = getTabBarBottomPadding(insets);
 
   return (
-    <View
-      pointerEvents="box-none"
-      style={[styles.shell, {paddingBottom: safeBottom}]}>
+    <View pointerEvents="box-none" style={styles.shell}>
       <View
         style={[
           styles.pill,
@@ -122,6 +128,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     paddingHorizontal: 14,
+    paddingBottom: 0,
   },
   pill: {
     borderRadius: 32,
@@ -141,7 +148,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Active highlight wraps icon + label together (vertical pill).
   tabChip: {
     minWidth: 56,
     paddingVertical: 8,

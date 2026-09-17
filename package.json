@@ -3,17 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "bash scripts/with-node22.sh react-native run-android",
+    "ios": "bash scripts/with-node22.sh react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "bash scripts/with-node22.sh react-native start",
     "test": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.1.1",
+    "@react-native-community/blur": "^4.4.1",
     "@react-native-community/geolocation": "^3.4.0",
     "@react-native-vector-icons/ant-design": "^13.1.4",
     "@react-native-vector-icons/feather": "^13.1.4",
+    "@react-native-vector-icons/fontawesome6": "^13.1.4",
     "@react-native-vector-icons/lucide": "^13.1.4",
     "@react-native-vector-icons/material-design-icons": "^13.1.4",
     "@react-native/new-app-screen": "0.87.1",
@@ -25,6 +27,7 @@
     "react": "19.2.3",
     "react-native": "0.87.1",
     "react-native-gesture-handler": "^3.2.1",
+    "react-native-image-picker": "^8.2.1",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.27.0",
     "react-redux": "^9.3.0"

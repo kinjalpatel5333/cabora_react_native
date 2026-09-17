@@ -10,11 +10,19 @@ import {logoutUser} from '../../redux/slices/authSlice';
 import {bottomSafePad} from '../../utils/safeArea';
 import styles from './style';
 
-const LINKS = [
+const PASSENGER_LINKS = [
   {label: 'Home', screen: 'Home', icon: images.iconHome},
   {label: 'Services', screen: 'Services', icon: images.iconSearch},
   {label: 'Activity', screen: 'Activity', icon: images.iconSettings},
   {label: 'Wallet', screen: 'Wallet', icon: images.iconProfile},
+  {label: 'Profile', screen: 'Profile', icon: images.iconProfile},
+];
+
+const DRIVER_LINKS = [
+  {label: 'Dashboard', screen: 'Dashboard', icon: images.iconHome},
+  {label: 'Earnings', screen: 'Earnings', icon: images.iconSettings},
+  {label: 'Wallet', screen: 'Wallet', icon: images.iconProfile},
+  {label: 'Incentives', screen: 'Incentives', icon: images.iconSearch},
   {label: 'Profile', screen: 'Profile', icon: images.iconProfile},
 ];
 
@@ -23,6 +31,7 @@ export default function DrawerContent() {
   const dispatch = useAppDispatch();
   const {user} = useAuth();
   const {activeTab, goTo} = useSidebar();
+  const links = user?.role === 'driver' ? DRIVER_LINKS : PASSENGER_LINKS;
 
   return (
     <View
@@ -37,7 +46,7 @@ export default function DrawerContent() {
       </View>
 
       <View style={styles.items}>
-        {LINKS.map(link => {
+        {links.map(link => {
           const active = activeTab === link.screen;
           return (
             <Pressable

@@ -39,6 +39,12 @@
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Cabora.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Cabora.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cabora uses the camera so you can photograph your driving documents.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cabora uses your photo library so you can upload driving documents.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Cabora may save a copy of documents you photograph.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>

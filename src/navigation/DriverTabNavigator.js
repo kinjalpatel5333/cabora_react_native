@@ -3,10 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Header} from '../components';
 import colors, {palette} from '../config/color';
 import {useSidebar} from '../context/SidebarContext';
-import HomeScreen from '../screen/HomeScreen';
-import SearchScreen from '../screen/SearchScreen';
-import ActivityScreen from '../screen/ActivityScreen/index';
-import WalletScreen from '../screen/WalletScreen/index';
+import DriverHomeScreen from '../screen/DriverHomeScreen';
+import DriverEarningsScreen from '../screen/DriverEarningsScreen';
+import WalletScreen from '../screen/WalletScreen';
+import DriverIncentivesScreen from '../screen/DriverIncentivesScreen';
 import ProfileScreen from '../screen/ProfileScreen';
 import HomeTabBar from './HomeTabBar';
 
@@ -24,7 +24,7 @@ const floatingTabBarStyle = {
   shadowOpacity: 0,
 };
 
-export default function TabNavigator() {
+export default function DriverTabNavigator() {
   const {setNavigator, setActiveTab} = useSidebar();
 
   return (
@@ -44,28 +44,18 @@ export default function TabNavigator() {
         },
       })}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{headerShown: false, tabBarLabel: 'Home'}}
+        name="Dashboard"
+        component={DriverHomeScreen}
+        options={{headerShown: false, tabBarLabel: 'Dashboard'}}
       />
       <Tab.Screen
-        name="Services"
-        component={SearchScreen}
+        name="Earnings"
+        component={DriverEarningsScreen}
         options={{
           headerShown: true,
-          header: () => <Header title="Services" />,
-          tabBarLabel: 'Services',
-          title: 'Services',
-        }}
-      />
-      <Tab.Screen
-        name="Activity"
-        component={ActivityScreen}
-        options={{
-          headerShown: true,
-          header: () => <Header title="Activity" />,
-          tabBarLabel: 'Activity',
-          title: 'Activity',
+          header: () => <Header title="Earnings" />,
+          tabBarLabel: 'Earnings',
+          title: 'Earnings',
         }}
       />
       <Tab.Screen
@@ -76,6 +66,16 @@ export default function TabNavigator() {
           header: () => <Header title="Wallet" />,
           tabBarLabel: 'Wallet',
           title: 'Wallet',
+        }}
+      />
+      <Tab.Screen
+        name="Incentives"
+        component={DriverIncentivesScreen}
+        options={{
+          headerShown: true,
+          header: () => <Header title="Incentives" />,
+          tabBarLabel: 'Incentives',
+          title: 'Incentives',
         }}
       />
       <Tab.Screen

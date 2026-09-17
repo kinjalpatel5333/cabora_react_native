@@ -14,9 +14,9 @@ export default function createStyles(colors) {
       borderRadius: 18,
     },
     sm: {
-      minHeight: 40,
+      minHeight: 20,
       paddingHorizontal: 16,
-      borderRadius: 20,
+      borderRadius: 10,
     },
     fullWidth: {
       alignSelf: 'stretch',

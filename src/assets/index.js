@@ -27,6 +27,14 @@ export const images = {
   iconProfile: require('./images/iconProfile.png'),
   iconSettings: require('./images/iconSettings.png'),
   iconMenu: require('./images/iconMenu.png'),
+  mapBackdrop: require('./images/map_backdrop.png'),
+  demandGlow: require('./images/demand_glow.png'),
+  mapArea: require('./images/Map area.png'),
+  mapMarker: require('./images/Map Marker.png'),
+  mapMarkerPickup: require('./images/Map Marker (2).png'),
+  mapMarkerDrop: require('./images/Map Marker (1).png'),
+  routePreview: require('./images/Route preview.png'),
+  turnArrow: require('./images/Turn arrow.png'),
 };
 
 export default images;

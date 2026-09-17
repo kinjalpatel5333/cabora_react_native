@@ -108,6 +108,7 @@ export default function createStyles(colors) {
     },
     copy: {
       flex: 1,
+      minWidth: 0,
     },
     cardTitle: {
       color: colors.navy[900],
@@ -119,15 +120,18 @@ export default function createStyles(colors) {
       color: colors.gray[500],
       fontSize: 13,
       lineHeight: 18,
-      marginBottom: 10,
+      marginBottom: 8,
     },
     cardMetaRejected: {
       color: colors.red[600],
     },
     action: {
-      alignSelf: 'flex-start',
-      minWidth: 108,
-      borderRadius: 999,
+      flexShrink: 0,
+      alignSelf: 'flex-end',
+      minWidth: 96,
+      minHeight: 30,
+      paddingHorizontal: 22,
+      borderRadius: 10,
     },
     eyeBtn: {
       width: 36,

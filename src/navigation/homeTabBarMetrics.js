@@ -1,11 +1,6 @@
 /** Shared layout math for Home floating pill tab bar. */
-export function getTabBarBottomPadding(insets) {
-  const inset = Math.max(0, insets?.bottom ?? 0);
-  // Sit lower / closer to the home indicator.
-  if (inset === 0) {
-    return ;
-  }
-  return Math.min(inset, 1);
+export function getTabBarBottomPadding() {
+  return 0;
 }
 
 export function getHomeTabBarContentHeight() {
@@ -13,6 +8,6 @@ export function getHomeTabBarContentHeight() {
   return 72;
 }
 
-export function getHomeTabBarInset(insets) {
-  return getHomeTabBarContentHeight() + getTabBarBottomPadding(insets);
+export function getHomeTabBarInset() {
+  return getHomeTabBarContentHeight();
 }

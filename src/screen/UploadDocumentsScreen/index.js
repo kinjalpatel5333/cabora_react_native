@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import {
-  Alert,
   Linking,
   Pressable,
   ScrollView,
@@ -17,6 +16,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {completeDriverKyc, logoutUser} from '../../redux/slices/authSlice';
+import {setDriverOnline, setDriverRestricted} from '../../redux/slices/driverSlice';
 import createStyles from './style';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -25,30 +25,42 @@ const INITIAL_DOCS = [
   {
     id: 'licence',
     title: 'Driving licence',
-    status: 'approved',
-    meta: 'Approved 08 Sep',
+    status: 'pending',
+    meta: 'Not uploaded yet',
     icon: 'file-text',
+    captureTitle: 'Photograph the front',
+    captureHint: 'Name, licence number and expiry must all be readable.',
+    fileName: 'licence_front.jpg',
   },
   {
     id: 'rc',
     title: 'Registration certificate',
-    status: 'approved',
-    meta: 'Approved 08 Sep',
+    status: 'pending',
+    meta: 'Not uploaded yet',
     icon: 'file-text',
+    captureTitle: 'Photograph the RC',
+    captureHint: 'Vehicle number and owner name must be clearly visible.',
+    fileName: 'rc_front.jpg',
   },
   {
     id: 'photo',
     title: 'Profile photo',
-    status: 'approved',
-    meta: 'Approved 09 Sep',
+    status: 'pending',
+    meta: 'Not uploaded yet',
     icon: 'camera',
+    captureTitle: 'Take a profile photo',
+    captureHint: 'Face the camera with even lighting and no sunglasses.',
+    fileName: 'profile_photo.jpg',
   },
   {
     id: 'insurance',
     title: 'Insurance policy',
-    status: 'rejected',
-    meta: 'Blurred — page 2 unreadable',
+    status: 'pending',
+    meta: 'Not uploaded yet',
     icon: 'shield',
+    captureTitle: 'Photograph the policy',
+    captureHint: 'Policy number and validity dates must be readable.',
+    fileName: 'insurance_policy.jpg',
   },
   {
     id: 'passbook',
@@ -56,15 +68,12 @@ const INITIAL_DOCS = [
     status: 'pending',
     meta: 'Not uploaded yet',
     icon: 'credit-card',
+    captureTitle: 'Photograph the first page',
+    captureHint:
+      'Account holder name, account number and IFSC must all be readable.',
+    fileName: 'passbook_front.jpg',
   },
 ];
-
-function formatApprovedToday() {
-  const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = now.toLocaleString('en-GB', {month: 'short'});
-  return `Approved ${day} ${month}`;
-}
 
 function DocIcon({name, color}) {
   if (name === 'camera') {
@@ -85,38 +94,68 @@ export default function UploadDocumentsScreen({navigation}) {
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
   const locationResolved = useAppSelector(state => state.app.locationResolved);
-  const [docs, setDocs] = useState(INITIAL_DOCS);
+  const kycDocuments = useAppSelector(
+    state => state.auth.user?.kycDocuments || {},
+  );
   const [saving, setSaving] = useState(false);
 
-  const approvedCount = docs.filter(doc => doc.status === 'approved').length;
-  const percent = Math.round((approvedCount / docs.length) * 100);
-  const allApproved = approvedCount === docs.length;
+  const docs = useMemo(
+    () =>
+      INITIAL_DOCS.map(doc => {
+        const saved = kycDocuments[doc.id];
+        const isUploaded = Boolean(
+          saved?.uri || saved?.status === 'uploaded',
+        );
+        if (!isUploaded) {
+          return doc;
+        }
+        return {
+          ...doc,
+          status: 'uploaded',
+          meta: saved.fileName || saved.meta || 'Uploaded',
+          uri: saved.uri,
+          fileName: saved.fileName,
+        };
+      }),
+    [kycDocuments],
+  );
+
+  const uploadedCount = docs.filter(doc => doc.status === 'uploaded').length;
+  const percent = Math.round((uploadedCount / docs.length) * 100);
+  const allUploaded = uploadedCount === docs.length;
 
   const iconTone = useMemo(
     () => ({
+      pending: {bg: colors.gray[100], fg: colors.gray[500]},
+      uploaded: {bg: colors.green[100], fg: colors.green[600]},
       approved: {bg: colors.green[100], fg: colors.green[600]},
       rejected: {bg: colors.red[100], fg: colors.red[500]},
-      pending: {bg: colors.gray[100], fg: colors.gray[500]},
     }),
     [colors],
   );
 
-  const markApproved = id => {
-    setDocs(current =>
-      current.map(doc =>
-        doc.id === id
-          ? {...doc, status: 'approved', meta: formatApprovedToday()}
-          : doc,
-      ),
-    );
+  const onUpload = doc => {
+    navigation.navigate('DocumentCapture', {
+      docId: doc.id,
+      title: doc.title,
+      captureTitle: doc.captureTitle,
+      captureHint: doc.captureHint,
+      fileName: doc.fileName,
+    });
   };
 
   const goNext = async () => {
     setSaving(true);
     try {
       await dispatch(completeDriverKyc()).unwrap();
+      dispatch(setDriverRestricted(false));
+      dispatch(setDriverOnline(true));
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+        return;
+      }
       if (locationResolved) {
-        navigation.replace('DriverHome');
+        navigation.replace('DriverTabs');
       } else {
         navigation.replace('LocationPermission');
       }
@@ -161,7 +200,7 @@ export default function UploadDocumentsScreen({navigation}) {
         <View style={styles.progressCard}>
           <View style={styles.progressTop}>
             <Text style={styles.progressTitle}>
-              {approvedCount} of {docs.length} documents uploaded
+              {uploadedCount} of {docs.length} documents uploaded
             </Text>
             <Text style={styles.progressPct}>{percent}%</Text>
           </View>
@@ -176,67 +215,28 @@ export default function UploadDocumentsScreen({navigation}) {
         <Text style={styles.section}>REQUIRED</Text>
 
         {docs.map(doc => {
-          const tone = iconTone[doc.status];
-          const rejected = doc.status === 'rejected';
+          const uploaded = doc.status === 'uploaded';
+          const tone = iconTone[doc.status] || iconTone.pending;
           return (
-            <View
-              key={doc.id}
-              style={[styles.card, rejected && styles.cardRejected]}>
+            <View key={doc.id} style={styles.card}>
               <View style={styles.cardRow}>
                 <View style={[styles.iconWrap, {backgroundColor: tone.bg}]}>
                   <DocIcon name={doc.icon} color={tone.fg} />
                 </View>
                 <View style={styles.copy}>
                   <Text style={styles.cardTitle}>{doc.title}</Text>
-                  <Text
-                    style={[
-                      styles.cardMeta,
-                      rejected && styles.cardMetaRejected,
-                    ]}>
-                    {doc.meta}
-                  </Text>
+                  <Text style={styles.cardMeta}>{doc.meta}</Text>
                   <StatusBadge
-                    label={
-                      doc.status === 'approved'
-                        ? 'Approved'
-                        : doc.status === 'rejected'
-                          ? 'Rejected'
-                          : 'Pending'
-                    }
-                    tone={
-                      doc.status === 'approved'
-                        ? 'success'
-                        : doc.status === 'rejected'
-                          ? 'danger'
-                          : 'neutral'
-                    }
+                    label={uploaded ? 'Uploaded' : 'Pending'}
+                    tone={uploaded ? 'success' : 'neutral'}
                   />
                 </View>
-                {doc.status === 'approved' ? (
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel={`View ${doc.title}`}
-                    onPress={() =>
-                      Alert.alert(doc.title, 'Document preview will open here.')
-                    }
-                    style={styles.eyeBtn}>
-                    <Feather name="eye" size={20} color={colors.navy[700]} />
-                  </Pressable>
-                ) : doc.status === 'rejected' ? (
-                  <Button
-                    title="Re-upload"
-                    variant="danger"
-                    size="sm"
-                    fullWidth={false}
-                    onPress={() => markApproved(doc.id)}
-                    style={styles.action}
-                  />
-                ) : (
+                {uploaded ? null : (
                   <Button
                     title="Upload"
                     size="sm"
                     fullWidth={false}
-                    onPress={() => markApproved(doc.id)}
+                    onPress={() => onUpload(doc)}
                     style={styles.action}
                   />
                 )}
@@ -245,7 +245,7 @@ export default function UploadDocumentsScreen({navigation}) {
           );
         })}
 
-        {allApproved ? (
+        {allUploaded ? (
           <Button
             title="Continue"
             onPress={goNext}
@@ -260,7 +260,7 @@ export default function UploadDocumentsScreen({navigation}) {
               color={colors.amber[600]}
             />
             <Text style={styles.warningText}>
-              Re-upload the insurance page and add your passbook to finish.
+              Upload all five documents so we can start review.
             </Text>
           </View>
         )}
