@@ -17,6 +17,7 @@ export default function createStyles(colors) {
       borderTopRightRadius: 28,
       paddingHorizontal: 18,
       paddingTop: 10,
+      overflow: 'hidden',
       shadowColor: colors.navy[900],
       shadowOpacity: 0.16,
       shadowRadius: 20,
@@ -30,6 +31,11 @@ export default function createStyles(colors) {
       borderRadius: 2,
       backgroundColor: colors.gray[200],
       marginBottom: 14,
+    },
+    grabberHit: {
+      alignItems: 'center',
+      paddingTop: 2,
+      paddingBottom: 6,
     },
     title: {
       color: colors.navy[900],

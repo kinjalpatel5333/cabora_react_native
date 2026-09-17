@@ -5,7 +5,6 @@ import {
   Easing,
   Modal,
   Pressable,
-  ScrollView,
   Text,
   View,
 } from 'react-native';
@@ -15,6 +14,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import {CoRiderMatchedSheet, DriverOnWaySheet, OnTripSheet} from './MatchedSheets';
 import RateTipScreen from './RateTipScreen';
 import RatedPaidScreen from './RatedPaidScreen';
@@ -82,6 +82,7 @@ function RadarPulse({delay, styles}) {
 export default function FindingRideModal({
   visible,
   onClose,
+  onBack,
   onRequestCancel,
   rideName = 'Cab Sedan',
   pickup = '12, Brigade Road, Ashok Nagar',
@@ -235,6 +236,27 @@ export default function FindingRideModal({
       onRequestCancel();
       return;
     }
+    onBack?.() ?? onClose?.();
+  };
+
+  /** Hardware / UI back: one phase or one flow step — never dump to Home. */
+  const stepBack = () => {
+    if (phase === 'rateTip') {
+      setPhase('completed');
+      return;
+    }
+    if (phase === 'ratedPaid') {
+      setPhase('rateTip');
+      return;
+    }
+    if (phase === 'completed') {
+      setPhase('onTrip');
+      return;
+    }
+    if (onBack) {
+      onBack();
+      return;
+    }
     onClose?.();
   };
 
@@ -243,6 +265,11 @@ export default function FindingRideModal({
   const sheetMaxH =
     Dimensions.get('window').height *
     (phase === 'onTrip' ? 0.48 : unavailable || matched ? 0.7 : 0.52);
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: phase === 'onTrip' ? 160 : 200,
+      visible,
+    });
 
   const tripFillWidth = tripProgress.interpolate({
     inputRange: [0, 1],
@@ -255,7 +282,7 @@ export default function FindingRideModal({
       transparent
       animationType="slide"
       presentationStyle="overFullScreen"
-      onRequestClose={onClose}
+      onRequestClose={stepBack}
       statusBarTranslucent>
       {phase === 'ratedPaid' ? (
         <RatedPaidScreen
@@ -267,7 +294,7 @@ export default function FindingRideModal({
       ) : phase === 'rateTip' ? (
         <RateTipScreen
           onClose={() => setPhase('completed')}
-          onSkip={onClose}
+          onSkip={stepBack}
           onSubmit={result => {
             setRatingResult({
               rating: result?.rating ?? 5,
@@ -285,7 +312,7 @@ export default function FindingRideModal({
         />
       ) : (
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <Pressable style={styles.backdrop} onPress={stepBack} />
 
         {phase === 'onTrip' ? (
           <View style={[styles.navBanner, {top: insets.top + 8}]}>
@@ -303,19 +330,7 @@ export default function FindingRideModal({
               </Text>
             </View>
           </View>
-        ) : (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-            onPress={onClose}
-            style={[styles.backBtn, {top: insets.top + 8}]}>
-            <Feather
-              name={matched ? 'chevron-down' : 'arrow-left'}
-              size={22}
-              color={colors.navy[900]}
-            />
-          </Pressable>
-        )}
+        ) : null}
 
         {phase === 'onTrip' ? (
           <Pressable
@@ -433,16 +448,27 @@ export default function FindingRideModal({
           ) : null}
         </View>
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
               maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 10,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
 
+          <View>
           {phase === 'pool' ? (
             <CoRiderMatchedSheet fare={Math.max(fare, 412)} onCancel={onCancelPress} />
           ) : null}
@@ -460,10 +486,7 @@ export default function FindingRideModal({
           ) : null}
 
           {unavailable ? (
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              contentContainerStyle={styles.unavailableScroll}>
+            <View style={styles.unavailableScroll}>
               <View style={styles.findingRow}>
                 <View style={styles.warnIconWrap}>
                   <Lucide
@@ -534,7 +557,7 @@ export default function FindingRideModal({
               <Pressable style={styles.cancelLink} onPress={onCancelPress}>
                 <Text style={styles.cancelLinkText}>Cancel ride</Text>
               </Pressable>
-            </ScrollView>
+            </View>
           ) : null}
 
           {phase === 'searching' ? (
@@ -599,7 +622,23 @@ export default function FindingRideModal({
               </Pressable>
             </>
           ) : null}
-        </View>
+          </View>
+        </Animated.View>
+
+        {phase !== 'onTrip' ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            onPress={stepBack}
+            hitSlop={12}
+            style={[styles.backBtn, {top: insets.top + 8}]}>
+            <Feather
+              name={matched ? 'chevron-down' : 'arrow-left'}
+              size={22}
+              color={colors.navy[900]}
+            />
+          </Pressable>
+        ) : null}
       </View>
       )}
     </Modal>

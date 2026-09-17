@@ -13,7 +13,8 @@ export default function createStyles(colors) {
     backBtn: {
       position: 'absolute',
       left: 16,
-      zIndex: 6,
+      zIndex: 30,
+      elevation: 30,
       width: 44,
       height: 44,
       borderRadius: 22,
@@ -24,7 +25,6 @@ export default function createStyles(colors) {
       shadowOpacity: 0.12,
       shadowRadius: 8,
       shadowOffset: {width: 0, height: 2},
-      elevation: 4,
     },
     sheetWrap: {
       width: '100%',
@@ -35,6 +35,7 @@ export default function createStyles(colors) {
       borderTopRightRadius: 28,
       paddingHorizontal: 20,
       paddingTop: 10,
+      overflow: 'hidden',
       shadowColor: colors.navy[900],
       shadowOpacity: 0.14,
       shadowRadius: 18,
@@ -55,6 +56,11 @@ export default function createStyles(colors) {
       borderRadius: 2,
       backgroundColor: colors.gray[200],
       marginBottom: 14,
+    },
+    grabberHit: {
+      alignItems: 'center',
+      paddingTop: 2,
+      paddingBottom: 6,
     },
     title: {
       color: colors.navy[900],

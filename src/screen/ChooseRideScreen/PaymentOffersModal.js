@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   Modal,
   Pressable,
@@ -12,6 +13,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './paymentOffersStyle';
 
 const METHODS = [
@@ -80,6 +82,13 @@ export default function PaymentOffersModal({
     onClose?.();
   };
 
+  const sheetMaxH = Dimensions.get('window').height * 0.78;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 200,
+      visible,
+    });
+
   return (
     <Modal
       visible={visible}
@@ -90,15 +99,25 @@ export default function PaymentOffersModal({
       <View style={styles.root} pointerEvents="box-none">
         <Pressable style={styles.backdrop} onPress={onClose} />
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
-              maxHeight: Dimensions.get('window').height * 0.78,
+              maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 10,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
           <Text style={styles.title}>Payment & offers</Text>
 
           <ScrollView
@@ -160,7 +179,7 @@ export default function PaymentOffersModal({
           <Pressable style={styles.saveBtn} onPress={onSaveContinue}>
             <Text style={styles.saveText}>Save & continue</Text>
           </Pressable>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );

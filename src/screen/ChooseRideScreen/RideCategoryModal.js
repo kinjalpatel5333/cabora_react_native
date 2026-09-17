@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   Modal,
   Pressable,
@@ -12,6 +13,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './rideCategoryStyle';
 
 const PROMO_OFF = 50;
@@ -220,6 +222,13 @@ export default function RideCategoryModal({
     });
   };
 
+  const sheetMaxH = Dimensions.get('window').height * 0.78;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 220,
+      visible,
+    });
+
   return (
     <Modal
       visible={visible}
@@ -230,15 +239,25 @@ export default function RideCategoryModal({
       <View style={styles.root} pointerEvents="box-none">
         <Pressable style={styles.backdrop} onPress={onClose} />
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
-              maxHeight: Dimensions.get('window').height * 0.78,
+              maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 8,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>{category.title}</Text>
@@ -407,7 +426,7 @@ export default function RideCategoryModal({
               <Text style={styles.bookText}>{bookLabel}</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );

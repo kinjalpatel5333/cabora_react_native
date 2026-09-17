@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   KeyboardAvoidingView,
   Modal,
@@ -15,6 +16,7 @@ import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './style';
 import YourRouteModal from './YourRouteModal';
 
@@ -265,6 +267,13 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
     setNotifySaved(false);
   };
 
+  const sheetMaxH = Dimensions.get('window').height * 0.82;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 220,
+      visible,
+    });
+
   return (
     <Modal
       visible={visible}
@@ -280,27 +289,31 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
           accessibilityLabel="Dismiss"
         />
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={onClose}
-          style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
-        </Pressable>
-
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={styles.sheetWrap}
           pointerEvents="box-none">
-          <View
+          <Animated.View
+            onLayout={onSheetLayout}
             style={[
               styles.sheet,
               {
-                maxHeight: Dimensions.get('window').height * 0.82,
+                maxHeight: sheetMaxH,
                 paddingBottom: Math.max(insets.bottom, 10) + 8,
+                transform: [{translateY: sheetTY}],
               },
             ]}>
-            <View style={styles.grabber} />
+            <View {...panHandlers}>
+              <Pressable
+                onPress={toggle}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  expanded ? 'Collapse sheet' : 'Expand sheet'
+                }
+                style={styles.grabberHit}>
+                <View style={styles.grabber} />
+              </Pressable>
+            </View>
             <Text style={styles.title}>Set your route</Text>
 
             <ScrollView
@@ -532,8 +545,17 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                 Confirm locations
               </Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </KeyboardAvoidingView>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          onPress={onClose}
+          hitSlop={12}
+          style={[styles.backBtn, {top: insets.top + 8}]}>
+          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+        </Pressable>
 
         <YourRouteModal
           visible={routeStopsOpen}

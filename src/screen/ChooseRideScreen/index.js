@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   Modal,
   Pressable,
@@ -12,6 +13,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import BookForSomeoneElseModal from './BookForSomeoneElseModal';
 import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
@@ -119,6 +121,11 @@ export default function ChooseRideModal({
 
   const total = Math.max(0, selected.price - PROMO_OFF);
   const sheetMaxH = Dimensions.get('window').height * 0.72;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 200,
+      visible,
+    });
 
   return (
     <Modal
@@ -129,14 +136,6 @@ export default function ChooseRideModal({
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
         <Pressable style={styles.backdrop} onPress={onClose} />
-
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={onClose}
-          style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
-        </Pressable>
 
         <View style={[styles.routeSummary, {top: insets.top + 10}]}>
           <MaterialDesignIcons
@@ -164,10 +163,7 @@ export default function ChooseRideModal({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Recenter map"
-          style={[
-            styles.locateFab,
-            {bottom: sheetMaxH + 12},
-          ]}>
+          style={[styles.locateFab, {bottom: sheetMaxH + 12}]}>
           <MaterialDesignIcons
             name="crosshairs-gps"
             size={22}
@@ -175,15 +171,25 @@ export default function ChooseRideModal({
           />
         </Pressable>
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
               maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 8,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>Choose a ride</Text>
@@ -279,7 +285,17 @@ export default function ChooseRideModal({
               <Text style={styles.bookText}>Book {selected.name}</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
+
+        {/* Above sheet so taps always register */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          onPress={onClose}
+          hitSlop={12}
+          style={[styles.backBtn, {top: insets.top + 8}]}>
+          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+        </Pressable>
 
         <PaymentOffersModal
           visible={paymentOpen}
