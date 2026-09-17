@@ -92,9 +92,8 @@ export default function HomeTabBar({state, descriptors, navigation}) {
                 <View
                   style={[
                     styles.tabChip,
-                    active && {
-                      backgroundColor: colors.orange[100],
-                    },
+                    active && styles.tabChipActive,
+                    active && {backgroundColor: colors.orange[100]},
                   ]}>
                   <TabGlyph
                     kind={tab.kind}
@@ -132,8 +131,8 @@ const styles = StyleSheet.create({
   },
   pill: {
     borderRadius: 32,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 6,
     shadowOpacity: 0.12,
     shadowRadius: 18,
     shadowOffset: {width: 0, height: 8},
@@ -148,15 +147,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Active highlight wraps icon + label together (vertical pill).
   tabChip: {
+    height: 54,
     minWidth: 56,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderRadius: 22,
+    paddingHorizontal: 10,
+    borderRadius: 27,
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: 2,
+  },
+  tabChipActive: {
+    minWidth: 74,
+    paddingHorizontal: 16,
+    borderRadius: 27,
+    overflow: 'hidden',
   },
   label: {
     fontSize: 11,

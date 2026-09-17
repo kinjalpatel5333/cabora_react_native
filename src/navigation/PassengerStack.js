@@ -1,10 +1,25 @@
 import React from 'react';
 import {View} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAppSelector} from '../redux/hooks';
 import {SidebarProvider} from '../context/SidebarContext';
 import Sidebar from './Sidebar';
 import TabNavigator from './TabNavigator';
 import LocationPermissionScreen from '../screen/LocationPermissionScreen';
+import AirportRideScreen from '../screen/AirportRideScreen';
+import RentalsScreen from '../screen/RentalsScreen';
+import OutstationScreen from '../screen/OutstationScreen';
+import PortalScreen from '../screen/PortalScreen';
+import PortalStep2Screen from '../screen/PortalStep2Screen';
+import PortalStep3Screen from '../screen/PortalStep3Screen';
+import PortalTrackingScreen from '../screen/PortalTrackingScreen';
+import PortalDeliveredScreen from '../screen/PortalDeliveredScreen';
+import SelectDatesScreen from '../screen/SelectDatesScreen';
+import AddMoneyScreen from '../screen/AddMoneyScreen';
+import SavedPlacesScreen from '../screen/SavedPlacesScreen';
+import SaveThisPlaceScreen from '../screen/SaveThisPlaceScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function PassengerStack() {
   const locationResolved = useAppSelector(state => state.app.locationResolved);
@@ -16,7 +31,73 @@ export default function PassengerStack() {
   return (
     <SidebarProvider>
       <View style={{flex: 1}}>
-        <TabNavigator />
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="MainTabs" component={TabNavigator} />
+          <Stack.Screen
+            name="AirportRide"
+            component={AirportRideScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Rentals"
+            component={RentalsScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Outstation"
+            component={OutstationScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Portal"
+            component={PortalScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="PortalStep2"
+            component={PortalStep2Screen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="PortalStep3"
+            component={PortalStep3Screen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="PortalTracking"
+            component={PortalTrackingScreen}
+            options={{
+              presentation: 'transparentModal',
+              animation: 'slide_from_bottom',
+              contentStyle: {backgroundColor: 'transparent'},
+            }}
+          />
+          <Stack.Screen
+            name="PortalDelivered"
+            component={PortalDeliveredScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="SelectDates"
+            component={SelectDatesScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="AddMoney"
+            component={AddMoneyScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="SavedPlaces"
+            component={SavedPlacesScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="SaveThisPlace"
+            component={SaveThisPlaceScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+        </Stack.Navigator>
         <Sidebar />
       </View>
     </SidebarProvider>

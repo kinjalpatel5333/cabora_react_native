@@ -443,13 +443,7 @@ export default function HomeScreen() {
                 </Pressable>
                 <Pressable
                   style={styles.shortcut}
-                  onPress={() => {
-                    openRoute();
-                    showToast({
-                      type: 'info',
-                      message: 'Add a saved place',
-                    });
-                  }}
+                  onPress={() => navigation.navigate('SavedPlaces')}
                   accessibilityRole="button"
                   accessibilityLabel="Add saved place">
                   <Feather name="plus" size={16} color={colors.navy[800]} />

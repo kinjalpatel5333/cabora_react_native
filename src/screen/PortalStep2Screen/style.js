@@ -1,0 +1,270 @@
+import {StyleSheet} from 'react-native';
+
+const TYPE_GAP = 10;
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.white,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 12,
+      paddingBottom: 4,
+    },
+    headerBtn: {
+      width: 40,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      color: colors.navy[900],
+      fontSize: 17,
+      fontWeight: '700',
+    },
+    progressWrap: {
+      paddingHorizontal: 20,
+      marginTop: 12,
+      marginBottom: 16,
+    },
+    progressTrack: {
+      flexDirection: 'row',
+      gap: 6,
+      marginBottom: 8,
+    },
+    progressSeg: {
+      flex: 1,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.gray[200],
+    },
+    progressSegActive: {
+      backgroundColor: colors.orange[500],
+    },
+    stepText: {
+      color: colors.gray[500],
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    scroll: {
+      paddingHorizontal: 20,
+      paddingTop: 2,
+    },
+    section: {
+      marginBottom: 20,
+    },
+    sectionLabel: {
+      color: colors.gray[500],
+      fontSize: 11,
+      fontWeight: '700',
+      letterSpacing: 1.1,
+      marginBottom: 10,
+    },
+    typeGrid: {
+      gap: TYPE_GAP,
+    },
+    typeRow: {
+      flexDirection: 'row',
+      gap: TYPE_GAP,
+    },
+    typeCard: {
+      flex: 1,
+      backgroundColor: colors.white,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: colors.gray[200],
+      paddingVertical: 14,
+      paddingHorizontal: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+    },
+    typeCardActive: {
+      borderColor: colors.orange[500],
+      backgroundColor: colors.orange[50],
+    },
+    typeLabel: {
+      color: colors.gray[600],
+      fontSize: 12,
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+    typeLabelActive: {
+      color: colors.navy[900],
+      fontWeight: '700',
+    },
+    sizeList: {
+      gap: 10,
+    },
+    sizeCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      backgroundColor: colors.white,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: colors.gray[200],
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+    },
+    sizeCardActive: {
+      borderColor: colors.orange[500],
+      backgroundColor: colors.orange[50],
+    },
+    radio: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      borderWidth: 2,
+      borderColor: colors.gray[300],
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    radioActive: {
+      borderColor: colors.orange[500],
+    },
+    radioDot: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      backgroundColor: colors.orange[500],
+    },
+    sizeCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    sizeTitle: {
+      color: colors.navy[900],
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    sizeMeta: {
+      color: colors.gray[500],
+      fontSize: 12,
+      fontWeight: '400',
+      marginTop: 2,
+    },
+    sizeHint: {
+      color: colors.gray[500],
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    valueCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: colors.white,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.gray[200],
+      paddingVertical: 14,
+      paddingHorizontal: 14,
+      marginBottom: 8,
+    },
+    valueLabel: {
+      color: colors.navy[900],
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    valueAmount: {
+      color: colors.navy[900],
+      fontSize: 15,
+      fontWeight: '800',
+    },
+    valueNote: {
+      color: colors.gray[500],
+      fontSize: 12,
+      fontWeight: '400',
+      lineHeight: 17,
+      marginBottom: 14,
+    },
+    confirmCard: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 10,
+      backgroundColor: colors.orange[50],
+      borderWidth: 1,
+      borderColor: colors.orange[200],
+      borderRadius: 14,
+      padding: 14,
+      marginBottom: 8,
+    },
+    checkbox: {
+      width: 22,
+      height: 22,
+      borderRadius: 6,
+      borderWidth: 1.5,
+      borderColor: colors.orange[400],
+      backgroundColor: colors.white,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 1,
+    },
+    checkboxActive: {
+      backgroundColor: colors.orange[500],
+      borderColor: colors.orange[500],
+    },
+    confirmCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    confirmText: {
+      color: colors.orange[700],
+      fontSize: 13,
+      fontWeight: '500',
+      lineHeight: 19,
+    },
+    confirmLink: {
+      color: colors.orange[600],
+      fontWeight: '700',
+      textDecorationLine: 'underline',
+    },
+    footer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 14,
+      paddingHorizontal: 20,
+      paddingTop: 10,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.gray[200],
+      backgroundColor: colors.white,
+    },
+    footerCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    footerMeta: {
+      color: colors.gray[500],
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    footerTitle: {
+      color: colors.navy[900],
+      fontSize: 16,
+      fontWeight: '800',
+      marginTop: 2,
+    },
+    pricesBtn: {
+      backgroundColor: colors.orange[500],
+      paddingVertical: 14,
+      paddingHorizontal: 22,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pricesBtnDisabled: {
+      opacity: 0.45,
+    },
+    pricesText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '700',
+    },
+  });
+}

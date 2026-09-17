@@ -87,7 +87,7 @@ export function ToastProvider({children}) {
         {children}
         <View
           pointerEvents="box-none"
-          style={[styles.host, {paddingTop: insets.top + 8}]}>
+          style={[styles.host, {paddingTop: insets.top + 10}]}>
           <View pointerEvents="box-none" style={styles.stack}>
             {toasts.map(item => (
               <Toast

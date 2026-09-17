@@ -1,0 +1,150 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.white,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 12,
+      paddingBottom: 10,
+      backgroundColor: colors.white,
+    },
+    headerBtn: {
+      width: 44,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      color: colors.navy[900],
+      fontSize: 17,
+      fontWeight: '700',
+    },
+    searchBox: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      marginHorizontal: 16,
+      marginBottom: 14,
+      backgroundColor: colors.gray[100],
+      borderRadius: 14,
+      paddingHorizontal: 14,
+      paddingVertical: 12,
+    },
+    searchInput: {
+      flex: 1,
+      color: colors.navy[900],
+      fontSize: 15,
+      fontWeight: '400',
+      padding: 0,
+      margin: 0,
+    },
+    scroll: {
+      paddingHorizontal: 16,
+    },
+    sectionLabel: {
+      color: colors.gray[400],
+      fontSize: 11,
+      fontWeight: '700',
+      letterSpacing: 1.1,
+      marginBottom: 10,
+    },
+    sectionSpaced: {
+      marginTop: 18,
+    },
+    list: {
+      gap: 10,
+    },
+    placeCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      borderWidth: 1,
+      borderColor: colors.gray[200],
+      borderRadius: 16,
+      backgroundColor: colors.white,
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+    },
+    placeIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    placeCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    placeTitleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: 6,
+      marginBottom: 3,
+    },
+    placeName: {
+      color: colors.navy[900],
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    tagPill: {
+      backgroundColor: colors.gray[100],
+      borderRadius: 999,
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+    },
+    tagText: {
+      color: colors.gray[400],
+      fontSize: 11,
+      fontWeight: '600',
+    },
+    placeAddress: {
+      color: colors.gray[400],
+      fontSize: 13,
+      fontWeight: '500',
+      lineHeight: 18,
+    },
+    actionBtn: {
+      width: 32,
+      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyText: {
+      color: colors.gray[500],
+      fontSize: 14,
+      textAlign: 'center',
+      marginTop: 40,
+    },
+    footer: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      paddingHorizontal: 16,
+      paddingTop: 10,
+      backgroundColor: colors.white,
+    },
+    addBtn: {
+      backgroundColor: colors.orange[500],
+      borderRadius: 16,
+      paddingVertical: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    addText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '700',
+    },
+  });
+}
