@@ -151,7 +151,7 @@ export default function DriverEnRoutePickupScreen() {
         <Pressable
           accessibilityRole="button"
           style={styles.arriveBtn}
-          onPress={() => navigation.navigate('DriverTabs')}>
+          onPress={() => navigation.navigate('DriverStartTrip')}>
           <Lucide name="circle-check" size={22} color={colors.white} />
           <Text style={styles.arriveText}>I've arrived at pickup</Text>
         </Pressable>

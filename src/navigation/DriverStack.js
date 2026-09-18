@@ -14,6 +14,7 @@ import PreferredDestinationScreen from '../screen/PreferredDestinationScreen';
 import NewRideRequestScreen from '../screen/NewRideRequestScreen';
 import CancelRideReasonScreen from '../screen/CancelRideReasonScreen';
 import DriverEnRoutePickupScreen from '../screen/DriverEnRoutePickupScreen';
+import DriverStartTripScreen from '../screen/DriverStartTripScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +97,13 @@ export default function DriverStack() {
         component={DriverEnRoutePickupScreen}
         options={{
           gestureEnabled: false,
+          animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="DriverStartTrip"
+        component={DriverStartTripScreen}
+        options={{
           animation: 'slide_from_right',
         }}
       />
