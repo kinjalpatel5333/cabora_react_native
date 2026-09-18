@@ -20,6 +20,12 @@ import SavedPlacesScreen from '../screen/SavedPlacesScreen';
 import SaveThisPlaceScreen from '../screen/SaveThisPlaceScreen';
 import SafetyScreen from '../screen/SafetyScreen';
 import TrustedContactsScreen from '../screen/TrustedContactsScreen';
+import ReportIncidentScreen from '../screen/ReportIncidentScreen';
+import SafetyComplaintScreen from '../screen/SafetyComplaintScreen';
+import SafetyNumberScreen from '../screen/SafetyNumberScreen';
+import HelpScreen from '../screen/HelpScreen';
+import ReportIssueScreen from '../screen/ReportIssueScreen';
+import NotificationsScreen from '../screen/NotificationsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -107,6 +113,36 @@ export default function PassengerStack() {
           <Stack.Screen
             name="TrustedContacts"
             component={TrustedContactsScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="ReportIncident"
+            component={ReportIncidentScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="SafetyComplaint"
+            component={SafetyComplaintScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="SafetyNumber"
+            component={SafetyNumberScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Help"
+            component={HelpScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="ReportIssue"
+            component={ReportIssueScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Notifications"
+            component={NotificationsScreen}
             options={{animation: 'slide_from_right'}}
           />
         </Stack.Navigator>

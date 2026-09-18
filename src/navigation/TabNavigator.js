@@ -78,8 +78,7 @@ export default function TabNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Profile" />,
+          headerShown: false,
           tabBarLabel: 'Profile',
           title: 'Profile',
         }}

@@ -100,9 +100,7 @@ export default function OutstationScreen() {
         <Text style={styles.headerTitle}>Outstation trip</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() =>
-            showToast({type: 'info', message: 'Outstation help'})
-          }
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>

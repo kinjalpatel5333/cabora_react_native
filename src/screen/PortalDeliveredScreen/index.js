@@ -54,7 +54,7 @@ export default function PortalDeliveredScreen() {
         <Text style={styles.headerTitle}>Portal delivered</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() => showToast({type: 'info', message: 'Portal help'})}
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>

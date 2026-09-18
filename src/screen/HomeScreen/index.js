@@ -271,13 +271,9 @@ export default function HomeScreen() {
 
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Open menu"
-            onPress={openDrawer}
-            style={styles.menuBtn}>
+          <View style={styles.menuBtn}>
             <Feather name="menu" size={22} color={colors.navy[800]} />
-          </Pressable>
+          </View>
 
           <Pressable
             style={styles.greetingPill}
@@ -297,11 +293,7 @@ export default function HomeScreen() {
                 accessibilityRole="button"
                 accessibilityLabel="Notifications"
                 onPress={() => {
-                  navigation.navigate('Activity');
-                  showToast({
-                    type: 'info',
-                    message: '3 new trip updates',
-                  });
+                  navigation.navigate('Notifications');
                 }}>
                 <Feather name="bell" size={20} color={colors.white} />
               </Pressable>

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   Pressable,
-  ScrollView,
   StatusBar,
   Text,
   View,
@@ -12,7 +11,6 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
 import EmergencyScreen from '../EmergencyScreen';
 import createStyles from './style';
 
@@ -33,7 +31,7 @@ const TOOLS = [
     id: 'share',
     title: 'Share live location',
     sub: 'On for every night ride',
-    iconBg: 'blue',
+    iconBg: 'sky',
   },
   {
     id: 'check',
@@ -55,9 +53,18 @@ const TOOLS = [
   },
 ];
 
+const ICON_TONES = {
+  red: {bg: '#FEE2E2', fg: '#EF4444'},
+  blue: {bg: '#E0EAFF', fg: '#2563EB'},
+  sky: {bg: '#E0F2FE', fg: '#0284C7'},
+  green: {bg: '#DCFCE7', fg: '#16A34A'},
+  amber: {bg: '#FEF3C7', fg: '#D97706'},
+  gray: {bg: '#F1F5F9', fg: '#64748B'},
+};
+
 function ToolIcon({id, color}) {
   if (id === 'sos') {
-    return <MaterialDesignIcons name="alarm-light" size={20} color={color} />;
+    return <MaterialDesignIcons name="alarm-light-outline" size={20} color={color} />;
   }
   if (id === 'contacts') {
     return <Feather name="users" size={18} color={color} />;
@@ -66,7 +73,7 @@ function ToolIcon({id, color}) {
     return <Feather name="upload" size={18} color={color} />;
   }
   if (id === 'check') {
-    return <MaterialDesignIcons name="shield-check" size={20} color={color} />;
+    return <MaterialDesignIcons name="shield-check-outline" size={20} color={color} />;
   }
   if (id === 'report') {
     return <Feather name="alert-triangle" size={18} color={color} />;
@@ -77,18 +84,9 @@ function ToolIcon({id, color}) {
 export default function SafetyScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
   const navigation = useNavigation();
   const {showToast} = useToast();
   const [emergencyOpen, setEmergencyOpen] = useState(false);
-
-  const iconTone = {
-    red: {bg: colors.red[100], fg: colors.red[500]},
-    blue: {bg: colors.blue[100], fg: colors.blue[600]},
-    green: {bg: colors.green[100], fg: colors.green[600]},
-    amber: {bg: colors.amber[100], fg: colors.amber[600]},
-    gray: {bg: colors.gray[100], fg: colors.gray[500]},
-  };
 
   const onToolPress = id => {
     if (id === 'sos') {
@@ -108,15 +106,18 @@ export default function SafetyScreen() {
       return;
     }
     if (id === 'report') {
-      showToast({type: 'info', message: 'Incident report coming soon'});
+      navigation.navigate('ReportIncident');
       return;
     }
-    showToast({type: 'info', message: 'Safety tips coming soon'});
+    if (id === 'tips') {
+      navigation.navigate('SafetyComplaint');
+      return;
+    }
   };
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -124,73 +125,68 @@ export default function SafetyScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color="#0F2840" />
         </Pressable>
         <Text style={styles.headerTitle}>Safety</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() =>
-            showToast({type: 'info', message: 'Cabora Safety help'})
-          }
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color="#0F2840" />
         </Pressable>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.scroll,
-          {paddingBottom: Math.max(insets.bottom, 12) + 90},
-        ]}>
+      <View style={styles.content}>
         <View style={styles.hero}>
+          <View style={styles.heroCircle} pointerEvents="none" />
           <View style={styles.heroIcon}>
             <MaterialDesignIcons
               name="shield-check-outline"
-              size={22}
-              color={colors.green[500]}
+              size={24}
+              color="#22C55E"
             />
           </View>
           <Text style={styles.heroTitle}>Your rides are protected</Text>
           <Text style={styles.heroSub}>
-            Every trip is insured, tracked and monitored by the Cabora safety
-            desk.
+            Every trip is insured, tracked and monitored by the Cabora safety desk.
           </Text>
         </View>
 
-        <Text style={styles.sectionLabel}>SAFETY TOOLS</Text>
-        <View style={styles.toolsGrid}>
-          {TOOLS.map(tool => {
-            const tone = iconTone[tool.iconBg];
-            return (
-              <Pressable
-                key={tool.id}
-                style={styles.toolCard}
-                onPress={() => onToolPress(tool.id)}
-                accessibilityRole="button"
-                accessibilityLabel={tool.title}>
-                <View style={[styles.toolIcon, {backgroundColor: tone.bg}]}>
-                  <ToolIcon id={tool.id} color={tone.fg} />
-                </View>
-                <Text style={styles.toolTitle}>{tool.title}</Text>
-                <Text style={styles.toolSub}>{tool.sub}</Text>
-              </Pressable>
-            );
-          })}
+        <View style={styles.toolsSection}>
+          <Text style={styles.sectionLabel}>SAFETY TOOLS</Text>
+          <View style={styles.toolsGrid}>
+            {TOOLS.map(tool => {
+              const tone = ICON_TONES[tool.iconBg] || ICON_TONES.gray;
+              return (
+                <Pressable
+                  key={tool.id}
+                  style={styles.toolCard}
+                  onPress={() => onToolPress(tool.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={tool.title}>
+                  <View style={[styles.toolIcon, {backgroundColor: tone.bg}]}>
+                    <ToolIcon id={tool.id} color={tone.fg} />
+                  </View>
+                  <Text style={styles.toolTitle}>{tool.title}</Text>
+                  <Text style={styles.toolSub}>{tool.sub}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
 
         <View style={styles.insuranceCard}>
           <View style={styles.insuranceTop}>
             <View style={styles.insuranceIcon}>
               <MaterialDesignIcons
-                name="shield-check"
+                name="shield-check-outline"
                 size={22}
-                color={colors.green[600]}
+                color="#16A34A"
               />
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.insuranceBody}>
               <Text style={styles.insuranceTitle}>
                 In-trip insurance is active
               </Text>
@@ -210,7 +206,7 @@ export default function SafetyScreen() {
             <Text style={styles.policyId}>Policy CBR-INS-2026</Text>
           </View>
         </View>
-      </ScrollView>
+      </View>
 
       <View
         style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 12)}]}>

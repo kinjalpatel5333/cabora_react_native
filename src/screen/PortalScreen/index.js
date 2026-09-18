@@ -276,7 +276,7 @@ export default function PortalScreen() {
         <Text style={styles.headerTitle}>Send with Portal</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() => showToast({type: 'info', message: 'Portal help'})}
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>

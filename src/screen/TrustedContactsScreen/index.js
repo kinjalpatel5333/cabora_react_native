@@ -3,7 +3,6 @@ import {
   Pressable,
   ScrollView,
   StatusBar,
-  Switch,
   Text,
   View,
 } from 'react-native';
@@ -12,7 +11,6 @@ import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 
 const MAX_CONTACTS = 5;
@@ -23,28 +21,28 @@ const INITIAL = [
     initials: 'PS',
     name: 'Priya Sharma',
     meta: 'Sister · +91 98450 33119',
-    avatarBg: '#FDE8D8',
-    avatarFg: '#C45C26',
+    avatarBg: '#FEE6D6',
+    avatarFg: '#C2410C',
     autoShare: true,
     alertSos: true,
   },
   {
     id: 'c2',
     initials: 'VS',
-    name: 'Vikram Singh',
-    meta: 'Father · +91 98112 44550',
-    avatarBg: '#DCEBFC',
-    avatarFg: '#1D63C5',
+    name: 'Vikram Sharma',
+    meta: 'Father · +91 98450 21004',
+    avatarBg: '#DBEAFE',
+    avatarFg: '#1D4ED8',
     autoShare: true,
-    alertSos: true,
+    alertSos: false,
   },
   {
     id: 'c3',
     initials: 'NK',
-    name: 'Neha Kapoor',
-    meta: 'Friend · +91 97654 22001',
-    avatarBg: '#DDF3E6',
-    avatarFg: '#1C8A4D',
+    name: 'Neha Kulkarni',
+    meta: 'Friend · +91 99010 55218',
+    avatarBg: '#DCFCE7',
+    avatarFg: '#15803D',
     autoShare: false,
     alertSos: true,
   },
@@ -56,10 +54,30 @@ const PRIVACY = [
   {ok: false, text: 'Your home address or saved places'},
 ];
 
+function CustomToggle({value, onToggle, label, styles}) {
+  return (
+    <Pressable
+      onPress={() => onToggle(!value)}
+      accessibilityRole="switch"
+      accessibilityState={{checked: value}}
+      accessibilityLabel={label}
+      style={[
+        styles.toggleTrack,
+        value ? styles.toggleTrackActive : styles.toggleTrackInactive,
+      ]}>
+      <View
+        style={[
+          styles.toggleThumb,
+          value ? styles.toggleThumbActive : styles.toggleThumbInactive,
+        ]}
+      />
+    </Pressable>
+  );
+}
+
 export default function TrustedContactsScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
   const navigation = useNavigation();
   const {showToast} = useToast();
   const [contacts, setContacts] = useState(INITIAL);
@@ -82,7 +100,7 @@ export default function TrustedContactsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -90,18 +108,16 @@ export default function TrustedContactsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color="#0F2840" />
         </Pressable>
         <Text style={styles.headerTitle}>Trusted contacts</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() =>
-            showToast({type: 'info', message: 'Trusted contacts help'})
-          }
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color="#0F2840" />
         </Pressable>
       </View>
 
@@ -109,13 +125,13 @@ export default function TrustedContactsScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
           styles.scroll,
-          {paddingBottom: Math.max(insets.bottom, 12) + 90},
+          {paddingBottom: Math.max(insets.bottom, 12) + 20},
         ]}>
         <View style={styles.statusCard}>
-          <View style={styles.statusIcon}>
-            <Feather name="users" size={20} color={colors.blue[600]} />
+          <View style={styles.statusIconContainer}>
+            <Feather name="users" size={20} color="#2563EB" />
           </View>
-          <View style={{flex: 1}}>
+          <View style={styles.statusBody}>
             <Text style={styles.statusTitle}>{countLabel}</Text>
             <Text style={styles.statusSub}>
               Trusted contacts can see your live trip and are alerted if you
@@ -153,36 +169,30 @@ export default function TrustedContactsScreen() {
                 <Feather
                   name="more-vertical"
                   size={18}
-                  color={colors.gray[400]}
+                  color="#64748B"
                 />
               </Pressable>
             </View>
 
-            <View style={styles.toggleRow}>
-              <Text style={styles.toggleLabel}>Auto-share every ride</Text>
-              <Switch
-                value={contact.autoShare}
-                onValueChange={v => setToggle(contact.id, 'autoShare', v)}
-                trackColor={{
-                  false: colors.gray[200],
-                  true: colors.orange[500],
-                }}
-                thumbColor={colors.white}
-                ios_backgroundColor={colors.gray[200]}
-              />
-            </View>
-            <View style={styles.toggleRow}>
-              <Text style={styles.toggleLabel}>Alert on SOS</Text>
-              <Switch
-                value={contact.alertSos}
-                onValueChange={v => setToggle(contact.id, 'alertSos', v)}
-                trackColor={{
-                  false: colors.gray[200],
-                  true: colors.orange[500],
-                }}
-                thumbColor={colors.white}
-                ios_backgroundColor={colors.gray[200]}
-              />
+            <View style={styles.togglesRow}>
+              <View style={styles.toggleItem}>
+                <Text style={styles.toggleText}>Auto-share every ride</Text>
+                <CustomToggle
+                  value={contact.autoShare}
+                  onToggle={v => setToggle(contact.id, 'autoShare', v)}
+                  label="Auto-share every ride"
+                  styles={styles}
+                />
+              </View>
+              <View style={styles.toggleItem}>
+                <Text style={styles.toggleText}>Alert on SOS</Text>
+                <CustomToggle
+                  value={contact.alertSos}
+                  onToggle={v => setToggle(contact.id, 'alertSos', v)}
+                  label="Alert on SOS"
+                  styles={styles}
+                />
+              </View>
             </View>
           </View>
         ))}
@@ -190,18 +200,11 @@ export default function TrustedContactsScreen() {
         <Pressable
           style={styles.addCard}
           onPress={() => {
-            if (contacts.length >= MAX_CONTACTS) {
-              showToast({
-                type: 'info',
-                message: `You can add up to ${MAX_CONTACTS} contacts`,
-              });
-              return;
-            }
-            showToast({type: 'info', message: 'Add a trusted contact'});
+            navigation.navigate('SafetyNumber');
           }}
           accessibilityRole="button"
           accessibilityLabel="Add a trusted contact">
-          <Feather name="plus" size={18} color={colors.orange[600]} />
+          <Feather name="plus" size={18} color="#FF7006" />
           <Text style={styles.addText}>Add a trusted contact</Text>
         </Pressable>
 
@@ -216,8 +219,8 @@ export default function TrustedContactsScreen() {
               ]}>
               <Feather
                 name={row.ok ? 'check-circle' : 'x-circle'}
-                size={18}
-                color={row.ok ? colors.green[500] : colors.gray[400]}
+                size={16}
+                color={row.ok ? '#16A34A' : '#94A3B8'}
               />
               <Text
                 style={[

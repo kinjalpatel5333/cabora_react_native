@@ -1,0 +1,162 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: '#F3F6FA',
+    },
+    headerRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 18,
+      paddingTop: 10,
+      paddingBottom: 14,
+    },
+    headerLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    backBtn: {
+      width: 38,
+      height: 38,
+      borderRadius: 12,
+      backgroundColor: '#FFFFFF',
+      borderWidth: 1,
+      borderColor: '#E8ECF2',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      color: '#0F2840',
+      fontSize: 26,
+      fontWeight: '800',
+      letterSpacing: -0.5,
+    },
+    markAllBtn: {
+      paddingVertical: 6,
+      paddingHorizontal: 8,
+    },
+    markAllText: {
+      color: '#FF7006',
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    pillsScroll: {
+      paddingHorizontal: 18,
+      paddingBottom: 14,
+      gap: 8,
+      flexDirection: 'row',
+    },
+    pill: {
+      paddingHorizontal: 18,
+      paddingVertical: 9,
+      borderRadius: 22,
+      backgroundColor: '#FFFFFF',
+      borderWidth: 1.5,
+      borderColor: '#E2E8F0',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pillActive: {
+      borderColor: '#FF7006',
+      backgroundColor: '#FFF5ED',
+    },
+    pillText: {
+      color: '#64748B',
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    pillTextActive: {
+      color: '#FF7006',
+    },
+    scroll: {
+      paddingHorizontal: 18,
+      paddingTop: 6,
+      paddingBottom: 40,
+    },
+    sectionTitle: {
+      color: '#7E8B9E',
+      fontSize: 11.5,
+      fontWeight: '700',
+      letterSpacing: 0.8,
+      marginBottom: 10,
+      marginTop: 6,
+    },
+    sectionTitleLater: {
+      marginTop: 18,
+    },
+    card: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      backgroundColor: '#FFFFFF',
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: '#E8ECF2',
+      paddingHorizontal: 14,
+      paddingVertical: 14,
+      marginBottom: 10,
+      shadowColor: '#0F2840',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.04,
+      shadowRadius: 6,
+      elevation: 1.5,
+      overflow: 'hidden',
+    },
+    cardUnread: {
+      backgroundColor: '#FFF8F2',
+      borderColor: '#FFDEC7',
+      borderLeftWidth: 4,
+      borderLeftColor: '#FF7006',
+    },
+    iconBox: {
+      width: 44,
+      height: 44,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    cardBody: {
+      flex: 1,
+      paddingRight: 6,
+    },
+    titleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 3,
+    },
+    itemTitle: {
+      flex: 1,
+      color: '#0F2840',
+      fontSize: 14.5,
+      fontWeight: '700',
+      marginRight: 6,
+    },
+    itemTime: {
+      color: '#8A96A6',
+      fontSize: 12,
+      fontWeight: '400',
+    },
+    itemSubtitle: {
+      color: '#64748B',
+      fontSize: 13,
+      fontWeight: '400',
+      lineHeight: 18,
+    },
+    emptyBox: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 60,
+    },
+    emptyText: {
+      color: '#8A96A6',
+      fontSize: 14,
+      fontWeight: '500',
+      marginTop: 10,
+    },
+  });
+}

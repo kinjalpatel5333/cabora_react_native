@@ -53,7 +53,7 @@ export default function AirportRideScreen() {
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Safety')}
           accessibilityRole="button"
-          accessibilityLabel="Help"
+          accessibilityLabel="Safety"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.navy[900]} />
         </Pressable>

@@ -93,7 +93,7 @@ export default function PortalStep3Screen() {
         <Text style={styles.headerTitle}>Choose a rider</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() => showToast({type: 'info', message: 'Portal help'})}
+          onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
