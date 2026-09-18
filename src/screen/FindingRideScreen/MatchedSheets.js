@@ -84,7 +84,12 @@ export function CoRiderMatchedSheet({fare = 412, onCancel}) {
   );
 }
 
-export function DriverOnWaySheet({driverName = 'Rajesh', onCancel}) {
+export function DriverOnWaySheet({
+  driverName = 'Rajesh',
+  onCancel,
+  onSos,
+  onShare,
+}) {
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
   const otp = ['4', '8', '2', '6'];
@@ -152,11 +157,15 @@ export function DriverOnWaySheet({driverName = 'Rajesh', onCancel}) {
           <Feather name="message-circle" size={18} color={colors.navy[800]} />
           <Text style={styles.actionLabel}>Chat</Text>
         </Pressable>
-        <Pressable style={styles.actionBtn}>
+        <Pressable style={styles.actionBtn} onPress={onShare}>
           <Feather name="upload" size={18} color={colors.navy[800]} />
           <Text style={styles.actionLabel}>Share trip</Text>
         </Pressable>
-        <Pressable style={[styles.actionBtn, styles.actionBtnSos]}>
+        <Pressable
+          style={[styles.actionBtn, styles.actionBtnSos]}
+          onPress={onSos}
+          accessibilityRole="button"
+          accessibilityLabel="SOS">
           <MaterialDesignIcons
             name="alarm-light"
             size={20}

@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Modal, Pressable, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../../context/AppContext';
 import Icon from '../Icon';
@@ -85,20 +85,30 @@ export function ToastProvider({children}) {
     <ToastContext.Provider value={value}>
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         {children}
-        <View
-          pointerEvents="box-none"
-          style={[styles.host, {paddingTop: insets.top + 10}]}>
-          <View pointerEvents="box-none" style={styles.stack}>
-            {toasts.map(item => (
-              <Toast
-                key={item.id}
-                type={item.type}
-                message={item.message}
-                onPress={() => hideToast(item.id)}
-              />
-            ))}
+        <Modal
+          visible={toasts.length > 0}
+          transparent
+          animationType="fade"
+          statusBarTranslucent
+          presentationStyle="overFullScreen"
+          onRequestClose={() => {}}>
+          <View style={styles.modalRoot} pointerEvents="box-none">
+            <View
+              pointerEvents="box-none"
+              style={[styles.host, {paddingTop: insets.top + 10}]}>
+              <View pointerEvents="box-none" style={styles.stack}>
+                {toasts.map(item => (
+                  <Toast
+                    key={item.id}
+                    type={item.type}
+                    message={item.message}
+                    onPress={() => hideToast(item.id)}
+                  />
+                ))}
+              </View>
+            </View>
           </View>
-        </View>
+        </Modal>
       </View>
     </ToastContext.Provider>
   );

@@ -18,6 +18,8 @@ import SelectDatesScreen from '../screen/SelectDatesScreen';
 import AddMoneyScreen from '../screen/AddMoneyScreen';
 import SavedPlacesScreen from '../screen/SavedPlacesScreen';
 import SaveThisPlaceScreen from '../screen/SaveThisPlaceScreen';
+import SafetyScreen from '../screen/SafetyScreen';
+import TrustedContactsScreen from '../screen/TrustedContactsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -95,6 +97,16 @@ export default function PassengerStack() {
           <Stack.Screen
             name="SaveThisPlace"
             component={SaveThisPlaceScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="Safety"
+            component={SafetyScreen}
+            options={{animation: 'slide_from_right'}}
+          />
+          <Stack.Screen
+            name="TrustedContacts"
+            component={TrustedContactsScreen}
             options={{animation: 'slide_from_right'}}
           />
         </Stack.Navigator>

@@ -32,6 +32,9 @@ export default function createStyles(colors) {
       elevation: 9999,
       paddingHorizontal: 16,
     },
+    modalRoot: {
+      flex: 1,
+    },
     stack: {
       gap: 10,
     },

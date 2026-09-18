@@ -51,9 +51,7 @@ export default function AirportRideScreen() {
         <Text style={styles.headerTitle}>Airport ride</Text>
         <Pressable
           style={styles.headerBtn}
-          onPress={() =>
-            showToast({type: 'info', message: 'Airport ride help'})
-          }
+          onPress={() => navigation.navigate('Safety')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>

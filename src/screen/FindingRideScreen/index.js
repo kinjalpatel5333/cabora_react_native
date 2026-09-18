@@ -15,6 +15,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
+import EmergencyScreen from '../EmergencyScreen';
+import ShareLiveTripScreen from '../ShareLiveTripScreen';
 import {CoRiderMatchedSheet, DriverOnWaySheet, OnTripSheet} from './MatchedSheets';
 import RateTipScreen from './RateTipScreen';
 import RatedPaidScreen from './RatedPaidScreen';
@@ -96,6 +98,9 @@ export default function FindingRideModal({
   const [phase, setPhase] = useState('searching'); // searching | pool | driver | onTrip | completed | rateTip | ratedPaid | unavailable
   const [searchKey, setSearchKey] = useState(0);
   const [ratingResult, setRatingResult] = useState({rating: 5, tip: 20});
+  const [emergencyOpen, setEmergencyOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const flowPaused = emergencyOpen || shareOpen;
   const matchCoRiderRef = useRef(true);
 
   const spin = useRef(new Animated.Value(0)).current;
@@ -107,6 +112,8 @@ export default function FindingRideModal({
       setPhase('searching');
       setSearchKey(0);
       setRatingResult({rating: 5, tip: 20});
+      setEmergencyOpen(false);
+      setShareOpen(false);
       spin.setValue(0);
       progress.setValue(0.12);
       tripProgress.setValue(0.38);
@@ -116,12 +123,19 @@ export default function FindingRideModal({
     setPhase('searching');
     // First search → solo driver modal; Search again → co-rider pool.
     matchCoRiderRef.current = searchKey % 2 === 1;
+    return undefined;
+  }, [visible, searchKey, spin, progress, tripProgress]);
+
+  // Searching → match (paused while SOS / share is open)
+  useEffect(() => {
+    if (!visible || flowPaused || phase !== 'searching') {
+      return undefined;
+    }
 
     const matchTimer = setTimeout(() => {
       setPhase(matchCoRiderRef.current ? 'pool' : 'driver');
     }, MATCH_MS);
 
-    // Safety net if match somehow never fires.
     const failTimer = setTimeout(() => {
       setPhase(prev => (prev === 'searching' ? 'unavailable' : prev));
     }, NO_DRIVER_MS);
@@ -130,28 +144,28 @@ export default function FindingRideModal({
       clearTimeout(matchTimer);
       clearTimeout(failTimer);
     };
-  }, [visible, searchKey, spin, progress, tripProgress]);
+  }, [visible, flowPaused, phase, searchKey]);
 
   // OTP / driver-on-way → On Trip after 5s
   useEffect(() => {
-    if (!visible || phase !== 'driver') {
+    if (!visible || flowPaused || phase !== 'driver') {
       return undefined;
     }
     const t = setTimeout(() => setPhase('onTrip'), ON_TRIP_MS);
     return () => clearTimeout(t);
-  }, [visible, phase]);
+  }, [visible, flowPaused, phase]);
 
   // On Trip → Trip completed after 5s
   useEffect(() => {
-    if (!visible || phase !== 'onTrip') {
+    if (!visible || flowPaused || phase !== 'onTrip') {
       return undefined;
     }
     const t = setTimeout(() => setPhase('completed'), COMPLETED_MS);
     return () => clearTimeout(t);
-  }, [visible, phase]);
+  }, [visible, flowPaused, phase]);
 
   useEffect(() => {
-    if (!visible || phase !== 'onTrip') {
+    if (!visible || flowPaused || phase !== 'onTrip') {
       return undefined;
     }
     const loop = Animated.loop(
@@ -172,12 +186,14 @@ export default function FindingRideModal({
     );
     loop.start();
     return () => loop.stop();
-  }, [visible, phase, tripProgress]);
+  }, [visible, flowPaused, phase, tripProgress]);
 
   useEffect(() => {
-    if (!visible || phase !== 'searching') {
-      spin.setValue(0);
-      progress.setValue(0.12);
+    if (!visible || flowPaused || phase !== 'searching') {
+      if (phase !== 'searching') {
+        spin.setValue(0);
+        progress.setValue(0.12);
+      }
       return undefined;
     }
 
@@ -214,7 +230,7 @@ export default function FindingRideModal({
       spinLoop.stop();
       progressLoop.stop();
     };
-  }, [visible, phase, spin, progress]);
+  }, [visible, flowPaused, phase, spin, progress]);
 
   const spinDeg = spin.interpolate({
     inputRange: [0, 1],
@@ -335,6 +351,7 @@ export default function FindingRideModal({
         {phase === 'onTrip' ? (
           <Pressable
             style={[styles.sosPill, {top: insets.top + 10}]}
+            onPress={() => setEmergencyOpen(true)}
             accessibilityRole="button"
             accessibilityLabel="SOS">
             <MaterialDesignIcons
@@ -474,14 +491,18 @@ export default function FindingRideModal({
           ) : null}
 
           {phase === 'driver' ? (
-            <DriverOnWaySheet onCancel={onCancelPress} />
+            <DriverOnWaySheet
+              onCancel={onCancelPress}
+              onSos={() => setEmergencyOpen(true)}
+              onShare={() => setShareOpen(true)}
+            />
           ) : null}
 
           {phase === 'onTrip' ? (
             <OnTripSheet
               drop={drop}
               progressWidth={tripFillWidth}
-              onShare={() => {}}
+              onShare={() => setShareOpen(true)}
             />
           ) : null}
 
@@ -641,6 +662,15 @@ export default function FindingRideModal({
         ) : null}
       </View>
       )}
+
+      <EmergencyScreen
+        visible={emergencyOpen}
+        onClose={() => setEmergencyOpen(false)}
+      />
+      <ShareLiveTripScreen
+        visible={shareOpen}
+        onClose={() => setShareOpen(false)}
+      />
     </Modal>
   );
 }
