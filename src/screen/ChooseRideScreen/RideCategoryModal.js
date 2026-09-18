@@ -266,12 +266,12 @@ export default function RideCategoryModal({
                 <MaterialDesignIcons
                   name="map-marker-path"
                   size={15}
-                  color={colors.gray[500]}
+                  color={colors.muted}
                 />
                 <Text style={styles.statText}>{category.distanceKm}</Text>
               </View>
               <View style={styles.statItem}>
-                <Feather name="clock" size={14} color={colors.gray[500]} />
+                <Feather name="clock" size={14} color={colors.muted} />
                 <Text style={styles.statText}>{category.durationMins}</Text>
               </View>
             </View>
@@ -286,7 +286,7 @@ export default function RideCategoryModal({
             contentContainerStyle={styles.listContent}>
             {category.rides.map(ride => {
               const active = selectedId === ride.id;
-              const tint = active ? colors.orange[600] : colors.navy[800];
+              const tint = active ? colors.orange[500] : colors.text;
               return (
                 <Pressable
                   key={ride.id}
@@ -299,7 +299,7 @@ export default function RideCategoryModal({
                   <View style={styles.rideCopy}>
                     <Text style={styles.rideName}>{ride.name}</Text>
                     <View style={styles.rideMetaRow}>
-                      <Feather name="user" size={12} color={colors.gray[500]} />
+                      <Feather name="user" size={12} color={colors.muted} />
                       <Text style={styles.rideMeta}>
                         {ride.seats} · {ride.blurb}
                       </Text>
@@ -325,14 +325,14 @@ export default function RideCategoryModal({
                   <RideGlyph
                     icon={category.bookAny.icon}
                     color={
-                      isBookAny ? colors.orange[600] : colors.navy[800]
+                      isBookAny ? colors.orange[500] : colors.text
                     }
                   />
                 </View>
                 <View style={styles.rideCopy}>
                   <Text style={styles.rideName}>{category.bookAny.name}</Text>
                   <View style={styles.rideMetaRow}>
-                    <Feather name="user" size={12} color={colors.gray[500]} />
+                    <Feather name="user" size={12} color={colors.muted} />
                     <Text style={styles.rideMeta}>
                       {category.bookAny.seats}
                     </Text>
@@ -359,7 +359,7 @@ export default function RideCategoryModal({
                       <Feather
                         name={on ? 'check' : 'plus'}
                         size={12}
-                        color={on ? colors.orange[600] : colors.gray[500]}
+                        color={on ? colors.orange[500] : colors.muted}
                       />
                       <Text
                         style={[styles.chipText, on && styles.chipTextOn]}>
@@ -377,7 +377,7 @@ export default function RideCategoryModal({
               <MaterialDesignIcons
                 name="currency-inr"
                 size={18}
-                color={colors.navy[800]}
+                color={colors.text}
               />
             </View>
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>

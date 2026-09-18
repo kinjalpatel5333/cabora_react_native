@@ -135,20 +135,20 @@ export default function UploadDocumentsScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={colors.barStyle} />
       <View style={[styles.header, {paddingTop: insets.top + 8}]}>
         <Pressable
           accessibilityRole="button"
           onPress={onBack}
           style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Upload documents</Text>
         <Pressable
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
-          <Feather name="help-circle" size={22} color={colors.navy[800]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

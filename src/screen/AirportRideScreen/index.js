@@ -38,7 +38,7 @@ export default function AirportRideScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -46,7 +46,7 @@ export default function AirportRideScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Airport ride</Text>
         <Pressable
@@ -55,7 +55,7 @@ export default function AirportRideScreen() {
           accessibilityRole="button"
           accessibilityLabel="Safety"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -101,7 +101,7 @@ export default function AirportRideScreen() {
           <View style={styles.card}>
             <View style={styles.airportRow}>
               <View style={styles.pinIcon}>
-                <Feather name="map-pin" size={18} color={colors.orange[600]} />
+                <Feather name="map-pin" size={18} color={colors.primary} />
               </View>
               <View style={styles.airportCopy}>
                 <Text style={styles.airportName}>Kempegowda International</Text>
@@ -151,7 +151,7 @@ export default function AirportRideScreen() {
               <Feather
                 name="send"
                 size={18}
-                color={colors.gray[400]}
+                color={colors.textMuted}
                 style={styles.detailIcon}
               />
               <View style={styles.detailCopy}>
@@ -170,7 +170,7 @@ export default function AirportRideScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>PICK-UP TIME</Text>
           <View style={styles.pickupCard}>
-            <Feather name="calendar" size={20} color={colors.navy[800]} />
+            <Feather name="calendar" size={20} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
             <View style={styles.pickupCopy}>
               <Text style={styles.detailTitle}>Today, 06:30 am</Text>
               <Text style={styles.detailMeta}>
@@ -195,7 +195,7 @@ export default function AirportRideScreen() {
               <Feather
                 name="info"
                 size={16}
-                color={colors.orange[600]}
+                color={colors.primary}
               />
               <Text style={styles.surchargeTitle}>What the airport adds</Text>
             </View>

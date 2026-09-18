@@ -4,10 +4,10 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     hero: {
-      backgroundColor: colors.navy[900],
+      backgroundColor: '#071C31',
       borderBottomLeftRadius: 32,
       borderBottomRightRadius: 32,
       paddingHorizontal: 24,
@@ -77,12 +77,13 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
       paddingVertical: 8,
       borderWidth: 1,
-      borderColor: colors.navy[200],
+      borderColor: colors.border,
+      backgroundColor: colors.surface,
     },
     phoneInput: {
       fontSize: 18,
       paddingVertical: 0,
-      color: colors.navy[900],
+      color: colors.text,
     },
     prefix: {
       flexDirection: 'row',
@@ -92,7 +93,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       height: 44,
-      backgroundColor: colors.navy[50],
+      backgroundColor: colors.card,
       borderRadius: 16,
       paddingHorizontal: 12,
       gap: 8,
@@ -103,14 +104,14 @@ export default function createStyles(colors) {
       borderRadius: 4,
     },
     dialCode: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },
     dialDivider: {
       width: 1,
       height: 24,
-      backgroundColor: colors.navy[200],
+      backgroundColor: colors.border,
       marginLeft: 10,
       marginRight: 8,
     },
@@ -124,10 +125,10 @@ export default function createStyles(colors) {
       marginTop: 14,
     },
     bannerBlocked: {
-      backgroundColor: '#FDECEC',
+      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : '#FDECEC',
     },
     bannerCooldown: {
-      backgroundColor: '#FFF6E5',
+      backgroundColor: colors.isDark ? 'rgba(244,165,38,0.18)' : '#FFF6E5',
     },
     bannerRow: {
       flexDirection: 'row',
@@ -143,10 +144,10 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     bannerTitleBlocked: {
-      color: colors.red[600],
+      color: colors.isDark ? '#FCA5A5' : colors.red[600],
     },
     bannerTitleCooldown: {
-      color: '#C17A1A',
+      color: colors.isDark ? '#FCD34D' : '#C17A1A',
     },
     bannerBody: {
       fontSize: 13,
@@ -154,19 +155,19 @@ export default function createStyles(colors) {
       fontWeight: '400',
     },
     bannerBodyBlocked: {
-      color: colors.red[500],
+      color: colors.isDark ? '#FCA5A5' : colors.red[500],
     },
     bannerBodyCooldown: {
-      color: '#C17A1A',
+      color: colors.isDark ? '#FCD34D' : '#C17A1A',
     },
     cooldownHint: {
       fontSize: 14,
       lineHeight: 20,
-      color: '#8B95A6',
+      color: colors.muted,
     },
     support: {
       marginTop: 10,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 13,
       fontWeight: '700',
     },
@@ -176,7 +177,7 @@ export default function createStyles(colors) {
     },
     terms: {
       marginTop: 12,
-      color: '#8B95A6',
+      color: colors.muted,
       fontSize: 12,
       lineHeight: 16,
       fontWeight: '400',
@@ -184,7 +185,7 @@ export default function createStyles(colors) {
       textAlign: 'center',
     },
     termsBrand: {
-      color: colors.navy[700],
+      color: colors.text,
       fontSize: 14,
       lineHeight: 14,
       fontWeight: '600',

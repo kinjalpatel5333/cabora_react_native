@@ -155,7 +155,7 @@ export default function ChooseRideModal({
             <MaterialDesignIcons
               name="map-marker"
               size={36}
-              color={colors.navy[800]}
+              color={colors.text}
             />
           </View>
         </View>
@@ -167,7 +167,7 @@ export default function ChooseRideModal({
           <MaterialDesignIcons
             name="crosshairs-gps"
             size={22}
-            color={colors.navy[800]}
+            color={colors.text}
           />
         </Pressable>
 
@@ -196,7 +196,7 @@ export default function ChooseRideModal({
             <Pressable
               style={styles.scheduleBtn}
               onPress={() => setScheduleOpen(true)}>
-              <Feather name="calendar" size={15} color={colors.navy[800]} />
+              <Feather name="calendar" size={15} color={colors.text} />
               <Text style={styles.scheduleText}>Schedule</Text>
             </Pressable>
           </View>
@@ -209,8 +209,8 @@ export default function ChooseRideModal({
             {RIDES.map(ride => {
               const active = ride.id === selectedId;
               const iconColor = active
-                ? colors.orange[600]
-                : colors.navy[800];
+                ? colors.orange[500]
+                : colors.text;
               return (
                 <Pressable
                   key={ride.id}
@@ -251,7 +251,7 @@ export default function ChooseRideModal({
               <MaterialDesignIcons
                 name="currency-inr"
                 size={18}
-                color={colors.navy[800]}
+                color={colors.text}
               />
             </View>
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
@@ -294,7 +294,7 @@ export default function ChooseRideModal({
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <PaymentOffersModal

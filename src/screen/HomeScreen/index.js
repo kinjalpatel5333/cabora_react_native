@@ -56,7 +56,11 @@ function initials(name) {
 }
 
 function ExploreIcon({icon, more, colors}) {
-  const tint = more ? colors.orange[600] : colors.navy[800];
+  const tint = more
+    ? colors.orange[500]
+    : colors.isDark
+    ? '#FFFFFF'
+    : colors.navy[800];
   if (icon === 'rickshaw') {
     return <MaterialDesignIcons name="rickshaw" size={28} color={tint} />;
   }
@@ -272,7 +276,7 @@ export default function HomeScreen() {
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
           <View style={styles.menuBtn}>
-            <Feather name="menu" size={22} color={colors.navy[800]} />
+            <Feather name="menu" size={22} color={colors.text} />
           </View>
 
           <Pressable
@@ -343,7 +347,7 @@ export default function HomeScreen() {
           <MaterialDesignIcons
             name="crosshairs-gps"
             size={22}
-            color={colors.navy[800]}
+            color={colors.text}
           />
         </Pressable>
       ) : null}
@@ -401,7 +405,7 @@ export default function HomeScreen() {
                   }}
                   accessibilityRole="button"
                   accessibilityLabel="Leave now">
-                  <Feather name="clock" size={15} color={colors.orange[600]} />
+                  <Feather name="clock" size={15} color={colors.orange[500]} />
                   <Text style={styles.nowText}>Now</Text>
                 </Pressable>
               </Pressable>
@@ -415,7 +419,7 @@ export default function HomeScreen() {
                   }}
                   accessibilityRole="button"
                   accessibilityLabel="Go home">
-                  <Feather name="home" size={16} color={colors.navy[800]} />
+                  <Feather name="home" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
                   <Text style={styles.shortcutText}>Home</Text>
                 </Pressable>
                 <Pressable
@@ -429,7 +433,7 @@ export default function HomeScreen() {
                   <Feather
                     name="briefcase"
                     size={16}
-                    color={colors.navy[800]}
+                    color={colors.isDark ? colors.orange[500] : colors.navy[800]}
                   />
                   <Text style={styles.shortcutText}>Work</Text>
                 </Pressable>
@@ -438,7 +442,7 @@ export default function HomeScreen() {
                   onPress={() => navigation.navigate('SavedPlaces')}
                   accessibilityRole="button"
                   accessibilityLabel="Add saved place">
-                  <Feather name="plus" size={16} color={colors.navy[800]} />
+                  <Feather name="plus" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
                   <Text style={styles.shortcutText}>Add</Text>
                 </Pressable>
               </View>
@@ -510,7 +514,7 @@ export default function HomeScreen() {
                   <Lucide
                     name="navigation"
                     size={18}
-                    color={colors.navy[800]}
+                    color={colors.isDark ? '#FFFFFF' : colors.navy[800]}
                   />
                 </View>
                 <View style={styles.recentCopy}>
@@ -522,7 +526,7 @@ export default function HomeScreen() {
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.gray[400]}
+                  color={colors.textMuted}
                 />
               </Pressable>
 
@@ -550,7 +554,7 @@ export default function HomeScreen() {
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.orange[600]}
+                  color={colors.orange[500]}
                 />
               </Pressable>
               </View>

@@ -150,15 +150,15 @@ export function DriverOnWaySheet({
 
       <View style={styles.actionsRow}>
         <Pressable style={styles.actionBtn}>
-          <Feather name="phone" size={18} color={colors.navy[800]} />
+          <Feather name="phone" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Call</Text>
         </Pressable>
         <Pressable style={styles.actionBtn}>
-          <Feather name="message-circle" size={18} color={colors.navy[800]} />
+          <Feather name="message-circle" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Chat</Text>
         </Pressable>
         <Pressable style={styles.actionBtn} onPress={onShare}>
-          <Feather name="upload" size={18} color={colors.navy[800]} />
+          <Feather name="upload" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Share trip</Text>
         </Pressable>
         <Pressable
@@ -247,10 +247,10 @@ export function OnTripSheet({
           </Text>
         </View>
         <Pressable style={styles.miniAction}>
-          <Feather name="phone" size={16} color={colors.navy[800]} />
+          <Feather name="phone" size={16} color={colors.text} />
         </Pressable>
         <Pressable style={styles.miniAction}>
-          <Feather name="message-circle" size={16} color={colors.navy[800]} />
+          <Feather name="message-circle" size={16} color={colors.text} />
         </Pressable>
       </View>
 

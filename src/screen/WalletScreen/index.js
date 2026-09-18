@@ -108,15 +108,30 @@ export default function WalletScreen() {
   }, [tab]);
 
   const iconColors = {
-    navy: {bg: colors.navy[100], fg: colors.navy[800]},
-    green: {bg: colors.green[100], fg: colors.green[600]},
-    blue: {bg: colors.blue[100], fg: colors.blue[600]},
-    orange: {bg: colors.orange[100], fg: colors.orange[600]},
+    navy: {
+      bg: colors.isDark ? '#1C3F5E' : colors.navy[100],
+      fg: colors.isDark ? '#C3CFDF' : colors.navy[800],
+    },
+    green: {
+      bg: colors.isDark ? 'rgba(38, 168, 94, 0.2)' : colors.green[100],
+      fg: colors.green[500],
+    },
+    blue: {
+      bg: colors.isDark ? 'rgba(46, 123, 231, 0.2)' : colors.blue[100],
+      fg: colors.blue[500],
+    },
+    orange: {
+      bg: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      fg: colors.orange[500],
+    },
   };
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar
+        barStyle={colors.barStyle}
+        backgroundColor={colors.background}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
@@ -133,7 +148,7 @@ export default function WalletScreen() {
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             hitSlop={8}>
-            <Feather name="menu" size={20} color={colors.navy[900]} />
+            <Feather name="menu" size={20} color={colors.text} />
           </Pressable>
           <Text style={styles.title}>Wallet</Text>
           <Pressable
@@ -144,7 +159,7 @@ export default function WalletScreen() {
             accessibilityRole="button"
             accessibilityLabel="Help"
             hitSlop={8}>
-            <Feather name="help-circle" size={20} color={colors.navy[900]} />
+            <Feather name="help-circle" size={20} color={colors.text} />
           </Pressable>
         </View>
 

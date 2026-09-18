@@ -80,7 +80,7 @@ export default function PortalStep3Screen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -88,7 +88,7 @@ export default function PortalStep3Screen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Choose a rider</Text>
         <Pressable
@@ -97,7 +97,7 @@ export default function PortalStep3Screen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -141,8 +141,8 @@ export default function PortalStep3Screen() {
             {RIDERS.map(item => {
               const active = item.id === riderId;
               const iconColor = active
-                ? colors.orange[600]
-                : colors.navy[800];
+                ? colors.primary
+                : colors.text;
               return (
                 <Pressable
                   key={item.id}
@@ -175,7 +175,7 @@ export default function PortalStep3Screen() {
                             item.badgeTone === 'blue' &&
                               styles.riderBadgeTextAlt,
                           ]}>
-                          {item.badge}
+                            {item.badge}
                         </Text>
                       </View>
                     ) : null}
@@ -209,7 +209,7 @@ export default function PortalStep3Screen() {
 
         <View style={styles.payCard}>
           <View style={styles.payIcon}>
-            <Feather name="credit-card" size={18} color={colors.navy[800]} />
+            <Feather name="credit-card" size={18} color={colors.text} />
           </View>
           <View style={styles.payCopy}>
             <Text style={styles.payTitle}>HDFC ....4821</Text>

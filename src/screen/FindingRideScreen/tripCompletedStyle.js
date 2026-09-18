@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#F0F7F1',
+      backgroundColor: colors.isDark ? '#071A2B' : '#F0F7F1',
       overflow: 'hidden',
     },
     mintWash: {
@@ -12,12 +12,12 @@ export default function createStyles(colors) {
       top: 0,
       left: 0,
       right: 0,
-      backgroundColor: '#F0F7F1',
+      backgroundColor: colors.isDark ? '#0B243B' : '#F0F7F1',
       zIndex: 0,
     },
     softCircle: {
       position: 'absolute',
-      backgroundColor: '#DCEFDD',
+      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.12)' : '#DCEFDD',
       zIndex: 0,
     },
     scrollFlex: {
@@ -38,13 +38,13 @@ export default function createStyles(colors) {
       width: 52,
       height: 52,
       borderRadius: 26,
-      backgroundColor: '#C5E6C8',
+      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.25)' : '#C5E6C8',
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 18,
     },
     title: {
-      color: '#1B5E20',
+      color: colors.isDark ? '#4ADE80' : '#1B5E20',
       fontSize: 30,
       fontWeight: '800',
       marginBottom: 10,
@@ -52,7 +52,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.3,
     },
     meta: {
-      color: '#3D8B4A',
+      color: colors.isDark ? '#86EFAC' : '#3D8B4A',
       fontSize: 14,
       fontWeight: '500',
       textAlign: 'center',
@@ -62,7 +62,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 20,
       paddingTop: 8,
       paddingBottom: 24,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
       flexGrow: 1,
     },
     tripCard: {
@@ -85,14 +85,14 @@ export default function createStyles(colors) {
     timelineLine: {
       width: 2,
       flex: 1,
-      backgroundColor: colors.gray[300],
+      backgroundColor: colors.border,
       marginVertical: 5,
     },
     dropSquare: {
       width: 12,
       height: 12,
       borderRadius: 3,
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? colors.white : colors.navy[800],
     },
     tripCopy: {
       flex: 1,
@@ -101,30 +101,30 @@ export default function createStyles(colors) {
     },
     tripBlock: {},
     tripLabel: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 4,
     },
     tripAddress: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '700',
       lineHeight: 21,
     },
     fareCard: {
       borderWidth: 1,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       borderRadius: 18,
       paddingHorizontal: 16,
       paddingTop: 14,
       paddingBottom: 8,
       marginBottom: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     fareTitle: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.8,
@@ -137,14 +137,14 @@ export default function createStyles(colors) {
       paddingVertical: 8,
     },
     fareLabel: {
-      color: colors.gray[600],
+      color: colors.muted,
       fontSize: 14,
       fontWeight: '500',
       flex: 1,
       paddingRight: 12,
     },
     fareValue: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '700',
     },
@@ -159,7 +159,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.green[100],
+      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : colors.green[100],
       borderRadius: 14,
       paddingHorizontal: 14,
       paddingVertical: 13,
@@ -176,7 +176,7 @@ export default function createStyles(colors) {
       marginBottom: 2,
     },
     paidSub: {
-      color: colors.green[500],
+      color: colors.isDark ? colors.text : colors.green[500],
       fontSize: 12,
       fontWeight: '500',
     },
@@ -184,8 +184,8 @@ export default function createStyles(colors) {
       paddingHorizontal: 20,
       paddingTop: 14,
       borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colors.gray[200],
-      backgroundColor: colors.white,
+      borderTopColor: colors.border,
+      backgroundColor: colors.card,
     },
     totalRow: {
       flexDirection: 'row',
@@ -194,12 +194,12 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     totalLabel: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 18,
       fontWeight: '800',
     },
     totalValue: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 22,
       fontWeight: '800',
     },
@@ -217,3 +217,4 @@ export default function createStyles(colors) {
     },
   });
 }
+

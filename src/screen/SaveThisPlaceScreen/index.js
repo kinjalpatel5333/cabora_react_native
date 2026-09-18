@@ -133,7 +133,7 @@ export default function SaveThisPlaceScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={20} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={20} color={colors.text} />
         </Pressable>
       </View>
 

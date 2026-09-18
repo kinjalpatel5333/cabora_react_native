@@ -13,6 +13,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
+import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 
 const INITIAL_TODAY = [
@@ -124,6 +125,7 @@ function NotificationIcon({type, name, color}) {
 
 export default function NotificationsScreen() {
   const insets = useSafeAreaInsets();
+  const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -168,7 +170,10 @@ export default function NotificationsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F3F6FA" />
+      <StatusBar
+        barStyle={colors.barStyle}
+        backgroundColor={colors.background}
+      />
 
       {/* Header */}
       <View style={[styles.headerRow, {paddingTop: Math.max(insets.top, 20) + 8}]}>
@@ -179,7 +184,7 @@ export default function NotificationsScreen() {
             accessibilityRole="button"
             accessibilityLabel="Go back"
             hitSlop={8}>
-            <Feather name="arrow-left" size={20} color="#0F2840" />
+            <Feather name="arrow-left" size={20} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Notifications</Text>
         </View>

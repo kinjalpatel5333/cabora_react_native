@@ -87,7 +87,7 @@ export default function OutstationScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -95,7 +95,7 @@ export default function OutstationScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Outstation trip</Text>
         <Pressable
@@ -104,7 +104,7 @@ export default function OutstationScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -164,7 +164,7 @@ export default function OutstationScreen() {
             accessibilityRole="button"
             accessibilityLabel="Swap locations"
             hitSlop={8}>
-            <Feather name="refresh-cw" size={18} color={colors.gray[400]} />
+            <Feather name="refresh-cw" size={18} color={colors.textMuted} />
           </Pressable>
         </View>
 
@@ -210,7 +210,9 @@ export default function OutstationScreen() {
             {VEHICLES.map(vehicle => {
               const active = vehicle.id === vehicleId;
               const iconColor = active
-                ? colors.orange[600]
+                ? colors.primary
+                : colors.isDark
+                ? '#FFFFFF'
                 : colors.navy[800];
               return (
                 <Pressable

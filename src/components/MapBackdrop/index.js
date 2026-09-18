@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 import {images} from '../../assets';
+import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
@@ -9,11 +10,12 @@ import createStyles from './style';
  */
 export default function MapBackdrop({children}) {
   const styles = useThemedStyles(createStyles);
+  const {isDark} = useApp();
 
   return (
     <View style={styles.map} pointerEvents="none">
       <Image
-        source={images.homeMap}
+        source={isDark ? images.homeMapDark : images.homeMap}
         style={styles.mapImage}
         resizeMode="cover"
         accessibilityIgnoresInvertColors

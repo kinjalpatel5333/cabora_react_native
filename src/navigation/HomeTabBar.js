@@ -1,6 +1,5 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../context/AppContext';
@@ -81,8 +80,10 @@ export default function HomeTabBar({state, descriptors, navigation}) {
         style={[
           styles.pill,
           {
-            backgroundColor: colors.white,
-            shadowColor: colors.navy[900],
+            backgroundColor: colors.isDark ? colors.surface : colors.white,
+            borderWidth: colors.isDark ? 1 : 0,
+            borderColor: colors.border,
+            shadowColor: colors.isDark ? '#000000' : colors.navy[900],
           },
         ]}>
         <View style={styles.row}>
@@ -91,8 +92,21 @@ export default function HomeTabBar({state, descriptors, navigation}) {
             const label = options.tabBarLabel ?? options.title ?? route.name;
             const active = state.index === index;
             const tab = TABS.find(t => t.name === route.name) || TABS[0];
-            const iconTint = active ? colors.orange[600] : colors.gray[500];
-            const labelTint = active ? colors.navy[900] : colors.gray[500];
+            const iconTint = active
+              ? colors.orange[500]
+              : colors.isDark
+              ? colors.navy[400]
+              : colors.gray[500];
+            const labelTint = active
+              ? colors.isDark
+                ? '#FFFFFF'
+                : colors.navy[900]
+              : colors.isDark
+              ? colors.navy[300]
+              : colors.gray[500];
+            const chipActiveBg = colors.isDark
+              ? 'rgba(255, 112, 6, 0.22)'
+              : colors.orange[100];
             const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -115,7 +129,7 @@ export default function HomeTabBar({state, descriptors, navigation}) {
                   style={[
                     styles.tabChip,
                     active && styles.tabChipActive,
-                    active && {backgroundColor: colors.orange[100]},
+                    active && {backgroundColor: chipActiveBg},
                   ]}>
                   <TabGlyph
                     kind={tab.kind}

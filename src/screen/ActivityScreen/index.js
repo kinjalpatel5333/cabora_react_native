@@ -132,7 +132,10 @@ export default function ActivityScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar
+        barStyle={colors.barStyle}
+        backgroundColor={colors.background}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -150,7 +153,11 @@ export default function ActivityScreen() {
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             hitSlop={8}>
-            <Feather name="menu" size={20} color={colors.navy[900]} />
+            <Feather
+              name="menu"
+              size={20}
+              color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+            />
           </Pressable>
           <Text style={styles.title}>Your rides</Text>
           <View style={styles.headerActions}>
@@ -160,7 +167,11 @@ export default function ActivityScreen() {
               accessibilityRole="button"
               accessibilityLabel="Calendar"
               hitSlop={8}>
-              <Feather name="calendar" size={20} color={colors.navy[900]} />
+              <Feather
+                name="calendar"
+                size={20}
+                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+              />
             </Pressable>
             <Pressable
               style={[styles.iconBtn, styles.iconBtnOutline]}
@@ -171,19 +182,25 @@ export default function ActivityScreen() {
               <MaterialDesignIcons
                 name="filter-variant"
                 size={22}
-                color={colors.navy[900]}
+                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
               />
             </Pressable>
           </View>
         </View>
 
         <View style={styles.searchBox}>
-          <Feather name="search" size={18} color={colors.gray[400]} />
+          <Feather
+            name="search"
+            size={18}
+            color={colors.isDark ? '#FFFFFF' : colors.gray[400]}
+          />
           <TextInput
             value={query}
             onChangeText={setQuery}
             placeholder="Search by place, date or fare"
-            placeholderTextColor={colors.gray[400]}
+            placeholderTextColor={
+              colors.isDark ? 'rgba(255, 255, 255, 0.75)' : colors.gray[400]
+            }
             style={styles.searchInput}
             returnKeyType="search"
             clearButtonMode="while-editing"
@@ -215,15 +232,15 @@ export default function ActivityScreen() {
                 const isCompleted = ride.status === 'completed';
                 const isCancelled = ride.status === 'cancelled';
                 const pillBg = isCompleted
-                  ? colors.green[100]
+                  ? colors.isDark ? 'rgba(34, 197, 94, 0.2)' : colors.green[100]
                   : isCancelled
-                    ? colors.red[100]
-                    : colors.orange[100];
+                    ? colors.isDark ? 'rgba(239, 68, 68, 0.2)' : colors.red[100]
+                    : colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100];
                 const pillColor = isCompleted
-                  ? colors.green[600]
+                  ? colors.green[500]
                   : isCancelled
                     ? colors.red[500]
-                    : colors.orange[700];
+                    : colors.primary;
                 const statusLabel = isCompleted
                   ? 'Completed'
                   : isCancelled
@@ -278,7 +295,7 @@ export default function ActivityScreen() {
                     <View style={styles.rideFooter}>
                       <RideVehicleIcon
                         name={ride.icon}
-                        color={colors.gray[500]}
+                        color={colors.muted}
                       />
                       <Text style={styles.rideMeta} numberOfLines={1}>
                         {ride.vehicle} · {ride.meta}
@@ -287,7 +304,7 @@ export default function ActivityScreen() {
                       <Feather
                         name="chevron-right"
                         size={18}
-                        color={colors.gray[400]}
+                        color={colors.muted}
                       />
                     </View>
                   </Pressable>
@@ -298,7 +315,7 @@ export default function ActivityScreen() {
         ) : (
           <View style={styles.emptyWrap}>
             <View style={styles.emptyIcon}>
-              <Lucide name="car" size={40} color={colors.navy[900]} />
+              <Lucide name="car" size={40} color={colors.text} />
             </View>
             <Text style={styles.emptyTitle}>
               {query.trim()

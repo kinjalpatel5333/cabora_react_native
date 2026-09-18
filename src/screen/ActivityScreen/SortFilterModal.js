@@ -89,27 +89,39 @@ function FareRangeSlider({minValue, maxValue, onChange, colors, styles}) {
     });
   };
 
-  const makeResponder = side =>
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        measureTrack();
-      },
-      onPanResponderMove: (_, g) => {
-        const next = valueFromPageX(g.moveX);
-        if (side === 'min') {
+  const minPan = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+          measureTrack();
+        },
+        onPanResponderMove: (_evt, g) => {
+          const next = valueFromPageX(g.moveX);
           const min = Math.min(next, values.current.max - FARE_STEP);
           onChange([min, values.current.max]);
-        } else {
+        },
+      }),
+    [onChange],
+  );
+
+  const maxPan = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+          measureTrack();
+        },
+        onPanResponderMove: (_evt, g) => {
+          const next = valueFromPageX(g.moveX);
           const max = Math.max(next, values.current.min + FARE_STEP);
           onChange([values.current.min, max]);
-        }
-      },
-    });
-
-  const minPan = useMemo(() => makeResponder('min'), [onChange]);
-  const maxPan = useMemo(() => makeResponder('max'), [onChange]);
+        },
+      }),
+    [onChange],
+  );
 
   const minX = toX(minValue);
   const maxX = toX(maxValue);
@@ -142,7 +154,7 @@ function FareRangeSlider({minValue, maxValue, onChange, colors, styles}) {
             styles.sliderThumb,
             {
               left: Math.max(0, minX - THUMB / 2),
-              borderColor: colors.orange[500],
+              borderColor: colors.primary,
             },
           ]}
         />
@@ -153,7 +165,7 @@ function FareRangeSlider({minValue, maxValue, onChange, colors, styles}) {
             styles.sliderThumb,
             {
               left: Math.max(0, maxX - THUMB / 2),
-              borderColor: colors.orange[500],
+              borderColor: colors.primary,
             },
           ]}
         />
@@ -327,7 +339,7 @@ export default function SortFilterModal({
                       );
                     })}
                     {row.length < 5
-                      ? Array.from({length: 5 - row.length}, (_, i) => (
+                      ? Array.from({length: 5 - row.length}, (_pad, i) => (
                           <View
                             key={`pad-${i}`}
                             style={styles.serviceChipSpacer}

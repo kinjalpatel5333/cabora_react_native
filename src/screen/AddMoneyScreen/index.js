@@ -70,7 +70,7 @@ export default function AddMoneyScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -78,7 +78,7 @@ export default function AddMoneyScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Add money</Text>
         <View style={styles.headerBtn} />

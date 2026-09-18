@@ -166,11 +166,11 @@ export default function ScheduleRideModal({
             style={styles.headerBtn}
             onPress={onClose}
             hitSlop={8}>
-            <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+            <Feather name="arrow-left" size={22} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Schedule a ride</Text>
           <Pressable style={styles.headerBtn} hitSlop={8}>
-            <Feather name="help-circle" size={22} color={colors.navy[800]} />
+            <Feather name="help-circle" size={22} color={colors.text} />
           </Pressable>
         </View>
 
@@ -203,7 +203,7 @@ export default function ScheduleRideModal({
               </View>
             </View>
             <Pressable style={styles.editBtn} onPress={onClose} hitSlop={8}>
-              <Feather name="edit-2" size={18} color={colors.navy[700]} />
+              <Feather name="edit-2" size={18} color={colors.text} />
             </Pressable>
           </View>
 
@@ -217,7 +217,7 @@ export default function ScheduleRideModal({
                 style={styles.monthNavBtn}
                 onPress={() => shiftMonth(-1)}
                 hitSlop={6}>
-                <Feather name="chevron-left" size={18} color={colors.navy[800]} />
+                <Feather name="chevron-left" size={18} color={colors.text} />
               </Pressable>
               <Pressable
                 style={styles.monthNavBtn}
@@ -226,7 +226,7 @@ export default function ScheduleRideModal({
                 <Feather
                   name="chevron-right"
                   size={18}
-                  color={colors.navy[800]}
+                  color={colors.text}
                 />
               </Pressable>
             </View>
@@ -291,7 +291,7 @@ export default function ScheduleRideModal({
               const active = vehicle.id === vehicleId;
               const iconColor = active
                 ? colors.orange[500]
-                : colors.navy[800];
+                : colors.text;
               return (
                 <Pressable
                   key={vehicle.id}
@@ -319,7 +319,7 @@ export default function ScheduleRideModal({
 
           <View style={styles.paymentCard}>
             <View style={styles.paymentIcon}>
-              <Feather name="credit-card" size={18} color={colors.navy[800]} />
+              <Feather name="credit-card" size={18} color={colors.text} />
             </View>
             <View style={styles.paymentCopy}>
               <Text style={styles.paymentTitle}>{paymentLabel}</Text>

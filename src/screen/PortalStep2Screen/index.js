@@ -96,7 +96,7 @@ export default function PortalStep2Screen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -104,7 +104,7 @@ export default function PortalStep2Screen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle} numberOfLines={1}>
           What are you sending?
@@ -115,7 +115,7 @@ export default function PortalStep2Screen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -141,8 +141,8 @@ export default function PortalStep2Screen() {
                   item => {
                     const active = item.id === typeId;
                     const tint = active
-                      ? colors.orange[600]
-                      : colors.gray[500];
+                      ? colors.primary
+                      : colors.muted;
                     return (
                       <Pressable
                         key={item.id}

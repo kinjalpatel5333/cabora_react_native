@@ -13,17 +13,17 @@ export default function createStyles(colors) {
     },
     idle: {
       backgroundColor: colors.surface,
-      borderColor: colors.gray[300],
+      borderColor: colors.border,
     },
     idlePressed: {
-      backgroundColor: colors.gray[50],
+      backgroundColor: colors.card,
     },
     selected: {
-      backgroundColor: colors.orange[50],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
       borderColor: colors.primary,
     },
     selectedPressed: {
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.25)' : colors.orange[100],
     },
     disabled: {
       backgroundColor: colors.disabledBg,
@@ -34,7 +34,7 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     labelIdle: {
-      color: colors.navy[800],
+      color: colors.text,
     },
     labelSelected: {
       color: colors.primary,

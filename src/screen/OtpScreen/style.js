@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     body: {
       flex: 1,
@@ -17,7 +17,9 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 20,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
+      borderWidth: colors.isDark ? 1 : 0,
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 24,
@@ -31,16 +33,16 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     avatarChat: {
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.18)' : colors.orange[100],
     },
     avatarPaused: {
-      backgroundColor: colors.red[100],
+      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
     },
     avatarVerified: {
-      backgroundColor: colors.green[100],
+      backgroundColor: colors.isDark ? 'rgba(38,168,94,0.18)' : colors.green[100],
     },
     title: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 28,
       fontWeight: '800',
       letterSpacing: -0.4,
@@ -53,7 +55,7 @@ export default function createStyles(colors) {
       marginBottom: 28,
     },
     metaText: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 14,
     },
     change: {
@@ -76,31 +78,31 @@ export default function createStyles(colors) {
       borderRadius: 18,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.gray[50],
+      backgroundColor: colors.surface,
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
     },
     boxFilled: {
-      backgroundColor: colors.white,
-      borderColor: colors.navy[200],
+      backgroundColor: colors.card,
+      borderColor: colors.primary,
     },
     boxFocused: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderColor: colors.primary,
     },
     boxError: {
-      backgroundColor: '#FFF7F7',
+      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.15)' : '#FFF7F7',
       borderColor: colors.danger,
     },
     boxSuccess: {
-      backgroundColor: colors.green[100],
+      backgroundColor: colors.isDark ? 'rgba(38,168,94,0.15)' : colors.green[100],
       borderColor: colors.green[600],
       borderWidth: 1.5,
     },
     boxDigit: {
       fontSize: 22,
       fontWeight: '700',
-      color: colors.navy[900],
+      color: colors.text,
     },
     boxDigitError: {
       color: colors.danger,
@@ -131,7 +133,7 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 13,
       lineHeight: 18,
-      color: colors.gray[500],
+      color: colors.muted,
     },
     hintError: {
       color: colors.danger,
@@ -142,23 +144,23 @@ export default function createStyles(colors) {
     banner: {
       borderRadius: 16,
       padding: 14,
-      backgroundColor: colors.red[100],
+      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
       marginBottom: 14,
     },
     bannerTitle: {
-      color: colors.red[600],
+      color: colors.isDark ? '#FCA5A5' : colors.red[600],
       fontSize: 14,
       fontWeight: '700',
       marginBottom: 4,
     },
     bannerBody: {
-      color: colors.red[600],
+      color: colors.isDark ? '#FCA5A5' : colors.red[600],
       fontSize: 13,
       lineHeight: 19,
     },
     support: {
       marginTop: 8,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 13,
       fontWeight: '700',
     },
@@ -170,15 +172,17 @@ export default function createStyles(colors) {
       paddingVertical: 8,
       paddingHorizontal: 12,
       borderRadius: 999,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
+      borderWidth: colors.isDark ? 1 : 0,
+      borderColor: colors.border,
     },
     chipResend: {
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.18)' : colors.orange[100],
     },
     chipLabel: {
       fontSize: 13,
       fontWeight: '600',
-      color: colors.gray[500],
+      color: colors.muted,
     },
     chipLabelResend: {
       color: colors.primary,
@@ -190,11 +194,11 @@ export default function createStyles(colors) {
     help: {
       marginTop: 14,
       textAlign: 'center',
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 13,
     },
     helpLink: {
-      color: colors.gray[600],
+      color: colors.primary,
       fontWeight: '600',
     },
     verifyButton: {

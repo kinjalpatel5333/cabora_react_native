@@ -145,15 +145,15 @@ function placesMatch(a, b) {
 
 function PlaceIcon({icon, colors}) {
   if (icon === 'home') {
-    return <Feather name="home" size={18} color={colors.navy[800]} />;
+    return <Feather name="home" size={18} color={colors.text} />;
   }
   if (icon === 'briefcase') {
-    return <Feather name="briefcase" size={18} color={colors.navy[800]} />;
+    return <Feather name="briefcase" size={18} color={colors.text} />;
   }
   if (icon === 'navigation') {
-    return <Lucide name="navigation" size={18} color={colors.navy[800]} />;
+    return <Lucide name="navigation" size={18} color={colors.text} />;
   }
-  return <Feather name="map-pin" size={18} color={colors.navy[800]} />;
+  return <Feather name="map-pin" size={18} color={colors.text} />;
 }
 
 export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
@@ -338,7 +338,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         onChangeText={setPickup}
                         onBlur={() => setEditingPickup(false)}
                         autoFocus
-                        placeholderTextColor={colors.gray[400]}
+                        placeholderTextColor={
+                          colors.isDark ? colors.muted : colors.gray[400]
+                        }
                       />
                     ) : (
                       <Text style={styles.fieldValue} numberOfLines={1}>
@@ -350,7 +352,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                       accessibilityLabel="Edit pickup"
                       onPress={() => setEditingPickup(true)}
                       hitSlop={8}>
-                      <Feather name="edit-2" size={16} color={colors.gray[400]} />
+                      <Feather
+                        name="edit-2"
+                        size={16}
+                        color={colors.isDark ? colors.muted : colors.gray[400]}
+                      />
                     </Pressable>
                   </View>
 
@@ -367,7 +373,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         setNotifySaved(false);
                       }}
                       placeholder="Search a place, area or landmark"
-                      placeholderTextColor={colors.gray[400]}
+                      placeholderTextColor={
+                        colors.isDark ? colors.muted : colors.gray[400]
+                      }
                       returnKeyType="search"
                     />
                     {destination.length > 0 ? (
@@ -379,7 +387,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         <Feather
                           name="x-circle"
                           size={18}
-                          color={colors.gray[400]}
+                          color={
+                            colors.isDark ? colors.muted : colors.gray[400]
+                          }
                         />
                       </Pressable>
                     ) : null}
@@ -398,7 +408,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
 
               <View style={styles.actions}>
                 <Pressable style={styles.actionChip}>
-                  <Feather name="map-pin" size={15} color={colors.navy[800]} />
+                  <Feather name="map-pin" size={15} color={colors.text} />
                   <Text style={styles.actionChipText}>Choose on map</Text>
                 </Pressable>
                 <Pressable
@@ -417,7 +427,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                     name="plus"
                     size={15}
                     color={
-                      canOpenAddStop ? colors.navy[800] : colors.gray[400]
+                      canOpenAddStop
+                        ? colors.text
+                        : colors.isDark
+                        ? colors.muted
+                        : colors.gray[400]
                     }
                   />
                   <Text
@@ -504,7 +518,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                           <Feather
                             name="map-pin"
                             size={18}
-                            color={colors.navy[800]}
+                            color={colors.text}
                           />
                         ) : (
                           <PlaceIcon icon={item.icon} colors={colors} />
@@ -554,7 +568,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <YourRouteModal

@@ -231,7 +231,7 @@ export default function YourRouteModal({
                       moveStop(item.id, index < stops.length / 2 ? 1 : -1);
                     }}
                     style={styles.dragHandle}>
-                    <Feather name="menu" size={18} color={colors.gray[400]} />
+                    <Feather name="menu" size={18} color={colors.muted} />
                   </Pressable>
 
                   <View
@@ -256,7 +256,7 @@ export default function YourRouteModal({
                       accessibilityLabel={`Remove ${item.label}`}
                       onPress={() => removeStop(item.id)}
                       hitSlop={8}>
-                      <Feather name="x" size={18} color={colors.gray[400]} />
+                      <Feather name="x" size={18} color={colors.muted} />
                     </Pressable>
                   ) : (
                     <View style={styles.xSpacer} />
@@ -267,7 +267,7 @@ export default function YourRouteModal({
 
             {canAddStop ? (
               <Pressable style={styles.addStopBtn} onPress={addStop}>
-                <Feather name="plus" size={18} color={colors.orange[600]} />
+                <Feather name="plus" size={18} color={colors.orange[500]} />
                 <Text style={styles.addStopText}>Add another stop</Text>
               </Pressable>
             ) : (
@@ -300,7 +300,7 @@ export default function YourRouteModal({
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
       </View>
     </Modal>

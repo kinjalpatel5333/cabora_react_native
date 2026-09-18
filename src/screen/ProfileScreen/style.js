@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#F3F6FA',
+      backgroundColor: colors.background,
     },
     hero: {
       backgroundColor: '#071C31',
@@ -147,17 +147,17 @@ export default function createStyles(colors) {
       paddingTop: 14,
     },
     sectionLabel: {
-      color: '#7E8B9E',
+      color: colors.textSub,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
     card: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 18,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       overflow: 'hidden',
       marginBottom: 18,
     },
@@ -169,13 +169,13 @@ export default function createStyles(colors) {
     },
     rowBorder: {
       borderBottomWidth: 1,
-      borderBottomColor: '#F0F3F7',
+      borderBottomColor: colors.borderLight,
     },
     rowIconBox: {
       width: 38,
       height: 38,
       borderRadius: 12,
-      backgroundColor: '#F0F4F8',
+      backgroundColor: colors.iconBg,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 12,
@@ -185,13 +185,13 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     rowTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 15,
       fontWeight: '700',
       marginBottom: 2,
     },
     rowSub: {
-      color: '#6E7C91',
+      color: colors.textMuted,
       fontSize: 13.5,
       fontWeight: '400',
       lineHeight: 18,
@@ -207,7 +207,7 @@ export default function createStyles(colors) {
       backgroundColor: '#FF7006',
     },
     toggleTrackInactive: {
-      backgroundColor: '#B5BFC9',
+      backgroundColor: colors.isDark ? '#3D526B' : '#B5BFC9',
     },
     toggleThumb: {
       width: 20,
@@ -223,12 +223,15 @@ export default function createStyles(colors) {
     toggleThumbActive: {
       alignSelf: 'flex-end',
     },
+    toggleThumbInactive: {
+      alignSelf: 'flex-start',
+    },
     deleteIconBox: {
-      backgroundColor: '#FEECEC',
+      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : '#FEECEC',
     },
     modalOverlay: {
       flex: 1,
-      backgroundColor: 'rgba(7, 28, 49, 0.65)',
+      backgroundColor: colors.overlay,
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 20,
@@ -236,7 +239,7 @@ export default function createStyles(colors) {
     modalCard: {
       width: '100%',
       maxWidth: 350,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.surface,
       borderRadius: 28,
       paddingHorizontal: 22,
       paddingTop: 28,
@@ -252,20 +255,20 @@ export default function createStyles(colors) {
       width: 64,
       height: 64,
       borderRadius: 32,
-      backgroundColor: '#FEECEC',
+      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : '#FEECEC',
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 16,
     },
     modalTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 20,
       fontWeight: '800',
       textAlign: 'center',
       marginBottom: 8,
     },
     modalSub: {
-      color: '#64748B',
+      color: colors.textMuted,
       fontSize: 14,
       fontWeight: '400',
       textAlign: 'center',
@@ -275,7 +278,7 @@ export default function createStyles(colors) {
     },
     modalInfoBox: {
       width: '100%',
-      backgroundColor: '#F8FAFC',
+      backgroundColor: colors.cardHighlight,
       borderRadius: 16,
       padding: 16,
       marginBottom: 22,
@@ -288,7 +291,7 @@ export default function createStyles(colors) {
     },
     modalInfoText: {
       flex: 1,
-      color: '#334155',
+      color: colors.text,
       fontSize: 13,
       fontWeight: '500',
       lineHeight: 18,

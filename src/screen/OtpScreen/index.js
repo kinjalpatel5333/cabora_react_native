@@ -239,7 +239,7 @@ export default function OtpScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top + 8}]}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={colors.barStyle} />
       <KeyboardAvoidingView
         style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -248,7 +248,7 @@ export default function OtpScreen({navigation, route}) {
             accessibilityRole="button"
             onPress={() => navigation.goBack()}
             style={styles.back}>
-            <Feather name="arrow-left" size={20} color={colors.navy[900]} />
+            <Feather name="arrow-left" size={20} color={colors.text} />
           </Pressable>
 
           <View style={[styles.avatar, avatarStyle]}>

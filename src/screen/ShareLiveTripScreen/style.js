@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
@@ -12,7 +12,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 12,
       paddingBottom: 10,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     headerBtn: {
       width: 44,
@@ -23,7 +23,7 @@ export default function createStyles(colors) {
     headerTitle: {
       flex: 1,
       textAlign: 'center',
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 17,
       fontWeight: '700',
     },
@@ -35,7 +35,7 @@ export default function createStyles(colors) {
       borderRadius: 18,
       overflow: 'hidden',
       borderWidth: 1,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       marginBottom: 18,
       backgroundColor: colors.map.land,
     },
@@ -101,7 +101,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 8,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 999,
       paddingVertical: 10,
       paddingHorizontal: 12,
@@ -113,12 +113,12 @@ export default function createStyles(colors) {
       elevation: 3,
     },
     etaText: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 13,
       fontWeight: '700',
     },
     sectionLabel: {
-      color: colors.gray[400],
+      color: colors.muted,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 1.1,
@@ -143,12 +143,12 @@ export default function createStyles(colors) {
       borderWidth: 2.5,
     },
     avatarSelected: {
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
       borderColor: colors.orange[500],
     },
     avatarMuted: {
-      backgroundColor: colors.gray[200],
-      borderColor: colors.gray[200],
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
     },
     avatarText: {
       color: colors.white,
@@ -156,7 +156,7 @@ export default function createStyles(colors) {
       fontWeight: '800',
     },
     avatarTextMuted: {
-      color: colors.gray[500],
+      color: colors.muted,
     },
     addAvatar: {
       width: 54,
@@ -164,24 +164,24 @@ export default function createStyles(colors) {
       borderRadius: 27,
       borderWidth: 1.5,
       borderStyle: 'dashed',
-      borderColor: colors.gray[300],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 6,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     contactName: {
-      color: colors.navy[800],
+      color: colors.text,
       fontSize: 12,
       fontWeight: '600',
     },
     contactNameMuted: {
-      color: colors.gray[400],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '600',
     },
     orLabel: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 13,
       fontWeight: '500',
       marginBottom: 8,
@@ -189,7 +189,7 @@ export default function createStyles(colors) {
     phoneRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       borderRadius: 14,
       paddingLeft: 14,
       paddingRight: 6,
@@ -199,7 +199,7 @@ export default function createStyles(colors) {
     },
     phoneInput: {
       flex: 1,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '600',
       padding: 0,
@@ -217,13 +217,13 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     linkCard: {
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       borderRadius: 16,
       padding: 14,
       marginBottom: 12,
     },
     linkLabel: {
-      color: colors.gray[400],
+      color: colors.muted,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 1.1,
@@ -236,7 +236,7 @@ export default function createStyles(colors) {
     },
     linkText: {
       flex: 1,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '700',
     },
@@ -244,15 +244,15 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 5,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderWidth: 1,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       borderRadius: 999,
       paddingHorizontal: 12,
       paddingVertical: 8,
     },
     copyText: {
-      color: colors.navy[800],
+      color: colors.text,
       fontSize: 13,
       fontWeight: '700',
     },
@@ -260,14 +260,14 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.blue[100],
+      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.18)' : colors.blue[100],
       borderRadius: 14,
       paddingVertical: 12,
       paddingHorizontal: 14,
     },
     infoText: {
       flex: 1,
-      color: colors.navy[800],
+      color: colors.isDark ? colors.text : colors.navy[800],
       fontSize: 13,
       fontWeight: '500',
       lineHeight: 19,
@@ -279,7 +279,7 @@ export default function createStyles(colors) {
       bottom: 0,
       paddingHorizontal: 16,
       paddingTop: 10,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     shareBtn: {
       backgroundColor: colors.orange[500],
@@ -295,3 +295,4 @@ export default function createStyles(colors) {
     },
   });
 }
+

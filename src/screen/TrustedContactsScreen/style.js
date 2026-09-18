@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#F3F6FA',
+      backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
@@ -12,7 +12,9 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingBottom: 12,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
+      borderBottomWidth: colors.isDark ? 1 : 0,
+      borderBottomColor: colors.border,
     },
     headerBtn: {
       width: 40,
@@ -23,7 +25,7 @@ export default function createStyles(colors) {
     headerTitle: {
       flex: 1,
       textAlign: 'center',
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 18,
       fontWeight: '700',
     },
@@ -34,10 +36,10 @@ export default function createStyles(colors) {
     statusCard: {
       flexDirection: 'row',
       alignItems: 'flex-start',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       padding: 14,
       marginBottom: 16,
     },
@@ -49,29 +51,29 @@ export default function createStyles(colors) {
       flex: 1,
     },
     statusTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 14.5,
       fontWeight: '700',
       marginBottom: 3,
     },
     statusSub: {
-      color: '#6E7C91',
+      color: colors.textMuted,
       fontSize: 12,
       fontWeight: '400',
       lineHeight: 16,
     },
     sectionLabel: {
-      color: '#7E8B9E',
+      color: colors.textSub,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
     contactCard: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       paddingHorizontal: 14,
       paddingTop: 12,
       paddingBottom: 10,
@@ -98,13 +100,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     contactName: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 14.5,
       fontWeight: '700',
       marginBottom: 2,
     },
     contactMeta: {
-      color: '#6E7C91',
+      color: colors.textMuted,
       fontSize: 11.5,
       fontWeight: '400',
     },
@@ -120,7 +122,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingTop: 4,
       borderTopWidth: 1,
-      borderTopColor: '#F4F6F9',
+      borderTopColor: colors.borderLight,
     },
     toggleItem: {
       flexDirection: 'row',
@@ -128,7 +130,7 @@ export default function createStyles(colors) {
       gap: 8,
     },
     toggleText: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 11.5,
       fontWeight: '500',
     },
@@ -143,7 +145,7 @@ export default function createStyles(colors) {
       backgroundColor: '#FF7006',
     },
     toggleTrackInactive: {
-      backgroundColor: '#B5BFC9',
+      backgroundColor: colors.isDark ? '#3D526B' : '#B5BFC9',
     },
     toggleThumb: {
       width: 20,
@@ -171,7 +173,7 @@ export default function createStyles(colors) {
       borderStyle: 'dashed',
       borderColor: '#FF7006',
       borderRadius: 16,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       height: 50,
       marginTop: 2,
       marginBottom: 14,
@@ -182,15 +184,15 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     privacyCard: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       padding: 14,
       marginBottom: 12,
     },
     privacyTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 13.5,
       fontWeight: '700',
       marginBottom: 10,
@@ -206,20 +208,20 @@ export default function createStyles(colors) {
     },
     privacyText: {
       flex: 1,
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 12,
       fontWeight: '400',
       lineHeight: 16,
     },
     privacyTextMuted: {
-      color: '#6E7C91',
+      color: colors.textMuted,
     },
     footer: {
       paddingHorizontal: 16,
       paddingTop: 10,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderTopWidth: 1,
-      borderTopColor: '#F0F3F7',
+      borderTopColor: colors.borderLight,
     },
     saveBtn: {
       backgroundColor: '#FF7006',

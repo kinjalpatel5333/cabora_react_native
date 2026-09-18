@@ -17,6 +17,8 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
+import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
+import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import createStyles from './style';
 
 const SCREEN_W = Dimensions.get('window').width;
@@ -100,6 +102,12 @@ export default function ServicesScreen() {
   const navigation = useNavigation();
   const {showToast} = useToast();
   const [query, setQuery] = useState('');
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState({
+    id: 'hdfc',
+    label: 'HDFC ....4821',
+  });
   const tabInset = getHomeTabBarInset(insets);
 
   const rideItems = useMemo(() => {
@@ -140,6 +148,10 @@ export default function ServicesScreen() {
   }, [query]);
 
   const onSelectService = (label, id) => {
+    if (id === 'schedule') {
+      setScheduleOpen(true);
+      return;
+    }
     if (id === 'airport') {
       navigation.navigate('AirportRide');
       return;
@@ -162,7 +174,10 @@ export default function ServicesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar
+        barStyle={colors.barStyle}
+        backgroundColor={colors.background}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -186,7 +201,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Notifications"
               onPress={() => navigation.navigate('Notifications')}>
-              <Feather name="bell" size={20} color={colors.white} />
+              <Feather name="bell" size={20} color="#FFFFFF" />
             </Pressable>
             <View style={styles.badge} pointerEvents="none">
               <Text style={styles.badgeText}>3</Text>
@@ -195,12 +210,12 @@ export default function ServicesScreen() {
         </View>
 
         <View style={styles.searchBox}>
-          <Feather name="search" size={18} color={colors.gray[400]} />
+          <Feather name="search" size={18} color={colors.textMuted} />
           <TextInput
             value={query}
             onChangeText={setQuery}
             placeholder="Search a service"
-            placeholderTextColor={colors.gray[400]}
+            placeholderTextColor={colors.textMuted}
             style={styles.searchInput}
             returnKeyType="search"
             clearButtonMode="while-editing"
@@ -219,7 +234,7 @@ export default function ServicesScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={item.label}>
                   <View style={styles.rideIcon}>
-                    <RideIcon name={item.icon} color={colors.orange[600]} />
+                    <RideIcon name={item.icon} color={colors.orange[500]} />
                   </View>
                   <View style={styles.rideCopy}>
                     <Text style={styles.rideTitle}>{item.label}</Text>
@@ -234,7 +249,7 @@ export default function ServicesScreen() {
                   <Feather
                     name="chevron-right"
                     size={18}
-                    color={colors.gray[400]}
+                    color={colors.textMuted}
                   />
                 </Pressable>
               ))}
@@ -255,7 +270,7 @@ export default function ServicesScreen() {
                   accessibilityLabel={item.title}>
                   <View style={styles.planTopRow}>
                     <View style={styles.planIcon}>
-                      <PlanIcon name={item.icon} color={colors.navy[800]} />
+                      <PlanIcon name={item.icon} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
                     </View>
                     <Text style={styles.planKicker} numberOfLines={2}>
                       {item.kicker}
@@ -279,7 +294,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Portal">
               <View style={styles.portalIcon}>
-                <Lucide name="briefcase" size={22} color={colors.blue[600]} />
+                <Lucide name="briefcase" size={22} color={colors.isDark ? '#FF9A4A' : colors.blue[600]} />
               </View>
               <View style={styles.portalCopy}>
                 <View style={styles.portalTitleRow}>
@@ -297,7 +312,7 @@ export default function ServicesScreen() {
               <Feather
                 name="chevron-right"
                 size={18}
-                color={colors.gray[400]}
+                color={colors.textMuted}
               />
             </Pressable>
           </View>
@@ -307,6 +322,33 @@ export default function ServicesScreen() {
           <Text style={styles.empty}>No services match “{query}”</Text>
         ) : null}
       </ScrollView>
+
+      <ScheduleRideModal
+        visible={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        paymentLabel={
+          paymentMethod.id === 'card'
+            ? 'HDFC ....4821'
+            : paymentMethod.label.replace('•', '·')
+        }
+        onChangePayment={() => setPaymentOpen(true)}
+        onConfirm={({time, vehicle}) => {
+          setScheduleOpen(false);
+          showToast({
+            type: 'success',
+            message: `${vehicle?.name || 'Ride'} scheduled for ${time}!`,
+          });
+        }}
+      />
+
+      <PaymentOffersModal
+        visible={paymentOpen}
+        onClose={() => setPaymentOpen(false)}
+        selectedId={paymentMethod.id}
+        onSave={method => {
+          setPaymentMethod({id: method.id, label: method.label});
+        }}
+      />
     </View>
   );
 }

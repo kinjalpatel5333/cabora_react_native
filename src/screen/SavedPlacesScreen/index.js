@@ -167,7 +167,7 @@ export default function SavedPlacesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -175,19 +175,19 @@ export default function SavedPlacesScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Saved places</Text>
         <View style={styles.headerBtn} />
       </View>
 
       <View style={styles.searchBox}>
-        <Feather name="search" size={18} color={colors.gray[400]} />
+        <Feather name="search" size={18} color={colors.muted} />
         <TextInput
           value={query}
           onChangeText={setQuery}
           placeholder="Search your saved places"
-          placeholderTextColor={colors.gray[400]}
+          placeholderTextColor={colors.muted}
           style={styles.searchInput}
           returnKeyType="search"
           clearButtonMode="while-editing"

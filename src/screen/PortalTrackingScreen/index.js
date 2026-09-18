@@ -74,13 +74,13 @@ export default function PortalTrackingScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor="transparent"
         translucent
       />
       <View style={styles.mapBg}>
         <Image
-          source={images.homeMap}
+          source={colors.isDark ? images.homeMapDark : images.homeMap}
           style={styles.mapImage}
           resizeMode="cover"
         />
@@ -93,7 +93,7 @@ export default function PortalTrackingScreen() {
         accessibilityRole="button"
         accessibilityLabel="Go back"
         hitSlop={8}>
-        <Feather name="arrow-left" size={20} color={colors.navy[900]} />
+        <Feather name="arrow-left" size={20} color={colors.text} />
       </Pressable>
 
       <Animated.View
@@ -186,7 +186,7 @@ export default function PortalTrackingScreen() {
                 onPress={() =>
                   showToast({type: 'info', message: 'Calling rider'})
                 }>
-                <Feather name="phone" size={14} color={colors.navy[800]} />
+                <Feather name="phone" size={14} color={colors.text} />
                 <Text style={styles.actionText}>Call</Text>
               </Pressable>
               <Pressable
@@ -197,7 +197,7 @@ export default function PortalTrackingScreen() {
                 <Feather
                   name="message-circle"
                   size={14}
-                  color={colors.navy[800]}
+                  color={colors.text}
                 />
                 <Text style={styles.actionText}>Message</Text>
               </Pressable>
@@ -206,7 +206,7 @@ export default function PortalTrackingScreen() {
                 onPress={() =>
                   showToast({type: 'info', message: 'Share tracking link'})
                 }>
-                <Feather name="upload" size={14} color={colors.navy[800]} />
+                <Feather name="upload" size={14} color={colors.text} />
                 <Text style={styles.actionText}>Share link</Text>
               </Pressable>
             </View>

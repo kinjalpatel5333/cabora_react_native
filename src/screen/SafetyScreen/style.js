@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#F3F6FA',
+      backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
@@ -12,7 +12,9 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingBottom: 12,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
+      borderBottomWidth: colors.isDark ? 1 : 0,
+      borderBottomColor: colors.border,
     },
     headerBtn: {
       width: 40,
@@ -23,7 +25,7 @@ export default function createStyles(colors) {
     headerTitle: {
       flex: 1,
       textAlign: 'center',
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 18,
       fontWeight: '700',
     },
@@ -77,7 +79,7 @@ export default function createStyles(colors) {
       marginTop: 0,
     },
     sectionLabel: {
-      color: '#7E8B9E',
+      color: colors.textSub,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.8,
@@ -92,10 +94,10 @@ export default function createStyles(colors) {
     },
     toolCard: {
       width: '48.5%',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       paddingVertical: 10,
       paddingHorizontal: 12,
       justifyContent: 'flex-start',
@@ -109,22 +111,22 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     toolTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 13.5,
       fontWeight: '700',
       marginBottom: 2,
     },
     toolSub: {
-      color: '#6E7C91',
+      color: colors.textMuted,
       fontSize: 11,
       fontWeight: '400',
       lineHeight: 14.5,
     },
     insuranceCard: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: '#E8ECF2',
+      borderColor: colors.border,
       paddingVertical: 11,
       paddingHorizontal: 14,
       marginTop: 0,
@@ -142,13 +144,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     insuranceTitle: {
-      color: '#0F2840',
+      color: colors.text,
       fontSize: 13.5,
       fontWeight: '700',
       marginBottom: 2,
     },
     insuranceSub: {
-      color: '#6E7C91',
+      color: colors.textMuted,
       fontSize: 11.5,
       fontWeight: '400',
       lineHeight: 15,
@@ -165,14 +167,16 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     policyId: {
-      color: '#8A96A6',
+      color: colors.textSub,
       fontSize: 11.5,
       fontWeight: '500',
     },
     footer: {
       paddingHorizontal: 16,
       paddingTop: 10,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: colors.card,
+      borderTopWidth: colors.isDark ? 1 : 0,
+      borderTopColor: colors.border,
     },
     sosBtn: {
       backgroundColor: '#E53935',

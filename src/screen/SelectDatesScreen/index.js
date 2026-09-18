@@ -210,7 +210,7 @@ export default function SelectDatesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -218,7 +218,7 @@ export default function SelectDatesScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Select dates</Text>
         <Pressable style={styles.headerBtn} onPress={onReset} hitSlop={8}>
@@ -259,7 +259,7 @@ export default function SelectDatesScreen() {
                 <Feather
                   name="chevron-left"
                   size={22}
-                  color={colors.navy[800]}
+                  color={colors.text}
                 />
               </Pressable>
               <Pressable
@@ -269,7 +269,7 @@ export default function SelectDatesScreen() {
                 <Feather
                   name="chevron-right"
                   size={22}
-                  color={colors.navy[800]}
+                  color={colors.text}
                 />
               </Pressable>
             </View>

@@ -11,32 +11,33 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import EmergencyScreen from '../EmergencyScreen';
+import {useApp} from '../../context/AppContext';
+import EmergencyModal from '../EmergencyScreen';
 import createStyles from './style';
 
 const TOOLS = [
   {
     id: 'sos',
     title: 'Emergency SOS',
-    sub: 'Alerts the safety desk in 3 s',
+    sub: 'Alert local police & contacts',
     iconBg: 'red',
   },
   {
     id: 'contacts',
     title: 'Trusted contacts',
-    sub: '3 people added',
+    sub: 'Share trip details automatically',
     iconBg: 'blue',
   },
   {
     id: 'share',
-    title: 'Share live location',
-    sub: 'On for every night ride',
+    title: 'Share live trip',
+    sub: 'Auto-share after 9:00 PM is ON',
     iconBg: 'sky',
   },
   {
     id: 'check',
     title: 'Ride check',
-    sub: 'Detects long stops automatically',
+    sub: 'Auto-detect long unexpected stops',
     iconBg: 'green',
   },
   {
@@ -73,16 +74,17 @@ function ToolIcon({id, color}) {
     return <Feather name="upload" size={18} color={color} />;
   }
   if (id === 'check') {
-    return <MaterialDesignIcons name="shield-check-outline" size={20} color={color} />;
+    return <Feather name="shield" size={18} color={color} />;
   }
   if (id === 'report') {
-    return <Feather name="alert-triangle" size={18} color={color} />;
+    return <Feather name="flag" size={18} color={color} />;
   }
-  return <Feather name="help-circle" size={18} color={color} />;
+  return <MaterialDesignIcons name="lightbulb-on-outline" size={20} color={color} />;
 }
 
 export default function SafetyScreen() {
   const insets = useSafeAreaInsets();
+  const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -117,7 +119,10 @@ export default function SafetyScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar
+        barStyle={colors.barStyle}
+        backgroundColor={colors.card}
+      />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -125,7 +130,7 @@ export default function SafetyScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color="#0F2840" />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Safety</Text>
         <Pressable
@@ -134,7 +139,7 @@ export default function SafetyScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color="#0F2840" />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -219,7 +224,7 @@ export default function SafetyScreen() {
         </Pressable>
       </View>
 
-      <EmergencyScreen
+      <EmergencyModal
         visible={emergencyOpen}
         onClose={() => setEmergencyOpen(false)}
       />

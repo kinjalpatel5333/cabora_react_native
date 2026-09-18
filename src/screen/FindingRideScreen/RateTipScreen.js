@@ -102,7 +102,7 @@ export default function RateTipScreen({
           style={styles.closeBtn}
           onPress={onClose}
           hitSlop={8}>
-          <Feather name="x" size={20} color={colors.navy[800]} />
+          <Feather name="x" size={20} color={colors.text} />
         </Pressable>
 
         <View style={styles.avatar}>

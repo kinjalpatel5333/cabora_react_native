@@ -41,7 +41,7 @@ export default function PortalDeliveredScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -49,7 +49,7 @@ export default function PortalDeliveredScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Portal delivered</Text>
         <Pressable
@@ -58,7 +58,7 @@ export default function PortalDeliveredScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -81,7 +81,7 @@ export default function PortalDeliveredScreen() {
           <View style={styles.proofRow}>
             <View style={styles.photoCol}>
               <View style={styles.photoBox}>
-                <Feather name="camera" size={24} color={colors.gray[400]} />
+                <Feather name="camera" size={24} color={colors.muted} />
               </View>
               <Text style={styles.photoLabel}>Photo at the door</Text>
             </View>
@@ -143,7 +143,7 @@ export default function PortalDeliveredScreen() {
                   <MaterialDesignIcons
                     name={star <= rating ? 'star' : 'star-outline'}
                     size={28}
-                    color={colors.orange[500]}
+                    color={colors.primary}
                   />
                 </Pressable>
               ))}

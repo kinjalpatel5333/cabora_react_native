@@ -57,11 +57,11 @@ export default function BookForSomeoneElseModal({
             style={styles.headerBtn}
             onPress={onClose}
             hitSlop={8}>
-            <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+            <Feather name="arrow-left" size={22} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Book for someone else</Text>
           <Pressable style={styles.headerBtn} hitSlop={8}>
-            <Feather name="help-circle" size={22} color={colors.navy[800]} />
+            <Feather name="help-circle" size={22} color={colors.text} />
           </Pressable>
         </View>
 
@@ -103,7 +103,7 @@ export default function BookForSomeoneElseModal({
               </Pressable>
             </View>
             <View style={styles.riderFooter}>
-              <Feather name="users" size={14} color={colors.gray[500]} />
+              <Feather name="users" size={14} color={colors.muted} />
               <Text style={styles.riderFooterText}>
                 Picked from your contacts
               </Text>
@@ -135,7 +135,7 @@ export default function BookForSomeoneElseModal({
                 </View>
               </View>
               <Pressable style={styles.editBtn} hitSlop={8} onPress={onClose}>
-                <Feather name="edit-2" size={18} color={colors.navy[700]} />
+                <Feather name="edit-2" size={18} color={colors.text} />
               </Pressable>
             </View>
           </View>
@@ -159,7 +159,7 @@ export default function BookForSomeoneElseModal({
           <View style={styles.card}>
             <View style={styles.paymentRow}>
               <View style={styles.paymentIcon}>
-                <Feather name="credit-card" size={18} color={colors.navy[800]} />
+                <Feather name="credit-card" size={18} color={colors.text} />
               </View>
               <View style={styles.paymentCopy}>
                 <Text style={styles.paymentTitle}>

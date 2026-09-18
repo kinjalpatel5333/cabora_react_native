@@ -135,7 +135,7 @@ function AddressBlock({
                 onChangeText={onChangeQuery}
                 style={styles.placeInput}
                 placeholder="Search address"
-                placeholderTextColor={colors.gray[400]}
+                placeholderTextColor={colors.muted}
                 autoFocus
                 returnKeyType="done"
                 onSubmitEditing={() => {
@@ -175,7 +175,7 @@ function AddressBlock({
             <Feather
               name={editing ? 'check' : 'edit-2'}
               size={16}
-              color={editing ? colors.orange[600] : colors.gray[400]}
+              color={editing ? colors.primary : colors.muted}
             />
           </Pressable>
         </View>
@@ -196,7 +196,7 @@ function AddressBlock({
                     onChangePlace({title: item.title, meta: item.meta});
                     onEndEdit();
                   }}>
-                  <Feather name="map-pin" size={16} color={colors.gray[400]} />
+                  <Feather name="map-pin" size={16} color={colors.muted} />
                   <View style={styles.suggestCopy}>
                     <Text style={styles.suggestTitle}>{item.title}</Text>
                     <Text style={styles.suggestMeta} numberOfLines={1}>
@@ -211,7 +211,7 @@ function AddressBlock({
           <>
             <View style={styles.divider} />
             <View style={styles.contactRow}>
-              <Feather name="user" size={16} color={colors.gray[400]} />
+              <Feather name="user" size={16} color={colors.muted} />
               <Text style={styles.contactCopy} numberOfLines={1}>
                 {contact}
               </Text>
@@ -263,7 +263,7 @@ export default function PortalScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -271,7 +271,7 @@ export default function PortalScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Send with Portal</Text>
         <Pressable
@@ -280,7 +280,7 @@ export default function PortalScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -299,7 +299,7 @@ export default function PortalScreen() {
         contentContainerStyle={[styles.scroll, {paddingBottom: 24}]}>
         <View style={styles.heroCard}>
           <View style={styles.heroIcon}>
-            <Lucide name="briefcase" size={20} color={colors.orange[600]} />
+            <Lucide name="briefcase" size={20} color={colors.primary} />
           </View>
           <View style={styles.heroCopy}>
             <Text style={styles.heroTitle}>City-wide Portal delivery</Text>
@@ -318,7 +318,7 @@ export default function PortalScreen() {
           onEndEdit={() => setEditingField(null)}
           query={pickupQuery}
           onChangeQuery={setPickupQuery}
-          dotColor={colors.orange[500]}
+          dotColor={colors.primary}
           contact="Aarav Mehta · +91 98450 21188"
           contactTrailing={<Text style={styles.youTag}>you</Text>}
           styles={styles}
@@ -335,7 +335,7 @@ export default function PortalScreen() {
           onEndEdit={() => setEditingField(null)}
           query={dropQuery}
           onChangeQuery={setDropQuery}
-          dotColor={colors.navy[800]}
+          dotColor={colors.isDark ? '#60A5FA' : colors.navy[800]}
           contact="Priya Sharma · +91 98450 33119"
           contactTrailing={
             <Pressable
@@ -358,7 +358,7 @@ export default function PortalScreen() {
             onChangeText={setNote}
             style={styles.noteInput}
             placeholder="Add a note for the rider"
-            placeholderTextColor={colors.gray[400]}
+            placeholderTextColor={colors.muted}
             multiline
           />
         </View>

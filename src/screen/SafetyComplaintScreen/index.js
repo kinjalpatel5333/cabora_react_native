@@ -13,6 +13,7 @@ import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
@@ -29,8 +30,8 @@ const COMPLAINT_CATEGORIES = [
   {id: 'harassment', label: 'Harassment', iconType: 'feather', icon: 'users'},
 ];
 
-function CategoryIcon({item, isSelected}) {
-  const color = isSelected ? '#FF7006' : '#64748B';
+function CategoryIcon({item, isSelected, colors}) {
+  const color = isSelected ? colors.primary : colors.textMuted;
   if (item.iconType === 'lucide') {
     return <Lucide name={item.icon} size={18} color={color} />;
   }
@@ -48,6 +49,7 @@ function CategoryIcon({item, isSelected}) {
 
 export default function SafetyComplaintScreen() {
   const insets = useSafeAreaInsets();
+  const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -65,7 +67,7 @@ export default function SafetyComplaintScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -73,7 +75,7 @@ export default function SafetyComplaintScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color="#0F2840" />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Safety complaint</Text>
         <Pressable
@@ -82,7 +84,7 @@ export default function SafetyComplaintScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color="#0F2840" />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -95,7 +97,7 @@ export default function SafetyComplaintScreen() {
         <View style={styles.rideCard}>
           <View style={styles.rideTop}>
             <View style={styles.rideIcon}>
-              <Lucide name="car" size={22} color="#0F2840" />
+              <Lucide name="car" size={22} color={colors.text} />
             </View>
             <View style={styles.rideInfo}>
               <Text style={styles.rideTitle}>CBR-88214</Text>
@@ -155,7 +157,7 @@ export default function SafetyComplaintScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={item.label}>
                 <View style={styles.categoryIcon}>
-                  <CategoryIcon item={item} isSelected={isSelected} />
+                  <CategoryIcon item={item} isSelected={isSelected} colors={colors} />
                 </View>
                 <Text
                   style={[
@@ -176,7 +178,7 @@ export default function SafetyComplaintScreen() {
             value={description}
             onChangeText={setDescription}
             placeholder="Tell us what happened in detail..."
-            placeholderTextColor="#8A96A6"
+            placeholderTextColor={colors.textMuted}
           />
         </View>
 
@@ -187,7 +189,7 @@ export default function SafetyComplaintScreen() {
           }
           accessibilityRole="button"
           accessibilityLabel="Attach evidence">
-          <Feather name="paperclip" size={18} color="#64748B" />
+          <Feather name="paperclip" size={18} color={colors.textMuted} />
           <Text style={styles.attachBtnText}>Attach evidence (optional)</Text>
         </Pressable>
 

@@ -4,10 +4,10 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.gray[50],
+      backgroundColor: colors.background,
     },
     hero: {
-      backgroundColor: '#E8F5EC',
+      backgroundColor: colors.isDark ? '#0B243B' : '#E8F5EC',
       borderBottomLeftRadius: 36,
       borderBottomRightRadius: 36,
       alignItems: 'center',
@@ -18,7 +18,7 @@ export default function createStyles(colors) {
       width: 64,
       height: 64,
       borderRadius: 32,
-      backgroundColor: '#C8E6C9',
+      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.25)' : '#C8E6C9',
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 18,
@@ -32,7 +32,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     title: {
-      color: '#1B5E20',
+      color: colors.isDark ? '#4ADE80' : '#1B5E20',
       fontSize: 30,
       fontWeight: '800',
       textAlign: 'center',
@@ -40,7 +40,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.3,
     },
     subtitle: {
-      color: '#2E7D32',
+      color: colors.isDark ? '#86EFAC' : '#2E7D32',
       fontSize: 15,
       fontWeight: '500',
       textAlign: 'center',
@@ -60,10 +60,10 @@ export default function createStyles(colors) {
       marginBottom: 22,
     },
     receiptCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 18,
       borderWidth: 1,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       paddingHorizontal: 16,
       paddingTop: 16,
       paddingBottom: 14,
@@ -78,7 +78,7 @@ export default function createStyles(colors) {
       width: 36,
       height: 36,
       borderRadius: 10,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -87,19 +87,19 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     receiptTitle: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '800',
       marginBottom: 3,
     },
     receiptSub: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '500',
     },
     divider: {
       height: StyleSheet.hairlineWidth,
-      backgroundColor: colors.gray[200],
+      backgroundColor: colors.border,
       marginBottom: 10,
     },
     fareRow: {
@@ -109,12 +109,12 @@ export default function createStyles(colors) {
       paddingVertical: 8,
     },
     fareLabel: {
-      color: colors.gray[600],
+      color: colors.muted,
       fontSize: 14,
       fontWeight: '500',
     },
     fareValue: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '700',
     },
@@ -126,12 +126,12 @@ export default function createStyles(colors) {
       paddingBottom: 6,
     },
     totalLabel: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },
     totalValue: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },
@@ -146,20 +146,20 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'center',
       gap: 6,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       borderRadius: 12,
       paddingVertical: 11,
       paddingHorizontal: 6,
     },
     actionText: {
-      color: colors.navy[800],
+      color: colors.text,
       fontSize: 12,
       fontWeight: '700',
     },
     footer: {
       paddingHorizontal: 20,
       paddingTop: 12,
-      backgroundColor: colors.gray[50],
+      backgroundColor: colors.background,
     },
     homeBtn: {
       backgroundColor: colors.orange[500],
@@ -185,3 +185,4 @@ export default function createStyles(colors) {
     },
   });
 }
+

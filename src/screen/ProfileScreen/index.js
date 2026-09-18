@@ -8,15 +8,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useSidebar} from '../../context/SidebarContext';
+import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 
 function CustomToggle({value, onToggle, label, styles}) {
@@ -42,9 +40,8 @@ function CustomToggle({value, onToggle, label, styles}) {
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
+  const {isDark, toggleTheme, colors} = useApp();
   const styles = useThemedStyles(createStyles);
-  const navigation = useNavigation();
-  const {openDrawer} = useSidebar();
   const {showToast} = useToast();
 
   const [activeRole, setActiveRole] = useState('passenger');
@@ -52,7 +49,6 @@ export default function ProfileScreen() {
   const [preferences, setPreferences] = useState({
     notifications: true,
     offers: false,
-    darkMode: true,
   });
 
   const togglePref = key => {
@@ -171,13 +167,13 @@ export default function ProfileScreen() {
             accessibilityRole="button"
             accessibilityLabel="Personal details">
             <View style={styles.rowIconBox}>
-              <Feather name="user" size={18} color="#0F2840" />
+              <Feather name="user" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Personal details</Text>
               <Text style={styles.rowSub}>Name, gender, date of birth</Text>
             </View>
-            <Feather name="chevron-right" size={18} color="#8A96A6" />
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
           </Pressable>
 
           <Pressable
@@ -186,12 +182,13 @@ export default function ProfileScreen() {
             accessibilityRole="button"
             accessibilityLabel="Language">
             <View style={styles.rowIconBox}>
-              <Feather name="globe" size={18} color="#0F2840" />
+              <Feather name="globe" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Language</Text>
               <Text style={styles.rowSub}>English (India)</Text>
             </View>
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
           </Pressable>
 
           <Pressable
@@ -202,13 +199,13 @@ export default function ProfileScreen() {
             accessibilityRole="button"
             accessibilityLabel="Payment methods">
             <View style={styles.rowIconBox}>
-              <Feather name="credit-card" size={18} color="#0F2840" />
+              <Feather name="credit-card" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Payment methods</Text>
               <Text style={styles.rowSub}>UPI, 1 card, wallet</Text>
             </View>
-            <Feather name="chevron-right" size={18} color="#8A96A6" />
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
           </Pressable>
         </View>
 
@@ -216,7 +213,7 @@ export default function ProfileScreen() {
         <View style={styles.card}>
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="bell" size={18} color="#0F2840" />
+              <Feather name="bell" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Ride notifications</Text>
@@ -232,7 +229,7 @@ export default function ProfileScreen() {
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="percent" size={18} color="#0F2840" />
+              <Feather name="percent" size={18} color="#FF7006" />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Offers & promotions</Text>
@@ -250,15 +247,15 @@ export default function ProfileScreen() {
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="moon" size={18} color="#0F2840" />
+              <Feather name="moon" size={18} color={colors.isDark ? '#FF7006' : '#0F2840'} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Dark mode</Text>
               <Text style={styles.rowSub}>Follow system</Text>
             </View>
             <CustomToggle
-              value={preferences.darkMode}
-              onToggle={() => togglePref('darkMode')}
+              value={isDark}
+              onToggle={toggleTheme}
               label="Dark mode"
               styles={styles}
             />
@@ -278,7 +275,7 @@ export default function ProfileScreen() {
               </Text>
               <Text style={styles.rowSub}>Permanent removal of data</Text>
             </View>
-            <Feather name="chevron-right" size={18} color="#8A96A6" />
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
           </Pressable>
         </View>
       </ScrollView>
@@ -304,19 +301,19 @@ export default function ProfileScreen() {
 
             <View style={styles.modalInfoBox}>
               <View style={styles.modalInfoRow}>
-                <Feather name="credit-card" size={17} color="#64748B" />
+                <Feather name="credit-card" size={17} color={colors.textMuted} />
                 <Text style={styles.modalInfoText}>
                   Your ₹1,240.00 wallet balance is forfeited
                 </Text>
               </View>
               <View style={styles.modalInfoRow}>
-                <Feather name="clock" size={17} color="#64748B" />
+                <Feather name="clock" size={17} color={colors.textMuted} />
                 <Text style={styles.modalInfoText}>
                   Ride history and receipts are erased
                 </Text>
               </View>
               <View style={styles.modalInfoRow}>
-                <Feather name="lock" size={17} color="#64748B" />
+                <Feather name="lock" size={17} color={colors.textMuted} />
                 <Text style={styles.modalInfoText}>
                   The same number can re-register after 30 days
                 </Text>

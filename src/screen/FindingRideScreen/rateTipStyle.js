@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     scroll: {
       flex: 1,
@@ -17,7 +17,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 20,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 12,
@@ -27,7 +27,7 @@ export default function createStyles(colors) {
       width: 72,
       height: 72,
       borderRadius: 36,
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
       borderWidth: 2.5,
       borderColor: colors.orange[500],
       alignItems: 'center',
@@ -41,7 +41,7 @@ export default function createStyles(colors) {
       letterSpacing: 0.5,
     },
     title: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 26,
       fontWeight: '800',
       textAlign: 'center',
@@ -50,7 +50,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
     },
     subtitle: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 14,
       fontWeight: '500',
       textAlign: 'center',
@@ -69,7 +69,7 @@ export default function createStyles(colors) {
       padding: 2,
     },
     sectionLabel: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '700',
       letterSpacing: 0.9,
@@ -86,15 +86,15 @@ export default function createStyles(colors) {
       paddingVertical: 10,
       borderRadius: 12,
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
-      backgroundColor: colors.white,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
     },
     tagSelected: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? '#1A3959' : colors.white,
     },
     tagText: {
-      color: colors.navy[800],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '600',
     },
@@ -105,13 +105,13 @@ export default function createStyles(colors) {
     noteInput: {
       minHeight: 88,
       borderRadius: 14,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       paddingHorizontal: 16,
       paddingTop: 14,
       paddingBottom: 14,
       fontSize: 15,
       fontWeight: '500',
-      color: colors.navy[900],
+      color: colors.text,
       textAlignVertical: 'top',
       marginBottom: 24,
     },
@@ -125,17 +125,17 @@ export default function createStyles(colors) {
       height: 48,
       borderRadius: 12,
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     tipBtnSelected: {
       borderColor: colors.orange[500],
       borderWidth: 2,
     },
     tipText: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '700',
     },
@@ -151,13 +151,13 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
       fontSize: 15,
       fontWeight: '600',
-      color: colors.navy[900],
-      backgroundColor: colors.white,
+      color: colors.text,
+      backgroundColor: colors.card,
     },
     footer: {
       paddingHorizontal: 24,
       paddingTop: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     submitBtn: {
       backgroundColor: colors.orange[500],
@@ -177,9 +177,10 @@ export default function createStyles(colors) {
       paddingVertical: 6,
     },
     skipText: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 15,
       fontWeight: '600',
     },
   });
 }
+

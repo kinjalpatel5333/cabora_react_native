@@ -18,7 +18,7 @@ export default function createStyles(colors) {
       width: 44,
       height: 44,
       borderRadius: 22,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: colors.navy[900],
@@ -59,14 +59,14 @@ export default function createStyles(colors) {
     routeDotEnd: {
       right: '14%',
       top: 22,
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? colors.white : colors.navy[800],
     },
     routePin: {
       position: 'absolute',
       width: 26,
       height: 26,
       borderRadius: 13,
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
       alignItems: 'center',
       justifyContent: 'center',
       borderWidth: 2,
@@ -78,7 +78,7 @@ export default function createStyles(colors) {
       fontWeight: '800',
     },
     sheet: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderTopLeftRadius: 28,
       borderTopRightRadius: 28,
       paddingHorizontal: 20,
@@ -95,7 +95,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 4,
       borderRadius: 2,
-      backgroundColor: colors.gray[200],
+      backgroundColor: colors.border,
       marginBottom: 14,
     },
     grabberHit: {
@@ -114,12 +114,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     title: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 24,
       fontWeight: '800',
     },
     subtitle: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 13,
       marginTop: 4,
     },
@@ -127,7 +127,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 6,
-      backgroundColor: colors.blue[100],
+      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.18)' : colors.blue[100],
       borderRadius: 999,
       paddingHorizontal: 10,
       paddingVertical: 6,
@@ -155,16 +155,16 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.surface,
       borderRadius: 14,
       paddingVertical: 12,
       paddingHorizontal: 12,
       borderWidth: 1.5,
-      borderColor: 'transparent',
+      borderColor: colors.border,
     },
     stopCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? '#1A3959' : colors.white,
     },
     dragHandle: {
       paddingRight: 2,
@@ -178,18 +178,18 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     stopDotNavy: {
-      backgroundColor: colors.navy[800],
+      backgroundColor: colors.isDark ? colors.white : colors.navy[800],
     },
     stopCopy: {
       flex: 1,
     },
     stopLabel: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '600',
     },
     stopAddress: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '700',
       marginTop: 2,
@@ -210,12 +210,12 @@ export default function createStyles(colors) {
       marginTop: 2,
     },
     addStopText: {
-      color: colors.orange[600],
+      color: colors.orange[500],
       fontSize: 14,
       fontWeight: '700',
     },
     maxStopsHint: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       textAlign: 'center',
       paddingVertical: 8,
@@ -226,24 +226,24 @@ export default function createStyles(colors) {
       gap: 12,
       paddingTop: 12,
       borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colors.gray[200],
+      borderTopColor: colors.border,
     },
     fareCopy: {
       flex: 1,
     },
     fareLabel: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '600',
     },
     fareValue: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 28,
       fontWeight: '800',
       marginTop: 2,
     },
     fareHint: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 11,
       marginTop: 2,
       lineHeight: 15,
@@ -263,3 +263,4 @@ export default function createStyles(colors) {
     },
   });
 }
+

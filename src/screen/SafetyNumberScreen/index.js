@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
@@ -36,6 +37,7 @@ function CustomToggle({value, onToggle, label, styles}) {
 
 export default function SafetyNumberScreen() {
   const insets = useSafeAreaInsets();
+  const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -63,7 +65,7 @@ export default function SafetyNumberScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -71,7 +73,7 @@ export default function SafetyNumberScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color="#0F2840" />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Safety number</Text>
         <Pressable
@@ -80,7 +82,7 @@ export default function SafetyNumberScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color="#0F2840" />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -119,7 +121,7 @@ export default function SafetyNumberScreen() {
 
           <View style={styles.contactMetaRow}>
             <View style={styles.contactMetaLeft}>
-              <Feather name="users" size={16} color="#64748B" />
+              <Feather name="users" size={16} color={colors.textMuted} />
               <Text style={styles.contactMetaText}>Priya Sharma · sister</Text>
             </View>
             <Pressable

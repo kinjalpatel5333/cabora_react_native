@@ -384,7 +384,7 @@ export default function FindingRideModal({
             <MaterialDesignIcons
               name="crosshairs-gps"
               size={22}
-              color={colors.navy[800]}
+              color={colors.text}
             />
           </Pressable>
         ) : null}
@@ -416,7 +416,7 @@ export default function FindingRideModal({
                   <MaterialDesignIcons
                     name="map-marker"
                     size={28}
-                    color={colors.navy[800]}
+                    color={colors.text}
                   />
                 </View>
               ) : null}
@@ -447,7 +447,7 @@ export default function FindingRideModal({
                   <MaterialDesignIcons
                     name={vehicle.icon}
                     size={18}
-                    color={colors.navy[800]}
+                    color={colors.text}
                   />
                 </View>
               ))
@@ -534,7 +534,7 @@ export default function FindingRideModal({
                     <MaterialDesignIcons
                       name={ride.icon}
                       size={22}
-                      color={colors.navy[900]}
+                      color={colors.text}
                     />
                     <Text style={styles.altName}>{ride.name}</Text>
                     <Text style={styles.altPrice}>₹{ride.price}</Text>
@@ -565,7 +565,7 @@ export default function FindingRideModal({
               </View>
 
               <View style={styles.infoBox}>
-                <Feather name="info" size={16} color={colors.gray[500]} />
+                <Feather name="info" size={16} color={colors.muted} />
                 <Text style={styles.infoText}>
                   Nothing has been charged. Your fare of ₹{fare} is still locked
                   for 5 minutes.
@@ -631,7 +631,7 @@ export default function FindingRideModal({
               </View>
 
               <View style={styles.infoBox}>
-                <Feather name="clock" size={16} color={colors.gray[500]} />
+                <Feather name="clock" size={16} color={colors.muted} />
                 <Text style={styles.infoText}>
                   Most rides are matched in under 60 seconds. Nothing is charged
                   until a driver accepts.
@@ -656,7 +656,7 @@ export default function FindingRideModal({
             <Feather
               name={matched ? 'chevron-down' : 'arrow-left'}
               size={22}
-              color={colors.navy[900]}
+              color={colors.text}
             />
           </Pressable>
         ) : null}

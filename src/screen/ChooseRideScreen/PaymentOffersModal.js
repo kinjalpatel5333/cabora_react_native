@@ -48,7 +48,7 @@ const METHODS = [
 ];
 
 function MethodIcon({icon, active, colors}) {
-  const tint = active ? colors.white : colors.navy[700];
+  const tint = active ? colors.white : colors.text;
   if (icon === 'credit-card-outline') {
     return <Feather name="credit-card" size={20} color={tint} />;
   }
@@ -168,7 +168,7 @@ export default function PaymentOffersModal({
 
           <View style={styles.offerCard}>
             <View style={styles.offerIcon}>
-              <Feather name="percent" size={18} color={colors.navy[800]} />
+              <Feather name="percent" size={18} color={colors.text} />
             </View>
             <Text style={styles.offerCode}>{promoCode}</Text>
             <View style={styles.appliedBtn}>

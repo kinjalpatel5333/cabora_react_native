@@ -111,7 +111,7 @@ export default function RentalsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
         <Pressable
           style={styles.headerBtn}
@@ -119,7 +119,7 @@ export default function RentalsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle} numberOfLines={1}>
           Rent a car with driver
@@ -130,7 +130,7 @@ export default function RentalsScreen() {
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -154,7 +154,7 @@ export default function RentalsScreen() {
                   accessibilityState={{selected: active}}>
                   {active ? (
                     <View style={styles.packageCheck}>
-                      <Feather name="check" size={12} color={colors.white} />
+                      <Feather name="check" size={12} color="#FFFFFF" />
                     </View>
                   ) : null}
                   <Text style={styles.packageHours}>{pkg.label}</Text>
@@ -180,7 +180,7 @@ export default function RentalsScreen() {
           <View style={styles.card}>
             <View style={styles.whereRow}>
               <View style={styles.pinIcon}>
-                <Feather name="map-pin" size={18} color={colors.orange[600]} />
+                <Feather name="map-pin" size={18} color={colors.primary} />
               </View>
               <View style={styles.whereCopy}>
                 <Text style={styles.whereTitle}>Indiranagar 100ft Road</Text>
@@ -191,7 +191,7 @@ export default function RentalsScreen() {
             </View>
             <View style={styles.divider} />
             <View style={styles.scheduleRow}>
-              <Feather name="calendar" size={20} color={colors.navy[800]} />
+              <Feather name="calendar" size={20} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
               <View style={styles.whereCopy}>
                 <Text style={styles.whereTitle}>Sat 13 Sep · 09:00 am</Text>
                 <Text style={styles.whereMeta}>Ends around 05:00 pm</Text>
@@ -218,7 +218,9 @@ export default function RentalsScreen() {
               const active = vehicle.id === vehicleId;
               const price = selectedPkg.price + vehicle.priceAdd;
               const iconColor = active
-                ? colors.orange[600]
+                ? colors.primary
+                : colors.isDark
+                ? '#FFFFFF'
                 : colors.navy[800];
               return (
                 <Pressable
@@ -253,7 +255,7 @@ export default function RentalsScreen() {
         </View>
 
         <View style={styles.infoBanner}>
-          <Feather name="info" size={16} color={colors.gray[400]} />
+          <Feather name="info" size={16} color={colors.textMuted} />
           <Text style={styles.infoText}>
             Fuel, driver allowance and {selectedPkg.km} km are included. Tolls
             and parking are extra.

@@ -87,7 +87,7 @@ export default function ShareLiveTripScreen({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root}>
-        <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+        <StatusBar barStyle={colors.isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
         <View style={[styles.header, {paddingTop: insets.top + 4}]}>
           <Pressable
             style={styles.headerBtn}
@@ -95,7 +95,7 @@ export default function ShareLiveTripScreen({
             accessibilityRole="button"
             accessibilityLabel="Go back"
             hitSlop={8}>
-            <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+            <Feather name="arrow-left" size={22} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Share live trip</Text>
           <View style={styles.headerBtn} />
@@ -122,7 +122,7 @@ export default function ShareLiveTripScreen({
                 />
               </View>
               <View style={styles.endPin}>
-                <Feather name="map-pin" size={22} color={colors.navy[800]} />
+                <Feather name="map-pin" size={22} color={colors.text} />
               </View>
             </View>
             <View style={styles.etaPill}>
@@ -172,7 +172,7 @@ export default function ShareLiveTripScreen({
                 showToast({type: 'info', message: 'Add a contact'})
               }>
               <View style={styles.addAvatar}>
-                <Feather name="plus" size={20} color={colors.gray[400]} />
+                <Feather name="plus" size={20} color={colors.muted} />
               </View>
               <Text style={styles.contactNameMuted}>Add</Text>
             </Pressable>
@@ -186,7 +186,7 @@ export default function ShareLiveTripScreen({
               keyboardType="phone-pad"
               style={styles.phoneInput}
               placeholder="+91 98765 43210"
-              placeholderTextColor={colors.gray[400]}
+              placeholderTextColor={colors.muted}
             />
             <Pressable style={styles.sendBtn} onPress={onSendPhone}>
               <Text style={styles.sendText}>Send</Text>
@@ -200,7 +200,7 @@ export default function ShareLiveTripScreen({
                 {TRACKING_LINK}
               </Text>
               <Pressable style={styles.copyBtn} onPress={onCopy}>
-                <Feather name="copy" size={14} color={colors.navy[800]} />
+                <Feather name="copy" size={14} color={colors.text} />
                 <Text style={styles.copyText}>Copy</Text>
               </Pressable>
             </View>
