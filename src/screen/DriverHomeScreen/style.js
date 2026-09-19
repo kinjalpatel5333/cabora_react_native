@@ -25,7 +25,7 @@ export default function createStyles(colors) {
       width: 70,
       height: 70,
       borderRadius: 54,
-      backgroundColor: 'rgba(46, 123, 231, 0.2)',
+      backgroundColor: colors.alpha.blue20,
     },
     locationCore: {
       width: 22,
@@ -176,7 +176,7 @@ export default function createStyles(colors) {
       flexShrink: 1,
     },
     statusChipTextWarn: {
-      color: '#9A6B12',
+      color: colors.amber[750],
     },
     demandChip: {
       position: 'absolute',

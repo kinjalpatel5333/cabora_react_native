@@ -54,7 +54,7 @@ export default function createStyles(colors) {
       lineHeight: 20,
     },
     navSub: {
-      color: 'rgba(255,255,255,0.55)',
+      color: colors.alpha.white55,
       fontSize: 12,
       fontWeight: '500',
       lineHeight: 16,
@@ -71,7 +71,7 @@ export default function createStyles(colors) {
       lineHeight: 20,
     },
     navDist: {
-      color: 'rgba(255,255,255,0.55)',
+      color: colors.alpha.white55,
       fontSize: 12,
       fontWeight: '500',
       lineHeight: 16,
@@ -94,9 +94,9 @@ export default function createStyles(colors) {
       width: 110,
       height: 110,
       borderRadius: 55,
-      backgroundColor: 'rgba(38, 168, 94, 0.18)',
+      backgroundColor: colors.alpha.green18,
       borderWidth: 2,
-      borderColor: 'rgba(38, 168, 94, 0.55)',
+      borderColor: colors.alpha.green55,
       borderStyle: 'dashed',
     },
     routeLine: {

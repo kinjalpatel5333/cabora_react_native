@@ -5,9 +5,9 @@ import colors, {palette} from '../config/color';
 import {useSidebar} from '../context/SidebarContext';
 import DriverHomeScreen from '../screen/DriverHomeScreen';
 import DriverEarningsScreen from '../screen/DriverEarningsScreen';
-import WalletScreen from '../screen/WalletScreen';
+import DriverWalletScreen from '../screen/DriverWalletScreen';
 import DriverIncentivesScreen from '../screen/DriverIncentivesScreen';
-import ProfileScreen from '../screen/ProfileScreen';
+import DriverProfileScreen from '../screen/DriverProfileScreen';
 import HomeTabBar from './HomeTabBar';
 
 const Tab = createBottomTabNavigator();
@@ -52,18 +52,16 @@ export default function DriverTabNavigator() {
         name="Earnings"
         component={DriverEarningsScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Earnings" />,
+          headerShown: false,
           tabBarLabel: 'Earnings',
           title: 'Earnings',
         }}
       />
       <Tab.Screen
         name="Wallet"
-        component={WalletScreen}
+        component={DriverWalletScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Wallet" />,
+          headerShown: false,
           tabBarLabel: 'Wallet',
           title: 'Wallet',
         }}
@@ -72,18 +70,16 @@ export default function DriverTabNavigator() {
         name="Incentives"
         component={DriverIncentivesScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Incentives" />,
+          headerShown: false,
           tabBarLabel: 'Incentives',
           title: 'Incentives',
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={DriverProfileScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Profile" />,
+          headerShown: false,
           tabBarLabel: 'Profile',
           title: 'Profile',
         }}

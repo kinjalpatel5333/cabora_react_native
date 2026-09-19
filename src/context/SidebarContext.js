@@ -28,9 +28,29 @@ export function SidebarProvider({children}) {
     navRef.current = navigation;
   }, []);
   const goTo = useCallback(screen => {
-    navRef.current?.navigate(screen);
-    setActiveTab(screen);
     setOpen(false);
+    if (!screen) return;
+    const tabScreens = [
+      'Dashboard',
+      'Earnings',
+      'Wallet',
+      'Incentives',
+      'Profile',
+      'Home',
+      'Services',
+      'Activity',
+    ];
+    if (tabScreens.includes(screen)) {
+      navRef.current?.navigate(screen);
+      setActiveTab(screen);
+    } else {
+      const parent = navRef.current?.getParent?.();
+      if (parent) {
+        parent.navigate(screen);
+      } else {
+        navRef.current?.navigate(screen);
+      }
+    }
   }, []);
 
   const value = useMemo(

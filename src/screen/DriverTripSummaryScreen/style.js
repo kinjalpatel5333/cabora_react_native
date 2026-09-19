@@ -1,0 +1,236 @@
+import { StyleSheet } from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.white,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      paddingBottom: 24,
+    },
+
+    // Top Mint/Green Hero Area
+    heroArea: {
+      position: 'relative',
+      backgroundColor: colors.green[250],
+      borderBottomLeftRadius: 32,
+      borderBottomRightRadius: 32,
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingBottom: 28,
+      overflow: 'hidden',
+    },
+    heroCircleBg: {
+      position: 'absolute',
+      top: -120,
+      width: 320,
+      height: 320,
+      borderRadius: 160,
+      backgroundColor: colors.green[350],
+    },
+    checkCircle: {
+      width: 52,
+      height: 52,
+      borderRadius: 26,
+      backgroundColor: colors.green[450],
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 14,
+      marginTop: 6,
+      zIndex: 2,
+    },
+    heroTitle: {
+      fontSize: 28,
+      fontWeight: '800',
+      color: colors.green[900],
+      marginBottom: 8,
+      textAlign: 'center',
+      zIndex: 2,
+    },
+    heroSub: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.green[750],
+      textAlign: 'center',
+      lineHeight: 20,
+      paddingHorizontal: 16,
+      zIndex: 2,
+    },
+
+    // Trip route brief pill
+    tripPill: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      backgroundColor: colors.slate[100],
+      borderRadius: 14,
+      paddingVertical: 11,
+      paddingHorizontal: 14,
+      marginHorizontal: 16,
+      marginTop: 16,
+    },
+    tripPillText: {
+      flex: 1,
+      fontSize: 13,
+      fontWeight: '600',
+      color: colors.slate[700],
+    },
+
+    // Passenger Pays Card
+    card: {
+      backgroundColor: colors.white,
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.slate[200],
+      padding: 16,
+      marginHorizontal: 16,
+      marginTop: 12,
+    },
+    cardHeader: {
+      fontSize: 11,
+      fontWeight: '700',
+      color: colors.slate[400],
+      letterSpacing: 0.6,
+      textTransform: 'uppercase',
+      marginBottom: 12,
+    },
+    cardRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 10,
+    },
+    cardRowLabel: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.slate[600],
+    },
+    cardRowValue: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.slate[900],
+    },
+    promoLabel: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.green[600],
+    },
+    promoValue: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.green[600],
+    },
+    cardDivider: {
+      height: 1,
+      backgroundColor: colors.slate[100],
+      marginVertical: 6,
+    },
+    totalLabel: {
+      fontSize: 15,
+      fontWeight: '800',
+      color: colors.slate[900],
+    },
+    totalValue: {
+      fontSize: 18,
+      fontWeight: '800',
+      color: colors.slate[900],
+    },
+
+    // Your Earning Card (Navy)
+    earningCard: {
+      backgroundColor: colors.navy[850],
+      borderRadius: 18,
+      padding: 16,
+      marginHorizontal: 16,
+      marginTop: 12,
+    },
+    earningHeader: {
+      fontSize: 11,
+      fontWeight: '700',
+      color: colors.navy[350],
+      letterSpacing: 0.6,
+      textTransform: 'uppercase',
+      marginBottom: 12,
+    },
+    earningLabel: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.alpha.white75,
+    },
+    earningValue: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.white,
+    },
+    commissionValue: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.orange[425],
+    },
+    walletValue: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: colors.green[400],
+    },
+    earningDivider: {
+      height: 1,
+      backgroundColor: colors.alpha.white12,
+      marginVertical: 8,
+    },
+    keepLabel: {
+      fontSize: 16,
+      fontWeight: '800',
+      color: colors.white,
+    },
+    keepValue: {
+      fontSize: 22,
+      fontWeight: '800',
+      color: colors.green[350] || colors.green[400],
+    },
+
+    // Fixed Bottom Action Section with top border and shadow
+    actionSection: {
+      backgroundColor: colors.white,
+      borderTopWidth: 1,
+      borderTopColor: colors.navy[150],
+      paddingHorizontal: 16,
+      paddingTop: 14,
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: -4 },
+      shadowOpacity: 0.08,
+      shadowRadius: 10,
+      elevation: 10,
+    },
+    confirmBtn: {
+      minHeight: 54,
+      borderRadius: 16,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: colors.primary,
+      shadowOpacity: 0.3,
+      shadowRadius: 10,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 6,
+      marginBottom: 12,
+    },
+    confirmBtnText: {
+      color: colors.white,
+      fontSize: 16.5,
+      fontWeight: '800',
+    },
+    reportLink: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 4,
+      marginBottom: 4,
+    },
+    reportLinkText: {
+      color: colors.slate[500],
+      fontSize: 14,
+      fontWeight: '600',
+    },
+  });
+}

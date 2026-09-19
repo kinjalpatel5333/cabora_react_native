@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React from 'react';
 import {
   Linking,
   Pressable,
@@ -7,134 +7,71 @@ import {
   Text,
   View,
 } from 'react-native';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button, StatusBadge} from '../../components';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useApp } from '../../context/AppContext';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {completeDriverKyc, logoutUser} from '../../redux/slices/authSlice';
-import {setDriverOnline, setDriverRestricted} from '../../redux/slices/driverSlice';
 import createStyles from './style';
 
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = 'mailto:compliance@cabora.app';
 
-const INITIAL_DOCS = [
+const DOCUMENTS_LIST = [
   {
-    id: 'licence',
-    title: 'Driving licence',
-    status: 'pending',
-    meta: 'Not uploaded yet',
-    icon: 'file-text',
-    captureTitle: 'Photograph the front',
-    captureHint: 'Name, licence number and expiry must all be readable.',
-    fileName: 'licence_front.jpg',
+    id: 'insurance',
+    title: 'Insurance certificate',
+    sub: 'Expired 2 Sep 2026 · blocks you now',
+    status: 'expired',
+    statusLabel: 'Expired',
+    actionText: 'Re-upload',
+    captureTitle: 'Photograph Insurance Policy',
+    captureHint: 'Policy number and validity dates must be readable.',
+    fileName: 'insurance_policy.jpg',
   },
   {
     id: 'rc',
-    title: 'Registration certificate',
-    status: 'pending',
-    meta: 'Not uploaded yet',
-    icon: 'file-text',
+    title: 'Registration certificate (RC)',
+    sub: 'Expires 25 Sep 2026 · 7 days left',
+    status: 'warning',
+    statusLabel: '7 days left',
+    actionText: 'Renew now',
     captureTitle: 'Photograph the RC',
     captureHint: 'Vehicle number and owner name must be clearly visible.',
     fileName: 'rc_front.jpg',
   },
   {
-    id: 'photo',
-    title: 'Profile photo',
-    status: 'pending',
-    meta: 'Not uploaded yet',
-    icon: 'camera',
-    captureTitle: 'Take a profile photo',
-    captureHint: 'Face the camera with even lighting and no sunglasses.',
-    fileName: 'profile_photo.jpg',
+    id: 'licence',
+    title: 'Driving licence',
+    sub: 'Valid till 14 Mar 2028',
+    status: 'verified',
+    statusLabel: 'Verified',
+    actionText: null,
+    captureTitle: 'Photograph Driving Licence',
+    captureHint: 'Name, licence number and expiry must all be readable.',
+    fileName: 'licence_front.jpg',
   },
   {
-    id: 'insurance',
-    title: 'Insurance policy',
-    status: 'pending',
-    meta: 'Not uploaded yet',
-    icon: 'shield',
-    captureTitle: 'Photograph the policy',
-    captureHint: 'Policy number and validity dates must be readable.',
-    fileName: 'insurance_policy.jpg',
-  },
-  {
-    id: 'passbook',
-    title: 'Bank passbook',
-    status: 'pending',
-    meta: 'Not uploaded yet',
-    icon: 'credit-card',
-    captureTitle: 'Photograph the first page',
-    captureHint:
-      'Account holder name, account number and IFSC must all be readable.',
-    fileName: 'passbook_front.jpg',
+    id: 'police',
+    title: 'Police verification',
+    sub: 'Submitted 9 Sep · under review',
+    status: 'review',
+    statusLabel: 'In review',
+    actionText: null,
+    captureTitle: 'Photograph Police Verification',
+    captureHint: 'Certificate number and stamp must be clear.',
+    fileName: 'police_verification.jpg',
   },
 ];
 
-function DocIcon({name, color}) {
-  if (name === 'camera') {
-    return <Lucide name="camera" size={20} color={color} />;
-  }
-  if (name === 'shield') {
-    return <Feather name="shield" size={20} color={color} />;
-  }
-  if (name === 'credit-card') {
-    return <Feather name="credit-card" size={20} color={color} />;
-  }
-  return <Lucide name="file-text" size={20} color={color} />;
-}
-
-export default function UploadDocumentsScreen({navigation}) {
+export default function UploadDocumentsScreen({ navigation }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
-  const dispatch = useAppDispatch();
-  const locationResolved = useAppSelector(state => state.app.locationResolved);
-  const kycDocuments = useAppSelector(
-    state => state.auth.user?.kycDocuments || {},
-  );
-  const [saving, setSaving] = useState(false);
+  const { showToast } = useToast();
 
-  const docs = useMemo(
-    () =>
-      INITIAL_DOCS.map(doc => {
-        const saved = kycDocuments[doc.id];
-        const isUploaded = Boolean(
-          saved?.uri || saved?.status === 'uploaded',
-        );
-        if (!isUploaded) {
-          return doc;
-        }
-        return {
-          ...doc,
-          status: 'uploaded',
-          meta: saved.fileName || saved.meta || 'Uploaded',
-          uri: saved.uri,
-          fileName: saved.fileName,
-        };
-      }),
-    [kycDocuments],
-  );
-
-  const uploadedCount = docs.filter(doc => doc.status === 'uploaded').length;
-  const percent = Math.round((uploadedCount / docs.length) * 100);
-  const allUploaded = uploadedCount === docs.length;
-
-  const iconTone = useMemo(
-    () => ({
-      pending: {bg: colors.gray[100], fg: colors.gray[500]},
-      uploaded: {bg: colors.green[100], fg: colors.green[600]},
-      approved: {bg: colors.green[100], fg: colors.green[600]},
-      rejected: {bg: colors.red[100], fg: colors.red[500]},
-    }),
-    [colors],
-  );
-
-  const onUpload = doc => {
+  const handleUploadDoc = doc => {
     navigation.navigate('DocumentCapture', {
       docId: doc.id,
       title: doc.title,
@@ -144,127 +81,199 @@ export default function UploadDocumentsScreen({navigation}) {
     });
   };
 
-  const goNext = async () => {
-    setSaving(true);
-    try {
-      await dispatch(completeDriverKyc()).unwrap();
-      dispatch(setDriverRestricted(false));
-      dispatch(setDriverOnline(true));
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-        return;
-      }
-      if (locationResolved) {
-        navigation.replace('DriverTabs');
-      } else {
-        navigation.replace('LocationPermission');
-      }
-    } catch (err) {
-      setSaving(false);
-    }
+  const handleHelp = () => {
+    showToast({
+      title: 'Compliance Guidelines',
+      message: 'Government regulations require all commercial transport documents to be up to date.',
+      type: 'info',
+    });
   };
 
-  const onBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-      return;
-    }
-    dispatch(logoutUser());
+  const handleComplianceSupport = () => {
+    Linking.openURL(SUPPORT_URL).catch(() => {
+      showToast({
+        title: 'Compliance Support',
+        message: 'Email us at compliance@cabora.app',
+        type: 'info',
+      });
+    });
   };
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
-      <View style={[styles.header, {paddingTop: insets.top + 8}]}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.white}
+        translucent={false}
+      />
+
+      {/* Header Bar */}
+      <View
+        style={[
+          styles.header,
+          { paddingTop: insets.top > 0 ? insets.top : 8 },
+        ]}>
         <Pressable
           accessibilityRole="button"
-          onPress={onBack}
-          style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          accessibilityLabel="Go back"
+          onPress={() => navigation.goBack()}
+          style={styles.headerIconBtn}>
+          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
         </Pressable>
-        <Text style={styles.headerTitle}>Upload documents</Text>
+
+        <Text style={styles.headerTitle}>Documents</Text>
+
         <Pressable
           accessibilityRole="button"
-          onPress={() => Linking.openURL(SUPPORT_URL)}
-          style={styles.headerBtn}>
-          <Feather name="help-circle" size={22} color={colors.navy[800]} />
+          accessibilityLabel="Help"
+          onPress={handleHelp}
+          style={styles.headerIconBtn}>
+          <Feather name="help-circle" size={22} color={colors.slate[900]} />
         </Pressable>
       </View>
 
       <ScrollView
-        contentContainerStyle={[
-          styles.scroll,
-          {paddingBottom: Math.max(insets.bottom, 20)},
-        ]}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.progressCard}>
-          <View style={styles.progressTop}>
-            <Text style={styles.progressTitle}>
-              {uploadedCount} of {docs.length} documents uploaded
+        {/* Blocked Notice Card */}
+        <View style={styles.blockedCard}>
+          <View style={styles.blockedHead}>
+            <Lucide name="lock" size={18} color={colors.red[600]} />
+            <Text style={styles.blockedTitle}>
+              You're blocked from going online
             </Text>
-            <Text style={styles.progressPct}>{percent}%</Text>
           </View>
-          <Text style={styles.progressSub}>
-            You can go online once all five are approved
+          <Text style={styles.blockedSub}>
+            Insurance is a mandatory document and it expired on 2 Sep. Upload a
+            valid certificate and you'll be back online as soon as it's approved
+            — usually within 2 hours.
           </Text>
-          <View style={styles.track}>
-            <View style={[styles.fill, {width: `${percent}%`}]} />
-          </View>
         </View>
 
-        <Text style={styles.section}>REQUIRED</Text>
+        {/* Section: MANDATORY DOCUMENTS */}
+        <Text style={styles.sectionTitle}>MANDATORY DOCUMENTS</Text>
 
-        {docs.map(doc => {
-          const uploaded = doc.status === 'uploaded';
-          const tone = iconTone[doc.status] || iconTone.pending;
-          return (
-            <View key={doc.id} style={styles.card}>
-              <View style={styles.cardRow}>
-                <View style={[styles.iconWrap, {backgroundColor: tone.bg}]}>
-                  <DocIcon name={doc.icon} color={tone.fg} />
-                </View>
-                <View style={styles.copy}>
-                  <Text style={styles.cardTitle}>{doc.title}</Text>
-                  <Text style={styles.cardMeta}>{doc.meta}</Text>
-                  <StatusBadge
-                    label={uploaded ? 'Uploaded' : 'Pending'}
-                    tone={uploaded ? 'success' : 'neutral'}
-                  />
-                </View>
-                {uploaded ? null : (
-                  <Button
-                    title="Upload"
-                    size="sm"
-                    fullWidth={false}
-                    onPress={() => onUpload(doc)}
-                    style={styles.action}
-                  />
-                )}
-              </View>
-            </View>
-          );
-        })}
+        <View style={styles.docsList}>
+          {DOCUMENTS_LIST.map(doc => {
+            const isExpired = doc.status === 'expired';
+            const isWarning = doc.status === 'warning';
+            const isVerified = doc.status === 'verified';
+            const isReview = doc.status === 'review';
 
-        {allUploaded ? (
-          <Button
-            title="Continue"
-            onPress={goNext}
-            loading={saving}
-            style={styles.continue}
-          />
-        ) : (
-          <View style={styles.warning}>
-            <AntDesign
-              name="exclamation-circle"
-              size={16}
-              color={colors.amber[600]}
-            />
-            <Text style={styles.warningText}>
-              Upload all five documents so we can start review.
-            </Text>
-          </View>
-        )}
+            return (
+              <Pressable
+                key={doc.id}
+                accessibilityRole="button"
+                onPress={() => handleUploadDoc(doc)}
+                style={[
+                  styles.docCard,
+                  isExpired && styles.docCardExpired,
+                  isWarning && styles.docCardWarning,
+                ]}>
+                <View style={styles.docLeft}>
+                  <View
+                    style={[
+                      styles.docIconBox,
+                      isExpired && styles.iconBoxExpired,
+                      isWarning && styles.iconBoxWarning,
+                      isVerified && styles.iconBoxVerified,
+                      isReview && styles.iconBoxReview,
+                    ]}>
+                    {isExpired && (
+                      <Feather name="x-circle" size={20} color={colors.red[600]} />
+                    )}
+                    {isWarning && (
+                      <Feather
+                        name="alert-triangle"
+                        size={20}
+                        color={colors.amber[600]}
+                      />
+                    )}
+                    {isVerified && (
+                      <AntDesign
+                        name="check-circle"
+                        size={20}
+                        color={colors.green[600]}
+                      />
+                    )}
+                    {isReview && (
+                      <Feather name="loader" size={20} color={colors.blue[550]} />
+                    )}
+                  </View>
+
+                  <View style={styles.docInfo}>
+                    <Text style={styles.docTitle}>{doc.title}</Text>
+                    <Text
+                      style={[
+                        isExpired && styles.docSubExpired,
+                        isWarning && styles.docSubWarning,
+                        isVerified && styles.docSubVerified,
+                        isReview && styles.docSubReview,
+                      ]}>
+                      {doc.sub}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.docRight}>
+                  <View
+                    style={[
+                      styles.statusBadge,
+                      isExpired && styles.badgeExpired,
+                      isWarning && styles.badgeWarning,
+                      isVerified && styles.badgeVerified,
+                      isReview && styles.badgeReview,
+                    ]}>
+                    <View
+                      style={[
+                        styles.statusDot,
+                        isExpired && styles.statusDotExpired,
+                        isWarning && styles.statusDotWarning,
+                        isVerified && styles.statusDotVerified,
+                        isReview && styles.statusDotReview,
+                      ]}
+                    />
+                    <Text
+                      style={[
+                        isExpired && styles.statusTextExpired,
+                        isWarning && styles.statusTextWarning,
+                        isVerified && styles.statusTextVerified,
+                        isReview && styles.statusTextReview,
+                      ]}>
+                      {doc.statusLabel}
+                    </Text>
+                  </View>
+
+                  {doc.actionText && (
+                    <Text style={styles.actionLinkText}>{doc.actionText}</Text>
+                  )}
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
       </ScrollView>
+
+      {/* Sticky Bottom Bar */}
+      <View
+        style={[
+          styles.bottomBar,
+          { paddingBottom: Math.max(insets.bottom, 12) },
+        ]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => handleUploadDoc(DOCUMENTS_LIST[0])}
+          style={styles.uploadBtn}>
+          <Text style={styles.uploadBtnText}>Upload insurance certificate</Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={handleComplianceSupport}
+          style={styles.supportLink}>
+          <Text style={styles.supportLinkText}>Talk to the compliance team</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }

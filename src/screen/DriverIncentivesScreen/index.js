@@ -1,16 +1,255 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {Screen} from '../../components';
-import styles from '../WalletScreen/style';
+import {
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useApp } from '../../context/AppContext';
+import { useToast } from '../../components/Toast';
+import useThemedStyles from '../../components/useThemedStyles';
+import { useSidebar } from '../../context/SidebarContext';
+import createStyles from './style';
+
+const REFERRALS = [
+  {
+    id: '1',
+    initials: 'SP',
+    name: 'Suresh P.',
+    sub: '28 trips done · reward paid',
+    amount: '+ ₹1,000',
+    status: 'paid',
+    statusLabel: 'Paid',
+    colorKey: 'blue',
+  },
+  {
+    id: '2',
+    initials: 'RK',
+    name: 'Ramesh Kumar',
+    sub: '14 of 25 trips completed',
+    amount: '+ ₹1,000',
+    status: 'progress',
+    statusLabel: '14/25 trips',
+    colorKey: 'orange',
+  },
+  {
+    id: '3',
+    initials: 'AK',
+    name: 'Anand K.',
+    sub: 'Joined 2 days ago · 3 trips',
+    amount: '+ ₹1,000',
+    status: 'progress',
+    statusLabel: '3/25 trips',
+    colorKey: 'purple',
+  },
+];
 
 export default function DriverIncentivesScreen() {
+  const insets = useSafeAreaInsets();
+  const { colors } = useApp();
+  const styles = useThemedStyles(createStyles);
+  const { openDrawer } = useSidebar();
+  const { showToast } = useToast();
+
+  const referralCode = 'CAB-RK4821';
+  const totalSegments = 5;
+  const filledSegments = 3;
+
+  const handleCopyCode = () => {
+    showToast({
+      title: 'Referral Code Copied',
+      message: `${referralCode} copied to clipboard!`,
+      type: 'success',
+    });
+  };
+
+  const handleShareCode = () => {
+    showToast({
+      title: 'Share Referral Code',
+      message: `Sharing code ${referralCode} with other drivers...`,
+      type: 'info',
+    });
+  };
+
+  const getAvatarColors = colorKey => {
+    if (colorKey === 'blue') {
+      return { bg: colors.blue[50], color: colors.blue[550] };
+    }
+    if (colorKey === 'purple') {
+      return { bg: colors.purple[100], color: colors.purple[600] };
+    }
+    return { bg: colors.orange[175], color: colors.primary };
+  };
+
   return (
-    <Screen>
-      <Text style={styles.kicker}>INCENTIVES</Text>
-      <Text style={styles.title}>Bonuses and streaks</Text>
-      <Text style={styles.body}>
-        Peak-hour bonuses and ride streaks will show up here.
-      </Text>
-    </Screen>
+    <View style={styles.root}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={colors.navy[850]}
+        translucent={false}
+      />
+
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: insets.bottom + 140 },
+        ]}
+        showsVerticalScrollIndicator={false}>
+        {/* Navy Hero Header */}
+        <View
+          style={[
+            styles.navyHero,
+            { paddingTop: insets.top > 0 ? insets.top : 12 },
+          ]}>
+          <View style={styles.heroDeco} />
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Open menu"
+            onPress={openDrawer}
+            style={styles.menuBtn}>
+            <Feather name="menu" size={20} color={colors.white} />
+          </Pressable>
+
+          <View style={styles.giftBadge}>
+            <Lucide name="gift" size={24} color={colors.white} />
+          </View>
+
+          <Text style={styles.heroTitle}>Refer a driver,{'\n'}earn ₹1,000</Text>
+          <Text style={styles.heroSub}>
+            They get ₹500 after 10 trips. You get ₹1,000 once they finish 25.
+          </Text>
+        </View>
+
+        {/* Dashed Code Card */}
+        <View style={styles.codeCard}>
+          <View style={styles.codeLeft}>
+            <Text style={styles.codeLabel}>YOUR CODE</Text>
+            <Text style={styles.codeValue}>{referralCode}</Text>
+          </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Copy code"
+            onPress={handleCopyCode}
+            style={styles.copyBtn}>
+            <Lucide name="copy" size={15} color={colors.primary} />
+            <Text style={styles.copyText}>Copy</Text>
+          </Pressable>
+        </View>
+
+        {/* Referral Milestone Card */}
+        <View style={styles.milestoneCard}>
+          <View style={styles.milestoneHead}>
+            <View style={styles.milestoneTitleRow}>
+              <Lucide name="gift" size={16} color={colors.primary} />
+              <Text style={styles.milestoneTitle}>Referral milestone</Text>
+            </View>
+            <View style={styles.inProgressBadge}>
+              <View style={styles.inProgressDot} />
+              <Text style={styles.inProgressText}>In progress</Text>
+            </View>
+          </View>
+
+          <View style={styles.milestoneStats}>
+            <Text style={styles.milestoneDrivers}>3 of 5 drivers</Text>
+            <Text style={styles.milestoneReward}>₹5,000</Text>
+          </View>
+
+          <View style={styles.trackRow}>
+            {Array.from({ length: totalSegments }).map((_, idx) => (
+              <View
+                key={idx}
+                style={[
+                  styles.segment,
+                  idx < filledSegments && styles.segmentFilled,
+                ]}
+              />
+            ))}
+          </View>
+
+          <Text style={styles.milestoneSub}>
+            2 more approved drivers unlocks the ₹5,000 milestone
+          </Text>
+        </View>
+
+        {/* Your Referrals Section */}
+        <Text style={styles.sectionTitle}>YOUR REFERRALS</Text>
+
+        <View style={styles.referralsCard}>
+          {REFERRALS.map((ref, idx) => {
+            const isLast = idx === REFERRALS.length - 1;
+            const isPaid = ref.status === 'paid';
+            const avatarColor = getAvatarColors(ref.colorKey);
+
+            return (
+              <View
+                key={ref.id}
+                style={[styles.referralItem, !isLast && styles.referralBorder]}>
+                <View style={styles.referralLeft}>
+                  <View
+                    style={[
+                      styles.avatarCircle,
+                      { backgroundColor: avatarColor.bg },
+                    ]}>
+                    <Text style={[styles.avatarText, { color: avatarColor.color }]}>
+                      {ref.initials}
+                    </Text>
+                  </View>
+                  <View style={styles.referralInfo}>
+                    <Text style={styles.referralName}>{ref.name}</Text>
+                    <Text style={styles.referralSub}>{ref.sub}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.referralRight}>
+                  <Text style={styles.referralAmount}>{ref.amount}</Text>
+                  <View
+                    style={[
+                      styles.statusBadge,
+                      isPaid
+                        ? styles.statusBadgePaid
+                        : styles.statusBadgeProgress,
+                    ]}>
+                    <View
+                      style={
+                        isPaid
+                          ? styles.statusDotPaid
+                          : styles.statusDotProgress
+                      }
+                    />
+                    <Text
+                      style={
+                        isPaid
+                          ? styles.statusTextPaid
+                          : styles.statusTextProgress
+                      }>
+                      {ref.statusLabel}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
+
+      {/* Share My Code Floating Button */}
+      <View
+        style={[
+          styles.shareBtnWrap,
+          { bottom: Math.max(insets.bottom, 10) + 74 },
+        ]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={handleShareCode}
+          style={styles.shareBtn}>
+          <Text style={styles.shareBtnText}>Share my code</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 }

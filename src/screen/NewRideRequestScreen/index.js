@@ -221,7 +221,7 @@ export default function NewRideRequestScreen() {
             width={ROUTE_W}
             height={ROUTE_H}
             color={colors.orange[600]}
-            outlineColor="rgba(255,255,255,0.85)"
+            outlineColor={colors.alpha.white85}
           />
           <Image
             source={images.mapMarkerDrop}

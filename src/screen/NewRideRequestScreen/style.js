@@ -18,7 +18,7 @@ export default function createStyles(colors) {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(14, 42, 74, 0.4)',
+      backgroundColor: colors.alpha.navy40,
       zIndex: 5,
       elevation: 5,
     },
@@ -29,7 +29,7 @@ export default function createStyles(colors) {
       right: 0,
       zIndex: 20,
       height: 4,
-      backgroundColor: 'rgba(255,255,255,0.22)',
+      backgroundColor: colors.alpha.white22,
       overflow: 'hidden',
     },
     topProgressFill: {
@@ -366,7 +366,7 @@ export default function createStyles(colors) {
       letterSpacing: 0.5,
     },
     acceptSub: {
-      color: 'rgba(255,255,255,0.9)',
+      color: colors.alpha.white90,
       fontSize: 12,
       fontWeight: '600',
       marginTop: 2,

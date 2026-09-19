@@ -50,7 +50,7 @@ export default function DriverStartTripScreen() {
         message: 'Drive safely to Airport T2.',
         type: 'success',
       });
-      navigation.navigate('DriverTabs');
+      navigation.navigate('DriverTripInProgress');
     } else if (otp.length === 4) {
       if (attempts >= MAX_ATTEMPTS) {
         setIsLocked(true);
@@ -109,8 +109,8 @@ export default function DriverStartTripScreen() {
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
       <StatusBar
-        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
-        backgroundColor="transparent"
+        barStyle="dark-content"
+        backgroundColor={colors.transparent}
         translucent
       />
 
@@ -237,12 +237,12 @@ export default function DriverStartTripScreen() {
                 isLocked && styles.attemptBadgeLocked,
               ]}>
               {isLocked ? (
-                <Feather name="lock" size={13} color="#DC2626" />
+                <Feather name="lock" size={13} color={colors.red[600]} />
               ) : (
                 <Lucide
                   name="shield-check"
                   size={15}
-                  color={colors.isDark ? colors.navy[200] : '#475569'}
+                  color={colors.slate[600]}
                 />
               )}
               <Text
@@ -263,7 +263,7 @@ export default function DriverStartTripScreen() {
                   <Feather
                     name="alert-circle"
                     size={16}
-                    color="#DC2626"
+                    color={colors.red[600]}
                     style={{marginTop: 1}}
                   />
                   <Text style={styles.errorText}>
@@ -273,7 +273,7 @@ export default function DriverStartTripScreen() {
 
                 <View style={styles.supportCard}>
                   <View style={styles.supportCardHeader}>
-                    <Feather name="headphones" size={18} color="#DC2626" />
+                    <Feather name="headphones" size={18} color={colors.red[600]} />
                     <Text style={styles.supportCardTitle}>
                       Support can start this trip for you
                     </Text>
@@ -287,7 +287,7 @@ export default function DriverStartTripScreen() {
                     accessibilityRole="button"
                     onPress={() => Linking.openURL('tel:18004190000')}
                     style={styles.callSupportBtn}>
-                    <Feather name="phone" size={16} color="#FFFFFF" />
+                    <Feather name="phone" size={16} color={colors.white} />
                     <Text style={styles.callSupportText}>
                       Call support · 1800 419 0000
                     </Text>
