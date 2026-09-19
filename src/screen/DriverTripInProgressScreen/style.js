@@ -48,12 +48,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     navTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15,
       fontWeight: '800',
       lineHeight: 19,
     },
     navSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white65,
       fontSize: 12,
       fontWeight: '500',
@@ -78,6 +80,7 @@ export default function createStyles(colors) {
       elevation: 4,
     },
     sosText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[600],
       fontSize: 14,
       fontWeight: '800',
@@ -217,12 +220,14 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     onTripText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[700],
       fontSize: 12,
       fontWeight: '800',
       letterSpacing: 0.5,
     },
     destTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.slate[900],
       fontSize: 15.5,
@@ -267,6 +272,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.slate[200],
     },
     statLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.slate[400],
       fontSize: 11,
       fontWeight: '700',
@@ -275,11 +281,13 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     statValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontSize: 18,
       fontWeight: '800',
     },
     statValueOrange: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 19,
       fontWeight: '800',
@@ -308,6 +316,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 14,
       fontWeight: '800',
@@ -317,11 +326,13 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     riderName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontSize: 15,
       fontWeight: '800',
     },
     riderSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.slate[500],
       fontSize: 12.5,
       fontWeight: '500',
@@ -355,6 +366,7 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     proximityText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[700],
       fontSize: 13.5,
       fontWeight: '700',
@@ -379,6 +391,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     endTripText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16.5,
       fontWeight: '800',

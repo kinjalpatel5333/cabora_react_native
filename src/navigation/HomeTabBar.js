@@ -5,6 +5,7 @@ import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
+import { fonts } from '../config/typography';
 
 const TABS = [
   { name: 'Home', label: 'Home', kind: 'home' },
@@ -113,11 +114,14 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
                 <View
                   style={[
                     styles.tabChip,
-                    active && {
-                      backgroundColor: colors.driver.tabActiveBg,
-                      borderWidth: 1.2,
-                      borderColor: colors.driver.tabActiveBorder,
-                    },
+                    active && [
+                      styles.tabChipActive,
+                      {
+                        backgroundColor: colors.driver.tabActiveBg,
+                        borderColor: colors.driver.tabActiveBorder,
+                        shadowColor: colors.primary,
+                      },
+                    ],
                   ]}>
                   <TabGlyph
                     kind={tab.kind}
@@ -148,16 +152,16 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
 const styles = StyleSheet.create({
   shell: {
     position: 'absolute',
-    left: 14,
-    right: 14,
+    left: 12,
+    right: 12,
     bottom: 0,
     zIndex: 99,
   },
   pill: {
     width: '100%',
     borderRadius: 36,
-    paddingVertical: 5,
-    paddingHorizontal: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     shadowOpacity: 0.12,
     shadowRadius: 18,
     shadowOffset: { width: 0, height: 6 },
@@ -173,20 +177,40 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 2,
   },
   tabChip: {
     width: '100%',
-    maxWidth: 68,
-    height: 54,
-    borderRadius: 27,
+    maxWidth: 64,
+    height: 50,
+    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 1,
+    gap: 2,
     paddingHorizontal: 2,
     backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+  },
+  tabChipActive: {
+    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.16,
+    shadowRadius: 8,
+    elevation: 2,
   },
   label: {
+    fontFamily: fonts.sora.semiBold,
     fontSize: 10.5,
     lineHeight: 13,
     textAlign: 'center',

@@ -25,6 +25,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: colors.slate[900],
@@ -54,6 +55,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.alpha.orange22,
     },
     earningLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: colors.navy[350],
@@ -63,6 +65,7 @@ export default function createStyles(colors) {
       zIndex: 2,
     },
     earningAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 36,
       fontWeight: '900',
       color: colors.white,
@@ -70,6 +73,7 @@ export default function createStyles(colors) {
       zIndex: 2,
     },
     earningSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.slate[300],
@@ -102,11 +106,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     routeTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
     },
     routeSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -123,6 +129,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     completedText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.slate[500],
@@ -143,6 +150,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.green[600],
     },
     paidText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
       fontWeight: '700',
       color: colors.green[700],
@@ -150,6 +158,7 @@ export default function createStyles(colors) {
 
     // Section Header
     sectionHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -181,16 +190,19 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     chargeName: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
       fontWeight: '700',
       color: colors.slate[900],
     },
     chargeValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.slate[900],
     },
     chargeSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
       color: colors.slate[500],
@@ -214,17 +226,20 @@ export default function createStyles(colors) {
       flex: 1,
     },
     addedTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
       color: colors.orange[850],
     },
     addedSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.orange[950],
       marginTop: 2,
     },
     addedAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
       fontWeight: '900',
       color: colors.orange[850],
@@ -244,6 +259,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     tipText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -277,6 +293,7 @@ export default function createStyles(colors) {
       elevation: 5,
     },
     doneBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',

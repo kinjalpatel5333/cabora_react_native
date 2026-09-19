@@ -56,6 +56,7 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 20,
       fontWeight: '900',
@@ -71,17 +72,20 @@ export default function createStyles(colors) {
       marginBottom: 3,
     },
     nameText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
       color: colors.white,
     },
     statsText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.navy[350],
       marginBottom: 3,
     },
     contactText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
       color: colors.slate[500],
@@ -106,6 +110,7 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
     },
     kycText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
       fontWeight: '700',
       color: colors.green[350] || colors.green[400],
@@ -113,6 +118,7 @@ export default function createStyles(colors) {
 
     // Section Titles
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -157,11 +163,13 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     vehicleTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '800',
       color: colors.slate[900],
     },
     vehicleSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.slate[500],
@@ -174,6 +182,7 @@ export default function createStyles(colors) {
       paddingVertical: 6,
     },
     plateText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
       fontWeight: '900',
@@ -191,6 +200,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     warnText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 12.5,
       fontWeight: '500',
@@ -208,6 +218,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.white,
     },
     vehicleActionText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[850],
       fontSize: 14.5,
       fontWeight: '800',
@@ -256,11 +267,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     listTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.slate[900],
     },
     listSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],

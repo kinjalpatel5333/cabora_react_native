@@ -69,6 +69,14 @@ export default function DriverSubscriptionScreen() {
     });
   };
 
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('MainTabs');
+    }
+  };
+
   return (
     <View style={styles.root}>
       <StatusBar
@@ -86,7 +94,7 @@ export default function DriverSubscriptionScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Go back"
-          onPress={() => navigation.goBack()}
+          onPress={handleBack}
           style={styles.headerIconBtn}>
           <Feather name="arrow-left" size={22} color={colors.slate[900]} />
         </Pressable>

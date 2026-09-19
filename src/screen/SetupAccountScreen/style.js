@@ -21,6 +21,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.navy[900],
@@ -32,6 +33,7 @@ export default function createStyles(colors) {
       paddingBottom: 12,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 28,
       fontWeight: '800',
@@ -39,6 +41,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 14,
       lineHeight: 20,
@@ -75,12 +78,14 @@ export default function createStyles(colors) {
       flex: 1,
     },
     cardTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[900],
       fontSize: 16,
       fontWeight: '700',
       marginBottom: 4,
     },
     cardBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 13,
       lineHeight: 18,
@@ -114,12 +119,14 @@ export default function createStyles(colors) {
       gap: 8,
     },
     hintText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 13,
       fontWeight: '500',
       color: colors.gray[500],
     },
     hintSuccess: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.green[600],
       fontWeight: '600',
     },
@@ -135,6 +142,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.white,
     },
     noteText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.navy[700],
       fontSize: 13,
@@ -151,10 +159,12 @@ export default function createStyles(colors) {
       borderTopColor: colors.gray[100],
     },
     pickedLabel: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 13,
     },
     pickedValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 20,
       fontWeight: '800',

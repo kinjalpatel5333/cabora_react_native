@@ -25,6 +25,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: colors.slate[900],
@@ -51,11 +52,13 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     blockedTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15.5,
       fontWeight: '800',
       color: colors.red[800],
     },
     blockedSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.red[600],
@@ -64,6 +67,7 @@ export default function createStyles(colors) {
 
     // Section Title
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -132,29 +136,34 @@ export default function createStyles(colors) {
       flex: 1,
     },
     docTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.slate[900],
     },
     docSubExpired: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.red[600],
       marginTop: 2,
     },
     docSubWarning: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.amber[600],
       marginTop: 2,
     },
     docSubVerified: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
       marginTop: 2,
     },
     docSubReview: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.blue[550],
@@ -208,26 +217,31 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[550],
     },
     statusTextExpired: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.red[600],
     },
     statusTextWarning: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.amber[700],
     },
     statusTextVerified: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.green[700],
     },
     statusTextReview: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.blue[550],
     },
     actionLinkText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 13,
       fontWeight: '800',
@@ -255,6 +269,7 @@ export default function createStyles(colors) {
       elevation: 3,
     },
     uploadBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',
@@ -265,6 +280,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     supportLinkText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.slate[500],
       fontSize: 14,
       fontWeight: '700',

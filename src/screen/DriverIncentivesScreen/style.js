@@ -54,6 +54,7 @@ export default function createStyles(colors) {
       elevation: 4,
     },
     heroTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 32,
       fontWeight: '900',
       color: colors.white,
@@ -61,6 +62,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.5,
     },
     heroSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
       fontWeight: '500',
       color: colors.navy[350],
@@ -91,6 +93,7 @@ export default function createStyles(colors) {
       flex: 1,
     },
     codeLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: colors.navy[350],
@@ -99,6 +102,7 @@ export default function createStyles(colors) {
       marginBottom: 3,
     },
     codeValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
       color: colors.slate[900],
@@ -114,6 +118,7 @@ export default function createStyles(colors) {
       gap: 6,
     },
     copyText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13.5,
       fontWeight: '800',
       color: colors.primary,
@@ -144,6 +149,7 @@ export default function createStyles(colors) {
       gap: 8,
     },
     milestoneTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
@@ -164,6 +170,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     inProgressText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.orange[700],
@@ -174,11 +181,13 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     milestoneDrivers: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
       fontWeight: '900',
       color: colors.slate[900],
     },
     milestoneReward: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
       color: colors.primary,
@@ -198,6 +207,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     milestoneSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -205,6 +215,7 @@ export default function createStyles(colors) {
 
     // Referrals Section
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -249,6 +260,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13,
       fontWeight: '800',
     },
@@ -256,11 +268,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     referralName: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
     },
     referralSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -271,6 +285,7 @@ export default function createStyles(colors) {
       gap: 4,
     },
     referralAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.green[700],
@@ -302,11 +317,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[550],
     },
     statusTextPaid: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.green[700],
     },
     statusTextProgress: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.blue[550],
@@ -332,6 +349,7 @@ export default function createStyles(colors) {
       elevation: 4,
     },
     shareBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',

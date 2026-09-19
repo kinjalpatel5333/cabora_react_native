@@ -21,7 +21,7 @@ export default function createStyles(colors) {
     },
     headerTitle: {
       fontSize: 18,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.text,
       textAlign: 'center',
     },
@@ -61,7 +61,7 @@ export default function createStyles(colors) {
     },
     avatarText: {
       color: colors.white,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 16,
     },
     passengerDetails: {
@@ -70,14 +70,14 @@ export default function createStyles(colors) {
     },
     passengerName: {
       color: colors.white,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 15,
       marginBottom: 3,
     },
     routeText: {
       color: colors.alpha.white72,
       fontSize: 12,
-      fontFamily: 'Sora-Regular',
+      fontFamily: colors.fonts.sora.regular,
       lineHeight: 16,
     },
     fareContainer: {
@@ -86,13 +86,13 @@ export default function createStyles(colors) {
     cashLabel: {
       color: colors.alpha.white60,
       fontSize: 11,
-      fontFamily: 'Sora-SemiBold',
+      fontFamily: colors.fonts.sora.regular,
       letterSpacing: 0.5,
       marginBottom: 2,
     },
     fareAmount: {
       color: colors.orange[500],
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 20,
     },
     instructionSection: {
@@ -102,7 +102,7 @@ export default function createStyles(colors) {
     },
     instructionTitle: {
       fontSize: 22,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.extraBold,
       fontWeight: '800',
       color: colors.navy[925],
       textAlign: 'center',
@@ -111,7 +111,7 @@ export default function createStyles(colors) {
     },
     instructionSub: {
       fontSize: 13.5,
-      fontFamily: 'Sora-Regular',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.slate[500],
       textAlign: 'center',
       lineHeight: 19,
@@ -153,7 +153,7 @@ export default function createStyles(colors) {
     },
     otpDigit: {
       fontSize: 26,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.extraBold,
       fontWeight: '800',
       color: colors.navy[925],
     },
@@ -162,7 +162,7 @@ export default function createStyles(colors) {
     },
     cursor: {
       fontSize: 26,
-      fontFamily: 'Sora-Regular',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.primary,
       marginTop: -2,
     },
@@ -186,7 +186,7 @@ export default function createStyles(colors) {
     },
     attemptText: {
       fontSize: 12.5,
-      fontFamily: 'Sora-SemiBold',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
     },
     attemptTextLocked: {
@@ -203,7 +203,7 @@ export default function createStyles(colors) {
     errorText: {
       flex: 1,
       fontSize: 13,
-      fontFamily: 'Sora-SemiBold',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.red[600],
       lineHeight: 18,
     },
@@ -222,13 +222,13 @@ export default function createStyles(colors) {
     },
     supportCardTitle: {
       fontSize: 14.5,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.red[800],
       flex: 1,
     },
     supportCardSub: {
       fontSize: 12,
-      fontFamily: 'Sora-Regular',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.red[800],
       lineHeight: 17.5,
       marginTop: 8,
@@ -246,7 +246,7 @@ export default function createStyles(colors) {
     },
     callSupportText: {
       color: colors.white,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
     },
     hiddenInput: {
@@ -284,7 +284,7 @@ export default function createStyles(colors) {
     },
     startTripBtnText: {
       color: colors.white,
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 16,
     },
     startTripBtnTextDisabled: {
@@ -296,13 +296,13 @@ export default function createStyles(colors) {
     },
     cantFindCodeText: {
       fontSize: 14,
-      fontFamily: 'Sora-SemiBold',
+      fontFamily: colors.fonts.sora.regular,
       color: colors.slate[600],
       textAlign: 'center',
     },
     cancelPenaltyText: {
       color: colors.red[600],
-      fontFamily: 'Sora-Bold',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14.5,
       textAlign: 'center',
     },

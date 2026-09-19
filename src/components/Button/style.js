@@ -68,10 +68,12 @@ export default function createStyles(colors) {
       backgroundColor: 'transparent',
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
       fontWeight: '700',
     },
     labelSm: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
     },
     labelOnFill: {

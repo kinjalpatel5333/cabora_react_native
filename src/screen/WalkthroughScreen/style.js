@@ -51,6 +51,7 @@ export default function createStyles(colors) {
       backgroundColor: 'rgba(255, 255, 255, 0.75)',
     },
     skipLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[900],
       fontSize: 14,
       fontWeight: '700',
@@ -113,17 +114,20 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     badgeLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[400],
       fontSize: 11,
       fontWeight: '800',
       letterSpacing: 1.1,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontWeight: '800',
       letterSpacing: -0.4,
     },
     body: {
+      fontFamily: colors.fonts.sora.regular,
       color: 'rgba(195, 207, 223, 0.88)',
       fontSize: 15,
       lineHeight: 22,

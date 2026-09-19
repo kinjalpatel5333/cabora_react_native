@@ -6,6 +6,7 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     label: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
       fontWeight: '600',
@@ -38,6 +39,7 @@ export default function createStyles(colors) {
       borderColor: colors.gray[200],
     },
     input: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 16,
@@ -53,6 +55,7 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     hint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
       flex: 1,

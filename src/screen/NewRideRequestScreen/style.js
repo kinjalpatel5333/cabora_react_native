@@ -58,6 +58,7 @@ export default function createStyles(colors) {
       elevation: 8,
     },
     autoRejectText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
       fontWeight: '700',
@@ -72,6 +73,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
     },
     missedChipText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
       fontWeight: '700',
@@ -140,6 +142,7 @@ export default function createStyles(colors) {
       borderColor: colors.gray[300],
     },
     timerText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
       fontSize: 20,
       fontWeight: '800',
@@ -158,6 +161,7 @@ export default function createStyles(colors) {
       paddingTop: 2,
     },
     requestKicker: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
       fontSize: 11,
       fontWeight: '800',
@@ -166,6 +170,7 @@ export default function createStyles(colors) {
       textAlign: 'left',
     },
     expiredKicker: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[400],
       fontSize: 11,
       fontWeight: '800',
@@ -174,6 +179,7 @@ export default function createStyles(colors) {
       textAlign: 'left',
     },
     requestTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 17,
       fontWeight: '800',
@@ -182,6 +188,7 @@ export default function createStyles(colors) {
       textAlign: 'left',
     },
     expiredTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[400],
       fontSize: 16,
       fontWeight: '800',
@@ -195,6 +202,7 @@ export default function createStyles(colors) {
       paddingTop: 2,
     },
     earnLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[400],
       fontSize: 10,
       fontWeight: '700',
@@ -206,6 +214,7 @@ export default function createStyles(colors) {
       color: colors.navy[400],
     },
     earnValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 22,
       fontWeight: '800',
@@ -267,12 +276,14 @@ export default function createStyles(colors) {
       marginTop: 14,
     },
     tripLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[400],
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 0.4,
     },
     tripTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 15,
       fontWeight: '800',
@@ -282,6 +293,7 @@ export default function createStyles(colors) {
       color: colors.navy[400],
     },
     tripMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[400],
       fontSize: 12,
       marginTop: 2,
@@ -305,11 +317,13 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 12,
       fontWeight: '800',
     },
     riderText: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.navy[900],
       fontSize: 13,
@@ -324,6 +338,7 @@ export default function createStyles(colors) {
       gap: 2,
     },
     payText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[700],
       fontSize: 13,
       fontWeight: '700',
@@ -345,6 +360,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.white,
     },
     rejectText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[700],
       fontSize: 14,
       fontWeight: '800',
@@ -360,12 +376,14 @@ export default function createStyles(colors) {
       paddingHorizontal: 12,
     },
     acceptTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',
       letterSpacing: 0.5,
     },
     acceptSub: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.alpha.white90,
       fontSize: 12,
       fontWeight: '600',
@@ -382,11 +400,13 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     backBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[800],
       fontSize: 15,
       fontWeight: '800',
     },
     footerHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[400],
       fontSize: 11,
       lineHeight: 15,

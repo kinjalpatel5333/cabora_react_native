@@ -76,12 +76,14 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     greetingKicker: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.gray[500],
       fontSize: 10,
       fontWeight: '700',
       letterSpacing: 1,
     },
     greetingName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 14,
       fontWeight: '800',
@@ -122,6 +124,7 @@ export default function createStyles(colors) {
       zIndex: 3,
     },
     badgeText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 11,
       fontWeight: '800',
@@ -138,6 +141,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
       fontWeight: '800',
@@ -170,6 +174,7 @@ export default function createStyles(colors) {
       borderRadius: 4,
     },
     statusChipText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12,
       fontWeight: '700',
@@ -197,6 +202,7 @@ export default function createStyles(colors) {
       elevation: 4,
     },
     demandText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12,
       fontWeight: '700',
@@ -300,11 +306,13 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     onlineTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.green[600],
       fontSize: 16,
       fontWeight: '800',
     },
     onlineSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.green[600],
       fontSize: 12,
       fontWeight: '500',
@@ -318,11 +326,13 @@ export default function createStyles(colors) {
       color: colors.navy[600],
     },
     offlineTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[600],
       fontSize: 16,
       fontWeight: '800',
     },
     offlineSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.red[500],
       fontSize: 12,
       fontWeight: '500',
@@ -348,6 +358,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 4,
     },
     statValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 14,
       fontWeight: '800',
@@ -356,6 +367,7 @@ export default function createStyles(colors) {
       color: colors.gray[400],
     },
     statLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.gray[400],
       fontSize: 10,
       fontWeight: '700',
@@ -375,6 +387,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     streakTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.navy[900],
       fontSize: 14,
@@ -396,6 +409,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[600],
     },
     progressPillText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[600],
       fontSize: 11,
       fontWeight: '700',
@@ -407,11 +421,13 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     streakCount: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 20,
       fontWeight: '800',
     },
     streakReward: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
       fontSize: 20,
       fontWeight: '800',
@@ -442,6 +458,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.gray[200],
     },
     streakHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.gray[500],
       fontSize: 12,
       fontWeight: '500',
@@ -461,6 +478,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     requireTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.red[600],
       fontSize: 14,
@@ -484,6 +502,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.amber[600],
     },
     requireText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.red[600],
       fontSize: 13,
@@ -491,11 +510,13 @@ export default function createStyles(colors) {
       lineHeight: 18,
     },
     requireLink: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[600],
       fontSize: 13,
       fontWeight: '800',
     },
     requireMuted: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.red[600],
       fontSize: 13,
       fontWeight: '700',

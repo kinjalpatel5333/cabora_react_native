@@ -27,6 +27,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.map.roadAlt,
     },
     mapLabel: {
+      fontFamily: colors.fonts.sora.bold,
       position: 'absolute',
       color: colors.navy[400],
       fontSize: 11,
@@ -66,6 +67,7 @@ export default function createStyles(colors) {
       borderColor: colors.orange[200],
     },
     bannerText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.navy[900],
       fontSize: 13,
@@ -98,6 +100,7 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 26,
       fontWeight: '800',
@@ -105,6 +108,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     body: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 14,
       lineHeight: 21,
@@ -125,6 +129,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.gray[100],
     },
     benefitText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.navy[800],
       fontSize: 14,
@@ -140,6 +145,7 @@ export default function createStyles(colors) {
       paddingVertical: 10,
     },
     linkText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 15,
       fontWeight: '700',
@@ -167,17 +173,20 @@ export default function createStyles(colors) {
       flex: 1,
     },
     placeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[900],
       fontSize: 15,
       fontWeight: '700',
       marginBottom: 2,
     },
     placeSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 13,
       lineHeight: 18,
     },
     chevron: {
+      fontFamily: colors.fonts.sora.light,
       color: colors.gray[400],
       fontSize: 22,
       fontWeight: '300',

@@ -45,6 +45,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.red[100],
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 22,
       fontWeight: '800',
@@ -52,6 +53,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     message: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.gray[500],
       fontSize: 14,
       fontWeight: '500',
@@ -74,6 +76,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.red[500],
     },
     primaryText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',
@@ -83,6 +86,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
     },
     secondaryText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[600],
       fontSize: 15,
       fontWeight: '700',

@@ -25,6 +25,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: colors.slate[900],
@@ -53,16 +54,19 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     progressTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '800',
       color: colors.slate[900],
     },
     progressPercent: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.primary,
     },
     progressSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.slate[500],
@@ -83,6 +87,7 @@ export default function createStyles(colors) {
 
     // Section Titles
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -126,6 +131,7 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     checkText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13.5,
       fontWeight: '600',
       color: colors.slate[900],
@@ -133,6 +139,7 @@ export default function createStyles(colors) {
       lineHeight: 18,
     },
     doneText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12.5,
       fontWeight: '700',
       color: colors.green[600],
@@ -152,6 +159,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     warningText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
       fontWeight: '700',
       color: colors.amber[800],
@@ -172,6 +180,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     successText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
       fontWeight: '700',
       color: colors.green[800],

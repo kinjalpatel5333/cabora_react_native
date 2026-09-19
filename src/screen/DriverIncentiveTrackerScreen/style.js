@@ -25,6 +25,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: colors.slate[900],
@@ -54,6 +55,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.alpha.white08,
     },
     navyKicker: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: colors.navy[350],
@@ -61,6 +63,7 @@ export default function createStyles(colors) {
       textTransform: 'uppercase',
     },
     navyAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 38,
       fontWeight: '900',
       color: colors.white,
@@ -69,6 +72,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.5,
     },
     navySub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.navy[350],
@@ -76,6 +80,7 @@ export default function createStyles(colors) {
 
     // Section Titles
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -123,11 +128,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     activeTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.slate[900],
     },
     activeSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -149,6 +156,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.amber[600],
     },
     amberText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.amber[700],
@@ -159,11 +167,13 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     progressCount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
       fontWeight: '900',
       color: colors.slate[900],
     },
     rewardText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13.5,
       fontWeight: '800',
       color: colors.primary,
@@ -181,6 +191,7 @@ export default function createStyles(colors) {
       borderRadius: 4,
     },
     cardBottomHint: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -212,11 +223,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     itemTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
     },
     itemDate: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -227,11 +240,13 @@ export default function createStyles(colors) {
       gap: 4,
     },
     itemAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.green[700],
     },
     itemAmountPending: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
@@ -263,11 +278,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[550],
     },
     statusTextPaid: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.green[700],
     },
     statusTextProcessing: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
       fontWeight: '800',
       color: colors.blue[550],

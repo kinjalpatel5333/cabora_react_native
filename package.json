@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "bash scripts/with-node22.sh react-native run-android",
-    "ios": "bash scripts/with-node22.sh react-native run-ios",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "bash scripts/with-node22.sh react-native start",
+    "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {

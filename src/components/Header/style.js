@@ -1,3 +1,4 @@
+import { fonts } from '../../config/typography';
 import {StyleSheet} from 'react-native';
 import colors from '../../config/color';
 
@@ -17,6 +18,7 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
   title: {
+      fontFamily: fonts.sora.extraBold,
     flex: 1,
     marginLeft: 12,
     color: colors.text,

@@ -48,12 +48,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     navTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',
       lineHeight: 20,
     },
     navSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white55,
       fontSize: 12,
       fontWeight: '500',
@@ -65,12 +67,14 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     navEta: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.orange[450],
       fontSize: 15,
       fontWeight: '600',
       lineHeight: 20,
     },
     navDist: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white55,
       fontSize: 12,
       fontWeight: '500',
@@ -173,6 +177,7 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     statusText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[600],
       fontSize: 13,
       fontWeight: '700',
@@ -192,6 +197,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 14,
       fontWeight: '800',
@@ -201,11 +207,13 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     riderName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 16,
       fontWeight: '800',
     },
     riderMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[400],
       fontSize: 13,
       marginTop: 3,
@@ -225,11 +233,13 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     pickupTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 15,
       fontWeight: '800',
     },
     pickupNote: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[500],
       fontSize: 13,
       fontStyle: 'italic',
@@ -252,6 +262,7 @@ export default function createStyles(colors) {
       gap: 6,
     },
     actionText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[800],
       fontSize: 13,
       fontWeight: '700',
@@ -269,6 +280,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     cancelActionText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.red[700],
       fontSize: 13,
       fontWeight: '700',
@@ -291,11 +303,13 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     arriveText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
       fontWeight: '800',
     },
     footerHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[400],
       fontSize: 11,
       lineHeight: 15,

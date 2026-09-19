@@ -41,11 +41,13 @@ export default function createStyles(colors) {
       zIndex: 2,
     },
     rupeeSymbol: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 24,
       fontWeight: '800',
       color: '#C2410C',
     },
     heroTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '800',
       color: '#431407',
@@ -54,6 +56,7 @@ export default function createStyles(colors) {
       zIndex: 2,
     },
     heroSub: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
       fontWeight: '600',
       color: '#C2410C',
@@ -76,6 +79,7 @@ export default function createStyles(colors) {
       marginTop: 16,
     },
     tripPillText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 13,
       fontWeight: '600',
@@ -93,6 +97,7 @@ export default function createStyles(colors) {
       marginTop: 12,
     },
     cardHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: '#94A3B8',
@@ -107,21 +112,25 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     cardRowLabel: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
       fontWeight: '500',
       color: '#475569',
     },
     cardRowValue: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
       color: '#0F172A',
     },
     promoLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
       fontWeight: '600',
       color: '#16A34A',
     },
     promoValue: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
       color: '#16A34A',
@@ -132,11 +141,13 @@ export default function createStyles(colors) {
       marginVertical: 6,
     },
     totalLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: '#0F172A',
     },
     totalValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: '#0F172A',
@@ -151,6 +162,7 @@ export default function createStyles(colors) {
       marginTop: 12,
     },
     earningHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: '#94A8C2',
@@ -159,16 +171,19 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     earningLabel: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
       fontWeight: '500',
       color: 'rgba(255, 255, 255, 0.75)',
     },
     earningValue: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
       color: '#FFFFFF',
     },
     deductedValue: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
       color: '#FFB077',
@@ -179,11 +194,13 @@ export default function createStyles(colors) {
       marginVertical: 8,
     },
     keepLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '800',
       color: '#FFFFFF',
     },
     keepValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
       fontWeight: '800',
       color: '#34D399',
@@ -218,11 +235,13 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     completeBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: '#FFFFFF',
       fontSize: 16,
       fontWeight: '800',
     },
     btnRupee: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: '#FFFFFF',
       fontSize: 16,
       fontWeight: '800',
@@ -234,6 +253,7 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     secondaryLinkText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: '#64748B',
       fontSize: 14,
       fontWeight: '600',

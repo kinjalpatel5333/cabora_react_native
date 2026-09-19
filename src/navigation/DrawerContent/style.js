@@ -1,3 +1,4 @@
+import { fonts } from '../../config/typography';
 import { StyleSheet } from 'react-native';
 import colors from '../../config/color';
 
@@ -19,11 +20,13 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   name: {
+      fontFamily: fonts.sora.extraBold,
     color: colors.slate[900],
     fontSize: 18,
     fontWeight: '800',
   },
   email: {
+      fontFamily: fonts.sora.regular,
     color: colors.slate[500],
     fontSize: 13,
     marginTop: 2,
@@ -56,12 +59,14 @@ export default StyleSheet.create({
     backgroundColor: colors.orange[250],
   },
   itemLabel: {
+      fontFamily: fonts.sora.bold,
     marginLeft: 12,
     color: colors.slate[700],
     fontSize: 15,
     fontWeight: '700',
   },
   itemLabelActive: {
+      fontFamily: fonts.sora.extraBold,
     color: colors.primary,
     fontWeight: '800',
   },

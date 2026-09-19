@@ -35,6 +35,7 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '900',
       color: colors.slate[900],
@@ -84,11 +85,13 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     periodTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13.5,
       fontWeight: '600',
       color: colors.slate[500],
     },
     periodTabTextActive: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontWeight: '800',
     },
@@ -107,6 +110,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     chartLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.navy[350],
@@ -114,11 +118,13 @@ export default function createStyles(colors) {
       textTransform: 'uppercase',
     },
     chartTrend: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12.5,
       fontWeight: '700',
       color: colors.green[550],
     },
     netAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 38,
       fontWeight: '900',
       color: colors.white,
@@ -183,6 +189,7 @@ export default function createStyles(colors) {
       zIndex: 5,
     },
     tooltipText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 11.5,
       fontWeight: '800',
@@ -205,6 +212,7 @@ export default function createStyles(colors) {
       marginTop: 8,
     },
     dayLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11.5,
       fontWeight: '600',
       color: colors.slate[500],
@@ -212,6 +220,7 @@ export default function createStyles(colors) {
       textAlign: 'center',
     },
     dayLabelActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[350],
       fontWeight: '700',
     },
@@ -242,6 +251,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     metricTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 10.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -249,24 +259,28 @@ export default function createStyles(colors) {
       textTransform: 'uppercase',
     },
     metricValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
       fontWeight: '900',
       color: colors.slate[900],
       marginBottom: 4,
     },
     metricValueRed: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
       fontWeight: '900',
       color: colors.red[600],
       marginBottom: 4,
     },
     metricValueGreen: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
       fontWeight: '900',
       color: colors.green[600],
       marginBottom: 4,
     },
     metricSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
       color: colors.slate[500],
@@ -274,6 +288,7 @@ export default function createStyles(colors) {
 
     // Ride Level Earnings Section
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
       color: colors.slate[500],
@@ -311,12 +326,14 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     rideTime: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
       fontWeight: '600',
       color: colors.slate[400],
       marginBottom: 3,
     },
     rideRoute: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
       color: colors.slate[900],
@@ -325,11 +342,13 @@ export default function createStyles(colors) {
       alignItems: 'flex-end',
     },
     rideEarning: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
       color: colors.green[700],
     },
     rideFare: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
       color: colors.slate[500],

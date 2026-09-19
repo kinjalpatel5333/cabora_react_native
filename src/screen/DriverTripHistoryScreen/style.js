@@ -30,6 +30,7 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '900',
       color: colors.slate[900],
@@ -58,6 +59,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     searchInput: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 14,
       color: colors.slate[900],
@@ -92,11 +94,13 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     periodTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
       color: colors.slate[500],
     },
     periodTabTextActive: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontWeight: '800',
     },
@@ -126,11 +130,13 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     statusFilterTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
       color: colors.slate[500],
     },
     statusFilterTabTextActive: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontWeight: '800',
     },
@@ -157,6 +163,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.alpha.white12,
     },
     statLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: colors.navy[350],
@@ -165,11 +172,13 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     statValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
       color: colors.white,
     },
     statValueGreen: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
       color: colors.green[550],
@@ -195,6 +204,7 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     tripTime: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
       color: colors.slate[500],
@@ -225,11 +235,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.red[600],
     },
     statusTextCompleted: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
       fontWeight: '800',
       color: colors.green[700],
     },
     statusTextCancelled: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
       fontWeight: '800',
       color: colors.red[600],
@@ -270,6 +282,7 @@ export default function createStyles(colors) {
     },
     addressBlock: {},
     addressKicker: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 10.5,
       fontWeight: '700',
       color: colors.navy[350],
@@ -278,6 +291,7 @@ export default function createStyles(colors) {
       marginBottom: 2,
     },
     addressTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
       color: colors.slate[900],
@@ -300,6 +314,7 @@ export default function createStyles(colors) {
       flex: 1,
     },
     footerMeta: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
       fontWeight: '600',
       color: colors.slate[500],
@@ -310,6 +325,7 @@ export default function createStyles(colors) {
       gap: 4,
     },
     footerFare: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '900',
       color: colors.slate[900],

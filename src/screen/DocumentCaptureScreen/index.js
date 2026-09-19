@@ -98,13 +98,7 @@ export default function DocumentCaptureScreen({navigation, route}) {
     applyAsset(result.assets?.[0] || null);
   }, [applyAsset]);
 
-  useEffect(() => {
-    if (openedOnce.current) {
-      return;
-    }
-    openedOnce.current = true;
-    openCamera();
-  }, [openCamera]);
+
 
   useEffect(() => {
     if (!asset) {
@@ -161,13 +155,21 @@ export default function DocumentCaptureScreen({navigation, route}) {
     setProgress(0);
   };
 
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('UploadDocuments');
+    }
+  };
+
   return (
     <View style={styles.root}>
       <StatusBar barStyle="dark-content" />
       <View style={[styles.header, {paddingTop: insets.top + 8}]}>
         <Pressable
           accessibilityRole="button"
-          onPress={() => navigation.goBack()}
+          onPress={handleBack}
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.navy[900]} />
         </Pressable>

@@ -40,12 +40,14 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     badgeLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[400],
       fontSize: 11,
       fontWeight: '800',
       letterSpacing: 0.8,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 32,
       fontWeight: '800',
@@ -53,6 +55,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.4,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: 'rgba(195, 207, 223, 0.92)',
       fontSize: 14,
       lineHeight: 21,
@@ -80,6 +83,7 @@ export default function createStyles(colors) {
       borderColor: colors.navy[200],
     },
     phoneInput: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 18,
       paddingVertical: 0,
       color: colors.navy[900],
@@ -103,6 +107,7 @@ export default function createStyles(colors) {
       borderRadius: 4,
     },
     dialCode: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 16,
       fontWeight: '800',
@@ -138,6 +143,7 @@ export default function createStyles(colors) {
       flex: 1,
     },
     bannerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
       fontWeight: '700',
       marginBottom: 4,
@@ -149,6 +155,7 @@ export default function createStyles(colors) {
       color: '#C17A1A',
     },
     bannerBody: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       lineHeight: 20,
       fontWeight: '400',
@@ -160,11 +167,13 @@ export default function createStyles(colors) {
       color: '#C17A1A',
     },
     cooldownHint: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
       lineHeight: 20,
       color: '#8B95A6',
     },
     support: {
+      fontFamily: colors.fonts.sora.bold,
       marginTop: 10,
       color: colors.navy[900],
       fontSize: 13,
@@ -175,6 +184,7 @@ export default function createStyles(colors) {
       paddingBottom: 4,
     },
     terms: {
+      fontFamily: colors.fonts.sora.regular,
       marginTop: 12,
       color: '#8B95A6',
       fontSize: 12,
@@ -184,6 +194,7 @@ export default function createStyles(colors) {
       textAlign: 'center',
     },
     termsBrand: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.navy[700],
       fontSize: 14,
       lineHeight: 14,
@@ -191,6 +202,7 @@ export default function createStyles(colors) {
       letterSpacing: 0,
     },
     termsLink: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.primary,
       fontSize: 14,
       lineHeight: 14,

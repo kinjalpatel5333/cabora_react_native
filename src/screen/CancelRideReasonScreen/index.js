@@ -23,7 +23,11 @@ export default function CancelRideReasonScreen() {
   const [selected, setSelected] = useState(CANCEL_REASONS[0]);
 
   const onKeepRide = () => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('DriverTabs');
+    }
   };
 
   const onCancelRide = () => {

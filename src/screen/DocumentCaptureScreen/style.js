@@ -22,6 +22,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.navy[900],
@@ -34,12 +35,14 @@ export default function createStyles(colors) {
       paddingBottom: 16,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 20,
       fontWeight: '800',
       marginBottom: 6,
     },
     hint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 14,
       lineHeight: 20,
@@ -120,6 +123,7 @@ export default function createStyles(colors) {
       borderRadius: 999,
     },
     edgesText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12,
       fontWeight: '700',
@@ -127,31 +131,33 @@ export default function createStyles(colors) {
     sourceRow: {
       flexDirection: 'row',
       backgroundColor: colors.white,
-      borderRadius: 16,
+      borderRadius: 18,
       borderWidth: 1.5,
       borderColor: colors.gray[200],
-      marginBottom: 12,
-      overflow: 'hidden',
+      padding: 6,
+      marginBottom: 14,
     },
     sourceBtn: {
       flex: 1,
-      minHeight: 52,
+      minHeight: 50,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       gap: 8,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: 'transparent',
+      backgroundColor: 'transparent',
     },
     sourceOn: {
       backgroundColor: colors.orange[50],
-      borderWidth: 1.5,
       borderColor: colors.primary,
-      borderRadius: 14,
-      margin: 4,
     },
     sourceLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
-      color: colors.navy[800],
+      color: colors.navy[900],
     },
     sourceLabelOn: {
       color: colors.primary,
@@ -181,16 +187,19 @@ export default function createStyles(colors) {
       flex: 1,
     },
     fileName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[900],
       fontSize: 14,
       fontWeight: '700',
     },
     fileMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.gray[500],
       fontSize: 12,
       marginTop: 2,
     },
     filePct: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 13,
       fontWeight: '800',
@@ -217,6 +226,7 @@ export default function createStyles(colors) {
       padding: 14,
     },
     checkLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.gray[500],
       fontSize: 11,
       fontWeight: '800',
@@ -230,6 +240,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     checkText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.navy[800],
       fontSize: 13,

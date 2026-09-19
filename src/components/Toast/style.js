@@ -18,6 +18,7 @@ export default function createStyles(colors) {
       elevation: 8,
     },
     message: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.white,
       fontSize: 15,

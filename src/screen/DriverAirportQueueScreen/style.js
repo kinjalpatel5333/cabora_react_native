@@ -61,6 +61,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     zoneLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12.5,
       fontWeight: '800',
       color: colors.slate[900],
@@ -125,12 +126,14 @@ export default function createStyles(colors) {
       backgroundColor: colors.green[600],
     },
     statusText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[700],
       fontSize: 13,
       fontWeight: '700',
     },
 
     sheetTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
       color: colors.slate[900],
@@ -164,6 +167,7 @@ export default function createStyles(colors) {
       zIndex: 2,
     },
     posLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
       color: colors.navy[450],
@@ -172,12 +176,14 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     posNumber: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 44,
       fontWeight: '900',
       color: colors.white,
       lineHeight: 48,
     },
     posSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
       fontWeight: '500',
       color: colors.navy[450],
@@ -196,17 +202,20 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     waitValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 26,
       fontWeight: '800',
       color: colors.white,
       lineHeight: 30,
     },
     waitMinText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[350],
       fontSize: 26,
       fontWeight: '800',
     },
     waitSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.navy[450],
@@ -223,6 +232,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     classCardTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
       color: colors.slate[900],
@@ -235,21 +245,25 @@ export default function createStyles(colors) {
       paddingVertical: 4,
     },
     className: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
       fontWeight: '500',
       color: colors.slate[500],
     },
     classWaiting: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
       color: colors.slate[500],
     },
     classNameActive: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
       color: colors.slate[900],
     },
     classWaitingActive: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13.5,
       fontWeight: '800',
       color: colors.orange[650],
@@ -265,6 +279,7 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     guideTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
       color: colors.slate[900],
@@ -277,6 +292,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     guideText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 13,
       fontWeight: '600',
@@ -304,6 +320,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     leaveBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.slate[900],
       fontSize: 15,
       fontWeight: '800',
@@ -322,6 +339,7 @@ export default function createStyles(colors) {
       elevation: 5,
     },
     refreshBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15,
       fontWeight: '800',

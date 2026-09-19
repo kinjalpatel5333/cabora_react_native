@@ -4,6 +4,8 @@
  * All color codes (hex, rgba, semantics) are defined here and exposed via themes.
  */
 
+import { fonts, typography, fontByWeight } from './typography';
+
 export const palette = {
   white: '#FFFFFF',
   black: '#000000',
@@ -204,6 +206,7 @@ export const palette = {
 
     orange08: 'rgba(255, 112, 6, 0.08)',
     orange12: 'rgba(255, 112, 6, 0.12)',
+    orange16: 'rgba(255, 112, 6, 0.16)',
     orange22: 'rgba(255, 112, 6, 0.22)',
     orange25: 'rgba(251, 146, 60, 0.25)',
     orange30: 'rgba(255, 112, 6, 0.3)',
@@ -227,6 +230,9 @@ export const palette = {
 };
 
 const shared = {
+  fonts,
+  typography,
+  fontByWeight,
   orange: palette.orange,
   navy: palette.navy,
   slate: palette.slate,
@@ -259,7 +265,7 @@ const shared = {
     streakActive: palette.orange[600],
     streakInactive: palette.slate[200],
     tabActiveBg: palette.orange[250],
-    tabActiveBorder: palette.alpha.orange35,
+    tabActiveBorder: palette.alpha.orange25,
     tabInactive: palette.navy[650],
     cardBg: palette.white,
     screenBg: palette.slate[50],
