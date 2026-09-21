@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   KeyboardAvoidingView,
   Modal,
@@ -15,6 +16,7 @@ import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './style';
 import YourRouteModal from './YourRouteModal';
 
@@ -143,15 +145,15 @@ function placesMatch(a, b) {
 
 function PlaceIcon({icon, colors}) {
   if (icon === 'home') {
-    return <Feather name="home" size={18} color={colors.navy[800]} />;
+    return <Feather name="home" size={18} color={colors.text} />;
   }
   if (icon === 'briefcase') {
-    return <Feather name="briefcase" size={18} color={colors.navy[800]} />;
+    return <Feather name="briefcase" size={18} color={colors.text} />;
   }
   if (icon === 'navigation') {
-    return <Lucide name="navigation" size={18} color={colors.navy[800]} />;
+    return <Lucide name="navigation" size={18} color={colors.text} />;
   }
-  return <Feather name="map-pin" size={18} color={colors.navy[800]} />;
+  return <Feather name="map-pin" size={18} color={colors.text} />;
 }
 
 export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
@@ -265,6 +267,13 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
     setNotifySaved(false);
   };
 
+  const sheetMaxH = Dimensions.get('window').height * 0.82;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 220,
+      visible,
+    });
+
   return (
     <Modal
       visible={visible}
@@ -280,27 +289,31 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
           accessibilityLabel="Dismiss"
         />
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={onClose}
-          style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
-        </Pressable>
-
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={styles.sheetWrap}
           pointerEvents="box-none">
-          <View
+          <Animated.View
+            onLayout={onSheetLayout}
             style={[
               styles.sheet,
               {
-                maxHeight: Dimensions.get('window').height * 0.82,
+                maxHeight: sheetMaxH,
                 paddingBottom: Math.max(insets.bottom, 10) + 8,
+                transform: [{translateY: sheetTY}],
               },
             ]}>
-            <View style={styles.grabber} />
+            <View {...panHandlers}>
+              <Pressable
+                onPress={toggle}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  expanded ? 'Collapse sheet' : 'Expand sheet'
+                }
+                style={styles.grabberHit}>
+                <View style={styles.grabber} />
+              </Pressable>
+            </View>
             <Text style={styles.title}>Set your route</Text>
 
             <ScrollView
@@ -325,7 +338,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         onChangeText={setPickup}
                         onBlur={() => setEditingPickup(false)}
                         autoFocus
-                        placeholderTextColor={colors.gray[400]}
+                        placeholderTextColor={
+                          colors.isDark ? colors.muted : colors.gray[400]
+                        }
                       />
                     ) : (
                       <Text style={styles.fieldValue} numberOfLines={1}>
@@ -337,7 +352,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                       accessibilityLabel="Edit pickup"
                       onPress={() => setEditingPickup(true)}
                       hitSlop={8}>
-                      <Feather name="edit-2" size={16} color={colors.gray[400]} />
+                      <Feather
+                        name="edit-2"
+                        size={16}
+                        color={colors.isDark ? colors.muted : colors.gray[400]}
+                      />
                     </Pressable>
                   </View>
 
@@ -354,7 +373,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         setNotifySaved(false);
                       }}
                       placeholder="Search a place, area or landmark"
-                      placeholderTextColor={colors.gray[400]}
+                      placeholderTextColor={
+                        colors.isDark ? colors.muted : colors.gray[400]
+                      }
                       returnKeyType="search"
                     />
                     {destination.length > 0 ? (
@@ -366,7 +387,9 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         <Feather
                           name="x-circle"
                           size={18}
-                          color={colors.gray[400]}
+                          color={
+                            colors.isDark ? colors.muted : colors.gray[400]
+                          }
                         />
                       </Pressable>
                     ) : null}
@@ -385,7 +408,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
 
               <View style={styles.actions}>
                 <Pressable style={styles.actionChip}>
-                  <Feather name="map-pin" size={15} color={colors.navy[800]} />
+                  <Feather name="map-pin" size={15} color={colors.text} />
                   <Text style={styles.actionChipText}>Choose on map</Text>
                 </Pressable>
                 <Pressable
@@ -404,7 +427,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                     name="plus"
                     size={15}
                     color={
-                      canOpenAddStop ? colors.navy[800] : colors.gray[400]
+                      canOpenAddStop
+                        ? colors.text
+                        : colors.isDark
+                        ? colors.muted
+                        : colors.gray[400]
                     }
                   />
                   <Text
@@ -491,7 +518,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                           <Feather
                             name="map-pin"
                             size={18}
-                            color={colors.navy[800]}
+                            color={colors.text}
                           />
                         ) : (
                           <PlaceIcon icon={item.icon} colors={colors} />
@@ -532,8 +559,17 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                 Confirm locations
               </Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </KeyboardAvoidingView>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          onPress={onClose}
+          hitSlop={12}
+          style={[styles.backBtn, {top: insets.top + 8}]}>
+          <Feather name="arrow-left" size={22} color={colors.text} />
+        </Pressable>
 
         <YourRouteModal
           visible={routeStopsOpen}

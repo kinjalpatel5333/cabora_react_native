@@ -51,7 +51,7 @@ export default function createStyles(colors) {
       backgroundColor: 'rgba(255, 255, 255, 0.75)',
     },
     skipLabel: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '700',
     },

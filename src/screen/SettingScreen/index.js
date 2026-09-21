@@ -4,9 +4,10 @@ import {Button, Screen, Toggle} from '../../components';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {setNotificationsEnabled} from '../../redux/slices/appSlice';
 import {logoutUser} from '../../redux/slices/authSlice';
-import styles from './style';
+import useThemedStyles from '../../components/useThemedStyles';
+import createStyles from './style';
 
-function Row({label, hint, last, children}) {
+function Row({label, hint, last, children, styles}) {
   return (
     <View style={[styles.row, last && styles.rowLast]}>
       <View style={styles.rowText}>
@@ -19,6 +20,7 @@ function Row({label, hint, last, children}) {
 }
 
 export default function SettingScreen() {
+  const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
   const notifications = useAppSelector(state => state.app.notifications);
 
@@ -35,7 +37,7 @@ export default function SettingScreen() {
       <Text style={styles.title}>Preferences</Text>
 
       <View style={styles.card}>
-        <Row label="Notifications" hint="Demo toggle, stored on device">
+        <Row label="Notifications" hint="Demo toggle, stored on device" styles={styles}>
           <Toggle
             value={notifications}
             onValueChange={value => dispatch(setNotificationsEnabled(value))}
@@ -45,6 +47,7 @@ export default function SettingScreen() {
           label="Session"
           hint="Local only — API helpers are unused for now"
           last
+          styles={styles}
         />
       </View>
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../context/AppContext';
@@ -26,23 +25,52 @@ function TabGlyph({kind, color, active}) {
     );
   }
   if (kind === 'grid') {
-    return <Feather name="grid" size={size} color={color} />;
+    return (
+      <MaterialDesignIcons
+        name={active ? 'view-grid' : 'view-grid-outline'}
+        size={size}
+        color={color}
+      />
+    );
   }
   if (kind === 'clock') {
-    return <Feather name="clock" size={size} color={color} />;
+    return (
+      <MaterialDesignIcons
+        name={active ? 'clock' : 'clock-outline'}
+        size={size}
+        color={color}
+      />
+    );
   }
   if (kind === 'wallet') {
     return (
-      <MaterialDesignIcons name="wallet-outline" size={size} color={color} />
+      <MaterialDesignIcons
+        name={active ? 'wallet' : 'wallet-outline'}
+        size={size}
+        color={color}
+      />
     );
   }
-  return <Feather name="user" size={size} color={color} />;
+  return (
+    <MaterialDesignIcons
+      name={active ? 'account' : 'account-outline'}
+      size={size}
+      color={color}
+    />
+  );
 }
 
 export default function HomeTabBar({state, descriptors, navigation}) {
   const insets = useSafeAreaInsets();
   const {colors} = useApp();
   const safeBottom = getTabBarBottomPadding(insets);
+
+  const focusedRoute = state.routes[state.index];
+  const focusedOptions = descriptors[focusedRoute.key]?.options;
+  const tabBarStyle = focusedOptions?.tabBarStyle;
+  if (tabBarStyle?.display === 'none') {
+    return null;
+  }
 
   return (
     <View
@@ -52,8 +80,10 @@ export default function HomeTabBar({state, descriptors, navigation}) {
         style={[
           styles.pill,
           {
-            backgroundColor: colors.white,
-            shadowColor: colors.navy[900],
+            backgroundColor: colors.isDark ? colors.surface : colors.white,
+            borderWidth: colors.isDark ? 1 : 0,
+            borderColor: colors.border,
+            shadowColor: colors.isDark ? '#000000' : colors.navy[900],
           },
         ]}>
         <View style={styles.row}>
@@ -62,8 +92,21 @@ export default function HomeTabBar({state, descriptors, navigation}) {
             const label = options.tabBarLabel ?? options.title ?? route.name;
             const active = state.index === index;
             const tab = TABS.find(t => t.name === route.name) || TABS[0];
-            const iconTint = active ? colors.orange[600] : colors.gray[500];
-            const labelTint = active ? colors.navy[900] : colors.gray[500];
+            const iconTint = active
+              ? colors.orange[500]
+              : colors.isDark
+              ? colors.navy[400]
+              : colors.gray[500];
+            const labelTint = active
+              ? colors.isDark
+                ? '#FFFFFF'
+                : colors.navy[900]
+              : colors.isDark
+              ? colors.navy[300]
+              : colors.gray[500];
+            const chipActiveBg = colors.isDark
+              ? 'rgba(255, 112, 6, 0.22)'
+              : colors.orange[100];
             const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -85,9 +128,8 @@ export default function HomeTabBar({state, descriptors, navigation}) {
                 <View
                   style={[
                     styles.tabChip,
-                    active && {
-                      backgroundColor: colors.orange[100],
-                    },
+                    active && styles.tabChipActive,
+                    active && {backgroundColor: chipActiveBg},
                   ]}>
                   <TabGlyph
                     kind={tab.kind}
@@ -121,12 +163,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: 14,
+    paddingHorizontal: 12,
   },
   pill: {
     borderRadius: 32,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 4,
     shadowOpacity: 0.12,
     shadowRadius: 18,
     shadowOffset: {width: 0, height: 8},
@@ -135,24 +177,30 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   item: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Active highlight wraps icon + label together (vertical pill).
   tabChip: {
-    minWidth: 56,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderRadius: 22,
+    height: 52,
+    width: '100%',
+    paddingHorizontal: 2,
+    borderRadius: 26,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: 2,
+  },
+  tabChipActive: {
+    borderRadius: 26,
+    paddingHorizontal: 2,
   },
   label: {
-    fontSize: 11,
+    fontSize: 10.5,
     lineHeight: 13,
+    textAlign: 'center',
+    includeFontPadding: false,
   },
 });

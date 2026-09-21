@@ -98,20 +98,20 @@ export default function SetupAccountScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top + 8}]}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={colors.barStyle} />
       <View style={styles.header}>
         <Pressable
           accessibilityRole="button"
           onPress={() => navigation.goBack()}
           style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Set up your account</Text>
         <Pressable
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
-          <Feather name="help-circle" size={22} color={colors.navy[800]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

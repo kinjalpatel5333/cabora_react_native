@@ -1,0 +1,188 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    hero: {
+      backgroundColor: colors.isDark ? '#0B243B' : '#E8F5EC',
+      borderBottomLeftRadius: 36,
+      borderBottomRightRadius: 36,
+      alignItems: 'center',
+      paddingHorizontal: 28,
+      paddingBottom: 28,
+    },
+    checkOuter: {
+      width: 64,
+      height: 64,
+      borderRadius: 32,
+      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.25)' : '#C8E6C9',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 18,
+    },
+    checkInner: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: '#1B5E20',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    title: {
+      color: colors.isDark ? '#4ADE80' : '#1B5E20',
+      fontSize: 30,
+      fontWeight: '800',
+      textAlign: 'center',
+      marginBottom: 10,
+      letterSpacing: -0.3,
+    },
+    subtitle: {
+      color: colors.isDark ? '#86EFAC' : '#2E7D32',
+      fontSize: 15,
+      fontWeight: '500',
+      textAlign: 'center',
+      lineHeight: 22,
+      paddingHorizontal: 8,
+    },
+    content: {
+      flex: 1,
+      paddingHorizontal: 20,
+      paddingTop: 22,
+    },
+    starsRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      marginBottom: 22,
+    },
+    receiptCard: {
+      backgroundColor: colors.card,
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 16,
+      paddingTop: 16,
+      paddingBottom: 14,
+    },
+    receiptHeader: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 12,
+      marginBottom: 14,
+    },
+    receiptIcon: {
+      width: 36,
+      height: 36,
+      borderRadius: 10,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    receiptCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    receiptTitle: {
+      color: colors.text,
+      fontSize: 15,
+      fontWeight: '800',
+      marginBottom: 3,
+    },
+    receiptSub: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    divider: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: colors.border,
+      marginBottom: 10,
+    },
+    fareRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 8,
+    },
+    fareLabel: {
+      color: colors.muted,
+      fontSize: 14,
+      fontWeight: '500',
+    },
+    fareValue: {
+      color: colors.text,
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    totalRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingTop: 10,
+      paddingBottom: 6,
+    },
+    totalLabel: {
+      color: colors.text,
+      fontSize: 16,
+      fontWeight: '800',
+    },
+    totalValue: {
+      color: colors.text,
+      fontSize: 16,
+      fontWeight: '800',
+    },
+    actionRow: {
+      flexDirection: 'row',
+      gap: 8,
+      marginTop: 12,
+    },
+    actionBtn: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      paddingVertical: 11,
+      paddingHorizontal: 6,
+    },
+    actionText: {
+      color: colors.text,
+      fontSize: 12,
+      fontWeight: '700',
+    },
+    footer: {
+      paddingHorizontal: 20,
+      paddingTop: 12,
+      backgroundColor: colors.background,
+    },
+    homeBtn: {
+      backgroundColor: colors.orange[500],
+      borderRadius: 16,
+      paddingVertical: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 14,
+    },
+    homeText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '800',
+    },
+    rebookBtn: {
+      alignItems: 'center',
+      paddingVertical: 6,
+    },
+    rebookText: {
+      color: colors.orange[500],
+      fontSize: 15,
+      fontWeight: '700',
+    },
+  });
+}
+

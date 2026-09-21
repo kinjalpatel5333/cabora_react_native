@@ -1,6 +1,8 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {
+  Animated,
   Dimensions,
+  PanResponder,
   Pressable,
   ScrollView,
   StatusBar,
@@ -14,6 +16,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MapBackdrop from '../../components/MapBackdrop';
 import ConfirmDialog from '../../components/ConfirmDialog';
+import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
@@ -31,6 +34,8 @@ const EXPLORE = [
   {id: 'portal', label: 'Portal', price: 'from ₹39', icon: 'briefcase'},
   {id: 'more', label: 'More', price: '9 services', more: true, icon: 'grid'},
 ];
+
+const SHEET_COLLAPSED = 292;
 
 function greetingForHour(hour) {
   if (hour < 12) {
@@ -51,7 +56,11 @@ function initials(name) {
 }
 
 function ExploreIcon({icon, more, colors}) {
-  const tint = more ? colors.orange[600] : colors.navy[800];
+  const tint = more
+    ? colors.orange[500]
+    : colors.isDark
+    ? '#FFFFFF'
+    : colors.navy[800];
   if (icon === 'rickshaw') {
     return <MaterialDesignIcons name="rickshaw" size={28} color={tint} />;
   }
@@ -72,30 +81,152 @@ export default function HomeScreen() {
   const {openDrawer} = useSidebar();
   const {user} = useAuth();
   const online = useIsOnline();
+  const {showToast} = useToast();
   const [routeOpen, setRouteOpen] = useState(false);
   const [chooseRideOpen, setChooseRideOpen] = useState(false);
   const [findingOpen, setFindingOpen] = useState(false);
   const [findingTrip, setFindingTrip] = useState(null);
   const [pickupConfirmTrip, setPickupConfirmTrip] = useState(null);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
+  const [sheetExpanded, setSheetExpanded] = useState(true);
 
-  const displayName = user?.name || 'Aarav Mehta';
+  const rawName = user?.name?.trim();
+  const displayName =
+    !rawName || rawName === 'Rider' ? 'Aarav Mehta' : rawName;
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],
   );
   const tabBarInset = getHomeTabBarInset(insets);
   const viewportH = Dimensions.get('window').height;
-  // Sheet sits above the floating pill — height follows content (no empty white gap).
+  // Same open size as before — content height, capped like the old sheet.
   const sheetMaxH = Math.min(viewportH * 0.68, viewportH - insets.top - 110);
-  const fabBottom = tabBarInset + Math.min(sheetMaxH, 320) + 8;
+  const sheetMinH = Math.min(SHEET_COLLAPSED, sheetMaxH);
+  const [sheetOpenH, setSheetOpenH] = useState(sheetMaxH);
+  const sheetH = useRef(new Animated.Value(sheetMaxH)).current;
+  const dragStart = useRef(sheetMaxH);
+  const didInitHeight = useRef(false);
+  const boundsRef = useRef({min: sheetMinH, max: sheetOpenH});
+  boundsRef.current = {min: sheetMinH, max: sheetOpenH};
+
+  const onSheetContentLayout = event => {
+    const contentH = event.nativeEvent.layout.height;
+    // grabber hit area (~28) + content + sheet padding
+    const nextOpen = Math.min(Math.ceil(contentH + 36), sheetMaxH);
+    if (nextOpen > 0 && Math.abs(nextOpen - sheetOpenH) > 2) {
+      setSheetOpenH(nextOpen);
+      if (!didInitHeight.current) {
+        didInitHeight.current = true;
+        sheetH.setValue(nextOpen);
+        dragStart.current = nextOpen;
+        setSheetExpanded(true);
+      } else if (sheetExpanded) {
+        sheetH.setValue(nextOpen);
+      }
+    }
+  };
+
+  const snapSheet = target => {
+    const {min, max} = boundsRef.current;
+    const clamped = Math.min(max, Math.max(min, target));
+    const nextExpanded = clamped >= max - 8;
+    setSheetExpanded(nextExpanded);
+    Animated.spring(sheetH, {
+      toValue: clamped,
+      useNativeDriver: false,
+      tension: 68,
+      friction: 12,
+    }).start();
+  };
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 4,
+        onPanResponderGrant: () => {
+          sheetH.stopAnimation(value => {
+            dragStart.current = value;
+          });
+        },
+        onPanResponderMove: (_, g) => {
+          const {min, max} = boundsRef.current;
+          const next = Math.min(
+            max,
+            Math.max(min, dragStart.current - g.dy),
+          );
+          sheetH.setValue(next);
+        },
+        onPanResponderRelease: (_, g) => {
+          const {min, max} = boundsRef.current;
+          sheetH.stopAnimation(value => {
+            const mid = (min + max) / 2;
+            if (g.vy < -0.55) {
+              snapSheet(max);
+              return;
+            }
+            if (g.vy > 0.55) {
+              snapSheet(min);
+              return;
+            }
+            snapSheet(value > mid ? max : min);
+          });
+        },
+      }),
+    // sheetH is a stable Animated.Value ref; snap uses boundsRef.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sheetH],
+  );
+
+  const fabBottom = tabBarInset + (sheetExpanded ? sheetOpenH : sheetMinH) + 8;
   const headerTop = insets.top + 8;
   const overlayOpen = routeOpen || chooseRideOpen || findingOpen;
 
+  React.useEffect(() => {
+    navigation.setOptions({
+      tabBarStyle: overlayOpen
+        ? {display: 'none', height: 0, position: 'absolute'}
+        : {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: undefined,
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+    });
+    return () => {
+      navigation.setOptions({
+        tabBarStyle: {
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: undefined,
+          backgroundColor: 'transparent',
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+      });
+    };
+  }, [navigation, overlayOpen]);
+
+  const openRoute = () => setRouteOpen(true);
+
   const openChooseRide = () => {
     setRouteOpen(false);
-    // Let Set Route / Your Route modals dismiss before opening Choose ride.
     setTimeout(() => setChooseRideOpen(true), 280);
+  };
+
+  /** One step back: Choose ride → Set route (not Home). */
+  const backFromChooseRide = () => {
+    setChooseRideOpen(false);
+    setPickupConfirmTrip(null);
+    setTimeout(() => setRouteOpen(true), 280);
   };
 
   const requestPickupConfirm = trip => {
@@ -110,10 +241,27 @@ export default function HomeScreen() {
     setTimeout(() => setFindingOpen(true), 280);
   };
 
+  /** One step back: Finding ride → Choose ride (not Home). */
+  const backFromFindingRide = () => {
+    setCancelConfirmOpen(false);
+    setFindingOpen(false);
+    setFindingTrip(null);
+    setTimeout(() => setChooseRideOpen(true), 280);
+  };
+
   const closeFindingRide = () => {
     setCancelConfirmOpen(false);
     setFindingOpen(false);
     setFindingTrip(null);
+  };
+
+  const onExplorePress = item => {
+    if (item.more) {
+      navigation.navigate('Services');
+      return;
+    }
+    openRoute();
+    showToast({type: 'info', message: `${item.label} selected — set your drop`});
   };
 
   return (
@@ -123,38 +271,45 @@ export default function HomeScreen() {
         translucent
         backgroundColor="transparent"
       />
-      <MapBackdrop showUserDot={!findingOpen} />
+      <MapBackdrop />
 
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Open menu"
-            onPress={openDrawer}
-            style={styles.menuBtn}>
-            <Feather name="menu" size={22} color={colors.navy[800]} />
-          </Pressable>
+          <View style={styles.menuBtn}>
+            <Feather name="menu" size={22} color={colors.text} />
+          </View>
 
-          <View style={styles.greetingPill}>
+          <Pressable
+            style={styles.greetingPill}
+            onPress={openRoute}
+            accessibilityRole="button"
+            accessibilityLabel="Plan a ride">
             <Text style={styles.greetingKicker}>{greeting}</Text>
             <Text style={styles.greetingName} numberOfLines={1}>
               {displayName}
             </Text>
-          </View>
+          </Pressable>
 
           <View style={styles.headerActions}>
             <View>
-              <Pressable style={styles.iconCircle} accessibilityRole="button">
+              <Pressable
+                style={styles.iconCircle}
+                accessibilityRole="button"
+                accessibilityLabel="Notifications"
+                onPress={() => {
+                  navigation.navigate('Notifications');
+                }}>
                 <Feather name="bell" size={20} color={colors.white} />
               </Pressable>
-              <View style={styles.badge}>
+              <View style={styles.badge} pointerEvents="none">
                 <Text style={styles.badgeText}>3</Text>
               </View>
             </View>
             <Pressable
               style={styles.avatar}
               onPress={() => navigation.navigate('Profile')}
-              accessibilityRole="button">
+              accessibilityRole="button"
+              accessibilityLabel="Open profile">
               <Text style={styles.avatarText}>{initials(displayName)}</Text>
             </Pressable>
           </View>
@@ -182,129 +337,230 @@ export default function HomeScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Recenter map"
+          onPress={() =>
+            showToast({
+              type: 'success',
+              message: 'Centered on your location',
+            })
+          }
           style={[styles.locateFab, {bottom: fabBottom}]}>
           <MaterialDesignIcons
             name="crosshairs-gps"
             size={22}
-            color={colors.navy[800]}
+            color={colors.text}
           />
         </Pressable>
       ) : null}
 
       {!overlayOpen ? (
-      <View
-        style={[
-          styles.sheetWrap,
-          {bottom: tabBarInset, maxHeight: sheetMaxH},
-        ]}>
-        <View style={styles.sheet}>
-          <View style={styles.grabber} />
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.sheetScroll}
-            bounces={false}>
-            <Pressable
-              style={styles.searchCard}
-              onPress={() => setRouteOpen(true)}
-              accessibilityRole="button">
-              <View style={styles.searchIconBox}>
-                <Feather name="search" size={20} color={colors.white} />
-              </View>
-              <View style={styles.searchCopy}>
-                <Text style={styles.searchTitle}>Where to?</Text>
-                <Text style={styles.searchSub}>Pickup: 12, Brigade Road</Text>
-              </View>
-              <View style={styles.nowBtn}>
-                <Feather name="clock" size={15} color={colors.orange[600]} />
-                <Text style={styles.nowText}>Now</Text>
-              </View>
-            </Pressable>
-
-            <View style={styles.shortcuts}>
-              <Pressable style={styles.shortcut}>
-                <Feather name="home" size={16} color={colors.navy[800]} />
-                <Text style={styles.shortcutText}>Home</Text>
-              </Pressable>
-              <Pressable style={styles.shortcut}>
-                <Feather name="briefcase" size={16} color={colors.navy[800]} />
-                <Text style={styles.shortcutText}>Work</Text>
-              </Pressable>
-              <Pressable style={styles.shortcut}>
-                <Feather name="plus" size={16} color={colors.navy[800]} />
-                <Text style={styles.shortcutText}>Add</Text>
+        <Animated.View
+          style={[
+            styles.sheetWrap,
+            {bottom: tabBarInset, height: sheetH},
+          ]}>
+          <View style={styles.sheet}>
+            <View style={styles.grabberHit} {...panResponder.panHandlers}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={
+                  sheetExpanded ? 'Collapse sheet' : 'Expand sheet'
+                }
+                onPress={() =>
+                  snapSheet(sheetExpanded ? sheetMinH : sheetOpenH)
+                }
+                hitSlop={8}
+                style={styles.grabberPress}>
+                <View style={styles.grabber} />
               </Pressable>
             </View>
 
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>EXPLORE</Text>
-              <Pressable onPress={() => navigation.navigate('Services')}>
-                <Text style={styles.sectionLink}>More</Text>
-              </Pressable>
-            </View>
-            <View style={styles.exploreRow}>
-              {EXPLORE.map(item => (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.sheetScroll}
+              bounces={sheetExpanded}
+              scrollEnabled={sheetExpanded}
+              nestedScrollEnabled>
+              <View onLayout={onSheetContentLayout}>
+              <Pressable
+                style={styles.searchCard}
+                onPress={openRoute}
+                accessibilityRole="button"
+                accessibilityLabel="Where to?">
+                <View style={styles.searchIconBox}>
+                  <Feather name="search" size={20} color={colors.white} />
+                </View>
+                <View style={styles.searchCopy}>
+                  <Text style={styles.searchTitle}>Where to?</Text>
+                  <Text style={styles.searchSub}>Pickup: 12, Brigade Road</Text>
+                </View>
                 <Pressable
-                  key={item.id}
-                  style={[
-                    styles.exploreCard,
-                    item.more && styles.exploreCardMore,
-                  ]}
-                  onPress={() => navigation.navigate('Services')}>
-                  <ExploreIcon
-                    icon={item.icon}
-                    more={item.more}
-                    colors={colors}
-                  />
-                  <Text
-                    style={[
-                      styles.exploreLabel,
-                      item.more && styles.exploreLabelMore,
-                    ]}>
-                    {item.label}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.explorePrice,
-                      item.more && styles.explorePriceMore,
-                    ]}>
-                    {item.price}
-                  </Text>
+                  style={styles.nowBtn}
+                  onPress={e => {
+                    e?.stopPropagation?.();
+                    openRoute();
+                    showToast({
+                      type: 'info',
+                      message: 'Leave now — set your destination',
+                    });
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Leave now">
+                  <Feather name="clock" size={15} color={colors.orange[500]} />
+                  <Text style={styles.nowText}>Now</Text>
                 </Pressable>
-              ))}
-            </View>
+              </Pressable>
 
-            <View style={styles.sectionHead}>
-              <Text style={styles.sectionTitle}>RECENT DESTINATIONS</Text>
-              <Text style={styles.sectionLink}>See all</Text>
-            </View>
-            <Pressable style={styles.recentRow}>
-              <View style={styles.recentIcon}>
-                <Lucide name="navigation" size={18} color={colors.navy[800]} />
+              <View style={styles.shortcuts}>
+                <Pressable
+                  style={styles.shortcut}
+                  onPress={() => {
+                    openRoute();
+                    showToast({type: 'info', message: 'Going home'});
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Go home">
+                  <Feather name="home" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
+                  <Text style={styles.shortcutText}>Home</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.shortcut}
+                  onPress={() => {
+                    openRoute();
+                    showToast({type: 'info', message: 'Going to work'});
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Go to work">
+                  <Feather
+                    name="briefcase"
+                    size={16}
+                    color={colors.isDark ? colors.orange[500] : colors.navy[800]}
+                  />
+                  <Text style={styles.shortcutText}>Work</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.shortcut}
+                  onPress={() => navigation.navigate('SavedPlaces')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Add saved place">
+                  <Feather name="plus" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
+                  <Text style={styles.shortcutText}>Add</Text>
+                </Pressable>
               </View>
-              <View style={styles.recentCopy}>
-                <Text style={styles.recentTitle}>
-                  Kempegowda Intl. Airport, T2
-                </Text>
-                <Text style={styles.recentSub}>38 km · about 55 min</Text>
-              </View>
-              <Feather name="chevron-right" size={20} color={colors.gray[400]} />
-            </Pressable>
 
-            <Pressable style={styles.promo}>
-              <View style={styles.promoIcon}>
-                <Lucide name="gift" size={22} color={colors.white} />
+              <View style={styles.sectionHead}>
+                <Text style={styles.sectionTitle}>EXPLORE</Text>
+                <Pressable
+                  onPress={() => navigation.navigate('Services')}
+                  accessibilityRole="button"
+                  hitSlop={8}>
+                  <Text style={styles.sectionLink}>More</Text>
+                </Pressable>
               </View>
-              <View style={styles.promoCopy}>
-                <Text style={styles.promoTitle}>50% off your next 3 rides</Text>
-                <Text style={styles.promoSub}>
-                  Use code CABORA50 · Ends Sunday
-                </Text>
+              <View style={styles.exploreRow}>
+                {EXPLORE.map(item => (
+                  <Pressable
+                    key={item.id}
+                    style={[
+                      styles.exploreCard,
+                      item.more && styles.exploreCardMore,
+                    ]}
+                    onPress={() => onExplorePress(item)}
+                    accessibilityRole="button"
+                    accessibilityLabel={item.label}>
+                    <ExploreIcon
+                      icon={item.icon}
+                      more={item.more}
+                      colors={colors}
+                    />
+                    <Text
+                      style={[
+                        styles.exploreLabel,
+                        item.more && styles.exploreLabelMore,
+                      ]}>
+                      {item.label}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.explorePrice,
+                        item.more && styles.explorePriceMore,
+                      ]}>
+                      {item.price}
+                    </Text>
+                  </Pressable>
+                ))}
               </View>
-              <Feather name="chevron-right" size={20} color={colors.orange[600]} />
-            </Pressable>
-          </ScrollView>
-        </View>
-      </View>
+
+              <View style={styles.sectionHead}>
+                <Text style={styles.sectionTitle}>RECENT DESTINATIONS</Text>
+                <Pressable
+                  onPress={() => navigation.navigate('Activity')}
+                  accessibilityRole="button"
+                  hitSlop={8}>
+                  <Text style={styles.sectionLink}>See all</Text>
+                </Pressable>
+              </View>
+              <Pressable
+                style={styles.recentRow}
+                onPress={() => {
+                  openRoute();
+                  showToast({
+                    type: 'info',
+                    message: 'Airport T2 selected',
+                  });
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Kempegowda International Airport T2">
+                <View style={styles.recentIcon}>
+                  <Lucide
+                    name="navigation"
+                    size={18}
+                    color={colors.isDark ? '#FFFFFF' : colors.navy[800]}
+                  />
+                </View>
+                <View style={styles.recentCopy}>
+                  <Text style={styles.recentTitle}>
+                    Kempegowda Intl. Airport, T2
+                  </Text>
+                  <Text style={styles.recentSub}>38 km · about 55 min</Text>
+                </View>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.textMuted}
+                />
+              </Pressable>
+
+              <Pressable
+                style={styles.promo}
+                onPress={() =>
+                  showToast({
+                    type: 'success',
+                    message: 'Code CABORA50 copied — 50% off next 3 rides',
+                  })
+                }
+                accessibilityRole="button"
+                accessibilityLabel="Promo offer CABORA50">
+                <View style={styles.promoIcon}>
+                  <Lucide name="gift" size={22} color={colors.white} />
+                </View>
+                <View style={styles.promoCopy}>
+                  <Text style={styles.promoTitle}>
+                    50% off your next 3 rides
+                  </Text>
+                  <Text style={styles.promoSub}>
+                    Use code CABORA50 · Ends Sunday
+                  </Text>
+                </View>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.orange[500]}
+                />
+              </Pressable>
+              </View>
+            </ScrollView>
+          </View>
+        </Animated.View>
       ) : null}
 
       <SetRouteModal
@@ -314,12 +570,13 @@ export default function HomeScreen() {
       />
       <ChooseRideModal
         visible={chooseRideOpen}
-        onClose={() => setChooseRideOpen(false)}
+        onClose={backFromChooseRide}
         onBook={requestPickupConfirm}
       />
       <FindingRideModal
         visible={findingOpen}
         onClose={closeFindingRide}
+        onBack={backFromFindingRide}
         onRequestCancel={() => setCancelConfirmOpen(true)}
         rideName={findingTrip?.rideName || 'Cab Sedan'}
         pickup={findingTrip?.pickup || '12, Brigade Road, Ashok Nagar'}

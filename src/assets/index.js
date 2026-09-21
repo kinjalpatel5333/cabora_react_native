@@ -10,6 +10,8 @@ export const images = {
   splashNoInternet: require('./images/no-internet.png'),
   splashRefresh: require('./images/refresh.png'),
   splashSetting: require('./images/setting.png'),
+  homeMap: require('./images/home_map.png'),
+  homeMapDark: require('./images/home_map_dark.png'),
   avatar: require('./images/avatar.png'),
   empty: require('./images/empty.png'),
   walk1: require('./images/walk1.png'),

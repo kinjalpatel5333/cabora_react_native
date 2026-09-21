@@ -7,6 +7,7 @@ import {
   Linking,
   StatusBar,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -87,10 +88,16 @@ export default function SplashScreen({
   onCheckAgain,
 }) {
   const insets = useSafeAreaInsets();
+  const {width: windowWidth, height: windowHeight} = useWindowDimensions();
+  const screen = Dimensions.get('screen');
   const styles = useThemedStyles(createStyles);
   const status = statusProp || statusFromFlags();
   const progress = useRef(new Animated.Value(0.12)).current;
   const copy = COPY[status];
+
+  // Full device screen — covers gesture/nav inset so white strip doesn't show under navy.
+  const pageWidth = screen.width || windowWidth;
+  const pageHeight = screen.height || windowHeight;
 
   useEffect(() => {
     if (status !== 'loading') {
@@ -137,8 +144,17 @@ export default function SplashScreen({
     <ImageBackground
       source={images.splashGradient}
       resizeMode="cover"
-      style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="#08101E" />
+      style={[styles.root, {width: pageWidth, height: pageHeight}]}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
+      {/* Dark under gesture bar — removes the thick white safe-area strip */}
+      <View
+        pointerEvents="none"
+        style={[styles.bottomFill, {height: Math.max(insets.bottom, 24)}]}
+      />
       <View
         style={[
           styles.content,

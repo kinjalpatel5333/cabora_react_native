@@ -19,8 +19,9 @@ class MainActivity : ReactActivity() {
     window.navigationBarColor = Color.TRANSPARENT
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     WindowInsetsControllerCompat(window, window.decorView).apply {
-      isAppearanceLightNavigationBars = true
-      isAppearanceLightStatusBars = true
+      // Light nav/status icons so the gesture bar stays visible on splash navy.
+      isAppearanceLightNavigationBars = false
+      isAppearanceLightStatusBars = false
     }
   }
 

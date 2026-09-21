@@ -24,9 +24,16 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     host: {
-      ...StyleSheet.absoluteFillObject,
-      justifyContent: 'flex-start',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 9999,
+      elevation: 9999,
       paddingHorizontal: 16,
+    },
+    modalRoot: {
+      flex: 1,
     },
     stack: {
       gap: 10,

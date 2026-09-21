@@ -156,7 +156,7 @@ export const loginWithPhone = createAsyncThunk(
     try {
       const sessionUser = {
         id: `phone-${phone}`,
-        name: role === 'driver' ? 'Driver' : 'Rider',
+        name: role === 'driver' ? 'Driver' : 'Aarav Mehta',
         email: `${phone}@cabora.local`,
         phone,
         role: role || 'passenger',

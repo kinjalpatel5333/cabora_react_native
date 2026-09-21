@@ -17,7 +17,7 @@ export default function createStyles(colors) {
     card: {
       width: '100%',
       maxWidth: 360,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 28,
       paddingHorizontal: 22,
       paddingTop: 28,
@@ -39,20 +39,20 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     iconWrapDefault: {
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[100],
     },
     iconWrapDanger: {
-      backgroundColor: colors.red[100],
+      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : colors.red[100],
     },
     title: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 22,
       fontWeight: '800',
       textAlign: 'center',
       marginBottom: 10,
     },
     message: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 14,
       fontWeight: '500',
       lineHeight: 21,
@@ -83,9 +83,10 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
     },
     secondaryText: {
-      color: colors.orange[600],
+      color: colors.orange[500],
       fontSize: 15,
       fontWeight: '700',
     },
   });
 }
+

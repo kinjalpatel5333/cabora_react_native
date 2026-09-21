@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.navy[25],
+      backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
@@ -12,7 +12,9 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 20,
       marginBottom: 8,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
+      borderBottomWidth: colors.isDark ? 1 : 0,
+      borderBottomColor: colors.border,
       paddingBottom: 12,
     },
     headerBtn: {
@@ -25,7 +27,7 @@ export default function createStyles(colors) {
     headerTitle: {
       flex: 1,
       textAlign: 'center',
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 17,
       fontWeight: '700',
     },
@@ -35,8 +37,10 @@ export default function createStyles(colors) {
       paddingBottom: 28,
     },
     progressCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.border,
       padding: 16,
       marginBottom: 22,
     },
@@ -49,7 +53,7 @@ export default function createStyles(colors) {
     },
     progressTitle: {
       flex: 1,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },
@@ -59,7 +63,7 @@ export default function createStyles(colors) {
       fontWeight: '800',
     },
     progressSub: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 13,
       lineHeight: 18,
       marginBottom: 12,
@@ -67,7 +71,7 @@ export default function createStyles(colors) {
     track: {
       height: 8,
       borderRadius: 999,
-      backgroundColor: colors.navy[100],
+      backgroundColor: colors.surface,
       overflow: 'hidden',
     },
     fill: {
@@ -76,23 +80,23 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     section: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 12,
       fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
     card: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 18,
       padding: 14,
       marginBottom: 10,
       borderWidth: 1,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
     },
     cardRejected: {
-      backgroundColor: colors.red[100],
-      borderColor: '#F6C9C9',
+      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
+      borderColor: colors.isDark ? 'rgba(231,61,61,0.35)' : '#F6C9C9',
     },
     cardRow: {
       flexDirection: 'row',
@@ -110,19 +114,19 @@ export default function createStyles(colors) {
       flex: 1,
     },
     cardTitle: {
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 15,
       fontWeight: '700',
       marginBottom: 2,
     },
     cardMeta: {
-      color: colors.gray[500],
+      color: colors.muted,
       fontSize: 13,
       lineHeight: 18,
       marginBottom: 10,
     },
     cardMetaRejected: {
-      color: colors.red[600],
+      color: colors.isDark ? '#FCA5A5' : colors.red[600],
     },
     action: {
       alignSelf: 'flex-start',
@@ -139,14 +143,14 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.amber[100],
+      backgroundColor: colors.isDark ? 'rgba(244,165,38,0.15)' : colors.amber[100],
       borderRadius: 16,
       padding: 14,
       marginTop: 6,
     },
     warningText: {
       flex: 1,
-      color: colors.amber[600],
+      color: colors.isDark ? '#FCD34D' : colors.amber[600],
       fontSize: 13,
       lineHeight: 19,
       fontWeight: '600',
