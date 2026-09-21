@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Image,
   Modal,
@@ -10,11 +10,14 @@ import {
 } from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
+import {useFocusEffect} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {fetchUserProfile} from '../../redux/slices/authSlice';
 import createStyles from './style';
 
 function CustomToggle({value, onToggle, label, styles}) {
@@ -38,22 +41,47 @@ function CustomToggle({value, onToggle, label, styles}) {
   );
 }
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const insets = useSafeAreaInsets();
   const {isDark, toggleTheme, colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const {showToast} = useToast();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.user);
 
-  const [activeRole, setActiveRole] = useState('passenger');
+  const [activeRole, setActiveRole] = useState(user?.role || 'passenger');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [preferences, setPreferences] = useState({
     notifications: true,
     offers: false,
   });
 
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchUserProfile());
+    }, [dispatch]),
+  );
+
   const togglePref = key => {
     setPreferences(prev => ({...prev, [key]: !prev[key]}));
   };
+
+  const displayName = user?.name || user?.fullName || 'User';
+  const displayPhone = user?.phone || user?.mobile
+    ? (String(user.phone || user.mobile).startsWith('+')
+        ? String(user.phone || user.mobile)
+        : `+91 ${String(user.phone || user.mobile)}`)
+    : '+91 98765 43210';
+  const displayEmail = user?.email || 'user@example.com';
+  const displayPhoto = user?.photo || user?.profilePhoto || user?.avatar;
+
+  const initials = displayName
+    .trim()
+    .split(/\s+/)
+    .map(part => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || 'U';
 
   return (
     <View style={styles.root}>
@@ -73,20 +101,24 @@ export default function ProfileScreen() {
         <View style={styles.userRow}>
           <View style={styles.avatarRing}>
             <View style={styles.avatarInner}>
-              <Text style={styles.avatarInitials}>AM</Text>
+              {displayPhoto ? (
+                <Image source={{uri: displayPhoto}} style={styles.avatarPhoto} />
+              ) : (
+                <Text style={styles.avatarInitials}>{initials}</Text>
+              )}
             </View>
           </View>
           <View style={styles.userInfo}>
             <View style={styles.nameRow}>
-              <Text style={styles.userName}>Aarav Mehta</Text>
+              <Text style={styles.userName}>{displayName}</Text>
               <MaterialDesignIcons
                 name="shield-check"
                 size={18}
                 color="#22C55E"
               />
             </View>
-            <Text style={styles.userSub}>+91 98765 43210</Text>
-            <Text style={styles.userEmail}>aarav.mehta@gmail.com</Text>
+            <Text style={styles.userSub}>{displayPhone}</Text>
+            <Text style={styles.userEmail}>{displayEmail}</Text>
           </View>
           <Pressable
             style={styles.editBtn}

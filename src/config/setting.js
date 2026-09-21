@@ -1,5 +1,4 @@
-/** Unused for now. Wire this up when you add a backend. */
-export const BASE_URL = '';
+export const BASE_URL = 'https://lit-pst-adjustable-mounted.trycloudflare.com';
 
 export const API_TIMEOUT = 20000;
 

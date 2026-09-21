@@ -1,22 +1,28 @@
-import {apiGet, apiPost} from './apicall';
+import {apiGet} from './apicall';
+import {
+  endpoints,
+  ENDPOINTS,
+  AUTH_ENDPOINTS,
+  USER_ENDPOINTS,
+  DRIVER_ENDPOINTS,
+  RIDE_ENDPOINTS,
+} from './endpoints';
 
-export const endpoints = {
-  login: '/auth/login',
-  signup: '/auth/register',
-  profile: '/users/1',
-  keywordSearch: '/keyword-search',
+export {
+  endpoints,
+  ENDPOINTS,
+  AUTH_ENDPOINTS,
+  USER_ENDPOINTS,
+  DRIVER_ENDPOINTS,
+  RIDE_ENDPOINTS,
 };
-
-export function loginApi(payload) {
-  return apiPost(endpoints.login, payload);
-}
-
-export function signupApi(payload) {
-  return apiPost(endpoints.signup, payload);
-}
+export * from '../services/authApi';
+export * from '../services/userApi';
+export * from '../services/driverApi';
+export * from '../services/rideApi';
 
 export function profileApi() {
-  return apiGet(endpoints.profile);
+  return apiGet(USER_ENDPOINTS.PROFILE);
 }
 
 export function keywordSearchApi(payload) {

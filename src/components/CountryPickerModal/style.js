@@ -1,0 +1,125 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    backdrop: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.55)',
+      justifyContent: 'flex-end',
+    },
+    sheet: {
+      backgroundColor: colors.surface,
+      borderTopLeftRadius: 28,
+      borderTopRightRadius: 28,
+      maxHeight: '82%',
+      minHeight: 420,
+      paddingTop: 12,
+      paddingHorizontal: 20,
+      shadowColor: '#000',
+      shadowOffset: {width: 0, height: -4},
+      shadowOpacity: 0.15,
+      shadowRadius: 12,
+      elevation: 20,
+    },
+    dragHandle: {
+      width: 40,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.isDark ? '#4B5563' : '#E5E7EB',
+      alignSelf: 'center',
+      marginBottom: 14,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 16,
+    },
+    title: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    closeButton: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      backgroundColor: colors.isDark ? '#374151' : '#F3F4F6',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.isDark ? '#1F2937' : '#F9FAFB',
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 12,
+      height: 46,
+      marginBottom: 14,
+      gap: 8,
+    },
+    searchInput: {
+      flex: 1,
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 15,
+      color: colors.text,
+      paddingVertical: 0,
+    },
+    list: {
+      paddingBottom: 24,
+    },
+    item: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 14,
+      paddingHorizontal: 10,
+      borderRadius: 14,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.border,
+    },
+    itemSelected: {
+      backgroundColor: colors.isDark ? 'rgba(255,140,60,0.12)' : 'rgba(255,140,60,0.08)',
+    },
+    flagEmoji: {
+      fontSize: 24,
+      marginRight: 12,
+    },
+    flagImg: {
+      width: 26,
+      height: 18,
+      borderRadius: 3,
+      marginRight: 12,
+    },
+    countryName: {
+      flex: 1,
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 15,
+      color: colors.text,
+    },
+    countryNameSelected: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.primary,
+      fontWeight: '700',
+    },
+    dialCode: {
+      fontFamily: colors.fonts.sora.semiBold,
+      fontSize: 14,
+      color: colors.muted,
+      marginLeft: 8,
+      marginRight: 8,
+    },
+    emptyContainer: {
+      paddingVertical: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyText: {
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 14,
+      color: colors.muted,
+    },
+  });
+}

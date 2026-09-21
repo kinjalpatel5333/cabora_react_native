@@ -15,6 +15,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {sendOtpApi, verifyOtpApi, setAuthToken} from '../../config';
 import {formatIndianMobile} from '../../utils/validators';
 import createStyles from './style';
 
@@ -27,7 +28,7 @@ const MAX_ATTEMPTS = 5;
 const RESEND_SECONDS = 45;
 const EXPIRE_SECONDS = 90;
 const PAUSE_SECONDS = 15 * 60;
-const VERIFY_REDIRECT_MS = 15 * 1000;
+const VERIFY_REDIRECT_MS = 1200;
 const SUPPORT_URL = 'mailto:support@cabora.app';
 
 function formatTimer(seconds) {
@@ -36,14 +37,14 @@ function formatTimer(seconds) {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-function maskPhone(digits) {
+function maskPhone(digits, dialCode = '+91') {
   if (!digits) {
-    return '+91';
+    return dialCode;
   }
   if (digits.length < 8) {
-    return `+91 ${formatIndianMobile(digits)}`;
+    return `${dialCode} ${formatIndianMobile(digits)}`;
   }
-  return `+91 ${digits.slice(0, 5)} ••${digits.slice(-3)}`;
+  return `${dialCode} ${digits.slice(0, 5)} ••${digits.slice(-3)}`;
 }
 
 export default function OtpScreen({navigation, route}) {
@@ -52,7 +53,13 @@ export default function OtpScreen({navigation, route}) {
   const styles = useThemedStyles(createStyles);
   const inputRef = useRef(null);
   const phone = route?.params?.mobile || '';
+  const countryCode = route?.params?.countryCode || '+91';
 
+  const [challengeId, setChallengeId] = useState(
+    route?.params?.challengeId || '',
+  );
+  const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');
+  const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
   const [resendIn, setResendIn] = useState(RESEND_SECONDS);
@@ -63,17 +70,31 @@ export default function OtpScreen({navigation, route}) {
   const [verified, setVerified] = useState(false);
   const [focused, setFocused] = useState(true);
 
+  useEffect(() => {
+    console.log('\n==========================================');
+    console.log(`📱 [OTP SCREEN] Verification for: ${countryCode} ${phone}`);
+    console.log(`🔑 challengeId: ${challengeId || 'N/A'}`);
+    console.log(`🔢 >>> ENTER OTP: [ ${serverOtp || CORRECT_OTP} ] <<<`);
+    console.log('==========================================\n');
+  }, [countryCode, phone, challengeId, serverOtp]);
+
   const paused = pauseIn > 0;
   const digits = code.split('');
-  const canResend = resendIn === 0 && !paused && !verified;
+  const canResend = resendIn === 0 && !paused && !verified && !loading;
   const canVerify =
-    code.length === CODE_LENGTH && !expired && !paused && !verified;
+    code.length === CODE_LENGTH &&
+    !expired &&
+    !paused &&
+    !verified &&
+    !loading;
 
   const buttonTitle = paused
     ? `Try again in ${formatTimer(pauseIn)}`
-    : verified
-      ? 'Verified'
-      : 'Verify & continue';
+    : loading
+      ? 'Verifying...'
+      : verified
+        ? 'Verified'
+        : 'Verify & continue';
 
   const avatarStyle = verified
     ? styles.avatarVerified
@@ -133,15 +154,25 @@ export default function OtpScreen({navigation, route}) {
     return () => clearInterval(timer);
   }, [paused]);
 
+  const [verifiedUser, setVerifiedUser] = useState(null);
+
   useEffect(() => {
     if (!verified) {
       return undefined;
     }
     const timeout = setTimeout(() => {
-      navigation.replace('SetupAccount', {mobile: phone});
+      navigation.replace('SetupAccount', {
+        mobile: phone,
+        countryCode,
+        userId:
+          verifiedUser?.id ||
+          verifiedUser?._id ||
+          verifiedUser?.userId,
+        user: verifiedUser,
+      });
     }, VERIFY_REDIRECT_MS);
     return () => clearTimeout(timeout);
-  }, [navigation, phone, verified]);
+  }, [navigation, phone, countryCode, verified, verifiedUser]);
 
   useEffect(() => {
     if (pauseIn > 0 || attemptsLeft > 0) {
@@ -155,16 +186,12 @@ export default function OtpScreen({navigation, route}) {
     setExpiresIn(EXPIRE_SECONDS);
   }, [attemptsLeft, pauseIn]);
 
-  const applyCode = value => {
-    if (value.length !== CODE_LENGTH || paused || verified) {
+  const verifySubmittedCode = async value => {
+    if (value.length !== CODE_LENGTH || paused || verified || loading) {
       return;
     }
-    if (value === CORRECT_OTP) {
-      setError('');
-      setExpired(false);
-      setVerified(true);
-      return;
-    }
+
+    // Local test hooks
     if (value === TEST_EXPIRED_OTP) {
       setError('');
       setExpired(true);
@@ -186,26 +213,74 @@ export default function OtpScreen({navigation, route}) {
       );
       return;
     }
-    if (expired) {
-      return;
+
+    setLoading(true);
+    setError('');
+
+    try {
+      if (challengeId) {
+        // Call live backend verify OTP API
+        const response = await verifyOtpApi({
+          challengeId,
+          otp: value,
+          mobile: phone,
+          countryCode,
+        });
+
+        const token =
+          response?.data?.token ||
+          response?.data?.accessToken ||
+          response?.token ||
+          response?.accessToken;
+        if (token) {
+          setAuthToken(token);
+        }
+
+        const userData = response?.data?.user || response?.user || response?.data;
+        if (userData) {
+          setVerifiedUser(userData);
+        }
+
+        setError('');
+        setExpired(false);
+        setVerified(true);
+      } else {
+        // Fallback check against serverOtp or CORRECT_OTP
+        const expectedOtp = serverOtp || CORRECT_OTP;
+        if (value === expectedOtp || value === CORRECT_OTP) {
+          setError('');
+          setExpired(false);
+          setVerified(true);
+        } else {
+          throw new Error("That code isn't right. Please try again.");
+        }
+      }
+    } catch (err) {
+      console.warn('verifyOtpApi error:', err);
+      const rawMsg = err?.message || err?.error || err;
+      const errMsg =
+        typeof rawMsg === 'string'
+          ? rawMsg
+          : typeof rawMsg?.message === 'string'
+            ? rawMsg.message
+            : "That code isn't right. Please check and try again.";
+
+      const remaining = attemptsLeft - 1;
+      setAttemptsLeft(remaining);
+      if (remaining <= 0) {
+        setCode('');
+        setError('');
+        setPauseIn(PAUSE_SECONDS);
+      } else {
+        setError(errMsg);
+      }
+    } finally {
+      setLoading(false);
     }
-    const remaining = attemptsLeft - 1;
-    setAttemptsLeft(remaining);
-    if (remaining <= 0) {
-      setCode('');
-      setError('');
-      setPauseIn(PAUSE_SECONDS);
-      return;
-    }
-    setError(
-      `That code isn't right. ${remaining} attempt${
-        remaining === 1 ? '' : 's'
-      } left before we pause verification.`,
-    );
   };
 
   const onChangeCode = next => {
-    if (paused || verified || expired) {
+    if (paused || verified || expired || loading) {
       return;
     }
     const value = String(next || '')
@@ -213,12 +288,14 @@ export default function OtpScreen({navigation, route}) {
       .slice(0, CODE_LENGTH);
     setCode(value);
     setError('');
+
+    // Auto verify as soon as user types 6 digits
     if (value.length === CODE_LENGTH) {
-      applyCode(value);
+      verifySubmittedCode(value);
     }
   };
 
-  const startNewCode = () => {
+  const startNewCode = async () => {
     if (!canResend && !expired) {
       return;
     }
@@ -228,13 +305,44 @@ export default function OtpScreen({navigation, route}) {
     setResendIn(RESEND_SECONDS);
     setExpiresIn(EXPIRE_SECONDS);
     inputRef.current?.focus();
+    try {
+      if (phone) {
+        const res = await sendOtpApi({mobile: phone, countryCode});
+        const newChallengeId =
+          res?.data?.challengeId ||
+          res?.challengeId ||
+          res?.data?.data?.challengeId;
+        const newOtp =
+          res?.data?.otp ||
+          res?.otp ||
+          res?.data?.data?.otp ||
+          res?.code;
+
+        if (newChallengeId) {
+          setChallengeId(newChallengeId);
+        }
+        if (newOtp) {
+          setServerOtp(newOtp);
+        }
+      }
+    } catch (err) {
+      console.warn('Resend OTP error:', err);
+      const rawMsg = err?.message || err?.error || err;
+      const errMsg =
+        typeof rawMsg === 'string'
+          ? rawMsg
+          : typeof rawMsg?.message === 'string'
+            ? rawMsg.message
+            : 'Failed to resend code';
+      setError(errMsg);
+    }
   };
 
   const onVerify = () => {
     if (!canVerify) {
       return;
     }
-    applyCode(code);
+    verifySubmittedCode(code);
   };
 
   return (
@@ -274,7 +382,7 @@ export default function OtpScreen({navigation, route}) {
           </Text>
           <View style={styles.meta}>
             <Text style={styles.metaText}>
-              Code sent to {maskPhone(phone)} ·{' '}
+              Code sent to {maskPhone(phone, countryCode)} ·{' '}
             </Text>
             <Text style={styles.change} onPress={() => navigation.goBack()}>
               Change
@@ -326,7 +434,7 @@ export default function OtpScreen({navigation, route}) {
               caretHidden
               autoComplete="sms-otp"
               textContentType="oneTimeCode"
-              editable={!paused && !verified && !expired}
+              editable={!paused && !verified && !expired && !loading}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               style={styles.hiddenInput}
@@ -396,8 +504,8 @@ export default function OtpScreen({navigation, route}) {
           <Button
             title={buttonTitle}
             onPress={onVerify}
-            loading={verified}
-            disabled={!verified && !canVerify}
+            loading={loading || verified}
+            disabled={(!verified && !canVerify) || loading}
             style={styles.verifyButton}
           />
           <Text style={styles.help}>

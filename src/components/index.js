@@ -10,3 +10,4 @@ export {default as Toast, ToastProvider, useToast} from './Toast';
 export {default as Icon} from './Icon';
 export {default as MapBackdrop} from './MapBackdrop';
 export {default as ConfirmDialog} from './ConfirmDialog';
+export {default as CountryPickerModal} from './CountryPickerModal';
