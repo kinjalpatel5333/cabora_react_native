@@ -1,0 +1,270 @@
+import {StyleSheet} from 'react-native';
+
+const TYPE_GAP = 10;
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 12,
+      paddingBottom: 4,
+    },
+    headerBtn: {
+      width: 40,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      color: colors.text,
+      fontSize: 17,
+      fontWeight: '700',
+    },
+    progressWrap: {
+      paddingHorizontal: 20,
+      marginTop: 12,
+      marginBottom: 16,
+    },
+    progressTrack: {
+      flexDirection: 'row',
+      gap: 6,
+      marginBottom: 8,
+    },
+    progressSeg: {
+      flex: 1,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.border,
+    },
+    progressSegActive: {
+      backgroundColor: colors.primary,
+    },
+    stepText: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    scroll: {
+      paddingHorizontal: 20,
+      paddingTop: 2,
+    },
+    section: {
+      marginBottom: 20,
+    },
+    sectionLabel: {
+      color: colors.muted,
+      fontSize: 11,
+      fontWeight: '700',
+      letterSpacing: 1.1,
+      marginBottom: 10,
+    },
+    typeGrid: {
+      gap: TYPE_GAP,
+    },
+    typeRow: {
+      flexDirection: 'row',
+      gap: TYPE_GAP,
+    },
+    typeCard: {
+      flex: 1,
+      backgroundColor: colors.card,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: colors.border,
+      paddingVertical: 14,
+      paddingHorizontal: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+    },
+    typeCardActive: {
+      borderColor: colors.primary,
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+    },
+    typeLabel: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+    typeLabelActive: {
+      color: colors.text,
+      fontWeight: '700',
+    },
+    sizeList: {
+      gap: 10,
+    },
+    sizeCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      backgroundColor: colors.card,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: colors.border,
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+    },
+    sizeCardActive: {
+      borderColor: colors.primary,
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+    },
+    radio: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      borderWidth: 2,
+      borderColor: colors.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    radioActive: {
+      borderColor: colors.primary,
+    },
+    radioDot: {
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      backgroundColor: colors.primary,
+    },
+    sizeCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    sizeTitle: {
+      color: colors.text,
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    sizeMeta: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '400',
+      marginTop: 2,
+    },
+    sizeHint: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    valueCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: colors.card,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingVertical: 14,
+      paddingHorizontal: 14,
+      marginBottom: 8,
+    },
+    valueLabel: {
+      color: colors.text,
+      fontSize: 15,
+      fontWeight: '700',
+    },
+    valueAmount: {
+      color: colors.text,
+      fontSize: 15,
+      fontWeight: '800',
+    },
+    valueNote: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '400',
+      lineHeight: 17,
+      marginBottom: 14,
+    },
+    confirmCard: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 10,
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.14)' : colors.orange[50],
+      borderWidth: 1,
+      borderColor: colors.isDark ? 'rgba(255, 112, 6, 0.35)' : colors.orange[200],
+      borderRadius: 14,
+      padding: 14,
+      marginBottom: 8,
+    },
+    checkbox: {
+      width: 22,
+      height: 22,
+      borderRadius: 6,
+      borderWidth: 1.5,
+      borderColor: colors.isDark ? 'rgba(255, 112, 6, 0.5)' : colors.orange[400],
+      backgroundColor: colors.card,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 1,
+    },
+    checkboxActive: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    confirmCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    confirmText: {
+      color: colors.isDark ? colors.orange[300] : colors.orange[700],
+      fontSize: 13,
+      fontWeight: '500',
+      lineHeight: 19,
+    },
+    confirmLink: {
+      color: colors.primary,
+      fontWeight: '700',
+      textDecorationLine: 'underline',
+    },
+    footer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 14,
+      paddingHorizontal: 20,
+      paddingTop: 10,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.border,
+      backgroundColor: colors.card,
+    },
+    footerCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    footerMeta: {
+      color: colors.muted,
+      fontSize: 12,
+      fontWeight: '500',
+    },
+    footerTitle: {
+      color: colors.text,
+      fontSize: 16,
+      fontWeight: '800',
+      marginTop: 2,
+    },
+    pricesBtn: {
+      backgroundColor: colors.primary,
+      paddingVertical: 14,
+      paddingHorizontal: 22,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pricesBtnDisabled: {
+      opacity: 0.45,
+    },
+    pricesText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '700',
+    },
+  });
+}

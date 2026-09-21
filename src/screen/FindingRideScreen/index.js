@@ -5,7 +5,6 @@ import {
   Easing,
   Modal,
   Pressable,
-  ScrollView,
   Text,
   View,
 } from 'react-native';
@@ -15,7 +14,13 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
+import EmergencyScreen from '../EmergencyScreen';
+import ShareLiveTripScreen from '../ShareLiveTripScreen';
 import {CoRiderMatchedSheet, DriverOnWaySheet, OnTripSheet} from './MatchedSheets';
+import RateTipScreen from './RateTipScreen';
+import RatedPaidScreen from './RatedPaidScreen';
+import TripCompletedScreen from './TripCompletedScreen';
 import createStyles from './style';
 
 const NEARBY = [
@@ -32,6 +37,7 @@ const ALT_RIDES = [
 const PULSE_COUNT = 3;
 const MATCH_MS = 5000;
 const ON_TRIP_MS = 5000;
+const COMPLETED_MS = 5000;
 const NO_DRIVER_MS = 12000;
 
 function RadarPulse({delay, styles}) {
@@ -78,6 +84,7 @@ function RadarPulse({delay, styles}) {
 export default function FindingRideModal({
   visible,
   onClose,
+  onBack,
   onRequestCancel,
   rideName = 'Cab Sedan',
   pickup = '12, Brigade Road, Ashok Nagar',
@@ -88,8 +95,12 @@ export default function FindingRideModal({
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
-  const [phase, setPhase] = useState('searching'); // searching | pool | driver | onTrip | unavailable
+  const [phase, setPhase] = useState('searching'); // searching | pool | driver | onTrip | completed | rateTip | ratedPaid | unavailable
   const [searchKey, setSearchKey] = useState(0);
+  const [ratingResult, setRatingResult] = useState({rating: 5, tip: 20});
+  const [emergencyOpen, setEmergencyOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const flowPaused = emergencyOpen || shareOpen;
   const matchCoRiderRef = useRef(true);
 
   const spin = useRef(new Animated.Value(0)).current;
@@ -100,6 +111,9 @@ export default function FindingRideModal({
     if (!visible) {
       setPhase('searching');
       setSearchKey(0);
+      setRatingResult({rating: 5, tip: 20});
+      setEmergencyOpen(false);
+      setShareOpen(false);
       spin.setValue(0);
       progress.setValue(0.12);
       tripProgress.setValue(0.38);
@@ -109,12 +123,19 @@ export default function FindingRideModal({
     setPhase('searching');
     // First search → solo driver modal; Search again → co-rider pool.
     matchCoRiderRef.current = searchKey % 2 === 1;
+    return undefined;
+  }, [visible, searchKey, spin, progress, tripProgress]);
+
+  // Searching → match (paused while SOS / share is open)
+  useEffect(() => {
+    if (!visible || flowPaused || phase !== 'searching') {
+      return undefined;
+    }
 
     const matchTimer = setTimeout(() => {
       setPhase(matchCoRiderRef.current ? 'pool' : 'driver');
     }, MATCH_MS);
 
-    // Safety net if match somehow never fires.
     const failTimer = setTimeout(() => {
       setPhase(prev => (prev === 'searching' ? 'unavailable' : prev));
     }, NO_DRIVER_MS);
@@ -123,19 +144,28 @@ export default function FindingRideModal({
       clearTimeout(matchTimer);
       clearTimeout(failTimer);
     };
-  }, [visible, searchKey, spin, progress, tripProgress]);
+  }, [visible, flowPaused, phase, searchKey]);
 
   // OTP / driver-on-way → On Trip after 5s
   useEffect(() => {
-    if (!visible || phase !== 'driver') {
+    if (!visible || flowPaused || phase !== 'driver') {
       return undefined;
     }
     const t = setTimeout(() => setPhase('onTrip'), ON_TRIP_MS);
     return () => clearTimeout(t);
-  }, [visible, phase]);
+  }, [visible, flowPaused, phase]);
+
+  // On Trip → Trip completed after 5s
+  useEffect(() => {
+    if (!visible || flowPaused || phase !== 'onTrip') {
+      return undefined;
+    }
+    const t = setTimeout(() => setPhase('completed'), COMPLETED_MS);
+    return () => clearTimeout(t);
+  }, [visible, flowPaused, phase]);
 
   useEffect(() => {
-    if (!visible || phase !== 'onTrip') {
+    if (!visible || flowPaused || phase !== 'onTrip') {
       return undefined;
     }
     const loop = Animated.loop(
@@ -156,12 +186,14 @@ export default function FindingRideModal({
     );
     loop.start();
     return () => loop.stop();
-  }, [visible, phase, tripProgress]);
+  }, [visible, flowPaused, phase, tripProgress]);
 
   useEffect(() => {
-    if (!visible || phase !== 'searching') {
-      spin.setValue(0);
-      progress.setValue(0.12);
+    if (!visible || flowPaused || phase !== 'searching') {
+      if (phase !== 'searching') {
+        spin.setValue(0);
+        progress.setValue(0.12);
+      }
       return undefined;
     }
 
@@ -198,7 +230,7 @@ export default function FindingRideModal({
       spinLoop.stop();
       progressLoop.stop();
     };
-  }, [visible, phase, spin, progress]);
+  }, [visible, flowPaused, phase, spin, progress]);
 
   const spinDeg = spin.interpolate({
     inputRange: [0, 1],
@@ -220,6 +252,27 @@ export default function FindingRideModal({
       onRequestCancel();
       return;
     }
+    onBack?.() ?? onClose?.();
+  };
+
+  /** Hardware / UI back: one phase or one flow step — never dump to Home. */
+  const stepBack = () => {
+    if (phase === 'rateTip') {
+      setPhase('completed');
+      return;
+    }
+    if (phase === 'ratedPaid') {
+      setPhase('rateTip');
+      return;
+    }
+    if (phase === 'completed') {
+      setPhase('onTrip');
+      return;
+    }
+    if (onBack) {
+      onBack();
+      return;
+    }
     onClose?.();
   };
 
@@ -228,6 +281,11 @@ export default function FindingRideModal({
   const sheetMaxH =
     Dimensions.get('window').height *
     (phase === 'onTrip' ? 0.48 : unavailable || matched ? 0.7 : 0.52);
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: phase === 'onTrip' ? 160 : 200,
+      visible,
+    });
 
   const tripFillWidth = tripProgress.interpolate({
     inputRange: [0, 1],
@@ -239,10 +297,38 @@ export default function FindingRideModal({
       visible={visible}
       transparent
       animationType="slide"
-      onRequestClose={onClose}
+      presentationStyle="overFullScreen"
+      onRequestClose={stepBack}
       statusBarTranslucent>
+      {phase === 'ratedPaid' ? (
+        <RatedPaidScreen
+          rating={ratingResult.rating}
+          tip={ratingResult.tip ?? 0}
+          onBackHome={onClose}
+          onBookAgain={onClose}
+        />
+      ) : phase === 'rateTip' ? (
+        <RateTipScreen
+          onClose={() => setPhase('completed')}
+          onSkip={stepBack}
+          onSubmit={result => {
+            setRatingResult({
+              rating: result?.rating ?? 5,
+              tip: result?.tip ?? 0,
+            });
+            setPhase('ratedPaid');
+          }}
+        />
+      ) : phase === 'completed' ? (
+        <TripCompletedScreen
+          pickup={pickup}
+          drop={drop}
+          rideName={rideName}
+          onRate={() => setPhase('rateTip')}
+        />
+      ) : (
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <Pressable style={styles.backdrop} onPress={stepBack} />
 
         {phase === 'onTrip' ? (
           <View style={[styles.navBanner, {top: insets.top + 8}]}>
@@ -260,23 +346,12 @@ export default function FindingRideModal({
               </Text>
             </View>
           </View>
-        ) : (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-            onPress={onClose}
-            style={[styles.backBtn, {top: insets.top + 8}]}>
-            <Feather
-              name={matched ? 'chevron-down' : 'arrow-left'}
-              size={22}
-              color={colors.navy[900]}
-            />
-          </Pressable>
-        )}
+        ) : null}
 
         {phase === 'onTrip' ? (
           <Pressable
             style={[styles.sosPill, {top: insets.top + 10}]}
+            onPress={() => setEmergencyOpen(true)}
             accessibilityRole="button"
             accessibilityLabel="SOS">
             <MaterialDesignIcons
@@ -309,7 +384,7 @@ export default function FindingRideModal({
             <MaterialDesignIcons
               name="crosshairs-gps"
               size={22}
-              color={colors.navy[800]}
+              color={colors.text}
             />
           </Pressable>
         ) : null}
@@ -341,7 +416,7 @@ export default function FindingRideModal({
                   <MaterialDesignIcons
                     name="map-marker"
                     size={28}
-                    color={colors.navy[800]}
+                    color={colors.text}
                   />
                 </View>
               ) : null}
@@ -372,7 +447,7 @@ export default function FindingRideModal({
                   <MaterialDesignIcons
                     name={vehicle.icon}
                     size={18}
-                    color={colors.navy[800]}
+                    color={colors.text}
                   />
                 </View>
               ))
@@ -390,37 +465,49 @@ export default function FindingRideModal({
           ) : null}
         </View>
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
               maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 10,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
 
+          <View>
           {phase === 'pool' ? (
             <CoRiderMatchedSheet fare={Math.max(fare, 412)} onCancel={onCancelPress} />
           ) : null}
 
           {phase === 'driver' ? (
-            <DriverOnWaySheet onCancel={onCancelPress} />
+            <DriverOnWaySheet
+              onCancel={onCancelPress}
+              onSos={() => setEmergencyOpen(true)}
+              onShare={() => setShareOpen(true)}
+            />
           ) : null}
 
           {phase === 'onTrip' ? (
             <OnTripSheet
               drop={drop}
               progressWidth={tripFillWidth}
-              onShare={() => {}}
+              onShare={() => setShareOpen(true)}
             />
           ) : null}
 
           {unavailable ? (
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              contentContainerStyle={styles.unavailableScroll}>
+            <View style={styles.unavailableScroll}>
               <View style={styles.findingRow}>
                 <View style={styles.warnIconWrap}>
                   <Lucide
@@ -447,7 +534,7 @@ export default function FindingRideModal({
                     <MaterialDesignIcons
                       name={ride.icon}
                       size={22}
-                      color={colors.navy[900]}
+                      color={colors.text}
                     />
                     <Text style={styles.altName}>{ride.name}</Text>
                     <Text style={styles.altPrice}>₹{ride.price}</Text>
@@ -478,7 +565,7 @@ export default function FindingRideModal({
               </View>
 
               <View style={styles.infoBox}>
-                <Feather name="info" size={16} color={colors.gray[500]} />
+                <Feather name="info" size={16} color={colors.muted} />
                 <Text style={styles.infoText}>
                   Nothing has been charged. Your fare of ₹{fare} is still locked
                   for 5 minutes.
@@ -491,7 +578,7 @@ export default function FindingRideModal({
               <Pressable style={styles.cancelLink} onPress={onCancelPress}>
                 <Text style={styles.cancelLinkText}>Cancel ride</Text>
               </Pressable>
-            </ScrollView>
+            </View>
           ) : null}
 
           {phase === 'searching' ? (
@@ -544,7 +631,7 @@ export default function FindingRideModal({
               </View>
 
               <View style={styles.infoBox}>
-                <Feather name="clock" size={16} color={colors.gray[500]} />
+                <Feather name="clock" size={16} color={colors.muted} />
                 <Text style={styles.infoText}>
                   Most rides are matched in under 60 seconds. Nothing is charged
                   until a driver accepts.
@@ -556,8 +643,34 @@ export default function FindingRideModal({
               </Pressable>
             </>
           ) : null}
-        </View>
+          </View>
+        </Animated.View>
+
+        {phase !== 'onTrip' ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            onPress={stepBack}
+            hitSlop={12}
+            style={[styles.backBtn, {top: insets.top + 8}]}>
+            <Feather
+              name={matched ? 'chevron-down' : 'arrow-left'}
+              size={22}
+              color={colors.text}
+            />
+          </Pressable>
+        ) : null}
       </View>
+      )}
+
+      <EmergencyScreen
+        visible={emergencyOpen}
+        onClose={() => setEmergencyOpen(false)}
+      />
+      <ShareLiveTripScreen
+        visible={shareOpen}
+        onClose={() => setShareOpen(false)}
+      />
     </Modal>
   );
 }

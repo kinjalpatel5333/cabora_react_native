@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
@@ -24,7 +24,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 17,
       fontWeight: '700',
     },
@@ -49,15 +49,15 @@ export default function createStyles(colors) {
     },
     card: {
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       borderRadius: 20,
       padding: 16,
       marginBottom: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     cardSelected: {
       borderColor: colors.primary,
-      backgroundColor: colors.orange[50],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
     },
     cardTop: {
       flexDirection: 'row',
@@ -72,7 +72,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     iconSelected: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
     },
     copy: {
       flex: 1,
@@ -95,23 +95,23 @@ export default function createStyles(colors) {
       height: 22,
       borderRadius: 11,
       borderWidth: 1.5,
-      borderColor: colors.gray[300],
-      backgroundColor: colors.white,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
       marginTop: 2,
     },
     radioOn: {
       borderWidth: 6,
       borderColor: colors.primary,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     divider: {
       height: 1,
-      backgroundColor: colors.gray[200],
+      backgroundColor: colors.border,
       marginTop: 14,
       marginBottom: 12,
     },
     dividerSelected: {
-      backgroundColor: colors.orange[200],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.3)' : colors.orange[200],
     },
     hint: {
       flexDirection: 'row',
@@ -123,7 +123,7 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 13,
       fontWeight: '500',
-      color: colors.gray[500],
+      color: colors.muted,
     },
     hintSuccess: {
       fontFamily: colors.fonts.sora.semiBold,
@@ -135,16 +135,16 @@ export default function createStyles(colors) {
       alignItems: 'flex-start',
       gap: 10,
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
       borderRadius: 20,
       padding: 14,
       marginTop: 4,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
     },
     noteText: {
       fontFamily: colors.fonts.sora.regular,
       flex: 1,
-      color: colors.navy[700],
+      color: colors.text,
       fontSize: 13,
       lineHeight: 19,
     },
@@ -156,7 +156,8 @@ export default function createStyles(colors) {
       paddingHorizontal: 20,
       paddingTop: 12,
       borderTopWidth: 1,
-      borderTopColor: colors.gray[100],
+      borderTopColor: colors.border,
+      backgroundColor: colors.background,
     },
     pickedLabel: {
       fontFamily: colors.fonts.sora.regular,

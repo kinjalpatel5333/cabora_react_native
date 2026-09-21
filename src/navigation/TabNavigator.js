@@ -4,7 +4,7 @@ import {Header} from '../components';
 import colors, {palette} from '../config/color';
 import {useSidebar} from '../context/SidebarContext';
 import HomeScreen from '../screen/HomeScreen';
-import SearchScreen from '../screen/SearchScreen';
+import ServicesScreen from '../screen/ServicesScreen';
 import ActivityScreen from '../screen/ActivityScreen/index';
 import WalletScreen from '../screen/WalletScreen/index';
 import ProfileScreen from '../screen/ProfileScreen';
@@ -50,10 +50,9 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Services"
-        component={SearchScreen}
+        component={ServicesScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Services" />,
+          headerShown: false,
           tabBarLabel: 'Services',
           title: 'Services',
         }}
@@ -62,8 +61,7 @@ export default function TabNavigator() {
         name="Activity"
         component={ActivityScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Activity" />,
+          headerShown: false,
           tabBarLabel: 'Activity',
           title: 'Activity',
         }}
@@ -72,8 +70,7 @@ export default function TabNavigator() {
         name="Wallet"
         component={WalletScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Wallet" />,
+          headerShown: false,
           tabBarLabel: 'Wallet',
           title: 'Wallet',
         }}
@@ -82,8 +79,7 @@ export default function TabNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerShown: true,
-          header: () => <Header title="Profile" />,
+          headerShown: false,
           tabBarLabel: 'Profile',
           title: 'Profile',
         }}

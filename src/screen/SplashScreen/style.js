@@ -3,8 +3,16 @@ import {StyleSheet} from 'react-native';
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
-      flex: 1,
+      ...StyleSheet.absoluteFillObject,
       backgroundColor: '#08101E',
+    },
+    bottomFill: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: '#08101E',
+      zIndex: 0,
     },
     glow: {
       position: 'absolute',
@@ -13,6 +21,7 @@ export default function createStyles(colors) {
     content: {
       flex: 1,
       overflow: 'visible',
+      zIndex: 1,
     },
     brand: {
       flex: 1,

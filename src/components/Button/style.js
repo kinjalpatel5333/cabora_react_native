@@ -30,16 +30,16 @@ export default function createStyles(colors) {
     outline: {
       backgroundColor: colors.surface,
       borderWidth: 1.5,
-      borderColor: colors.navy[800],
+      borderColor: colors.isDark ? colors.border : colors.navy[800],
     },
     outlinePressed: {
-      backgroundColor: colors.navy[25],
+      backgroundColor: colors.isDark ? colors.card : colors.navy[25],
     },
     ghost: {
       backgroundColor: 'transparent',
     },
     ghostPressed: {
-      backgroundColor: colors.orange[50],
+      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
     },
     danger: {
       backgroundColor: colors.danger,
@@ -56,13 +56,13 @@ export default function createStyles(colors) {
       backgroundColor: 'rgba(255, 255, 255, 0.16)',
     },
     disabledFill: {
-      backgroundColor: colors.navy[100],
+      backgroundColor: colors.disabledBg || colors.gray[100],
       borderWidth: 0,
     },
     disabledOutline: {
       backgroundColor: colors.surface,
       borderWidth: 1.5,
-      borderColor: colors.gray[200],
+      borderColor: colors.border,
     },
     disabledGhost: {
       backgroundColor: 'transparent',
@@ -80,7 +80,7 @@ export default function createStyles(colors) {
       color: colors.white,
     },
     labelOutline: {
-      color: colors.navy[900],
+      color: colors.text,
     },
     labelGhost: {
       color: colors.primary,
@@ -89,7 +89,7 @@ export default function createStyles(colors) {
       color: colors.white,
     },
     labelDisabled: {
-      color: colors.navy[400],
+      color: colors.disabledText || colors.muted,
     },
   });
 }

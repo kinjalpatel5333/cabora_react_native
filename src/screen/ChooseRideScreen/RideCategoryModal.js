@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   Modal,
   Pressable,
@@ -12,6 +13,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './rideCategoryStyle';
 
 const PROMO_OFF = 50;
@@ -220,6 +222,13 @@ export default function RideCategoryModal({
     });
   };
 
+  const sheetMaxH = Dimensions.get('window').height * 0.78;
+  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+    useDraggableSheet({
+      peekHeight: 220,
+      visible,
+    });
+
   return (
     <Modal
       visible={visible}
@@ -230,15 +239,25 @@ export default function RideCategoryModal({
       <View style={styles.root} pointerEvents="box-none">
         <Pressable style={styles.backdrop} onPress={onClose} />
 
-        <View
+        <Animated.View
+          onLayout={onSheetLayout}
           style={[
             styles.sheet,
             {
-              maxHeight: Dimensions.get('window').height * 0.78,
+              maxHeight: sheetMaxH,
               paddingBottom: Math.max(insets.bottom, 10) + 8,
+              transform: [{translateY: sheetTY}],
             },
           ]}>
-          <View style={styles.grabber} />
+          <View {...panHandlers}>
+            <Pressable
+              onPress={toggle}
+              accessibilityRole="button"
+              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+              style={styles.grabberHit}>
+              <View style={styles.grabber} />
+            </Pressable>
+          </View>
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>{category.title}</Text>
@@ -247,12 +266,12 @@ export default function RideCategoryModal({
                 <MaterialDesignIcons
                   name="map-marker-path"
                   size={15}
-                  color={colors.gray[500]}
+                  color={colors.muted}
                 />
                 <Text style={styles.statText}>{category.distanceKm}</Text>
               </View>
               <View style={styles.statItem}>
-                <Feather name="clock" size={14} color={colors.gray[500]} />
+                <Feather name="clock" size={14} color={colors.muted} />
                 <Text style={styles.statText}>{category.durationMins}</Text>
               </View>
             </View>
@@ -267,7 +286,7 @@ export default function RideCategoryModal({
             contentContainerStyle={styles.listContent}>
             {category.rides.map(ride => {
               const active = selectedId === ride.id;
-              const tint = active ? colors.orange[600] : colors.navy[800];
+              const tint = active ? colors.orange[500] : colors.text;
               return (
                 <Pressable
                   key={ride.id}
@@ -280,7 +299,7 @@ export default function RideCategoryModal({
                   <View style={styles.rideCopy}>
                     <Text style={styles.rideName}>{ride.name}</Text>
                     <View style={styles.rideMetaRow}>
-                      <Feather name="user" size={12} color={colors.gray[500]} />
+                      <Feather name="user" size={12} color={colors.muted} />
                       <Text style={styles.rideMeta}>
                         {ride.seats} · {ride.blurb}
                       </Text>
@@ -306,14 +325,14 @@ export default function RideCategoryModal({
                   <RideGlyph
                     icon={category.bookAny.icon}
                     color={
-                      isBookAny ? colors.orange[600] : colors.navy[800]
+                      isBookAny ? colors.orange[500] : colors.text
                     }
                   />
                 </View>
                 <View style={styles.rideCopy}>
                   <Text style={styles.rideName}>{category.bookAny.name}</Text>
                   <View style={styles.rideMetaRow}>
-                    <Feather name="user" size={12} color={colors.gray[500]} />
+                    <Feather name="user" size={12} color={colors.muted} />
                     <Text style={styles.rideMeta}>
                       {category.bookAny.seats}
                     </Text>
@@ -340,7 +359,7 @@ export default function RideCategoryModal({
                       <Feather
                         name={on ? 'check' : 'plus'}
                         size={12}
-                        color={on ? colors.orange[600] : colors.gray[500]}
+                        color={on ? colors.orange[500] : colors.muted}
                       />
                       <Text
                         style={[styles.chipText, on && styles.chipTextOn]}>
@@ -358,7 +377,7 @@ export default function RideCategoryModal({
               <MaterialDesignIcons
                 name="currency-inr"
                 size={18}
-                color={colors.navy[800]}
+                color={colors.text}
               />
             </View>
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
@@ -407,7 +426,7 @@ export default function RideCategoryModal({
               <Text style={styles.bookText}>{bookLabel}</Text>
             </Pressable>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );

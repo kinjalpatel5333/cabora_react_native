@@ -84,7 +84,12 @@ export function CoRiderMatchedSheet({fare = 412, onCancel}) {
   );
 }
 
-export function DriverOnWaySheet({driverName = 'Rajesh', onCancel}) {
+export function DriverOnWaySheet({
+  driverName = 'Rajesh',
+  onCancel,
+  onSos,
+  onShare,
+}) {
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
   const otp = ['4', '8', '2', '6'];
@@ -145,18 +150,22 @@ export function DriverOnWaySheet({driverName = 'Rajesh', onCancel}) {
 
       <View style={styles.actionsRow}>
         <Pressable style={styles.actionBtn}>
-          <Feather name="phone" size={18} color={colors.navy[800]} />
+          <Feather name="phone" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Call</Text>
         </Pressable>
         <Pressable style={styles.actionBtn}>
-          <Feather name="message-circle" size={18} color={colors.navy[800]} />
+          <Feather name="message-circle" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Chat</Text>
         </Pressable>
-        <Pressable style={styles.actionBtn}>
-          <Feather name="upload" size={18} color={colors.navy[800]} />
+        <Pressable style={styles.actionBtn} onPress={onShare}>
+          <Feather name="upload" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Share trip</Text>
         </Pressable>
-        <Pressable style={[styles.actionBtn, styles.actionBtnSos]}>
+        <Pressable
+          style={[styles.actionBtn, styles.actionBtnSos]}
+          onPress={onSos}
+          accessibilityRole="button"
+          accessibilityLabel="SOS">
           <MaterialDesignIcons
             name="alarm-light"
             size={20}
@@ -238,10 +247,10 @@ export function OnTripSheet({
           </Text>
         </View>
         <Pressable style={styles.miniAction}>
-          <Feather name="phone" size={16} color={colors.navy[800]} />
+          <Feather name="phone" size={16} color={colors.text} />
         </Pressable>
         <Pressable style={styles.miniAction}>
-          <Feather name="message-circle" size={16} color={colors.navy[800]} />
+          <Feather name="message-circle" size={16} color={colors.text} />
         </Pressable>
       </View>
 

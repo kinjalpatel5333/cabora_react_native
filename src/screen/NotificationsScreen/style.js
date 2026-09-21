@@ -1,0 +1,162 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    headerRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 18,
+      paddingTop: 10,
+      paddingBottom: 14,
+    },
+    headerLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },
+    backBtn: {
+      width: 38,
+      height: 38,
+      borderRadius: 12,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      color: colors.text,
+      fontSize: 26,
+      fontWeight: '800',
+      letterSpacing: -0.5,
+    },
+    markAllBtn: {
+      paddingVertical: 6,
+      paddingHorizontal: 8,
+    },
+    markAllText: {
+      color: '#FF7006',
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    pillsScroll: {
+      paddingHorizontal: 18,
+      paddingBottom: 14,
+      gap: 8,
+      flexDirection: 'row',
+    },
+    pill: {
+      paddingHorizontal: 18,
+      paddingVertical: 9,
+      borderRadius: 22,
+      backgroundColor: colors.card,
+      borderWidth: 1.5,
+      borderColor: colors.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pillActive: {
+      borderColor: '#FF7006',
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : '#FFF5ED',
+    },
+    pillText: {
+      color: colors.textMuted,
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    pillTextActive: {
+      color: '#FF7006',
+    },
+    scroll: {
+      paddingHorizontal: 18,
+      paddingTop: 6,
+      paddingBottom: 40,
+    },
+    sectionTitle: {
+      color: colors.textSub,
+      fontSize: 11.5,
+      fontWeight: '700',
+      letterSpacing: 0.8,
+      marginBottom: 10,
+      marginTop: 6,
+    },
+    sectionTitleLater: {
+      marginTop: 18,
+    },
+    card: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      backgroundColor: colors.card,
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 14,
+      paddingVertical: 14,
+      marginBottom: 10,
+      shadowColor: colors.isDark ? '#000000' : '#0F2840',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.04,
+      shadowRadius: 6,
+      elevation: 1.5,
+      overflow: 'hidden',
+    },
+    cardUnread: {
+      backgroundColor: colors.isDark ? '#172B3E' : '#FFF8F2',
+      borderColor: colors.isDark ? '#4D311A' : '#FFDEC7',
+      borderLeftWidth: 4,
+      borderLeftColor: '#FF7006',
+    },
+    iconBox: {
+      width: 44,
+      height: 44,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    cardBody: {
+      flex: 1,
+      paddingRight: 6,
+    },
+    titleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 3,
+    },
+    itemTitle: {
+      flex: 1,
+      color: colors.text,
+      fontSize: 14.5,
+      fontWeight: '700',
+      marginRight: 6,
+    },
+    itemTime: {
+      color: colors.textSub,
+      fontSize: 12,
+      fontWeight: '400',
+    },
+    itemSubtitle: {
+      color: colors.textMuted,
+      fontSize: 13,
+      fontWeight: '400',
+      lineHeight: 18,
+    },
+    emptyBox: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 60,
+    },
+    emptyText: {
+      color: '#8A96A6',
+      fontSize: 14,
+      fontWeight: '500',
+      marginTop: 10,
+    },
+  });
+}

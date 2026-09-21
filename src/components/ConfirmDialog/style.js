@@ -17,7 +17,7 @@ export default function createStyles(colors) {
     card: {
       width: '100%',
       maxWidth: 360,
-      backgroundColor: colors.white,
+      backgroundColor: colors.card,
       borderRadius: 28,
       paddingHorizontal: 22,
       paddingTop: 28,
@@ -39,10 +39,10 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     iconWrapDefault: {
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[100],
     },
     iconWrapDanger: {
-      backgroundColor: colors.red[100],
+      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : colors.red[100],
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
@@ -93,3 +93,4 @@ export default function createStyles(colors) {
     },
   });
 }
+

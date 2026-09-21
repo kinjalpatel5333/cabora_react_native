@@ -236,17 +236,17 @@ export default function RidesForYouModal({
               <Text style={styles.title}>Choose a ride</Text>
               <View style={styles.metaRow}>
                 <View style={styles.metaItem}>
-                  <Feather name="navigation" size={13} color={colors.gray[500]} />
+                  <Feather name="navigation" size={13} color={colors.muted} />
                   <Text style={styles.metaText}>{meta.distance}</Text>
                 </View>
                 <View style={styles.metaItem}>
-                  <Feather name="clock" size={13} color={colors.gray[500]} />
+                  <Feather name="clock" size={13} color={colors.muted} />
                   <Text style={styles.metaText}>{meta.duration}</Text>
                 </View>
               </View>
             </View>
             <Pressable style={styles.closeBtn} onPress={onClose} hitSlop={8}>
-              <Feather name="x" size={18} color={colors.navy[800]} />
+              <Feather name="x" size={18} color={colors.text} />
             </Pressable>
           </View>
 
@@ -259,7 +259,7 @@ export default function RidesForYouModal({
             bounces={false}>
             {rides.map(ride => {
               const active = !bookAny && selectedId === ride.id;
-              const tint = active ? colors.orange[600] : colors.navy[800];
+              const tint = active ? colors.orange[500] : colors.text;
               return (
                 <Pressable
                   key={ride.id}
@@ -285,7 +285,7 @@ export default function RidesForYouModal({
                       <Feather
                         name="user"
                         size={12}
-                        color={colors.gray[500]}
+                        color={colors.muted}
                       />
                       <Text style={styles.rideMetaText}>
                         {ride.seats} · {ride.desc}
@@ -310,13 +310,13 @@ export default function RidesForYouModal({
                   <MaterialDesignIcons
                     name="lightning-bolt"
                     size={22}
-                    color={colors.orange[600]}
+                    color={colors.orange[500]}
                   />
                 </View>
                 <View style={styles.bookAnyCopy}>
                   <Text style={styles.bookAnyName}>Book Any</Text>
                   <View style={styles.rideMeta}>
-                    <Feather name="user" size={12} color={colors.gray[500]} />
+                    <Feather name="user" size={12} color={colors.muted} />
                     <Text style={styles.rideMetaText}>
                       {category === 'bike' ? '1' : category === 'auto' ? '3-4' : '4-6'}{' '}
                       · Fastest match
@@ -339,7 +339,7 @@ export default function RidesForYouModal({
                       <MaterialDesignIcons
                         name={on ? 'check' : 'plus'}
                         size={14}
-                        color={on ? colors.orange[600] : colors.navy[700]}
+                        color={on ? colors.orange[500] : colors.text}
                       />
                       <Text
                         style={[styles.pillText, on && styles.pillTextOn]}>
@@ -358,7 +358,7 @@ export default function RidesForYouModal({
                 <MaterialDesignIcons
                   name="currency-inr"
                   size={16}
-                  color={colors.navy[800]}
+                  color={colors.text}
                 />
               </View>
               <Text style={styles.payText} numberOfLines={1}>
