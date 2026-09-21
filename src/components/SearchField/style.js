@@ -26,6 +26,7 @@ export default function createStyles(colors) {
       borderColor: 'transparent',
     },
     input: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 16,

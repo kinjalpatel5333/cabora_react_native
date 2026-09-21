@@ -1,62 +1,79 @@
-import {StyleSheet} from 'react-native';
+import { fonts } from '../../config/typography';
+import { StyleSheet } from 'react-native';
 import colors from '../../config/color';
 
 export default StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.white,
   },
   profile: {
     paddingHorizontal: 20,
-    paddingBottom: 24,
+    paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomColor: colors.slate[100],
   },
   avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    marginBottom: 12,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginBottom: 10,
   },
   name: {
-    color: colors.text,
-    fontSize: 20,
+      fontFamily: fonts.sora.extraBold,
+    color: colors.slate[900],
+    fontSize: 18,
     fontWeight: '800',
   },
   email: {
-    color: colors.textMuted,
-    fontSize: 14,
-    marginTop: 4,
+      fontFamily: fonts.sora.regular,
+    color: colors.slate[500],
+    fontSize: 13,
+    marginTop: 2,
   },
-  items: {
-    paddingTop: 12,
+  scrollItems: {
+    paddingTop: 10,
     paddingHorizontal: 12,
-    flex: 1,
+    paddingBottom: 16,
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 14,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    marginBottom: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginBottom: 4,
   },
   itemActive: {
-    backgroundColor: colors.inputBg,
+    backgroundColor: colors.orange[175],
   },
-  itemIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
+  iconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: colors.slate[50],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconBoxActive: {
+    backgroundColor: colors.orange[250],
   },
   itemLabel: {
+      fontFamily: fonts.sora.bold,
     marginLeft: 12,
-    color: colors.text,
-    fontSize: 16,
+    color: colors.slate[700],
+    fontSize: 15,
     fontWeight: '700',
   },
+  itemLabelActive: {
+      fontFamily: fonts.sora.extraBold,
+    color: colors.primary,
+    fontWeight: '800',
+  },
   footer: {
-    paddingHorizontal: 20,
-    paddingTop: 12,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: colors.slate[100],
   },
 });

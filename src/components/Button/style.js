@@ -14,9 +14,9 @@ export default function createStyles(colors) {
       borderRadius: 18,
     },
     sm: {
-      minHeight: 40,
+      minHeight: 20,
       paddingHorizontal: 16,
-      borderRadius: 20,
+      borderRadius: 10,
     },
     fullWidth: {
       alignSelf: 'stretch',
@@ -68,10 +68,12 @@ export default function createStyles(colors) {
       backgroundColor: 'transparent',
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
       fontWeight: '700',
     },
     labelSm: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
     },
     labelOnFill: {

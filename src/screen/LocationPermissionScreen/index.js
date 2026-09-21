@@ -132,7 +132,7 @@ export default function LocationPermissionScreen({navigation, route}) {
       if (fromSetup) {
         await dispatch(loginWithPhone({phone, role})).unwrap();
       } else if (role === 'driver' && navigation?.replace) {
-        navigation.replace('DriverHome');
+        navigation.replace('DriverTabs');
       }
     } catch (err) {
       console.warn('Location finish failed', err);

@@ -30,6 +30,7 @@ export default function createStyles(colors) {
       borderColor: colors.disabledBg,
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
       fontWeight: '700',
     },

@@ -42,7 +42,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? 'rgba(38,168,94,0.18)' : colors.green[100],
     },
     title: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.navy[900],
       fontSize: 28,
       fontWeight: '800',
       letterSpacing: -0.4,
@@ -55,10 +56,12 @@ export default function createStyles(colors) {
       marginBottom: 28,
     },
     metaText: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 14,
     },
     change: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
       fontWeight: '700',
@@ -100,6 +103,7 @@ export default function createStyles(colors) {
       borderWidth: 1.5,
     },
     boxDigit: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 22,
       fontWeight: '700',
       color: colors.text,
@@ -130,6 +134,7 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     hint: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 13,
       lineHeight: 18,
@@ -148,17 +153,20 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     bannerTitle: {
-      color: colors.isDark ? '#FCA5A5' : colors.red[600],
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.red[600],
       fontSize: 14,
       fontWeight: '700',
       marginBottom: 4,
     },
     bannerBody: {
-      color: colors.isDark ? '#FCA5A5' : colors.red[600],
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.red[600],
       fontSize: 13,
       lineHeight: 19,
     },
     support: {
+      fontFamily: colors.fonts.sora.bold,
       marginTop: 8,
       color: colors.text,
       fontSize: 13,
@@ -180,6 +188,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? 'rgba(255,112,6,0.18)' : colors.orange[100],
     },
     chipLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
       color: colors.muted,
@@ -192,13 +201,15 @@ export default function createStyles(colors) {
       paddingTop: 16,
     },
     help: {
+      fontFamily: colors.fonts.sora.regular,
       marginTop: 14,
       textAlign: 'center',
       color: colors.muted,
       fontSize: 13,
     },
     helpLink: {
-      color: colors.primary,
+      fontFamily: colors.fonts.sora.semiBold,
+      color: colors.gray[600],
       fontWeight: '600',
     },
     verifyButton: {

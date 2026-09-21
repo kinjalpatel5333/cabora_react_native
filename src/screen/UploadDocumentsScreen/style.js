@@ -1,163 +1,289 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.background,
+      backgroundColor: colors.slate[50],
     },
+
+    // Header Bar
     header: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      marginBottom: 8,
-      backgroundColor: colors.card,
-      borderBottomWidth: colors.isDark ? 1 : 0,
-      borderBottomColor: colors.border,
-      paddingBottom: 12,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      backgroundColor: colors.white,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.slate[100],
     },
-    headerBtn: {
+    headerIconBtn: {
       width: 40,
       height: 40,
-      borderRadius: 20,
       alignItems: 'center',
       justifyContent: 'center',
     },
     headerTitle: {
-      flex: 1,
-      textAlign: 'center',
-      color: colors.text,
-      fontSize: 17,
-      fontWeight: '700',
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 18,
+      fontWeight: '800',
+      color: colors.slate[900],
     },
-    scroll: {
-      paddingHorizontal: 20,
-      paddingTop: 16,
-      paddingBottom: 28,
+
+    scrollContent: {
+      paddingBottom: 20,
     },
-    progressCard: {
-      backgroundColor: colors.card,
-      borderRadius: 18,
-      borderWidth: 1,
-      borderColor: colors.border,
-      padding: 16,
-      marginBottom: 22,
+
+    // Blocked Warning Banner Card
+    blockedCard: {
+      backgroundColor: colors.red[150],
+      borderWidth: 1.2,
+      borderColor: colors.red[250],
+      borderRadius: 20,
+      padding: 18,
+      marginHorizontal: 16,
+      marginTop: 14,
     },
-    progressTop: {
+    blockedHead: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      gap: 12,
+      alignItems: 'center',
+      gap: 8,
       marginBottom: 6,
     },
-    progressTitle: {
-      flex: 1,
-      color: colors.text,
-      fontSize: 16,
+    blockedTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 15.5,
       fontWeight: '800',
+      color: colors.red[800],
     },
-    progressPct: {
-      color: colors.primary,
-      fontSize: 16,
-      fontWeight: '800',
-    },
-    progressSub: {
-      color: colors.muted,
+    blockedSub: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
+      fontWeight: '500',
+      color: colors.red[600],
       lineHeight: 18,
+    },
+
+    // Section Title
+    sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 11.5,
+      fontWeight: '700',
+      color: colors.slate[500],
+      letterSpacing: 0.6,
+      textTransform: 'uppercase',
+      marginHorizontal: 16,
+      marginTop: 20,
       marginBottom: 12,
     },
-    track: {
-      height: 8,
-      borderRadius: 999,
-      backgroundColor: colors.surface,
-      overflow: 'hidden',
-    },
-    fill: {
-      height: '100%',
-      borderRadius: 999,
-      backgroundColor: colors.primary,
-    },
-    section: {
-      color: colors.muted,
-      fontSize: 12,
-      fontWeight: '700',
-      letterSpacing: 0.8,
-      marginBottom: 10,
-    },
-    card: {
-      backgroundColor: colors.card,
-      borderRadius: 18,
-      padding: 14,
-      marginBottom: 10,
-      borderWidth: 1,
-      borderColor: colors.border,
-    },
-    cardRejected: {
-      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
-      borderColor: colors.isDark ? 'rgba(231,61,61,0.35)' : '#F6C9C9',
-    },
-    cardRow: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
+
+    // Document Cards
+    docsList: {
       gap: 12,
+      marginHorizontal: 16,
     },
-    iconWrap: {
-      width: 42,
-      height: 42,
-      borderRadius: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    copy: {
-      flex: 1,
-    },
-    cardTitle: {
-      color: colors.text,
-      fontSize: 15,
-      fontWeight: '700',
-      marginBottom: 2,
-    },
-    cardMeta: {
-      color: colors.muted,
-      fontSize: 13,
-      lineHeight: 18,
-      marginBottom: 10,
-    },
-    cardMetaRejected: {
-      color: colors.isDark ? '#FCA5A5' : colors.red[600],
-    },
-    action: {
-      alignSelf: 'flex-start',
-      minWidth: 108,
-      borderRadius: 999,
-    },
-    eyeBtn: {
-      width: 36,
-      height: 36,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    warning: {
+    docCard: {
+      backgroundColor: colors.white,
+      borderRadius: 20,
+      padding: 16,
       flexDirection: 'row',
-      alignItems: 'flex-start',
-      gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(244,165,38,0.15)' : colors.amber[100],
-      borderRadius: 16,
-      padding: 14,
-      marginTop: 6,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderWidth: 1.5,
+      borderColor: colors.slate[200],
+      shadowColor: colors.black,
+      shadowOpacity: 0.02,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 1 },
+      elevation: 1,
     },
-    warningText: {
+    docCardExpired: {
+      borderColor: colors.red[250],
+      backgroundColor: colors.white,
+    },
+    docCardWarning: {
+      borderColor: colors.amber[200],
+      backgroundColor: colors.white,
+    },
+    docLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
       flex: 1,
-      color: colors.isDark ? '#FCD34D' : colors.amber[600],
-      fontSize: 13,
-      lineHeight: 19,
-      fontWeight: '600',
+      marginRight: 10,
     },
-    continue: {
-      marginTop: 10,
-      borderRadius: 999,
+    docIconBox: {
+      width: 44,
+      height: 44,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    iconBoxExpired: {
+      backgroundColor: colors.red[200],
+    },
+    iconBoxWarning: {
+      backgroundColor: colors.amber[100],
+    },
+    iconBoxVerified: {
+      backgroundColor: colors.green[200],
+    },
+    iconBoxReview: {
+      backgroundColor: colors.blue[50],
+    },
+    docInfo: {
+      flex: 1,
+    },
+    docTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 15,
+      fontWeight: '800',
+      color: colors.slate[900],
+    },
+    docSubExpired: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      fontWeight: '500',
+      color: colors.red[600],
+      marginTop: 2,
+    },
+    docSubWarning: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      fontWeight: '500',
+      color: colors.amber[600],
+      marginTop: 2,
+    },
+    docSubVerified: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      fontWeight: '500',
+      color: colors.slate[500],
+      marginTop: 2,
+    },
+    docSubReview: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      fontWeight: '500',
+      color: colors.blue[550],
+      marginTop: 2,
+    },
+    docRight: {
+      alignItems: 'flex-end',
+    },
+    statusBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      paddingHorizontal: 9,
+      paddingVertical: 3,
+      borderRadius: 12,
+    },
+    badgeExpired: {
+      backgroundColor: colors.red[200],
+    },
+    badgeWarning: {
+      backgroundColor: colors.amber[100],
+    },
+    badgeVerified: {
+      backgroundColor: colors.green[200],
+    },
+    badgeReview: {
+      backgroundColor: colors.blue[50],
+    },
+    statusDotExpired: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.red[600],
+    },
+    statusDotWarning: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.amber[600],
+    },
+    statusDotVerified: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.green[600],
+    },
+    statusDotReview: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.blue[550],
+    },
+    statusTextExpired: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 11.5,
+      fontWeight: '800',
+      color: colors.red[600],
+    },
+    statusTextWarning: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 11.5,
+      fontWeight: '800',
+      color: colors.amber[700],
+    },
+    statusTextVerified: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 11.5,
+      fontWeight: '800',
+      color: colors.green[700],
+    },
+    statusTextReview: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 11.5,
+      fontWeight: '800',
+      color: colors.blue[550],
+    },
+    actionLinkText: {
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.primary,
+      fontSize: 13,
+      fontWeight: '800',
+      marginTop: 4,
+    },
+
+    // Bottom Sticky Bar
+    bottomBar: {
+      backgroundColor: colors.white,
+      borderTopWidth: 1,
+      borderTopColor: colors.slate[100],
+      paddingHorizontal: 16,
+      paddingTop: 12,
+    },
+    uploadBtn: {
+      backgroundColor: colors.primary,
+      height: 52,
+      borderRadius: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: colors.primary,
+      shadowOpacity: 0.25,
+      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 3,
+    },
+    uploadBtnText: {
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '800',
+    },
+    supportLink: {
+      paddingVertical: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    supportLinkText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.slate[500],
+      fontSize: 14,
+      fontWeight: '700',
     },
   });
 }

@@ -27,6 +27,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.map.roadAlt,
     },
     mapLabel: {
+      fontFamily: colors.fonts.sora.bold,
       position: 'absolute',
       color: colors.muted,
       fontSize: 11,
@@ -66,6 +67,7 @@ export default function createStyles(colors) {
       borderColor: colors.isDark ? 'rgba(255,112,6,0.3)' : colors.orange[200],
     },
     bannerText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 13,
@@ -98,14 +100,16 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     title: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.navy[900],
       fontSize: 26,
       fontWeight: '800',
       letterSpacing: -0.4,
       marginBottom: 8,
     },
     body: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 14,
       lineHeight: 21,
       marginBottom: 18,
@@ -125,6 +129,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     benefitText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.text,
       fontSize: 14,
@@ -140,6 +145,7 @@ export default function createStyles(colors) {
       paddingVertical: 10,
     },
     linkText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 15,
       fontWeight: '700',
@@ -167,18 +173,21 @@ export default function createStyles(colors) {
       flex: 1,
     },
     placeTitle: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.navy[900],
       fontSize: 15,
       fontWeight: '700',
       marginBottom: 2,
     },
     placeSub: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 13,
       lineHeight: 18,
     },
     chevron: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.light,
+      color: colors.gray[400],
       fontSize: 22,
       fontWeight: '300',
     },

@@ -18,6 +18,7 @@ export default function createStyles(colors) {
       borderRadius: 4,
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
       fontWeight: '700',
     },

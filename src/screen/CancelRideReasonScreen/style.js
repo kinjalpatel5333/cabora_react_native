@@ -1,0 +1,165 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      backgroundColor: 'transparent',
+    },
+    backdrop: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'rgba(14, 42, 74, 0.4)',
+    },
+    sheet: {
+      backgroundColor: colors.white,
+      borderTopLeftRadius: 28,
+      borderTopRightRadius: 28,
+      paddingTop: 10,
+      paddingHorizontal: 20,
+      maxHeight: '92%',
+    },
+    sheetContent: {
+      paddingBottom: 8,
+    },
+    handle: {
+      alignSelf: 'center',
+      width: 40,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.gray[300],
+      marginBottom: 16,
+    },
+    title: {
+      color: colors.navy[900],
+      fontSize: 22,
+      fontWeight: '800',
+      marginBottom: 8,
+    },
+    subtitle: {
+      color: colors.navy[400],
+      fontSize: 14,
+      lineHeight: 20,
+      marginBottom: 16,
+    },
+    penaltyBox: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 10,
+      backgroundColor: colors.red[100],
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.red[200],
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+      marginBottom: 18,
+    },
+    penaltyIcon: {
+      marginTop: 1,
+    },
+    penaltyCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    penaltyTitle: {
+      color: colors.red[500],
+      fontSize: 14,
+      fontWeight: '700',
+      marginBottom: 4,
+    },
+    penaltyMeta: {
+      color: colors.red[700],
+      fontSize: 12,
+      lineHeight: 17,
+    },
+    reasonLabel: {
+      color: colors.navy[400],
+      fontSize: 11,
+      fontWeight: '800',
+      letterSpacing: 0.7,
+      marginBottom: 10,
+    },
+    reasonList: {
+      gap: 10,
+      marginBottom: 20,
+    },
+    reasonRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      borderWidth: 1.5,
+      borderColor: colors.navy[200],
+      borderRadius: 16,
+      paddingVertical: 13,
+      paddingHorizontal: 14,
+      backgroundColor: colors.white,
+    },
+    reasonRowActive: {
+      borderColor: colors.orange[600],
+      backgroundColor: colors.orange[50],
+    },
+    radio: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      borderWidth: 1.5,
+      borderColor: colors.navy[200],
+      backgroundColor: colors.white,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    radioSelected: {
+      borderWidth: 6,
+      borderColor: colors.orange[600],
+    },
+    radioDot: {
+      width: 10,
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: colors.white,
+    },
+    reasonText: {
+      flex: 1,
+      color: colors.navy[800],
+      fontSize: 14,
+      fontWeight: '500',
+      lineHeight: 20,
+    },
+    reasonTextActive: {
+      color: colors.navy[900],
+      fontWeight: '700',
+    },
+    actions: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    keepBtn: {
+      flex: 1,
+      minHeight: 52,
+      borderRadius: 14,
+      borderWidth: 1.5,
+      borderColor: colors.gray[200],
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.white,
+    },
+    keepText: {
+      color: colors.navy[800],
+      fontSize: 15,
+      fontWeight: '800',
+    },
+    cancelBtn: {
+      flex: 1,
+      minHeight: 52,
+      borderRadius: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.red[500],
+    },
+    cancelText: {
+      color: colors.white,
+      fontSize: 15,
+      fontWeight: '800',
+    },
+  });
+}

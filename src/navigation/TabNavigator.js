@@ -35,6 +35,7 @@ export default function TabNavigator() {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle: floatingTabBarStyle,
+        safeAreaInsets: {top: 0, bottom: 0, left: 0, right: 0},
       }}
       screenListeners={({navigation, route}) => ({
         focus: () => {

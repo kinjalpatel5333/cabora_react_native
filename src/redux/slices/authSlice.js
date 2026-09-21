@@ -161,12 +161,44 @@ export const loginWithPhone = createAsyncThunk(
         phone,
         role: role || 'passenger',
         kycComplete: role !== 'driver',
+        kycDocuments: {},
       };
       const token = `local-token-${Date.now()}`;
       await persistSession(token, sessionUser);
       return {token, user: sessionUser};
     } catch (err) {
       return rejectWithValue(err?.message || 'Verification failed');
+    }
+  },
+);
+
+export const saveDriverDocument = createAsyncThunk(
+  'auth/saveDriverDocument',
+  async ({id, uri, fileName, fileSize}, {getState, rejectWithValue}) => {
+    try {
+      const {token, user} = getState().auth;
+      if (!token || !user) {
+        return rejectWithValue('No session');
+      }
+      if (!id) {
+        return rejectWithValue('Missing document');
+      }
+      const kycDocuments = {
+        ...(user.kycDocuments || {}),
+        [id]: {
+          status: 'uploaded',
+          meta: 'Uploaded',
+          uri: uri || null,
+          fileName: fileName || null,
+          fileSize: fileSize || 0,
+          uploadedAt: Date.now(),
+        },
+      };
+      const nextUser = {...user, kycDocuments};
+      await persistSession(token, nextUser);
+      return nextUser;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Could not save document');
     }
   },
 );
@@ -238,6 +270,9 @@ const authSlice = createSlice({
       .addCase(loginWithPhone.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Verification failed';
+      })
+      .addCase(saveDriverDocument.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
       .addCase(completeDriverKyc.fulfilled, (state, action) => {
         state.user = action.payload;

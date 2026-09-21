@@ -21,6 +21,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
@@ -32,14 +33,16 @@ export default function createStyles(colors) {
       paddingBottom: 12,
     },
     title: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.navy[900],
       fontSize: 28,
       fontWeight: '800',
       letterSpacing: -0.4,
       marginBottom: 8,
     },
     subtitle: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 14,
       lineHeight: 20,
       marginBottom: 20,
@@ -75,13 +78,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     cardTitle: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.navy[900],
       fontSize: 16,
       fontWeight: '700',
       marginBottom: 4,
     },
     cardBody: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 13,
       lineHeight: 18,
     },
@@ -114,12 +119,14 @@ export default function createStyles(colors) {
       gap: 8,
     },
     hintText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 13,
       fontWeight: '500',
       color: colors.muted,
     },
     hintSuccess: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.green[600],
       fontWeight: '600',
     },
@@ -135,6 +142,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     noteText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 13,
@@ -152,11 +160,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.background,
     },
     pickedLabel: {
-      color: colors.muted,
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.gray[500],
       fontSize: 13,
     },
     pickedValue: {
-      color: colors.text,
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.navy[900],
       fontSize: 20,
       fontWeight: '800',
       marginTop: 2,

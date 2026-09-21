@@ -39,6 +39,12 @@
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Cabora.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Cabora.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cabora uses the camera so you can photograph your driving documents.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cabora uses your photo library so you can upload driving documents.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Cabora may save a copy of documents you photograph.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -47,6 +53,14 @@
 		<string>AntDesign.ttf</string>
 		<string>Lucide.ttf</string>
 		<string>MaterialDesignIcons.ttf</string>
+		<string>Sora-Thin.ttf</string>
+		<string>Sora-ExtraLight.ttf</string>
+		<string>Sora-Light.ttf</string>
+		<string>Sora-Regular.ttf</string>
+		<string>Sora-Medium.ttf</string>
+		<string>Sora-SemiBold.ttf</string>
+		<string>Sora-Bold.ttf</string>
+		<string>Sora-ExtraBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
