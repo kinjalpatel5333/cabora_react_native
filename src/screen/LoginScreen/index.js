@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Linking,
@@ -13,9 +14,11 @@ import {
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
-import {Button, Input} from '../../components';
+import {Button, CountryPickerModal, Input} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {sendOtpApi} from '../../config';
+import {DEFAULT_COUNTRY} from '../../utils/countries';
 import {
   digitsOnly,
   formatIndianMobile,
@@ -39,6 +42,8 @@ export default function LoginScreen({navigation}) {
   const insets = useSafeAreaInsets();
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
+  const [country, setCountry] = useState(DEFAULT_COUNTRY);
+  const [countryPickerVisible, setCountryPickerVisible] = useState(false);
   const [mobile, setMobile] = useState('');
   const [touched, setTouched] = useState(false);
   const [blocked, setBlocked] = useState(false);
@@ -49,26 +54,37 @@ export default function LoginScreen({navigation}) {
   const digits = useMemo(() => digitsOnly(mobile), [mobile]);
   const isTestBlocked = digits === TEST_BLOCKED_NUMBER;
   const isTestCooldown = digits === TEST_COOLDOWN_NUMBER;
-  const isTenDigits = digits.length === 10;
-  const isValid =
-    isValidIndianMobile(digits) || isTestBlocked || isTestCooldown;
+  const isIndian = country.code === 'IN';
+  const isRequiredDigits = isIndian
+    ? digits.length === 10
+    : digits.length >= 7 && digits.length <= 15;
+
+  const isValid = isIndian
+    ? isValidIndianMobile(digits) || isTestBlocked || isTestCooldown
+    : digits.length >= 7 && digits.length <= 15;
+
   const coolingDown = cooldown > 0;
   const showInvalid =
     !blocked &&
     !coolingDown &&
     digits.length > 0 &&
     !isValid &&
-    (touched || isTenDigits);
+    (touched || isRequiredDigits);
+
   const error = blocked
     ? 'This number is blocked for security reasons.'
     : showInvalid
-      ? 'Enter a valid 10-digit Indian mobile number.'
+      ? isIndian
+        ? 'Enter a valid 10-digit Indian mobile number.'
+        : 'Enter a valid phone number.'
       : undefined;
+
   const hint = coolingDown
     ? 'You can request a new code once the timer ends.'
     : !error
       ? "We'll send a 6-digit code. Standard SMS rates may apply."
       : undefined;
+
   const canSend = isValid && !blocked && !coolingDown && !loading;
   const buttonTitle = coolingDown
     ? `Resend in ${formatTimer(cooldown)}`
@@ -100,10 +116,14 @@ export default function LoginScreen({navigation}) {
   }, [cooldown]);
 
   const onChangeMobile = next => {
-    setMobile(formatIndianMobile(next));
+    if (country.code === 'IN') {
+      setMobile(formatIndianMobile(next));
+    } else {
+      setMobile(String(next || '').replace(/[^\d\s]/g, ''));
+    }
   };
 
-  const onSendOtp = () => {
+  const onSendOtp = async () => {
     setTouched(true);
     if (!isValid) {
       return;
@@ -118,16 +138,48 @@ export default function LoginScreen({navigation}) {
     }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const response = await sendOtpApi({
+        mobile: digits,
+        countryCode: country.dialCode,
+      });
+      const receivedOtp =
+        response?.data?.otp ||
+        response?.otp ||
+        response?.data?.data?.otp ||
+        response?.code ||
+        response?.data?.code;
+
+      const challengeId =
+        response?.data?.challengeId ||
+        response?.challengeId ||
+        response?.data?.data?.challengeId;
+
       const nextCount = sendCount + 1;
       setSendCount(nextCount);
-      setLoading(false);
       if (nextCount >= MAX_SEND_ATTEMPTS) {
         setCooldown(COOLDOWN_SECONDS);
       } else {
-        navigation.navigate('Otp', {mobile: digits});
+        navigation.navigate('Otp', {
+          mobile: digits,
+          countryCode: country.dialCode,
+          serverOtp: receivedOtp,
+          challengeId,
+        });
       }
-    }, 400);
+    } catch (err) {
+      console.warn('sendOtpApi error:', err);
+      const rawMsg = err?.message || err?.error || err;
+      const errMsg =
+        typeof rawMsg === 'string'
+          ? rawMsg
+          : typeof rawMsg?.message === 'string'
+            ? rawMsg.message
+            : 'Failed to send OTP. Please check your connection and try again.';
+      Alert.alert('Send OTP Failed', String(errMsg));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -158,7 +210,6 @@ export default function LoginScreen({navigation}) {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={[
             styles.scroll,
-            // Keep content above the gesture bar without a tall colored strip.
             {paddingBottom: Math.max(insets.bottom, 8)},
           ]}
           showsVerticalScrollIndicator={false}>
@@ -168,10 +219,10 @@ export default function LoginScreen({navigation}) {
               value={mobile}
               onChangeText={onChangeMobile}
               onBlur={() => setTouched(true)}
-              placeholder="98765 43210"
+              placeholder={country.placeholder || '98765 43210'}
               placeholderTextColor={colors.navy[400]}
               keyboardType="phone-pad"
-              maxLength={11}
+              maxLength={country.code === 'IN' ? 11 : 16}
               error={error}
               hint={hint}
               hintStyle={coolingDown ? styles.cooldownHint : undefined}
@@ -185,18 +236,25 @@ export default function LoginScreen({navigation}) {
                 ) : null
               }
               left={
-                <View style={styles.prefix}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setCountryPickerVisible(true)}
+                  style={styles.prefix}>
                   <View style={styles.dial}>
-                    <Image
-                      source={images.indiaFlag}
-                      style={styles.flag}
-                      resizeMode="cover"
-                    />
-                    <Text style={styles.dialCode}>+91</Text>
+                    {country.code === 'IN' ? (
+                      <Image
+                        source={images.indiaFlag}
+                        style={styles.flag}
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <Text style={{fontSize: 20}}>{country.flag}</Text>
+                    )}
+                    <Text style={styles.dialCode}>{country.dialCode}</Text>
                     <Feather name="chevron-down" size={16} color={colors.navy[600]} />
                   </View>
                   <View style={styles.dialDivider} />
-                </View>
+                </Pressable>
               }
             />
 
@@ -257,6 +315,13 @@ export default function LoginScreen({navigation}) {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <CountryPickerModal
+        visible={countryPickerVisible}
+        selectedCountry={country}
+        onSelect={setCountry}
+        onClose={() => setCountryPickerVisible(false)}
+      />
     </View>
   );
 }

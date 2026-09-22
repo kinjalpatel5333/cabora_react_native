@@ -28,6 +28,25 @@ export {
   setAuthToken,
   getAuthToken,
 } from './apicall';
-export {loginApi, signupApi, profileApi, keywordSearchApi, endpoints} from './api';
+export {
+  loginApi,
+  signupApi,
+  profileApi,
+  keywordSearchApi,
+  sendOtpApi,
+  verifyOtpApi,
+  selectRoleApi,
+  getMeApi,
+  getPassengerProfileApi,
+  updatePassengerProfileApi,
+  logoutApi,
+  endpoints,
+  ENDPOINTS,
+  AUTH_ENDPOINTS,
+  PASSENGER_ENDPOINTS,
+  USER_ENDPOINTS,
+  DRIVER_ENDPOINTS,
+  RIDE_ENDPOINTS,
+} from './api';
 export {apiPostFormData} from './apicallFormData';
 export {fonts, typography, fontByWeight} from './typography';

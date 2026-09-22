@@ -54,6 +54,12 @@ export default function createStyles(colors) {
       backgroundColor: '#1E3A52',
       alignItems: 'center',
       justifyContent: 'center',
+      overflow: 'hidden',
+    },
+    avatarPhoto: {
+      width: 62,
+      height: 62,
+      borderRadius: 31,
     },
     avatarInitials: {
       color: '#FFFFFF',

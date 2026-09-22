@@ -35,15 +35,31 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(
   response => response,
   error => {
-    const message =
-      error?.response?.data?.message ||
-      error?.response?.data?.error ||
-      error?.message ||
-      'Something went wrong';
+    const errorData = error?.response?.data;
+    let message = 'Something went wrong';
+
+    if (typeof errorData?.error === 'string') {
+      message = errorData.error;
+    } else if (typeof errorData?.error?.message === 'string') {
+      message = errorData.error.message;
+    } else if (typeof errorData?.message === 'string') {
+      message = errorData.message;
+    } else if (typeof errorData?.message?.message === 'string') {
+      message = errorData.message.message;
+    } else if (typeof error?.message === 'string') {
+      message = error.message;
+    } else if (errorData) {
+      try {
+        message = JSON.stringify(errorData);
+      } catch (_) {
+        message = 'Something went wrong';
+      }
+    }
+
     return Promise.reject({
       status: error?.response?.status,
-      message,
-      data: error?.response?.data,
+      message: String(message),
+      data: errorData,
     });
   },
 );

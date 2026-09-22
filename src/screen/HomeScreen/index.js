@@ -91,8 +91,7 @@ export default function HomeScreen() {
   const [sheetExpanded, setSheetExpanded] = useState(true);
 
   const rawName = user?.name?.trim();
-  const displayName =
-    !rawName || rawName === 'Rider' ? 'Aarav Mehta' : rawName;
+  const displayName = rawName || 'Rider';
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],

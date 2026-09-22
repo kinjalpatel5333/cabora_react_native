@@ -99,9 +99,12 @@ export default function DrawerContent() {
         {paddingTop: insets.top + 16, paddingBottom: bottomSafePad(insets, 12)},
       ]}>
       <View style={styles.profile}>
-        <Image source={images.avatar} style={styles.avatar} />
-        <Text style={styles.name}>{user?.name || 'Rajesh Kumar'}</Text>
-        <Text style={styles.email}>{user?.email || 'driver@cabora.app'}</Text>
+        <Image
+          source={user?.photo ? {uri: user.photo} : images.avatar}
+          style={styles.avatar}
+        />
+        <Text style={styles.name}>{user?.name || 'User'}</Text>
+        <Text style={styles.email}>{user?.email || 'user@cabora.app'}</Text>
       </View>
 
       <ScrollView

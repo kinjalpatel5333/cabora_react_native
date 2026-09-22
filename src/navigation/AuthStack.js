@@ -4,6 +4,7 @@ import LoginScreen from '../screen/LoginScreen';
 import OtpScreen from '../screen/OtpScreen';
 import SetupAccountScreen from '../screen/SetupAccountScreen';
 import LocationPermissionScreen from '../screen/LocationPermissionScreen';
+import CompleteProfileScreen from '../screen/CompleteProfileScreen';
 import SignupScreen from '../screen/SignupScreen';
 import colors from '../config/color';
 
@@ -37,6 +38,11 @@ export default function AuthStack() {
         name="LocationPermission"
         component={LocationPermissionScreen}
         options={{headerShown: false, gestureEnabled: false}}
+      />
+      <Stack.Screen
+        name="CompleteProfile"
+        component={CompleteProfileScreen}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Signup"
