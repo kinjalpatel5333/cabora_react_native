@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://deposits-sacred-multiple-passage.trycloudflare.com';
+export const BASE_URL = 'https://tire-copying-accounting-moral.trycloudflare.com';
 
 export const API_TIMEOUT = 20000;
 

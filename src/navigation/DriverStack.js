@@ -25,6 +25,7 @@ import DriverTripHistoryScreen from '../screen/DriverTripHistoryScreen';
 import DriverSubscriptionScreen from '../screen/DriverSubscriptionScreen';
 import DriverDailySafetyCheckScreen from '../screen/DriverDailySafetyCheckScreen';
 import DriverIncentiveTrackerScreen from '../screen/DriverIncentiveTrackerScreen';
+import PersonalDetailsScreen from '../screen/PersonalDetailsScreen';
 import colors from '../config/color';
 
 const Stack = createNativeStackNavigator();
@@ -182,6 +183,13 @@ export default function DriverStack() {
           <Stack.Screen
             name="DriverIncentiveTracker"
             component={DriverIncentiveTrackerScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="PersonalDetails"
+            component={PersonalDetailsScreen}
             options={{
               animation: 'slide_from_right',
             }}

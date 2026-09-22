@@ -1,16 +1,17 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import WalkthroughScreen from '../screen/WalkthroughScreen';
 import SplashScreen from '../screen/SplashScreen';
-import {useAppDispatch, useAppSelector} from '../redux/hooks';
-import {bootstrapApp} from '../redux/slices/appSlice';
-import {bootstrapAuth} from '../redux/slices/authSlice';
-import {SPLASH} from '../config/setting';
-import {wait} from '../utils/network';
-import colors, {palette} from '../config/color';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { bootstrapApp } from '../redux/slices/appSlice';
+import { bootstrapAuth } from '../redux/slices/authSlice';
+import { SPLASH } from '../config/setting';
+import { checkInternet, wait } from '../utils/network';
+import { NetworkProvider } from '../context/NetworkContext';
+import colors, { palette } from '../config/color';
 
 const MIN_SPLASH_MS = 1800;
 const ONBOARDING_BG = palette.navy[900];
@@ -30,19 +31,26 @@ const navTheme = {
 
 export default function RootNavigator() {
   const dispatch = useAppDispatch();
-  const {token, bootstrapped: authReady} = useAppSelector(state => state.auth);
-  const {walkthroughSeen, bootstrapped: appReady} = useAppSelector(
+  const { token, bootstrapped: authReady } = useAppSelector(state => state.auth);
+  const { walkthroughSeen, bootstrapped: appReady } = useAppSelector(
     state => state.app,
   );
   const [phase, setPhase] = useState('loading');
 
   const runBoot = useCallback(async () => {
     setPhase('loading');
-    await Promise.all([
+    const [isOnline] = await Promise.all([
+      checkInternet(3500),
       dispatch(bootstrapAuth()),
       dispatch(bootstrapApp()),
       wait(MIN_SPLASH_MS),
     ]);
+
+    if (!isOnline) {
+      setPhase('offline');
+      return;
+    }
+
     if (SPLASH.maintenance) {
       setPhase('maintenance');
       return;
@@ -75,17 +83,19 @@ export default function RootNavigator() {
   }
 
   return (
-    <NavigationContainer theme={navTheme}>
-      {!walkthroughSeen ? (
-        <View style={styles.onboardingShell}>
-          <WalkthroughScreen />
-        </View>
-      ) : token ? (
-        <AppStack />
-      ) : (
-        <AuthStack />
-      )}
-    </NavigationContainer>
+    <NetworkProvider enableGlobalModal={phase === 'ready'}>
+      <NavigationContainer theme={navTheme}>
+        {!walkthroughSeen ? (
+          <View style={styles.onboardingShell}>
+            <WalkthroughScreen />
+          </View>
+        ) : token ? (
+          <AppStack />
+        ) : (
+          <AuthStack />
+        )}
+      </NavigationContainer>
+    </NetworkProvider>
   );
 }
 
