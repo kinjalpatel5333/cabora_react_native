@@ -49,6 +49,11 @@ export default function DriverIncentiveTrackerScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverIncentiveTracker');
+  }, [setActiveTab]);
 
   const handleHelp = () => {
     showToast({

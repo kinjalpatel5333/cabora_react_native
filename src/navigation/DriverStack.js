@@ -34,12 +34,9 @@ function DriverMain() {
   const iosBottom = Platform.OS === 'ios' ? insets.bottom : 0;
 
   return (
-    <SidebarProvider>
-      <View style={[styles.main, iosBottom ? {marginBottom: -iosBottom} : null]}>
-        <DriverTabNavigator />
-        <Sidebar />
-      </View>
-    </SidebarProvider>
+    <View style={[styles.main, iosBottom ? {marginBottom: -iosBottom} : null]}>
+      <DriverTabNavigator />
+    </View>
   );
 }
 
@@ -57,137 +54,142 @@ export default function DriverStack() {
   }
 
   return (
-    <Stack.Navigator
-      initialRouteName={initialRouteName}
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen
-        name="UploadDocuments"
-        component={UploadDocumentsScreen}
-      />
-      <Stack.Screen
-        name="DocumentCapture"
-        component={DocumentCaptureScreen}
-      />
-      <Stack.Screen
-        name="LocationPermission"
-        component={LocationPermissionScreen}
-        options={{gestureEnabled: false}}
-      />
-      <Stack.Screen
-        name="DriverTabs"
-        component={DriverMain}
-        options={{
-          headerShown: false,
-          unstable_headerInsets: {bottom: false},
-          contentStyle: styles.main,
-        }}
-      />
-      <Stack.Screen
-        name="PreferredDestination"
-        component={PreferredDestinationScreen}
-      />
-      <Stack.Screen
-        name="NewRideRequest"
-        component={NewRideRequestScreen}
-        options={{
-          gestureEnabled: false,
-          contentStyle: {backgroundColor: colors.map.land},
-          animation: 'slide_from_bottom',
-        }}
-      />
-      <Stack.Screen
-        name="CancelRideReason"
-        component={CancelRideReasonScreen}
-        options={{
-          presentation: 'transparentModal',
-          animation: 'slide_from_bottom',
-          contentStyle: {backgroundColor: colors.transparent},
-        }}
-      />
-      <Stack.Screen
-        name="DriverEnRoutePickup"
-        component={DriverEnRoutePickupScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverStartTrip"
-        component={DriverStartTripScreen}
-        options={{
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverTripInProgress"
-        component={DriverTripInProgressScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverTripSummary"
-        component={DriverTripSummaryScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverCollectCash"
-        component={DriverCollectCashScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverAirportQueue"
-        component={DriverAirportQueueScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverAirportTripSummary"
-        component={DriverAirportTripSummaryScreen}
-        options={{
-          gestureEnabled: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverTripHistory"
-        component={DriverTripHistoryScreen}
-        options={{
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverSubscription"
-        component={DriverSubscriptionScreen}
-        options={{
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverDailySafetyCheck"
-        component={DriverDailySafetyCheckScreen}
-        options={{
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="DriverIncentiveTracker"
-        component={DriverIncentiveTrackerScreen}
-        options={{
-          animation: 'slide_from_right',
-        }}
-      />
-    </Stack.Navigator>
+    <SidebarProvider>
+      <View style={styles.main}>
+        <Stack.Navigator
+          initialRouteName={initialRouteName}
+          screenOptions={{headerShown: false}}>
+          <Stack.Screen
+            name="UploadDocuments"
+            component={UploadDocumentsScreen}
+          />
+          <Stack.Screen
+            name="DocumentCapture"
+            component={DocumentCaptureScreen}
+          />
+          <Stack.Screen
+            name="LocationPermission"
+            component={LocationPermissionScreen}
+            options={{gestureEnabled: false}}
+          />
+          <Stack.Screen
+            name="DriverTabs"
+            component={DriverMain}
+            options={{
+              headerShown: false,
+              unstable_headerInsets: {bottom: false},
+              contentStyle: styles.main,
+            }}
+          />
+          <Stack.Screen
+            name="PreferredDestination"
+            component={PreferredDestinationScreen}
+          />
+          <Stack.Screen
+            name="NewRideRequest"
+            component={NewRideRequestScreen}
+            options={{
+              gestureEnabled: false,
+              contentStyle: {backgroundColor: colors.map.land},
+              animation: 'slide_from_bottom',
+            }}
+          />
+          <Stack.Screen
+            name="CancelRideReason"
+            component={CancelRideReasonScreen}
+            options={{
+              presentation: 'transparentModal',
+              animation: 'slide_from_bottom',
+              contentStyle: {backgroundColor: colors.transparent},
+            }}
+          />
+          <Stack.Screen
+            name="DriverEnRoutePickup"
+            component={DriverEnRoutePickupScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverStartTrip"
+            component={DriverStartTripScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverTripInProgress"
+            component={DriverTripInProgressScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverTripSummary"
+            component={DriverTripSummaryScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverCollectCash"
+            component={DriverCollectCashScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverAirportQueue"
+            component={DriverAirportQueueScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverAirportTripSummary"
+            component={DriverAirportTripSummaryScreen}
+            options={{
+              gestureEnabled: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverTripHistory"
+            component={DriverTripHistoryScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverSubscription"
+            component={DriverSubscriptionScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverDailySafetyCheck"
+            component={DriverDailySafetyCheckScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="DriverIncentiveTracker"
+            component={DriverIncentiveTrackerScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+        </Stack.Navigator>
+        <Sidebar />
+      </View>
+    </SidebarProvider>
   );
 }
 

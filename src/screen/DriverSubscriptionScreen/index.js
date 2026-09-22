@@ -30,6 +30,11 @@ export default function DriverSubscriptionScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverSubscription');
+  }, [setActiveTab]);
 
   const completedRides = 34;
   const targetRides = 40;

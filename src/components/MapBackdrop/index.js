@@ -1,16 +1,16 @@
 import React from 'react';
-import {Image, View} from 'react-native';
-import {images} from '../../assets';
-import {useApp} from '../../context/AppContext';
+import { Image, View } from 'react-native';
+import { images } from '../../assets';
+import { useApp } from '../../context/AppContext';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
 /**
  * Static map placeholder until Google Maps is wired.
  */
-export default function MapBackdrop({children}) {
+export default function MapBackdrop({ children }) {
   const styles = useThemedStyles(createStyles);
-  const {isDark} = useApp();
+  const { isDark } = useApp();
 
   return (
     <View style={styles.map} pointerEvents="none">

@@ -1,6 +1,6 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-const {width: SCREEN_W, height: SCREEN_H} = Dimensions.get('screen');
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('screen');
 
 export default function createStyles(colors) {
   return StyleSheet.create({

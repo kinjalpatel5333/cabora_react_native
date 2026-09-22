@@ -36,6 +36,11 @@ export default function DriverDailySafetyCheckScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverDailySafetyCheck');
+  }, [setActiveTab]);
 
   const [checked, setChecked] = useState({
     tyres: true,

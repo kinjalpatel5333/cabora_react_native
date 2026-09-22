@@ -30,6 +30,7 @@ export function SidebarProvider({children}) {
   const goTo = useCallback(screen => {
     setOpen(false);
     if (!screen) return;
+    setActiveTab(screen);
     const tabScreens = [
       'Dashboard',
       'Earnings',
@@ -41,14 +42,15 @@ export function SidebarProvider({children}) {
       'Activity',
     ];
     if (tabScreens.includes(screen)) {
-      navRef.current?.navigate(screen);
-      setActiveTab(screen);
+      if (navRef.current?.navigate) {
+        navRef.current.navigate(screen);
+      }
     } else {
       const parent = navRef.current?.getParent?.();
       if (parent) {
         parent.navigate(screen);
-      } else {
-        navRef.current?.navigate(screen);
+      } else if (navRef.current?.navigate) {
+        navRef.current.navigate(screen);
       }
     }
   }, []);

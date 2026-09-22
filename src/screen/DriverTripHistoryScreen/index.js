@@ -75,7 +75,11 @@ export default function DriverTripHistoryScreen() {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
-  const { openDrawer } = useSidebar();
+  const { openDrawer, setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverTripHistory');
+  }, [setActiveTab]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('Week');
