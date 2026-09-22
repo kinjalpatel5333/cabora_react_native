@@ -10,7 +10,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 6,
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : colors.green[100],
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green[100],
       paddingHorizontal: 10,
       paddingVertical: 5,
       borderRadius: 14,
@@ -31,7 +31,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 5,
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : colors.green[100],
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green[100],
       paddingHorizontal: 10,
       paddingVertical: 6,
       borderRadius: 14,
@@ -87,13 +87,13 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     avatarOrange: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
     },
     avatarNavy: {
-      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.navy[800],
     },
     avatarBlue: {
-      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.2)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue20_59 : colors.blue[100],
     },
     avatarText: {
       fontSize: 15,
@@ -147,7 +147,7 @@ export default function createStyles(colors) {
       borderRadius: 10,
     },
     plateDark: {
-      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.navy[800],
       borderRadius: 12,
       paddingHorizontal: 10,
       paddingVertical: 9,
@@ -195,7 +195,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     poolCardYou: {
-      backgroundColor: colors.isDark ? '#1A3959' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.orange[50],
       borderColor: colors.orange[500],
     },
     poolCopy: {
@@ -231,7 +231,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.18)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue18 : colors.blue[100],
       borderRadius: 14,
       paddingHorizontal: 14,
       paddingVertical: 12,
@@ -247,7 +247,7 @@ export default function createStyles(colors) {
     otpBox: {
       borderWidth: 1.5,
       borderColor: colors.orange[400],
-      backgroundColor: colors.isDark ? '#081D31' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.navy[950] : colors.orange[50],
       borderRadius: 18,
       padding: 14,
       marginBottom: 18,
@@ -306,7 +306,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     actionBtnSos: {
-      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : colors.red[100],
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
     },
     actionLabel: {
       color: colors.text,
@@ -320,7 +320,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      backgroundColor: colors.isDark ? '#1A3959' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.blue[100],
       borderRadius: 16,
       paddingHorizontal: 12,
       paddingVertical: 13,
@@ -374,7 +374,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 6,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
       paddingHorizontal: 10,
       paddingVertical: 5,
       borderRadius: 14,

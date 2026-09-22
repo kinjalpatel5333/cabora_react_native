@@ -1,3 +1,4 @@
+import { PASSENGER_TRUSTED_CONTACTS_INITIAL, PASSENGER_TRUSTED_CONTACTS_PRIVACY } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -13,47 +14,13 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const MAX_CONTACTS = 5;
 
-const INITIAL = [
-  {
-    id: 'c1',
-    initials: 'PS',
-    name: 'Priya Sharma',
-    meta: 'Sister · +91 98450 33119',
-    avatarBg: '#FEE6D6',
-    avatarFg: '#C2410C',
-    autoShare: true,
-    alertSos: true,
-  },
-  {
-    id: 'c2',
-    initials: 'VS',
-    name: 'Vikram Sharma',
-    meta: 'Father · +91 98450 21004',
-    avatarBg: '#DBEAFE',
-    avatarFg: '#1D4ED8',
-    autoShare: true,
-    alertSos: false,
-  },
-  {
-    id: 'c3',
-    initials: 'NK',
-    name: 'Neha Kulkarni',
-    meta: 'Friend · +91 99010 55218',
-    avatarBg: '#DCFCE7',
-    avatarFg: '#15803D',
-    autoShare: false,
-    alertSos: true,
-  },
-];
+const INITIAL = PASSENGER_TRUSTED_CONTACTS_INITIAL;
 
-const PRIVACY = [
-  {ok: true, text: 'Your live location while a trip is running'},
-  {ok: true, text: 'Driver name, photo and vehicle number'},
-  {ok: false, text: 'Your home address or saved places'},
-];
+const PRIVACY = PASSENGER_TRUSTED_CONTACTS_PRIVACY;
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (
@@ -134,7 +101,7 @@ export default function TrustedContactsScreen() {
         ]}>
         <View style={styles.statusCard}>
           <View style={styles.statusIconContainer}>
-            <Feather name="users" size={20} color="#2563EB" />
+            <Feather name="users" size={20} color={colors.blue[550]} />
           </View>
           <View style={styles.statusBody}>
             <Text style={styles.statusTitle}>{countLabel}</Text>
@@ -174,7 +141,7 @@ export default function TrustedContactsScreen() {
                 <Feather
                   name="more-vertical"
                   size={18}
-                  color="#64748B"
+                  color={colors.slate[500]}
                 />
               </Pressable>
             </View>
@@ -209,7 +176,7 @@ export default function TrustedContactsScreen() {
           }}
           accessibilityRole="button"
           accessibilityLabel="Add a trusted contact">
-          <Feather name="plus" size={18} color="#FF7006" />
+          <Feather name="plus" size={18} color={colors.primary} />
           <Text style={styles.addText}>Add a trusted contact</Text>
         </Pressable>
 
@@ -225,7 +192,7 @@ export default function TrustedContactsScreen() {
               <Feather
                 name={row.ok ? 'check-circle' : 'x-circle'}
                 size={16}
-                color={row.ok ? '#16A34A' : '#94A3B8'}
+                color={row.ok ? colors.green[600] : colors.slate[400]}
               />
               <Text
                 style={[

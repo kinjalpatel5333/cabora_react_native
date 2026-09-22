@@ -19,6 +19,7 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SCREEN_W = Dimensions.get('window').width;
 const ROUTE_W = SCREEN_W * 0.8;
@@ -81,7 +82,7 @@ export default function DriverTripInProgressScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.transparent}
         translucent
       />
@@ -135,7 +136,7 @@ export default function DriverTripInProgressScreen() {
           name="location-crosshairs"
           iconStyle="solid"
           size={18}
-          color={colors.navy[800]}
+          color={colors.text}
         />
       </Pressable>
 
@@ -236,21 +237,21 @@ export default function DriverTripInProgressScreen() {
               accessibilityLabel="Call rider"
               onPress={handleCallPassenger}
               style={styles.roundActionBtn}>
-              <Feather name="phone" size={17} color={colors.slate[900]} />
+              <Feather name="phone" size={17} color={colors.text} />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Message rider"
               onPress={handleChatPassenger}
               style={styles.roundActionBtn}>
-              <Feather name="message-circle" size={17} color={colors.slate[900]} />
+              <Feather name="message-circle" size={17} color={colors.text} />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Share trip"
               onPress={handleShareTrip}
               style={styles.roundActionBtn}>
-              <Lucide name="share" size={17} color={colors.slate[900]} />
+              <Lucide name="share" size={17} color={colors.text} />
             </Pressable>
           </View>
         </View>

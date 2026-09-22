@@ -1,3 +1,4 @@
+import { PASSENGER_WALKTHROUGH_SLIDES } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
 import {
   Dimensions,
@@ -17,36 +18,7 @@ import {completeWalkthrough} from '../../redux/slices/appSlice';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
-const SLIDES = [
-  {
-    key: 'booking',
-    image: images.walkBooking,
-    curve: images.walkCurveBooking,
-    kicker: 'FAST BOOKING',
-    title: 'Book a ride\nin three taps.',
-    body: 'Set your drop, pick a vehicle, confirm. No forms, no waiting on hold.',
-    action: 'Continue',
-  },
-  {
-    key: 'tracking',
-    image: images.walkTracking,
-    curve: images.walkCurveTracking,
-    kicker: 'LIVE TRACKING',
-    title: 'See every metre\nof the way.',
-    body: 'Live driver position, honest ETAs, and a link your family can follow.',
-    action: 'Continue',
-  },
-  {
-    key: 'payments',
-    image: images.walkPayments,
-    curve: images.walkCurvePayments,
-    contain: true,
-    kicker: 'SECURE PAYMENTS',
-    title: 'Pay however\nsuits you.',
-    body: 'UPI, cards, wallet or cash. Fares are locked before you book — no surprises.',
-    action: 'Get started',
-  },
-];
+const SLIDES = PASSENGER_WALKTHROUGH_SLIDES;
 
 export default function WalkthroughScreen() {
   const insets = useSafeAreaInsets();

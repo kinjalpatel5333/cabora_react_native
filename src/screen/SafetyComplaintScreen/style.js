@@ -74,13 +74,13 @@ export default function createStyles(colors) {
       width: 28,
       height: 28,
       borderRadius: 14,
-      backgroundColor: '#FEE6D6',
+      backgroundColor: colors.orange.avatarBg,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 10,
     },
     driverAvatarText: {
-      color: '#C2410C',
+      color: colors.orange[850],
       fontSize: 11.5,
       fontWeight: '700',
     },
@@ -120,7 +120,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     seriousChipSelected: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.22)' : '#FFF5ED',
+      backgroundColor: colors.isDark ? colors.alpha.orange22 : colors.orange.subtleBg,
       borderColor: colors.primary,
       borderWidth: 1.5,
     },
@@ -160,7 +160,7 @@ export default function createStyles(colors) {
       minHeight: 46,
     },
     categoryCardSelected: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.22)' : '#FFF5ED',
+      backgroundColor: colors.isDark ? colors.alpha.orange22 : colors.orange.subtleBg,
       borderColor: colors.primary,
       borderWidth: 1.5,
     },
@@ -256,7 +256,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     submitText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

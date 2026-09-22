@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Dimensions,
   Pressable,
@@ -7,22 +7,23 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {FontAwesome6} from '@react-native-vector-icons/fontawesome6/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button, MapBackdrop, Toggle} from '../../components';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button, MapBackdrop, Toggle } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {useSidebar} from '../../context/SidebarContext';
-import {useAuth} from '../../hooks/useAuth';
-import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {setDriverOnline, setDriverRestricted} from '../../redux/slices/driverSlice';
+import { useApp } from '../../context/AppContext';
+import { useSidebar } from '../../context/SidebarContext';
+import { useAuth } from '../../hooks/useAuth';
+import { getHomeTabBarInset } from '../../navigation/homeTabBarMetrics';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setDriverOnline, setDriverRestricted } from '../../redux/slices/driverSlice';
 import createStyles from './style';
+import DriverMapBackdrop from '../../components/DriverMapBackdrop';
 
 function greetingForHour(hour) {
   if (hour < 12) {
@@ -54,7 +55,7 @@ function driverDisplayName(user) {
   return name;
 }
 
-function StatGlyph({name, color}) {
+function StatGlyph({ name, color }) {
   if (name === 'rupee') {
     return <MaterialDesignIcons name="currency-inr" size={18} color={color} />;
   }
@@ -70,10 +71,10 @@ function StatGlyph({name, color}) {
 export default function DriverHomeScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
   const navigation = useNavigation();
-  const {openDrawer} = useSidebar();
-  const {user} = useAuth();
+  const { openDrawer } = useSidebar();
+  const { user } = useAuth();
   const dispatch = useAppDispatch();
   const driver = useAppSelector(state => state.driver);
 
@@ -139,11 +140,11 @@ export default function DriverHomeScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         translucent
         backgroundColor="transparent"
       />
-      <MapBackdrop showUserDot={false} showDemand={online} />
+      <DriverMapBackdrop showUserDot={false} showDemand={online} />
 
       <View pointerEvents="none" style={styles.mapMarkers}>
         <View style={styles.locationMarker}>
@@ -152,13 +153,13 @@ export default function DriverHomeScreen() {
         </View>
       </View>
 
-      <View style={[styles.header, {top: headerTop}]}>
+      <View style={[styles.header, { top: headerTop }]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
-          <Feather name="menu" size={22} color={colors.navy[800]} />
+          <Feather name="menu" size={22} color={colors.isDark ? colors.white : colors.navy[800]} />
         </Pressable>
 
         <View style={styles.greetingPill}>
@@ -202,7 +203,7 @@ export default function DriverHomeScreen() {
         style={[
           styles.statusChip,
           restricted ? styles.statusChipWarn : styles.statusChipDark,
-          {top: headerTop + 56},
+          { top: headerTop + 56 },
         ]}>
         <View
           style={[
@@ -232,7 +233,7 @@ export default function DriverHomeScreen() {
 
       {online ? (
         <Pressable
-          style={[styles.demandChip, {top: headerTop + 104}]}
+          style={[styles.demandChip, { top: headerTop + 104 }]}
           accessibilityRole="button">
           <Lucide name="navigation" size={14} color={colors.white} />
           <Text style={styles.demandText}>
@@ -252,19 +253,19 @@ export default function DriverHomeScreen() {
           }
           navigation.navigate('PreferredDestination');
         }}
-        style={[styles.locateFab, {bottom: fabBottom}]}>
+        style={[styles.locateFab, { bottom: fabBottom }]}>
         <FontAwesome6
           name="location-crosshairs"
           iconStyle="solid"
           size={22}
-          color={colors.navy[800]}
+          color={colors.isDark ? colors.white : colors.navy[800]}
         />
       </Pressable>
 
       <View
         style={[
           styles.sheetWrap,
-          {bottom: tabBarInset, maxHeight: sheetMaxH},
+          { bottom: tabBarInset, maxHeight: sheetMaxH },
         ]}
         onLayout={event => {
           const nextH = Math.round(event.nativeEvent.layout.height);
@@ -275,9 +276,10 @@ export default function DriverHomeScreen() {
         <View style={styles.sheet}>
           <View style={styles.grabber} />
           <ScrollView
+            nestedScrollEnabled
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.sheetScroll}
-            bounces={false}>
+            bounces={true}>
             {restricted ? (
               <View style={styles.offlineCard}>
                 <View style={styles.statusIconWarn}>
@@ -338,7 +340,7 @@ export default function DriverHomeScreen() {
             <View style={styles.statsRow}>
               {stats.map(stat => {
                 const muted = !online && stat.id !== 'wallet';
-                const iconColor = muted ? colors.gray[400] : colors.navy[400];
+                const iconColor = muted ? colors.textMuted : (colors.isDark ? colors.orange[400] : colors.navy[600]);
                 return (
                   <View key={stat.id} style={styles.stat}>
                     <StatGlyph name={stat.icon} color={iconColor} />
@@ -416,7 +418,7 @@ export default function DriverHomeScreen() {
                   </Text>
                 </View>
                 <View style={styles.segmentTrack}>
-                  {Array.from({length: streakSegments}).map((_, index) => {
+                  {Array.from({ length: streakSegments }).map((_, index) => {
                     const filled = index < streakFilled;
                     const isFirst = index === 0;
                     const isLast = index === streakSegments - 1;

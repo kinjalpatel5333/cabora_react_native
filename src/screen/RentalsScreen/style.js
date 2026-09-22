@@ -63,7 +63,7 @@ export default function createStyles(colors) {
       position: 'relative',
     },
     packageCardActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
       borderColor: colors.primary,
     },
     packageCheck: {
@@ -122,7 +122,7 @@ export default function createStyles(colors) {
       width: 36,
       height: 36,
       borderRadius: 18,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -173,7 +173,7 @@ export default function createStyles(colors) {
       padding: 10,
     },
     vehicleCardActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
       borderColor: colors.primary,
     },
     vehicleName: {
@@ -256,7 +256,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

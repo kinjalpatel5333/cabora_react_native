@@ -1,3 +1,4 @@
+import { PASSENGER_SERVICES_RIDE_NOW, PASSENGER_SERVICES_PLAN_AHEAD } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Dimensions,
@@ -20,60 +21,16 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
 import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SCREEN_W = Dimensions.get('window').width;
 const H_PAD = 20;
 const PLAN_GAP = 12;
 const PLAN_CARD_W = (SCREEN_W - H_PAD * 2 - PLAN_GAP) / 2;
 
-const RIDE_NOW = [
-  {
-    id: 'cab',
-    label: 'Cab',
-    meta: '4 seats · from ₹68',
-    icon: 'car-side',
-    badge: 'Most booked',
-  },
-  {
-    id: 'auto',
-    label: 'Auto',
-    meta: '3 seats · from ₹48',
-    icon: 'rickshaw',
-  },
-  {
-    id: 'bike',
-    label: 'Bike',
-    meta: '1 seat · from ₹29',
-    icon: 'motorbike',
-  },
-];
+const RIDE_NOW = PASSENGER_SERVICES_RIDE_NOW;
 
-const PLAN_AHEAD = [
-  {
-    id: 'schedule',
-    kicker: 'Book up to',
-    title: 'Schedule a ride',
-    icon: 'calendar',
-  },
-  {
-    id: 'airport',
-    kicker: 'Flight tracking and',
-    title: 'Airport',
-    icon: 'send',
-  },
-  {
-    id: 'rentals',
-    kicker: 'Keep the car',
-    title: 'Rentals',
-    icon: 'refresh-cw',
-  },
-  {
-    id: 'outstation',
-    kicker: 'One way or',
-    title: 'Outstation',
-    icon: 'route',
-  },
-];
+const PLAN_AHEAD = PASSENGER_SERVICES_PLAN_AHEAD;
 
 function RideIcon({name, color}) {
   if (name === 'rickshaw' || name === 'motorbike' || name === 'car-side') {
@@ -201,7 +158,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Notifications"
               onPress={() => navigation.navigate('Notifications')}>
-              <Feather name="bell" size={20} color="#FFFFFF" />
+              <Feather name="bell" size={20} color={colors.white} />
             </Pressable>
             <View style={styles.badge} pointerEvents="none">
               <Text style={styles.badgeText}>3</Text>
@@ -270,7 +227,7 @@ export default function ServicesScreen() {
                   accessibilityLabel={item.title}>
                   <View style={styles.planTopRow}>
                     <View style={styles.planIcon}>
-                      <PlanIcon name={item.icon} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
+                      <PlanIcon name={item.icon} color={colors.isDark ? colors.white : colors.navy[800]} />
                     </View>
                     <Text style={styles.planKicker} numberOfLines={2}>
                       {item.kicker}
@@ -294,7 +251,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Portal">
               <View style={styles.portalIcon}>
-                <Lucide name="briefcase" size={22} color={colors.isDark ? '#FF9A4A' : colors.blue[600]} />
+                <Lucide name="briefcase" size={22} color={colors.isDark ? colors.orange[450] : colors.blue[600]} />
               </View>
               <View style={styles.portalCopy}>
                 <View style={styles.portalTitleRow}>

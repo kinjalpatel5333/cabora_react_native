@@ -19,6 +19,7 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const VALID_CODE = '1234';
 const MAX_ATTEMPTS = 3;
@@ -109,7 +110,7 @@ export default function DriverStartTripScreen() {
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.transparent}
         translucent
       />

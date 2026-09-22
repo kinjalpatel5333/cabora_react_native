@@ -1,3 +1,4 @@
+import { PASSENGER_EMERGENCY_CONTACTS, PASSENGER_EMERGENCY_QUICK } from '../../config/staticData';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
@@ -18,39 +19,11 @@ import ConfirmDialog from '../../components/ConfirmDialog';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const CONTACTS = [
-  {
-    id: 'c1',
-    initials: 'PM',
-    name: 'Priya Menon',
-    meta: 'Sister · +91 98200 11223',
-  },
-  {
-    id: 'c2',
-    initials: 'VM',
-    name: 'Vikram Mehta',
-    meta: 'Father · +91 99450 88112',
-  },
-];
+const CONTACTS = PASSENGER_EMERGENCY_CONTACTS;
 
-const QUICK = [
-  {id: 'police', label: 'Police', sub: '100', icon: 'siren', dial: '100'},
-  {
-    id: 'ambulance',
-    label: 'Ambulance',
-    sub: '108',
-    icon: 'phone',
-    dial: '108',
-  },
-  {
-    id: 'safety',
-    label: 'Cabora',
-    sub: 'Safety',
-    icon: 'headset',
-    dial: null,
-  },
-];
+const QUICK = PASSENGER_EMERGENCY_QUICK;
 
 const HOLD_MS = 3000;
 
@@ -184,7 +157,7 @@ export default function EmergencyScreen({
   };
 
   const isAlerted = phase === 'alerted';
-  const rootBg = isAlerted ? '#2A1212' : '#071C31';
+  const rootBg = isAlerted ? colors.red.darkBg : colors.navy[950];
 
   return (
     <Modal
@@ -325,7 +298,7 @@ export default function EmergencyScreen({
                 </View>
                 <View style={[styles.statusRow, styles.statusRowLast]}>
                   <View style={styles.statusSpinner}>
-                    <ActivityIndicator size="small" color="#D4A574" />
+                    <ActivityIndicator size="small" color={colors.orange.gold} />
                   </View>
                   <View style={styles.statusCopy}>
                     <Text style={styles.statusTitle}>

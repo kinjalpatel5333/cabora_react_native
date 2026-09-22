@@ -1,3 +1,9 @@
+import {
+  PASSENGER_ADD_MONEY_QUICK,
+  PASSENGER_ADD_MONEY_MIN,
+  PASSENGER_ADD_MONEY_MAX,
+  PASSENGER_ADD_MONEY_METHODS,
+} from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -15,25 +21,9 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const QUICK = [200, 500, 1000, 2000];
-const MIN = 100;
-const MAX = 10000;
-
-const METHODS = [
-  {
-    id: 'upi',
-    title: 'UPI',
-    subtitle: 'you@okaxis · instant',
-    icon: 'upi',
-  },
-  {
-    id: 'card',
-    title: 'HDFC Credit Card',
-    subtitle: '•••• 4821',
-    icon: 'card',
-  },
-];
+const QUICK = PASSENGER_ADD_MONEY_QUICK;
 
 function formatAmount(n) {
   return Number(n || 0).toLocaleString('en-IN');

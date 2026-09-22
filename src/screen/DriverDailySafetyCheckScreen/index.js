@@ -14,20 +14,10 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
+import { useSidebar } from '../../context/SidebarContext';
 
-const VEHICLE_ITEMS = [
-  { id: 'tyres', title: 'Tyres have visible tread and correct pressure' },
-  { id: 'brakes', title: 'Brakes and handbrake working' },
-  { id: 'lights', title: 'Headlights, indicators and horn working' },
-  { id: 'mirrors', title: 'Windscreen and mirrors clean' },
-];
-
-const IN_CAR_ITEMS = [
-  { id: 'firstaid', title: 'First-aid kit present and sealed' },
-  { id: 'extinguisher', title: 'Fire extinguisher in date' },
-  { id: 'cabin', title: 'Cabin clean, no strong odour' },
-  { id: 'emergency', title: 'Emergency numbers sticker visible' },
-];
+import { DRIVER_SAFETY_VEHICLE_ITEMS as VEHICLE_ITEMS, DRIVER_SAFETY_IN_CAR_ITEMS as IN_CAR_ITEMS } from '../../config/staticData';
 
 export default function DriverDailySafetyCheckScreen() {
   const insets = useSafeAreaInsets();
@@ -35,6 +25,11 @@ export default function DriverDailySafetyCheckScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverDailySafetyCheck');
+  }, [setActiveTab]);
 
   const [checked, setChecked] = useState({
     tyres: true,
@@ -78,7 +73,7 @@ export default function DriverDailySafetyCheckScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -94,7 +89,7 @@ export default function DriverDailySafetyCheckScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>Daily safety check</Text>
@@ -104,7 +99,7 @@ export default function DriverDailySafetyCheckScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

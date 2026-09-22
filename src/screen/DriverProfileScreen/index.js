@@ -17,6 +17,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 export default function DriverProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -137,7 +138,7 @@ export default function DriverProfileScreen() {
                 <MaterialDesignIcons
                   name="car-hatchback"
                   size={24}
-                  color={colors.slate[900]}
+                  color={colors.text}
                 />
               </View>
               <View>
@@ -177,7 +178,7 @@ export default function DriverProfileScreen() {
             style={[styles.listItem, styles.listBorder]}>
             <View style={styles.listLeft}>
               <View style={styles.listIconBox}>
-                <Lucide name="file-text" size={18} color={colors.slate[900]} />
+                <Lucide name="file-text" size={18} color={colors.text} />
               </View>
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>Documents</Text>
@@ -195,7 +196,7 @@ export default function DriverProfileScreen() {
             style={styles.listItem}>
             <View style={styles.listLeft}>
               <View style={styles.listIconBox}>
-                <Lucide name="shield-check" size={18} color={colors.slate[900]} />
+                <Lucide name="shield-check" size={18} color={colors.text} />
               </View>
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>Police verification</Text>
@@ -217,7 +218,7 @@ export default function DriverProfileScreen() {
             style={[styles.listItem, styles.listBorder]}>
             <View style={styles.listLeft}>
               <View style={styles.listIconBox}>
-                <Feather name="settings" size={18} color={colors.slate[900]} />
+                <Feather name="settings" size={18} color={colors.text} />
               </View>
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>App settings</Text>
@@ -235,7 +236,7 @@ export default function DriverProfileScreen() {
             style={styles.listItem}>
             <View style={styles.listLeft}>
               <View style={styles.listIconBox}>
-                <Feather name="help-circle" size={18} color={colors.slate[900]} />
+                <Feather name="help-circle" size={18} color={colors.text} />
               </View>
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>Help & Support</Text>

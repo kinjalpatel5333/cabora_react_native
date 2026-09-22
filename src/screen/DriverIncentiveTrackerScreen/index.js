@@ -14,33 +14,10 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
+import { useSidebar } from '../../context/SidebarContext';
 
-const COMPLETED_INCENTIVES = [
-  {
-    id: '1',
-    title: 'Daily 8-ride target',
-    date: 'Yesterday',
-    amount: '₹200',
-    status: 'paid',
-    statusLabel: 'Paid',
-  },
-  {
-    id: '2',
-    title: 'Airport queue bonus',
-    date: '09 Sep',
-    amount: '₹150',
-    status: 'paid',
-    statusLabel: 'Paid',
-  },
-  {
-    id: '3',
-    title: 'Rainy hour bonus',
-    date: '07 Sep',
-    amount: '₹250',
-    status: 'processing',
-    statusLabel: 'Processing',
-  },
-];
+import { DRIVER_COMPLETED_INCENTIVES as COMPLETED_INCENTIVES } from '../../config/staticData';
 
 export default function DriverIncentiveTrackerScreen() {
   const insets = useSafeAreaInsets();
@@ -48,6 +25,11 @@ export default function DriverIncentiveTrackerScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverIncentiveTracker');
+  }, [setActiveTab]);
 
   const handleHelp = () => {
     showToast({
@@ -68,7 +50,7 @@ export default function DriverIncentiveTrackerScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -84,7 +66,7 @@ export default function DriverIncentiveTrackerScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>Incentives</Text>
@@ -94,7 +76,7 @@ export default function DriverIncentiveTrackerScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

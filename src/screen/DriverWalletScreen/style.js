@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Top Header
@@ -13,14 +13,14 @@ export default function createStyles(colors) {
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingVertical: 10,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
       gap: 14,
     },
     menuBtn: {
       width: 44,
       height: 44,
       borderRadius: 14,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: colors.black,
@@ -33,7 +33,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     scrollContent: {
@@ -86,7 +86,7 @@ export default function createStyles(colors) {
 
     // Withdraw Form Card (White)
     card: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 24,
       padding: 20,
       marginHorizontal: 16,
@@ -101,7 +101,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginBottom: 12,
@@ -112,7 +112,7 @@ export default function createStyles(colors) {
       borderWidth: 1.5,
       borderColor: colors.primary,
       borderRadius: 16,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       paddingHorizontal: 16,
       paddingVertical: 10,
       flexDirection: 'row',
@@ -129,7 +129,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 24,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
       marginRight: 2,
     },
     amountInput: {
@@ -137,7 +137,7 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 24,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
       paddingVertical: 0,
       paddingHorizontal: 0,
       margin: 0,
@@ -147,7 +147,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
       fontWeight: '600',
-      color: colors.slate[400],
+      color: colors.textMuted,
     },
 
     // Quick Amount Pills
@@ -160,9 +160,9 @@ export default function createStyles(colors) {
       flex: 1,
       height: 42,
       borderRadius: 14,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
       borderWidth: 1,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -175,7 +175,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 13.5,
       fontWeight: '700',
-      color: colors.slate[700],
+      color: colors.textSecondary,
     },
     pillTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
@@ -185,7 +185,7 @@ export default function createStyles(colors) {
 
     // Bank Row
     bankRow: {
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
       borderRadius: 16,
       padding: 14,
       marginTop: 16,
@@ -203,9 +203,9 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderWidth: 1,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -216,7 +216,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     bankVerified: {
       fontFamily: colors.fonts.sora.semiBold,
@@ -262,7 +262,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -270,7 +270,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     historyCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 24,
       marginHorizontal: 16,
       paddingHorizontal: 16,
@@ -319,13 +319,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     historySubPaid: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     historySubProcessing: {
@@ -350,7 +350,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     statusBadge: {
       flexDirection: 'row',

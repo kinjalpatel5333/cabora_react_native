@@ -87,7 +87,7 @@ export default function createStyles(colors) {
     },
     typeCardActive: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     typeLabel: {
       color: colors.muted,
@@ -115,7 +115,7 @@ export default function createStyles(colors) {
     },
     sizeCardActive: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     radio: {
       width: 22,
@@ -188,9 +188,9 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.14)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange14 : colors.orange[50],
       borderWidth: 1,
-      borderColor: colors.isDark ? 'rgba(255, 112, 6, 0.35)' : colors.orange[200],
+      borderColor: colors.isDark ? colors.alpha.orange35 : colors.orange[200],
       borderRadius: 14,
       padding: 14,
       marginBottom: 8,
@@ -200,7 +200,7 @@ export default function createStyles(colors) {
       height: 22,
       borderRadius: 6,
       borderWidth: 1.5,
-      borderColor: colors.isDark ? 'rgba(255, 112, 6, 0.5)' : colors.orange[400],
+      borderColor: colors.isDark ? colors.alpha.orange50 : colors.orange[400],
       backgroundColor: colors.card,
       alignItems: 'center',
       justifyContent: 'center',

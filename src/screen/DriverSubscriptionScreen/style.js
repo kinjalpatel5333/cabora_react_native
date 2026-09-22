@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Header Bar
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingVertical: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderBottomWidth: 1,
       borderBottomColor: colors.slate[100],
     },
@@ -28,7 +28,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     scrollContent: {
@@ -121,7 +121,7 @@ export default function createStyles(colors) {
 
     // Threshold Card
     thresholdCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 20,
       padding: 18,
       marginHorizontal: 16,
@@ -141,24 +141,24 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     thresholdSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     thresholdCount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
     },
     progressTrack: {
       height: 8,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
       borderRadius: 4,
       marginTop: 14,
       marginBottom: 12,
@@ -182,13 +182,13 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       lineHeight: 17,
     },
 
     // Benefits Card
     benefitsCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 20,
       padding: 20,
       marginHorizontal: 16,
@@ -203,7 +203,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
       marginBottom: 16,
     },
     benefitList: {
@@ -218,12 +218,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
       fontWeight: '600',
-      color: colors.slate[700],
+      color: colors.textSecondary,
     },
 
     // Bank Card
     bankCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       padding: 16,
       marginHorizontal: 16,
@@ -250,13 +250,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     bankSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     changeText: {
@@ -268,7 +268,7 @@ export default function createStyles(colors) {
 
     // Bottom Action Bar
     bottomBar: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderTopWidth: 1,
       borderTopColor: colors.slate[100],
       paddingHorizontal: 16,
@@ -284,7 +284,7 @@ export default function createStyles(colors) {
       borderRadius: 14,
       borderWidth: 1.5,
       borderColor: colors.navy[850],
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -292,7 +292,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.navy[850],
+      color: colors.text,
     },
     cancelBtn: {
       flex: 1,

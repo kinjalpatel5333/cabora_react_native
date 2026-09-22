@@ -14,6 +14,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 export default function DriverTripSummaryScreen() {
   const insets = useSafeAreaInsets();
@@ -37,7 +38,7 @@ export default function DriverTripSummaryScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.transparent}
         translucent
       />

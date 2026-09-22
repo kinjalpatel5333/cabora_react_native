@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Header Bar
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingVertical: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderBottomWidth: 1,
       borderBottomColor: colors.navy[150],
     },
@@ -28,7 +28,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     scrollContent: {
@@ -82,10 +82,10 @@ export default function createStyles(colors) {
 
     // Route Card
     routeCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       borderWidth: 1,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       padding: 16,
       marginHorizontal: 16,
       marginTop: 12,
@@ -109,18 +109,18 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     routeSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     cardDivider: {
       height: 1,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
       marginVertical: 12,
     },
     routeBottomRow: {
@@ -132,7 +132,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
     paidOnlineBadge: {
       flexDirection: 'row',
@@ -161,7 +161,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -171,10 +171,10 @@ export default function createStyles(colors) {
 
     // Charges Breakdown Card
     chargesCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       borderWidth: 1,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       padding: 16,
       marginHorizontal: 16,
     },
@@ -193,25 +193,25 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
       fontWeight: '700',
-      color: colors.slate[900],
+      color: colors.text,
     },
     chargeValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     chargeSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
 
     // Added to Earnings Banner
     addedBanner: {
-      backgroundColor: colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
       borderColor: colors.amber[300],
       borderWidth: 1,
       borderRadius: 16,
@@ -247,8 +247,8 @@ export default function createStyles(colors) {
 
     // Tip Box
     tipBox: {
-      backgroundColor: colors.white,
-      borderColor: colors.slate[200],
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
       borderWidth: 1,
       borderRadius: 16,
       padding: 14,
@@ -262,14 +262,14 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       flex: 1,
       lineHeight: 17,
     },
 
     // Fixed Footer
     footer: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderTopWidth: 1,
       borderTopColor: colors.navy[150],
       paddingHorizontal: 16,

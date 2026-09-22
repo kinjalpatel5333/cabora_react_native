@@ -87,7 +87,7 @@ export default function createStyles(colors) {
       width: 10,
       height: 10,
       borderRadius: 5,
-      backgroundColor: colors.isDark ? '#60A5FA' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.blue[400] : colors.navy[800],
     },
     routeCopy: {
       flex: 1,
@@ -138,7 +138,7 @@ export default function createStyles(colors) {
     },
     riderCardActive: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     riderIcon: {
       width: 42,
@@ -171,13 +171,13 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
       gap: 5,
       marginTop: 6,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
       paddingHorizontal: 8,
       paddingVertical: 3,
       borderRadius: 999,
     },
     riderBadgeAlt: {
-      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.25)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue25 : colors.blue[100],
     },
     riderBadgeDot: {
       width: 6,
@@ -194,7 +194,7 @@ export default function createStyles(colors) {
       fontWeight: '600',
     },
     riderBadgeTextAlt: {
-      color: colors.isDark ? '#93C5FD' : colors.blue[600],
+      color: colors.isDark ? colors.blue[300] : colors.blue[600],
     },
     riderPrice: {
       color: colors.text,
@@ -248,7 +248,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 12,
-      backgroundColor: colors.isDark ? 'rgba(255, 255, 255, 0.08)' : colors.gray[100],
+      backgroundColor: colors.isDark ? colors.alpha.white08 : colors.gray[100],
       alignItems: 'center',
       justifyContent: 'center',
     },

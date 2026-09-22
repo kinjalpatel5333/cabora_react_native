@@ -1,3 +1,4 @@
+import { PASSENGER_SAVE_PLACE_LABELS } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
@@ -16,12 +17,9 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const LABELS = [
-  {id: 'home', label: 'Home', icon: 'home'},
-  {id: 'work', label: 'Work', icon: 'briefcase'},
-  {id: 'other', label: 'Other', icon: 'map-pin'},
-];
+const LABELS = PASSENGER_SAVE_PLACE_LABELS;
 
 const DEFAULT_ADDRESS =
   '48, 4th Cross Road, Jayanagar 4th Block, Bengaluru, Karnataka 560011';

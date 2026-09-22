@@ -1,3 +1,4 @@
+import { PASSENGER_ACTIVITY_TABS, PASSENGER_ACTIVITY_RIDES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -19,63 +20,11 @@ import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import SortFilterModal from './SortFilterModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const TABS = [
-  {id: 'completed', label: 'Completed'},
-  {id: 'cancelled', label: 'Cancelled'},
-  {id: 'scheduled', label: 'Scheduled'},
-];
+const TABS = PASSENGER_ACTIVITY_TABS;
 
-const RIDES = [
-  {
-    id: 'r1',
-    status: 'completed',
-    when: 'Today · 12:24 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: '12, Brigade Road, Ashok Nagar',
-    drop: 'Kempegowda Intl. Airport, T2',
-    vehicle: 'Cab Sedan',
-    meta: '14.2 km',
-    icon: 'car-side',
-    fare: '₹241.50',
-  },
-  {
-    id: 'r2',
-    status: 'cancelled',
-    when: 'Yesterday · 8:02 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Prestige Tech Park, Marathahalli',
-    drop: 'Indiranagar 100 Feet Road',
-    vehicle: 'Auto',
-    meta: 'cancelled by you',
-    icon: 'rickshaw',
-    fare: '₹30',
-  },
-  {
-    id: 'r3',
-    status: 'completed',
-    when: 'Fri 11 Sep · 6:40 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Indiranagar 100ft Road',
-    drop: 'Koramangala 5th Block',
-    vehicle: 'Bike',
-    meta: '6.4 km',
-    icon: 'motorbike',
-    fare: '₹41',
-  },
-  {
-    id: 'r4',
-    status: 'scheduled',
-    when: 'Sat 20 Sep · 07:00 am',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Home, Brigade Road',
-    drop: 'Kempegowda Intl. Airport, T2',
-    vehicle: 'Cab Sedan',
-    meta: 'scheduled',
-    icon: 'car-side',
-    fare: '₹520',
-  },
-];
+const RIDES = PASSENGER_ACTIVITY_RIDES;
 
 const EMPTY_COPY = {
   completed: {
@@ -156,7 +105,7 @@ export default function ActivityScreen() {
             <Feather
               name="menu"
               size={20}
-              color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+              color={colors.isDark ? colors.white : colors.navy[900]}
             />
           </Pressable>
           <Text style={styles.title}>Your rides</Text>
@@ -170,7 +119,7 @@ export default function ActivityScreen() {
               <Feather
                 name="calendar"
                 size={20}
-                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+                color={colors.isDark ? colors.white : colors.navy[900]}
               />
             </Pressable>
             <Pressable
@@ -182,7 +131,7 @@ export default function ActivityScreen() {
               <MaterialDesignIcons
                 name="filter-variant"
                 size={22}
-                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+                color={colors.isDark ? colors.white : colors.navy[900]}
               />
             </Pressable>
           </View>
@@ -192,14 +141,14 @@ export default function ActivityScreen() {
           <Feather
             name="search"
             size={18}
-            color={colors.isDark ? '#FFFFFF' : colors.gray[400]}
+            color={colors.isDark ? colors.white : colors.gray[400]}
           />
           <TextInput
             value={query}
             onChangeText={setQuery}
             placeholder="Search by place, date or fare"
             placeholderTextColor={
-              colors.isDark ? 'rgba(255, 255, 255, 0.75)' : colors.gray[400]
+              colors.isDark ? colors.alpha.white75 : colors.gray[400]
             }
             style={styles.searchInput}
             returnKeyType="search"
@@ -232,10 +181,10 @@ export default function ActivityScreen() {
                 const isCompleted = ride.status === 'completed';
                 const isCancelled = ride.status === 'cancelled';
                 const pillBg = isCompleted
-                  ? colors.isDark ? 'rgba(34, 197, 94, 0.2)' : colors.green[100]
+                  ? colors.isDark ? colors.alpha.green20 : colors.green[100]
                   : isCancelled
-                    ? colors.isDark ? 'rgba(239, 68, 68, 0.2)' : colors.red[100]
-                    : colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100];
+                    ? colors.isDark ? colors.alpha.red20 : colors.red[100]
+                    : colors.isDark ? colors.alpha.orange20 : colors.orange[100];
                 const pillColor = isCompleted
                   ? colors.green[500]
                   : isCancelled

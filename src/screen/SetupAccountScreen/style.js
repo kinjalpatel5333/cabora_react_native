@@ -34,7 +34,7 @@ export default function createStyles(colors) {
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 28,
       fontWeight: '800',
       letterSpacing: -0.4,
@@ -57,7 +57,7 @@ export default function createStyles(colors) {
     },
     cardSelected: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     cardTop: {
       flexDirection: 'row',
@@ -79,7 +79,7 @@ export default function createStyles(colors) {
     },
     cardTitle: {
       fontFamily: colors.fonts.sora.bold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '700',
       marginBottom: 4,
@@ -111,7 +111,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     dividerSelected: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.3)' : colors.orange[200],
+      backgroundColor: colors.isDark ? colors.alpha.orange30 : colors.orange[200],
     },
     hint: {
       flexDirection: 'row',
@@ -166,7 +166,7 @@ export default function createStyles(colors) {
     },
     pickedValue: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 20,
       fontWeight: '800',
       marginTop: 2,

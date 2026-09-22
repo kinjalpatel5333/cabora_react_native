@@ -39,7 +39,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.4,
     },
     balanceCard: {
-      backgroundColor: '#0B2135',
+      backgroundColor: colors.navy[925],
       borderRadius: 28,
       paddingTop: 20,
       paddingHorizontal: 20,
@@ -54,7 +54,7 @@ export default function createStyles(colors) {
       width: 160,
       height: 160,
       borderRadius: 80,
-      backgroundColor: 'rgba(255, 140, 60, 0.22)',
+      backgroundColor: colors.alpha.orangeBrand22,
     },
     balanceTop: {
       flexDirection: 'row',
@@ -64,7 +64,7 @@ export default function createStyles(colors) {
       zIndex: 1,
     },
     balanceLabel: {
-      color: '#9AA8B8',
+      color: colors.blue.slate,
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 1.2,
@@ -78,7 +78,7 @@ export default function createStyles(colors) {
       zIndex: 1,
     },
     balanceMeta: {
-      color: '#9AA8B8',
+      color: colors.blue.slate,
       fontSize: 13,
       fontWeight: '500',
       marginBottom: 20,
@@ -111,12 +111,12 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'center',
       gap: 5,
-      backgroundColor: 'rgba(255,255,255,0.06)',
+      backgroundColor: colors.alpha.white06,
       borderRadius: 999,
       paddingVertical: 10,
       paddingHorizontal: 14,
       borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.22)',
+      borderColor: colors.alpha.white22,
     },
     historyText: {
       color: colors.white,
@@ -141,7 +141,7 @@ export default function createStyles(colors) {
     },
     tabActive: {
       backgroundColor: colors.card,
-      shadowColor: colors.isDark ? '#000000' : colors.navy[900],
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOpacity: 0.08,
       shadowRadius: 6,
       shadowOffset: {width: 0, height: 1},

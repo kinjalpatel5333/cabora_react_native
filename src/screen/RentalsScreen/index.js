@@ -1,3 +1,4 @@
+import { PASSENGER_RENTALS_PACKAGES, PASSENGER_RENTALS_VEHICLES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -14,72 +15,11 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const PACKAGES = [
-  {
-    id: '2h',
-    hours: 2,
-    label: '2 hours',
-    km: 20,
-    price: 649,
-    afterKm: 12,
-    beyondHr: 120,
-  },
-  {
-    id: '4h',
-    hours: 4,
-    label: '4 hours',
-    km: 40,
-    price: 1199,
-    afterKm: 12,
-    beyondHr: 120,
-  },
-  {
-    id: '8h',
-    hours: 8,
-    label: '8 hours',
-    km: 80,
-    price: 2199,
-    afterKm: 11,
-    beyondHr: 120,
-  },
-  {
-    id: '12h',
-    hours: 12,
-    label: '12 hours',
-    km: 120,
-    price: 3099,
-    afterKm: 11,
-    beyondHr: 120,
-  },
-];
+const PACKAGES = PASSENGER_RENTALS_PACKAGES;
 
-const VEHICLES = [
-  {
-    id: 'comfort',
-    name: 'Comfort',
-    model: 'Dzire',
-    seats: 4,
-    icon: 'car-side',
-    priceAdd: 0,
-  },
-  {
-    id: 'xl',
-    name: 'XL',
-    model: 'Ertiga',
-    seats: 6,
-    icon: 'car-estate',
-    priceAdd: 850,
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    model: 'Honda City',
-    seats: 4,
-    icon: 'car-side',
-    priceAdd: 1400,
-  },
-];
+const VEHICLES = PASSENGER_RENTALS_VEHICLES;
 
 function formatPrice(n) {
   return `₹${n.toLocaleString('en-IN')}`;
@@ -154,7 +94,7 @@ export default function RentalsScreen() {
                   accessibilityState={{selected: active}}>
                   {active ? (
                     <View style={styles.packageCheck}>
-                      <Feather name="check" size={12} color="#FFFFFF" />
+                      <Feather name="check" size={12} color={colors.white} />
                     </View>
                   ) : null}
                   <Text style={styles.packageHours}>{pkg.label}</Text>
@@ -191,7 +131,7 @@ export default function RentalsScreen() {
             </View>
             <View style={styles.divider} />
             <View style={styles.scheduleRow}>
-              <Feather name="calendar" size={20} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
+              <Feather name="calendar" size={20} color={colors.isDark ? colors.white : colors.navy[800]} />
               <View style={styles.whereCopy}>
                 <Text style={styles.whereTitle}>Sat 13 Sep · 09:00 am</Text>
                 <Text style={styles.whereMeta}>Ends around 05:00 pm</Text>
@@ -220,7 +160,7 @@ export default function RentalsScreen() {
               const iconColor = active
                 ? colors.primary
                 : colors.isDark
-                ? '#FFFFFF'
+                ? colors.white
                 : colors.navy[800];
               return (
                 <Pressable

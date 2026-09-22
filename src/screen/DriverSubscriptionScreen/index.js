@@ -14,14 +14,10 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
+import { useSidebar } from '../../context/SidebarContext';
 
-const PRO_BENEFITS = [
-  'Unlimited rides every week',
-  '12% commission after 40 rides',
-  'Priority ride matching',
-  'Daily payouts before 6 pm',
-  'Priority support within 4 hours',
-];
+import { DRIVER_PRO_BENEFITS as PRO_BENEFITS } from '../../config/staticData';
 
 export default function DriverSubscriptionScreen() {
   const insets = useSafeAreaInsets();
@@ -29,6 +25,11 @@ export default function DriverSubscriptionScreen() {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const { setActiveTab } = useSidebar();
+
+  React.useEffect(() => {
+    setActiveTab('DriverSubscription');
+  }, [setActiveTab]);
 
   const completedRides = 34;
   const targetRides = 40;
@@ -80,7 +81,7 @@ export default function DriverSubscriptionScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -96,7 +97,7 @@ export default function DriverSubscriptionScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>My subscription</Text>
@@ -106,7 +107,7 @@ export default function DriverSubscriptionScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -189,7 +190,7 @@ export default function DriverSubscriptionScreen() {
         {/* Bank Account Auto-Debit Card */}
         <View style={styles.bankCard}>
           <View style={styles.bankLeft}>
-            <Feather name="credit-card" size={20} color={colors.slate[900]} />
+            <Feather name="credit-card" size={20} color={colors.text} />
             <View style={styles.bankInfo}>
               <Text style={styles.bankName}>HDFC ••••4821</Text>
               <Text style={styles.bankSub}>Auto-debit on the 14th</Text>

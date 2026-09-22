@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Header Bar
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingVertical: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderBottomWidth: 1,
       borderBottomColor: colors.slate[100],
     },
@@ -28,7 +28,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     scrollContent: {
@@ -70,7 +70,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -84,14 +84,14 @@ export default function createStyles(colors) {
       marginHorizontal: 16,
     },
     docCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 20,
       padding: 16,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       borderWidth: 1.5,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       shadowColor: colors.black,
       shadowOpacity: 0.02,
       shadowRadius: 4,
@@ -100,11 +100,11 @@ export default function createStyles(colors) {
     },
     docCardExpired: {
       borderColor: colors.red[250],
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
     },
     docCardWarning: {
       borderColor: colors.amber[200],
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
     },
     docLeft: {
       flexDirection: 'row',
@@ -139,7 +139,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     docSubExpired: {
       fontFamily: colors.fonts.sora.medium,
@@ -159,7 +159,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     docSubReview: {
@@ -250,7 +250,7 @@ export default function createStyles(colors) {
 
     // Bottom Sticky Bar
     bottomBar: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderTopWidth: 1,
       borderTopColor: colors.slate[100],
       paddingHorizontal: 16,
@@ -281,7 +281,7 @@ export default function createStyles(colors) {
     },
     supportLinkText: {
       fontFamily: colors.fonts.sora.bold,
-      color: colors.slate[500],
+      color: colors.textMuted,
       fontSize: 14,
       fontWeight: '700',
     },

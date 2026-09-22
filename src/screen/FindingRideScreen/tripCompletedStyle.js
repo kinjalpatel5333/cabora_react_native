@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.isDark ? '#071A2B' : '#F0F7F1',
+      backgroundColor: colors.isDark ? colors.navy.darkBg1 : colors.green.pale,
       overflow: 'hidden',
     },
     mintWash: {
@@ -12,12 +12,12 @@ export default function createStyles(colors) {
       top: 0,
       left: 0,
       right: 0,
-      backgroundColor: colors.isDark ? '#0B243B' : '#F0F7F1',
+      backgroundColor: colors.isDark ? colors.navy.darkBg2 : colors.green.pale,
       zIndex: 0,
     },
     softCircle: {
       position: 'absolute',
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.12)' : '#DCEFDD',
+      backgroundColor: colors.isDark ? colors.alpha.green12 : colors.green.tint,
       zIndex: 0,
     },
     scrollFlex: {
@@ -38,13 +38,13 @@ export default function createStyles(colors) {
       width: 52,
       height: 52,
       borderRadius: 26,
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.25)' : '#C5E6C8',
+      backgroundColor: colors.isDark ? colors.alpha.green25 : colors.green.badge,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 18,
     },
     title: {
-      color: colors.isDark ? '#4ADE80' : '#1B5E20',
+      color: colors.isDark ? colors.green[400] : colors.green[800],
       fontSize: 30,
       fontWeight: '800',
       marginBottom: 10,
@@ -52,7 +52,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.3,
     },
     meta: {
-      color: colors.isDark ? '#86EFAC' : '#3D8B4A',
+      color: colors.isDark ? colors.green.bright : colors.green[650],
       fontSize: 14,
       fontWeight: '500',
       textAlign: 'center',
@@ -159,7 +159,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : colors.green[100],
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green[100],
       borderRadius: 14,
       paddingHorizontal: 14,
       paddingVertical: 13,

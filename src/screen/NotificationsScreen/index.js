@@ -1,3 +1,4 @@
+import { PASSENGER_NOTIFICATIONS_TODAY, PASSENGER_NOTIFICATIONS_EARLIER, PASSENGER_NOTIFICATIONS_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -15,103 +16,13 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const INITIAL_TODAY = [
-  {
-    id: '1',
-    category: 'rides',
-    title: 'Your ride is complete',
-    subtitle: 'CBR-88214 · ₹428 paid from wallet',
-    time: '18:52',
-    unread: true,
-    iconType: 'lucide',
-    iconName: 'car',
-    iconColor: '#FF7006',
-    iconBg: '#FFF5ED',
-  },
-  {
-    id: '2',
-    category: 'safety',
-    title: 'Safety check',
-    subtitle: "We noticed a long stop. Tap to confirm you're okay.",
-    time: '18:41',
-    unread: true,
-    iconType: 'mdi',
-    iconName: 'alarm-light-outline',
-    iconColor: '#EF4444',
-    iconBg: '#FEECEC',
-  },
-  {
-    id: '3',
-    category: 'offers',
-    title: '₹75 cashback credited',
-    subtitle: 'From code RIDE30 on your last trip',
-    time: '14:20',
-    unread: false,
-    iconType: 'mdi',
-    iconName: 'gift-outline',
-    iconColor: '#F59E0B',
-    iconBg: '#FFF9EB',
-  },
-];
+const INITIAL_TODAY = PASSENGER_NOTIFICATIONS_TODAY;
 
-const INITIAL_EARLIER = [
-  {
-    id: '4',
-    category: 'offers',
-    title: '40% off with MONSOON40',
-    subtitle: 'Valid on Comfort rides until 30 Sep',
-    time: 'Yesterday',
-    unread: false,
-    iconType: 'feather',
-    iconName: 'percent',
-    iconColor: '#FF7006',
-    iconBg: '#FFF5ED',
-  },
-  {
-    id: '5',
-    category: 'safety',
-    title: 'Trusted contact added',
-    subtitle: 'Priya Sharma can now see your live trips',
-    time: 'Yesterday',
-    unread: false,
-    iconType: 'mdi',
-    iconName: 'shield-check-outline',
-    iconColor: '#10B981',
-    iconBg: '#ECFDF5',
-  },
-  {
-    id: '6',
-    category: 'rides',
-    title: 'September invoice ready',
-    subtitle: 'Zenith Labs · ₹2,74,924 · due 16 Oct',
-    time: '09 Sep',
-    unread: false,
-    iconType: 'mdi',
-    iconName: 'file-document-outline',
-    iconColor: '#3B82F6',
-    iconBg: '#EFF6FF',
-  },
-  {
-    id: '7',
-    category: 'rides',
-    title: 'Rohit joined your ride',
-    subtitle: 'He was added as a co-rider on CBR-87990',
-    time: '08 Sep',
-    unread: false,
-    iconType: 'feather',
-    iconName: 'users',
-    iconColor: '#3B82F6',
-    iconBg: '#EFF6FF',
-  },
-];
+const INITIAL_EARLIER = PASSENGER_NOTIFICATIONS_EARLIER;
 
-const CATEGORIES = [
-  {id: 'all', label: 'All 12'},
-  {id: 'rides', label: 'Rides'},
-  {id: 'offers', label: 'Offers'},
-  {id: 'safety', label: 'Safety'},
-];
+const CATEGORIES = PASSENGER_NOTIFICATIONS_CATEGORIES;
 
 function NotificationIcon({type, name, color}) {
   if (type === 'lucide') {
@@ -299,7 +210,7 @@ export default function NotificationsScreen() {
 
         {!hasItems && (
           <View style={styles.emptyBox}>
-            <Feather name="bell-off" size={40} color="#CBD5E1" />
+            <Feather name="bell-off" size={40} color={colors.slate[300]} />
             <Text style={styles.emptyText}>No notifications found</Text>
           </View>
         )}

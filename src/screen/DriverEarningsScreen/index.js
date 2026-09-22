@@ -14,42 +14,9 @@ import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const PERIOD_TABS = ['Today', 'Week', 'Month', 'Custom'];
-
-const CHART_DATA = [
-  { day: 'Mon', height: 38, active: false },
-  { day: 'Tue', height: 30, active: false },
-  { day: 'Wed', height: 48, active: false },
-  { day: 'Thu', height: 60, active: false },
-  { day: 'Fri', height: 92, active: true, amount: '₹2,410' },
-  { day: 'Sat', height: 66, active: false },
-  { day: 'Sun', height: 26, active: false },
-];
-
-const RIDE_HISTORY = [
-  {
-    id: '1',
-    time: '12:24 pm',
-    route: 'Brigade Rd → Airport T2 · 14.2 km',
-    earning: '₹198.03',
-    fare: 'fare ₹241.50',
-  },
-  {
-    id: '2',
-    time: '10:58 am',
-    route: 'Indiranagar → Whitefield · 16.8 km',
-    earning: '₹219.76',
-    fare: 'fare ₹268.00',
-  },
-  {
-    id: '3',
-    time: '08:15 am',
-    route: 'Koramangala → Cubbon Park · 4.1 km',
-    earning: '₹78.72',
-    fare: 'fare ₹96.00',
-  },
-];
+import { DRIVER_EARNINGS_PERIOD_TABS as PERIOD_TABS, DRIVER_EARNINGS_CHART_DATA as CHART_DATA, DRIVER_EARNINGS_RIDE_HISTORY as RIDE_HISTORY } from '../../config/staticData';
 
 export default function DriverEarningsScreen() {
   const insets = useSafeAreaInsets();
@@ -71,7 +38,7 @@ export default function DriverEarningsScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.slate[50]}
         translucent={false}
       />
@@ -88,7 +55,7 @@ export default function DriverEarningsScreen() {
             accessibilityLabel="Open menu"
             onPress={openDrawer}
             style={styles.menuBtn}>
-            <Feather name="menu" size={20} color={colors.slate[900]} />
+            <Feather name="menu" size={20} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Earnings</Text>
         </View>
@@ -98,7 +65,7 @@ export default function DriverEarningsScreen() {
           accessibilityLabel="Download Statement"
           onPress={handleDownloadStatement}
           style={styles.statementBtn}>
-          <Lucide name="file-text" size={20} color={colors.slate[900]} />
+          <Lucide name="file-text" size={20} color={colors.text} />
         </Pressable>
       </View>
 

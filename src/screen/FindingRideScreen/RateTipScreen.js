@@ -1,3 +1,4 @@
+import { PASSENGER_RATE_TIP_TAGS, PASSENGER_RATE_TIP_OPTIONS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   KeyboardAvoidingView,
@@ -14,21 +15,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './rateTipStyle';
+import colors from '../../config/color';
 
-const TAGS = [
-  'Safe driving',
-  'Clean vehicle',
-  'Polite',
-  'On time',
-  'Great route',
-];
+const TAGS = PASSENGER_RATE_TIP_TAGS;
 
-const TIP_OPTIONS = [
-  {id: 10, label: '₹10'},
-  {id: 20, label: '₹20'},
-  {id: 50, label: '₹50'},
-  {id: 'custom', label: 'Custom'},
-];
+const TIP_OPTIONS = PASSENGER_RATE_TIP_OPTIONS;
 
 export default function RateTipScreen({
   driverName = 'Rajesh',

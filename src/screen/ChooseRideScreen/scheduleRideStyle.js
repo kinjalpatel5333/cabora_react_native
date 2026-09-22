@@ -183,7 +183,7 @@ export default function createStyles(colors) {
     },
     timeChipActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
       borderWidth: 2,
     },
     timeText: {
@@ -216,7 +216,7 @@ export default function createStyles(colors) {
     },
     vehicleCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
       borderWidth: 2,
     },
     vehicleIcon: {

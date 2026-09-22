@@ -15,6 +15,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TOPICS = [
   {id: 'fares', title: 'Fares & payments', iconType: 'text', icon: '₹'},
@@ -108,7 +109,7 @@ export default function HelpScreen() {
           accessibilityRole="button"
           accessibilityLabel="Get help with your last trip">
           <View style={styles.lastTripIcon}>
-            <Lucide name="car" size={20} color="#FF7006" />
+            <Lucide name="car" size={20} color={colors.primary} />
           </View>
           <View style={styles.lastTripBody}>
             <Text style={styles.lastTripTitle}>

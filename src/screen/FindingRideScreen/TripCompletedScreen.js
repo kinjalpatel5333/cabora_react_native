@@ -1,3 +1,4 @@
+import { PASSENGER_TRIP_COMPLETED_FARE_ROWS } from '../../config/staticData';
 import React from 'react';
 import {
   Dimensions,
@@ -12,20 +13,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './tripCompletedStyle';
+import colors from '../../config/color';
 
-const FARE_ROWS = [
-  {id: 'base', label: 'Base fare', value: '₹60.00'},
-  {id: 'distance', label: 'Distance · 14.2 km', value: '₹156.20'},
-  {id: 'time', label: 'Time · 38 min', value: '₹41.80'},
-  {id: 'surge', label: 'Peak-hour surge 1.2x', value: '₹19.60'},
-  {id: 'tax', label: 'Taxes & fees (GST 5%)', value: '₹13.90'},
-  {
-    id: 'promo',
-    label: 'Promo CABORA50',
-    value: '- ₹50.00',
-    promo: true,
-  },
-];
+const FARE_ROWS = PASSENGER_TRIP_COMPLETED_FARE_ROWS;
 
 const {width: SCREEN_W, height: SCREEN_H} = Dimensions.get('window');
 const CIRCLE = SCREEN_W * 1.35;
@@ -77,7 +67,7 @@ export default function TripCompletedScreen({
         contentContainerStyle={styles.scrollContent}>
         <View style={[styles.heroContent, {paddingTop: insets.top + 44}]}>
           <View style={styles.checkBadge}>
-            <Feather name="check" size={24} color="#1B5E20" />
+            <Feather name="check" size={24} color={colors.green[800]} />
           </View>
           <Text style={styles.title}>Trip completed</Text>
           <Text style={styles.meta}>

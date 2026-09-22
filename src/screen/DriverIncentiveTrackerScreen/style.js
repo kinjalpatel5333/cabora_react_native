@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Header Bar
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingVertical: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderBottomWidth: 1,
       borderBottomColor: colors.slate[100],
     },
@@ -28,7 +28,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     scrollContent: {
@@ -83,7 +83,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -93,7 +93,7 @@ export default function createStyles(colors) {
 
     // Active Card
     activeCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       padding: 18,
       marginHorizontal: 16,
@@ -131,13 +131,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     activeSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     amberPill: {
@@ -170,7 +170,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
     },
     rewardText: {
       fontFamily: colors.fonts.sora.extraBold,
@@ -180,7 +180,7 @@ export default function createStyles(colors) {
     },
     track: {
       height: 8,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
       borderRadius: 4,
       marginVertical: 10,
       overflow: 'hidden',
@@ -194,12 +194,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
 
     // Completed List Card
     completedCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       marginHorizontal: 16,
       paddingHorizontal: 16,
@@ -226,13 +226,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     itemDate: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     itemRight: {
@@ -249,7 +249,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     statusBadge: {
       flexDirection: 'row',

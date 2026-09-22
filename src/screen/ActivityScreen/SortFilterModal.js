@@ -1,3 +1,4 @@
+import { PASSENGER_SORT_OPTIONS, PASSENGER_SORT_SERVICES } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   Dimensions,
@@ -12,24 +13,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './sortFilterStyle';
+import colors from '../../config/color';
 
-const SORT_OPTIONS = [
-  {id: 'newest', label: 'Newest first'},
-  {id: 'oldest', label: 'Oldest first'},
-  {id: 'fare_high', label: 'Fare · high to low'},
-  {id: 'fare_low', label: 'Fare · low to high'},
-];
+const SORT_OPTIONS = PASSENGER_SORT_OPTIONS;
 
-const SERVICES = [
-  'Cab',
-  'Auto',
-  'Bike',
-  'Airport',
-  'Rental',
-  'Outstation',
-  'Portal',
-  'Scheduled',
-];
+const SERVICES = PASSENGER_SORT_SERVICES;
 
 const PAYMENTS = ['UPI', 'Cash', 'Wallet', 'Card'];
 

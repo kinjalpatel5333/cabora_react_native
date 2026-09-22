@@ -17,8 +17,9 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {fetchUserProfile} from '../../redux/slices/authSlice';
+import {fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
 import createStyles from './style';
+import colors from '../../config/color';
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (
@@ -85,7 +86,7 @@ export default function ProfileScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="#071C31" />
+      <StatusBar barStyle="light-content" backgroundColor={colors.navy[950]} />
       <View style={[styles.hero, {paddingTop: Math.max(insets.top, 24) + 16}]}>
         {/* Real Ambient Corner Orange Glow Image */}
         <Image
@@ -95,7 +96,7 @@ export default function ProfileScreen({navigation}) {
         />
 
         <View style={styles.menuBtn}>
-          <Feather name="menu" size={22} color="#FFFFFF" />
+          <Feather name="menu" size={22} color={colors.white} />
         </View>
 
         <View style={styles.userRow}>
@@ -114,7 +115,7 @@ export default function ProfileScreen({navigation}) {
               <MaterialDesignIcons
                 name="shield-check"
                 size={18}
-                color="#22C55E"
+                color={colors.success}
               />
             </View>
             <Text style={styles.userSub}>{displayPhone}</Text>
@@ -126,7 +127,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}>
-            <Feather name="edit-2" size={16} color="#FFFFFF" />
+            <Feather name="edit-2" size={16} color={colors.white} />
           </Pressable>
         </View>
 
@@ -142,7 +143,7 @@ export default function ProfileScreen({navigation}) {
             <Feather
               name="user"
               size={18}
-              color={activeRole === 'passenger' ? '#081E32' : '#8295A8'}
+              color={activeRole === 'passenger' ? colors.navy.darkBg3 : colors.blue.gray}
             />
             <Text
               style={[
@@ -167,7 +168,7 @@ export default function ProfileScreen({navigation}) {
             <MaterialDesignIcons
               name="car-side"
               size={20}
-              color={activeRole === 'driver' ? '#081E32' : '#8295A8'}
+              color={activeRole === 'driver' ? colors.navy.darkBg3 : colors.blue.gray}
             />
             <Text
               style={[
@@ -199,7 +200,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Personal details">
             <View style={styles.rowIconBox}>
-              <Feather name="user" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
+              <Feather name="user" size={18} color={colors.isDark ? colors.white : colors.navy.textDark} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Personal details</Text>
@@ -214,7 +215,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Language">
             <View style={styles.rowIconBox}>
-              <Feather name="globe" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
+              <Feather name="globe" size={18} color={colors.isDark ? colors.white : colors.navy.textDark} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Language</Text>
@@ -231,7 +232,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Payment methods">
             <View style={styles.rowIconBox}>
-              <Feather name="credit-card" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
+              <Feather name="credit-card" size={18} color={colors.isDark ? colors.white : colors.navy.textDark} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Payment methods</Text>
@@ -245,7 +246,7 @@ export default function ProfileScreen({navigation}) {
         <View style={styles.card}>
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="bell" size={18} color={colors.isDark ? '#FFFFFF' : '#0F2840'} />
+              <Feather name="bell" size={18} color={colors.isDark ? colors.white : colors.navy.textDark} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Ride notifications</Text>
@@ -261,7 +262,7 @@ export default function ProfileScreen({navigation}) {
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="percent" size={18} color="#FF7006" />
+              <Feather name="percent" size={18} color={colors.primary} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Offers & promotions</Text>
@@ -279,7 +280,7 @@ export default function ProfileScreen({navigation}) {
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="moon" size={18} color={colors.isDark ? '#FF7006' : '#0F2840'} />
+              <Feather name="moon" size={18} color={colors.isDark ? colors.primary : colors.navy.textDark} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Dark mode</Text>
@@ -294,15 +295,32 @@ export default function ProfileScreen({navigation}) {
           </View>
 
           <Pressable
+            style={[styles.rowItem, styles.rowBorder]}
+            onPress={() => dispatch(logoutUser())}
+            accessibilityRole="button"
+            accessibilityLabel="Log out">
+            <View style={[styles.rowIconBox, {backgroundColor: colors.alpha.red10}]}>
+              <Feather name="log-out" size={18} color={colors.red[600]} />
+            </View>
+            <View style={styles.rowBody}>
+              <Text style={[styles.rowTitle, {color: colors.red[600]}]}>
+                Log out
+              </Text>
+              <Text style={styles.rowSub}>Sign out of your account</Text>
+            </View>
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
+          </Pressable>
+
+          <Pressable
             style={styles.rowItem}
             onPress={() => setShowDeleteModal(true)}
             accessibilityRole="button"
             accessibilityLabel="Delete your account">
             <View style={[styles.rowIconBox, styles.deleteIconBox]}>
-              <Feather name="trash-2" size={18} color="#EF4444" />
+              <Feather name="trash-2" size={18} color={colors.danger} />
             </View>
             <View style={styles.rowBody}>
-              <Text style={[styles.rowTitle, {color: '#EF4444'}]}>
+              <Text style={[styles.rowTitle, {color: colors.danger}]}>
                 Delete your account
               </Text>
               <Text style={styles.rowSub}>Permanent removal of data</Text>
@@ -323,7 +341,7 @@ export default function ProfileScreen({navigation}) {
           onPress={() => setShowDeleteModal(false)}>
           <Pressable style={styles.modalCard} onPress={e => e.stopPropagation()}>
             <View style={styles.modalIconRing}>
-              <Feather name="trash-2" size={26} color="#DC2626" />
+              <Feather name="trash-2" size={26} color={colors.red[600]} />
             </View>
 
             <Text style={styles.modalTitle}>Delete your Cabora account?</Text>

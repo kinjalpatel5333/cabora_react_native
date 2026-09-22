@@ -1,3 +1,4 @@
+import { PASSENGER_PORTAL_RIDERS, PASSENGER_PORTAL_STEP3_FARE_ROWS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -14,44 +15,11 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const RIDERS = [
-  {
-    id: 'bike',
-    title: 'Portal on Bike',
-    meta: 'up to 3 kg · 24 min',
-    price: 39,
-    total: 41,
-    icon: 'motorbike',
-    badge: 'Cheapest',
-    badgeTone: 'orange',
-  },
-  {
-    id: 'auto',
-    title: 'Portal on Auto',
-    meta: 'up to 10 kg · 28 min',
-    price: 79,
-    total: 83,
-    icon: 'rickshaw',
-  },
-  {
-    id: 'cab',
-    title: 'Portal on Cab',
-    meta: 'up to 25 kg · 26 min',
-    price: 129,
-    total: 136,
-    icon: 'car-side',
-    badge: 'Boot space',
-    badgeTone: 'blue',
-  },
-];
+const RIDERS = PASSENGER_PORTAL_RIDERS;
 
-const FARE_ROWS = [
-  {id: 'base', label: 'Base fare · 6.4 km', amount: 34},
-  {id: 'wait', label: 'Pickup waiting (5 min free)', amount: 0},
-  {id: 'handling', label: 'Handling', amount: 5},
-  {id: 'gst', label: 'GST (5%)', amount: 2},
-];
+const FARE_ROWS = PASSENGER_PORTAL_STEP3_FARE_ROWS;
 
 function formatPrice(n) {
   return `₹${n.toLocaleString('en-IN')}`;

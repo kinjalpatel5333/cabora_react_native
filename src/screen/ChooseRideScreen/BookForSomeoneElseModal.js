@@ -1,3 +1,4 @@
+import { PASSENGER_BOOK_FOR_OTHERS_RECEIVES } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
 import {Modal, Pressable, ScrollView, Text, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
@@ -7,12 +8,9 @@ import Toggle from '../../components/Toggle';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './bookForSomeoneStyle';
+import colors from '../../config/color';
 
-const RECEIVES = [
-  'Driver name, photo and vehicle number',
-  'A live tracking link that needs no login',
-  'The 4-digit start OTP by SMS',
-];
+const RECEIVES = PASSENGER_BOOK_FOR_OTHERS_RECEIVES;
 
 export default function BookForSomeoneElseModal({
   visible,

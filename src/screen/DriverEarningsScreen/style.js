@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     // Header Bar
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingHorizontal: 16,
       paddingVertical: 10,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
     headerLeft: {
       flexDirection: 'row',
@@ -25,7 +25,7 @@ export default function createStyles(colors) {
       width: 44,
       height: 44,
       borderRadius: 14,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: colors.black,
@@ -38,13 +38,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
     },
     statementBtn: {
       width: 44,
       height: 44,
       borderRadius: 22,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: colors.black,
@@ -77,7 +77,7 @@ export default function createStyles(colors) {
       gap: 5,
     },
     periodTabActive: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       shadowColor: colors.black,
       shadowOpacity: 0.08,
       shadowRadius: 4,
@@ -88,11 +88,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13.5,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
     periodTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.slate[900],
+      color: colors.text,
       fontWeight: '800',
     },
 
@@ -215,7 +215,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11.5,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.textMuted,
       width: 32,
       textAlign: 'center',
     },
@@ -235,7 +235,7 @@ export default function createStyles(colors) {
     },
     metricCard: {
       width: '48.1%',
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       padding: 16,
       shadowColor: colors.black,
@@ -254,7 +254,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 10.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.5,
       textTransform: 'uppercase',
     },
@@ -262,7 +262,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
       marginBottom: 4,
     },
     metricValueRed: {
@@ -283,7 +283,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
 
     // Ride Level Earnings Section
@@ -291,7 +291,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -299,7 +299,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     ridesCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       marginHorizontal: 16,
       paddingHorizontal: 16,
@@ -329,14 +329,14 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
       fontWeight: '600',
-      color: colors.slate[400],
+      color: colors.textMuted,
       marginBottom: 3,
     },
     rideRoute: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     rideRight: {
       alignItems: 'flex-end',
@@ -351,7 +351,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
   });

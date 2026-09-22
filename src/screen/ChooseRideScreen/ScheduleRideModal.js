@@ -1,3 +1,4 @@
+import { PASSENGER_SCHEDULE_DAY_NAMES, PASSENGER_SCHEDULE_TIMES, PASSENGER_SCHEDULE_VEHICLES } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   Dimensions,
@@ -13,57 +14,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './scheduleRideStyle';
+import colors from '../../config/color';
 
-const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+const DAY_NAMES = PASSENGER_SCHEDULE_DAY_NAMES;
 
-const TIMES = [
-  '05:30 am',
-  '06:00 am',
-  '06:30 am',
-  '07:00 am',
-  '07:30 am',
-  '08:00 am',
-  '08:30 am',
-  '09:00 am',
-];
+const MONTH_NAMES = PASSENGER_SCHEDULE_MONTH_NAMES;
 
-const VEHICLES = [
-  {
-    id: 'comfort',
-    name: 'Comfort',
-    price: 1180,
-    meta: 'Sedan · 4',
-    icon: 'car-side',
-  },
-  {
-    id: 'economy',
-    name: 'Economy',
-    price: 940,
-    meta: 'Hatch · 4',
-    icon: 'car-hatchback',
-  },
-  {
-    id: 'xl',
-    name: 'XL',
-    price: 1640,
-    meta: 'SUV · 6',
-    icon: 'van-passenger',
-  },
-];
+const TIMES = PASSENGER_SCHEDULE_TIMES;
+
+const VEHICLES = PASSENGER_SCHEDULE_VEHICLES;
 
 const DAY_CARD_W = 58;
 const DAY_GAP = 10;

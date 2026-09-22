@@ -50,3 +50,4 @@ export {
 } from './api';
 export {apiPostFormData} from './apicallFormData';
 export {fonts, typography, fontByWeight} from './typography';
+export * from './staticData';

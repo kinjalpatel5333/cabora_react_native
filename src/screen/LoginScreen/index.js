@@ -25,6 +25,7 @@ import {
   isValidIndianMobile,
 } from '../../utils/validators';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TEST_BLOCKED_NUMBER = '0000000000';
 const TEST_COOLDOWN_NUMBER = '1234567890';
@@ -281,7 +282,7 @@ export default function LoginScreen({navigation}) {
             {coolingDown ? (
               <View style={[styles.banner, styles.bannerCooldown]}>
                 <View style={styles.bannerRow}>
-                  <Feather name="clock" size={22} color="#C17A1A" />
+                  <Feather name="clock" size={22} color={colors.orange.amberText} />
                   <View style={styles.bannerCopy}>
                     <Text
                       style={[styles.bannerTitle, styles.bannerTitleCooldown]}>

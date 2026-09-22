@@ -94,7 +94,7 @@ export default function createStyles(colors) {
     timelineLine: {
       flex: 1,
       width: 2,
-      backgroundColor: colors.isDark ? '#1A3959' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.blue[100],
       marginVertical: 4,
     },
     dotDrop: {
@@ -149,14 +149,14 @@ export default function createStyles(colors) {
       fontWeight: '600',
     },
     outOfAreaCard: {
-      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : colors.red[100],
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
       borderRadius: 18,
       paddingVertical: 20,
       paddingHorizontal: 18,
       alignItems: 'center',
       marginBottom: 12,
       borderWidth: 1,
-      borderColor: colors.isDark ? 'rgba(239, 68, 68, 0.3)' : 'transparent',
+      borderColor: colors.isDark ? colors.alpha.red30 : 'transparent',
     },
     outOfAreaIconWrap: {
       width: 44,
@@ -266,7 +266,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     confirmBtnDisabled: {
-      backgroundColor: colors.isDark ? '#1A3959' : colors.gray[200],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.gray[200],
     },
     confirmBtnActive: {
       backgroundColor: colors.orange[500],

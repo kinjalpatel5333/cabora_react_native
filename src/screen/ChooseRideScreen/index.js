@@ -1,3 +1,4 @@
+import { PASSENGER_CHOOSE_RIDES } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
 import {
   Animated,
@@ -19,50 +20,11 @@ import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
 import ScheduleRideModal from './ScheduleRideModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const PROMO_OFF = 50;
 
-const RIDES = [
-  {
-    id: 'bike',
-    name: 'Bike',
-    seats: 1,
-    awayMin: 1,
-    price: 58,
-    eta: '12:08 pm',
-    badge: 'Fastest',
-    icon: 'motorbike',
-  },
-  {
-    id: 'auto',
-    name: 'Auto',
-    seats: 3,
-    awayMin: 2,
-    price: 96,
-    eta: '12:14 pm',
-    badge: 'Cheapest',
-    icon: 'rickshaw',
-  },
-  {
-    id: 'mini',
-    name: 'Cab Mini',
-    seats: 4,
-    awayMin: 4,
-    price: 184,
-    eta: '12:19 pm',
-    icon: 'car-hatchback',
-  },
-  {
-    id: 'sedan',
-    name: 'Cab Sedan',
-    seats: 4,
-    awayMin: 5,
-    price: 248,
-    eta: '12:24 pm',
-    badge: 'Extra room',
-    icon: 'car-side',
-  },
-];
+const RIDES = PASSENGER_CHOOSE_RIDES;
 
 function RideIcon({icon, color, size = 28}) {
   return <MaterialDesignIcons name={icon} size={size} color={color} />;

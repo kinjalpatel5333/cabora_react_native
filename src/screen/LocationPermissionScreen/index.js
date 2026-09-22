@@ -1,3 +1,4 @@
+import { PASSENGER_LOCATION_BENEFITS, PASSENGER_LOCATION_SAVED_PLACES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -18,45 +19,11 @@ import {
   requestLocationPermission,
 } from '../../utils/locationPermission';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const BENEFITS = [
-  {
-    id: 'pin',
-    icon: 'map-pin',
-    text: 'Pickup accurate to the doorway',
-  },
-  {
-    id: 'eta',
-    icon: 'clock',
-    text: 'ETAs based on where you actually are',
-  },
-  {
-    id: 'privacy',
-    icon: 'shield-check',
-    text: 'Tracking stops the moment your trip ends',
-  },
-];
+const BENEFITS = PASSENGER_LOCATION_BENEFITS;
 
-const SAVED_PLACES = [
-  {
-    id: 'home',
-    title: 'Home',
-    subtitle: '12, Brigade Road, Ashok Nagar',
-    icon: 'home',
-  },
-  {
-    id: 'work',
-    title: 'Work',
-    subtitle: 'Prestige Tech Park, Marathahalli',
-    icon: 'briefcase',
-  },
-  {
-    id: 'recent',
-    title: 'Ulsoor Lake Gate 2',
-    subtitle: 'Used 3 days ago',
-    icon: 'clock',
-  },
-];
+const SAVED_PLACES = PASSENGER_LOCATION_SAVED_PLACES;
 
 function MapBackdrop({styles}) {
   return (

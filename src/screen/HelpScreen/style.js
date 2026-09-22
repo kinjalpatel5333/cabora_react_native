@@ -58,7 +58,7 @@ export default function createStyles(colors) {
     lastTripCard: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.isDark ? colors.card : '#0E2841',
+      backgroundColor: colors.isDark ? colors.card : colors.navy[900],
       borderRadius: 18,
       borderWidth: 1,
       borderColor: colors.border,
@@ -70,7 +70,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 12,
-      backgroundColor: colors.isDark ? colors.iconBg : '#1C3B57',
+      backgroundColor: colors.isDark ? colors.iconBg : colors.navy[700],
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -78,13 +78,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     lastTripTitle: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 14,
       fontWeight: '700',
       marginBottom: 3,
     },
     lastTripSub: {
-      color: 'rgba(255, 255, 255, 0.72)',
+      color: colors.alpha.white72,
       fontSize: 12,
       fontWeight: '400',
     },
@@ -171,7 +171,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     chatBtnText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

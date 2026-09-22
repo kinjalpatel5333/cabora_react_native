@@ -7,7 +7,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.background,
     },
     hero: {
-      backgroundColor: '#071C31',
+      backgroundColor: colors.navy[950],
       borderBottomLeftRadius: 32,
       borderBottomRightRadius: 32,
       paddingHorizontal: 24,
@@ -34,9 +34,9 @@ export default function createStyles(colors) {
       paddingVertical: 6,
       paddingHorizontal: 10,
       borderRadius: 999,
-      backgroundColor: 'rgba(255, 140, 60, 0.12)',
+      backgroundColor: colors.alpha.orangeBrand12,
       borderWidth: 1,
-      borderColor: 'rgba(255, 140, 60, 0.32)',
+      borderColor: colors.alpha.orangeBrand32,
       marginBottom: 16,
     },
     badgeLabel: {
@@ -56,7 +56,7 @@ export default function createStyles(colors) {
     },
     subtitle: {
       fontFamily: colors.fonts.sora.regular,
-      color: 'rgba(195, 207, 223, 0.92)',
+      color: colors.alpha.slateAlpha92,
       fontSize: 14,
       lineHeight: 21,
       marginTop: 10,
@@ -109,7 +109,7 @@ export default function createStyles(colors) {
     },
     dialCode: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },
@@ -130,10 +130,10 @@ export default function createStyles(colors) {
       marginTop: 14,
     },
     bannerBlocked: {
-      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : '#FDECEC',
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
     },
     bannerCooldown: {
-      backgroundColor: colors.isDark ? 'rgba(244,165,38,0.18)' : '#FFF6E5',
+      backgroundColor: colors.isDark ? colors.alpha.amber18 : colors.orange.warningBg,
     },
     bannerRow: {
       flexDirection: 'row',
@@ -150,10 +150,10 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     bannerTitleBlocked: {
-      color: colors.isDark ? '#FCA5A5' : colors.red[600],
+      color: colors.isDark ? colors.red[350] : colors.red[600],
     },
     bannerTitleCooldown: {
-      color: colors.isDark ? '#FCD34D' : '#C17A1A',
+      color: colors.isDark ? colors.amber[200] : colors.orange.amberText,
     },
     bannerBody: {
       fontFamily: colors.fonts.sora.regular,
@@ -162,10 +162,10 @@ export default function createStyles(colors) {
       fontWeight: '400',
     },
     bannerBodyBlocked: {
-      color: colors.isDark ? '#FCA5A5' : colors.red[500],
+      color: colors.isDark ? colors.red[350] : colors.red[500],
     },
     bannerBodyCooldown: {
-      color: colors.isDark ? '#FCD34D' : '#C17A1A',
+      color: colors.isDark ? colors.amber[200] : colors.orange.amberText,
     },
     cooldownHint: {
       fontFamily: colors.fonts.sora.regular,

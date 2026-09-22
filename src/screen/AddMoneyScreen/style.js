@@ -105,7 +105,7 @@ export default function createStyles(colors) {
     },
     quickChipActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     quickText: {
       color: colors.text,
@@ -132,7 +132,7 @@ export default function createStyles(colors) {
     },
     methodCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     methodIcon: {
       width: 42,
@@ -173,14 +173,14 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(46,123,231,0.15)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue15 : colors.blue[100],
       borderRadius: 14,
       paddingVertical: 12,
       paddingHorizontal: 14,
     },
     infoText: {
       flex: 1,
-      color: colors.isDark ? '#93C5FD' : colors.navy[800],
+      color: colors.isDark ? colors.blue[300] : colors.navy[800],
       fontSize: 13,
       fontWeight: '500',
       lineHeight: 19,

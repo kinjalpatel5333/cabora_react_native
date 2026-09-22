@@ -13,6 +13,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (
@@ -94,7 +95,7 @@ export default function SafetyNumberScreen() {
         ]}>
         <View style={styles.infoCard}>
           <View style={styles.infoIcon}>
-            <Feather name="phone" size={18} color="#2563EB" />
+            <Feather name="phone" size={18} color={colors.blue[550]} />
           </View>
           <View style={styles.infoBody}>
             <Text style={styles.infoTitle}>Add an alternate number</Text>
@@ -177,7 +178,7 @@ export default function SafetyNumberScreen() {
         <View style={styles.liveLocationCard}>
           <View style={styles.liveLocationTop}>
             <View style={styles.liveLocationIcon}>
-              <Feather name="upload" size={20} color="#FF7006" />
+              <Feather name="upload" size={20} color={colors.primary} />
             </View>
             <View style={styles.liveLocationBody}>
               <Text style={styles.liveLocationTitle}>

@@ -1,3 +1,4 @@
+import { PASSENGER_PORTAL_DELIVERED_FARE_ROWS } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -14,12 +15,9 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const FARE_ROWS = [
-  {id: 'base', label: 'Base fare · 6.4 km', amount: 34},
-  {id: 'handling', label: 'Handling', amount: 5},
-  {id: 'gst', label: 'GST (5%)', amount: 2},
-];
+const FARE_ROWS = PASSENGER_PORTAL_DELIVERED_FARE_ROWS;
 
 export default function PortalDeliveredScreen() {
   const insets = useSafeAreaInsets();

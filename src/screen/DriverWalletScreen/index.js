@@ -16,40 +16,9 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const QUICK_AMOUNTS = [
-  { id: '1000', label: '₹1,000', value: '1,000' },
-  { id: '2500', label: '₹2,500', value: '2,500' },
-  { id: '4200', label: '₹4,200', value: '4,200' },
-  { id: 'all', label: 'All', value: '6,420' },
-];
-
-const PAYOUT_HISTORY = [
-  {
-    id: '1',
-    title: 'Withdrawal · 8 Sep, 6:40 pm',
-    sub: 'Credited to HDFC •••• 6621',
-    amount: '₹4,200.00',
-    status: 'paid',
-    statusLabel: 'Paid',
-  },
-  {
-    id: '2',
-    title: 'Withdrawal · 9 Sep, 11:02 am',
-    sub: 'Usually lands within 24 hours',
-    amount: '₹1,800.00',
-    status: 'processing',
-    statusLabel: 'Processing',
-  },
-  {
-    id: '3',
-    title: 'Withdrawal · 4 Sep, 3:15 pm',
-    sub: 'Failed · Returned to wallet',
-    amount: '₹1,200.00',
-    status: 'refunded',
-    statusLabel: 'Refunded',
-  },
-];
+import { DRIVER_WALLET_QUICK_AMOUNTS as QUICK_AMOUNTS, DRIVER_WALLET_PAYOUT_HISTORY as PAYOUT_HISTORY } from '../../config/staticData';
 
 export default function DriverWalletScreen() {
   const insets = useSafeAreaInsets();
@@ -85,7 +54,7 @@ export default function DriverWalletScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.slate[50]}
         translucent={false}
       />
@@ -101,7 +70,7 @@ export default function DriverWalletScreen() {
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
-          <Feather name="menu" size={20} color={colors.slate[900]} />
+          <Feather name="menu" size={20} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Wallet</Text>
       </View>
@@ -177,7 +146,7 @@ export default function DriverWalletScreen() {
           <View style={styles.bankRow}>
             <View style={styles.bankLeft}>
               <View style={styles.bankIconBox}>
-                <Feather name="credit-card" size={18} color={colors.slate[900]} />
+                <Feather name="credit-card" size={18} color={colors.text} />
               </View>
               <View style={styles.bankInfo}>
                 <Text style={styles.bankName}>HDFC Bank •••• 6621</Text>

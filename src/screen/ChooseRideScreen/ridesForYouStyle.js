@@ -7,7 +7,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 16,
-      backgroundColor: 'rgba(0, 0, 0, 0.55)',
+      backgroundColor: colors.alpha.black55,
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
@@ -91,7 +91,7 @@ export default function createStyles(colors) {
     rideRowActive: {
       borderColor: colors.orange[500],
       borderWidth: 2,
-      backgroundColor: colors.isDark ? '#1A3959' : '#FFF8F3',
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.orange.softBg,
     },
     rideIcon: {
       width: 44,
@@ -103,7 +103,7 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     rideIconActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[100],
     },
     rideCopy: {
       flex: 1,
@@ -136,7 +136,7 @@ export default function createStyles(colors) {
       borderColor: colors.orange[500],
       borderRadius: 16,
       padding: 12,
-      backgroundColor: colors.isDark ? '#081D31' : '#FFF8F3',
+      backgroundColor: colors.isDark ? colors.navy[950] : colors.orange.softBg,
       marginTop: 4,
       marginBottom: 10,
     },
@@ -178,7 +178,7 @@ export default function createStyles(colors) {
     },
     pillOn: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[100],
     },
     pillText: {
       color: colors.text,
@@ -228,7 +228,7 @@ export default function createStyles(colors) {
       width: 32,
       height: 32,
       borderRadius: 10,
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : '#E8F8EF',
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 10,

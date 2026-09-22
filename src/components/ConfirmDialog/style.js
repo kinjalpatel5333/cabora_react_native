@@ -9,7 +9,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 28,
-      backgroundColor: 'rgba(0, 0, 0, 0.58)',
+      backgroundColor: colors.alpha.black58,
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
@@ -39,10 +39,10 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     iconWrapDefault: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
     },
     iconWrapDanger: {
-      backgroundColor: colors.isDark ? 'rgba(239, 68, 68, 0.18)' : colors.red[100],
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,

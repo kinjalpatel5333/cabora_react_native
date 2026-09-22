@@ -18,6 +18,7 @@ import {useApp} from '../../context/AppContext';
 import {sendOtpApi, verifyOtpApi, setAuthToken} from '../../config';
 import {formatIndianMobile} from '../../utils/validators';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const CODE_LENGTH = 6;
 const CORRECT_OTP = '123456';

@@ -54,7 +54,7 @@ export default function createStyles(colors) {
     },
     chipActive: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     chipText: {
       color: colors.text,
@@ -119,17 +119,17 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     dayInRange: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
     },
     dayRangeStart: {
       borderTopLeftRadius: 20,
       borderBottomLeftRadius: 20,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
     },
     dayRangeEnd: {
       borderTopRightRadius: 20,
       borderBottomRightRadius: 20,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
     },
     daySelected: {
       width: 34,
@@ -148,7 +148,7 @@ export default function createStyles(colors) {
       color: colors.isDark ? colors.navy[700] : colors.gray[300],
     },
     dayTextSelected: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontWeight: '700',
     },
     dayTextInRange: {
@@ -201,7 +201,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
-      backgroundColor: colors.isDark ? '#1C2534' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.navy.cardBg4 : colors.orange[50],
       borderWidth: 1,
       borderColor: colors.isDark ? colors.border : colors.orange[200],
       borderRadius: 18,
@@ -213,7 +213,7 @@ export default function createStyles(colors) {
       width: 36,
       height: 36,
       borderRadius: 18,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -274,15 +274,15 @@ export default function createStyles(colors) {
       alignItems: 'flex-end',
     },
     switchTrackOff: {
-      backgroundColor: colors.isDark ? '#3D526B' : colors.gray[300],
+      backgroundColor: colors.isDark ? colors.navy.borderMuted : colors.gray[300],
       alignItems: 'flex-start',
     },
     switchThumb: {
       width: 26,
       height: 26,
       borderRadius: 13,
-      backgroundColor: '#FFFFFF',
-      shadowColor: '#000',
+      backgroundColor: colors.white,
+      shadowColor: colors.black,
       shadowOpacity: 0.12,
       shadowRadius: 3,
       shadowOffset: {width: 0, height: 1},
@@ -301,7 +301,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     applyText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

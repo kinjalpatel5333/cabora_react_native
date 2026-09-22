@@ -1,3 +1,4 @@
+import { PASSENGER_REPORT_SUB_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -15,13 +16,9 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const SUB_CATEGORIES = [
-  {id: 'waiting', label: 'Charged for waiting'},
-  {id: 'surge', label: 'Surge unexpected'},
-  {id: 'toll', label: 'Toll added'},
-  {id: 'promo', label: 'Promo not applied'},
-];
+const SUB_CATEGORIES = PASSENGER_REPORT_SUB_CATEGORIES;
 
 export default function ReportIssueScreen() {
   const insets = useSafeAreaInsets();
@@ -64,7 +61,7 @@ export default function ReportIssueScreen() {
         ]}>
         <View style={styles.ticketCard}>
           <View style={styles.ticketIcon}>
-            <Feather name="file-text" size={18} color={colors.isDark ? '#FF9A4A' : '#B45309'} />
+            <Feather name="file-text" size={18} color={colors.isDark ? colors.orange[450] : colors.amber[700]} />
           </View>
           <View style={styles.ticketBody}>
             <Text style={styles.ticketTitle}>Ticket #CB-40218 is open</Text>
@@ -103,7 +100,7 @@ export default function ReportIssueScreen() {
           accessibilityRole="button"
           accessibilityLabel="Issue category">
           <Text style={styles.categoryText}>Fare looks wrong</Text>
-          <Feather name="chevron-down" size={20} color="#FF7006" />
+          <Feather name="chevron-down" size={20} color={colors.primary} />
         </Pressable>
 
         <View style={styles.subCategoriesWrap}>

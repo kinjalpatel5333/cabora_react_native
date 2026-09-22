@@ -1,3 +1,4 @@
+import { PASSENGER_AIRPORT_SURCHARGES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -13,12 +14,9 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const SURCHARGES = [
-  {id: 'entry', label: 'Airport entry fee', amount: 150},
-  {id: 'parking', label: 'Parking (reimbursed on receipt)', amount: 110},
-  {id: 'terminal', label: 'Terminal pickup surcharge', amount: 80},
-];
+const SURCHARGES = PASSENGER_AIRPORT_SURCHARGES;
 
 const SURCHARGE_TOTAL = SURCHARGES.reduce((sum, row) => sum + row.amount, 0);
 
@@ -170,7 +168,7 @@ export default function AirportRideScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>PICK-UP TIME</Text>
           <View style={styles.pickupCard}>
-            <Feather name="calendar" size={20} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
+            <Feather name="calendar" size={20} color={colors.isDark ? colors.white : colors.navy[800]} />
             <View style={styles.pickupCopy}>
               <Text style={styles.detailTitle}>Today, 06:30 am</Text>
               <Text style={styles.detailMeta}>

@@ -66,7 +66,7 @@ export default function createStyles(colors) {
       width: 26,
       height: 26,
       borderRadius: 13,
-      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.navy[800],
       alignItems: 'center',
       justifyContent: 'center',
       borderWidth: 2,
@@ -127,7 +127,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 6,
-      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.18)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue18 : colors.blue[100],
       borderRadius: 999,
       paddingHorizontal: 10,
       paddingVertical: 6,
@@ -164,7 +164,7 @@ export default function createStyles(colors) {
     },
     stopCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? '#1A3959' : colors.white,
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.white,
     },
     dragHandle: {
       paddingRight: 2,

@@ -14,39 +14,9 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
-const REFERRALS = [
-  {
-    id: '1',
-    initials: 'SP',
-    name: 'Suresh P.',
-    sub: '28 trips done · reward paid',
-    amount: '+ ₹1,000',
-    status: 'paid',
-    statusLabel: 'Paid',
-    colorKey: 'blue',
-  },
-  {
-    id: '2',
-    initials: 'RK',
-    name: 'Ramesh Kumar',
-    sub: '14 of 25 trips completed',
-    amount: '+ ₹1,000',
-    status: 'progress',
-    statusLabel: '14/25 trips',
-    colorKey: 'orange',
-  },
-  {
-    id: '3',
-    initials: 'AK',
-    name: 'Anand K.',
-    sub: 'Joined 2 days ago · 3 trips',
-    amount: '+ ₹1,000',
-    status: 'progress',
-    statusLabel: '3/25 trips',
-    colorKey: 'purple',
-  },
-];
+import { DRIVER_REFERRALS as REFERRALS } from '../../config/staticData';
 
 export default function DriverIncentivesScreen() {
   const insets = useSafeAreaInsets();

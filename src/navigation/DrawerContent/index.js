@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {Image, Pressable, ScrollView, Switch, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -11,31 +11,15 @@ import {useAuth} from '../../hooks/useAuth';
 import {useAppDispatch} from '../../redux/hooks';
 import {logoutUser} from '../../redux/slices/authSlice';
 import {bottomSafePad} from '../../utils/safeArea';
-import colors from '../../config/color';
-import styles from './style';
+import {useApp} from '../../context/AppContext';
+import useThemedStyles from '../../components/useThemedStyles';
+import createStyles from './style';
 
-const PASSENGER_LINKS = [
-  {label: 'Home', screen: 'Home', iconKind: 'home'},
-  {label: 'Services', screen: 'Services', iconKind: 'grid'},
-  {label: 'Activity', screen: 'Activity', iconKind: 'clock'},
-  {label: 'Wallet', screen: 'Wallet', iconKind: 'wallet'},
-  {label: 'Profile', screen: 'Profile', iconKind: 'user'},
-];
-
-const DRIVER_LINKS = [
-  {label: 'Dashboard', screen: 'Dashboard', iconKind: 'home'},
-  {label: 'Trip History', screen: 'DriverTripHistory', iconKind: 'history'},
-  {label: 'My Subscription', screen: 'DriverSubscription', iconKind: 'crown'},
-  {label: 'Daily Safety Check', screen: 'DriverDailySafetyCheck', iconKind: 'shield'},
-  {label: 'Incentive Tracker', screen: 'DriverIncentiveTracker', iconKind: 'target'},
-  {label: 'Earnings', screen: 'Earnings', iconKind: 'rupee'},
-  {label: 'Wallet', screen: 'Wallet', iconKind: 'wallet'},
-  {label: 'Incentives', screen: 'Incentives', iconKind: 'gift'},
-  {label: 'Profile', screen: 'Profile', iconKind: 'user'},
-];
+import { PASSENGER_SIDEBAR_LINKS as PASSENGER_LINKS, DRIVER_SIDEBAR_LINKS as DRIVER_LINKS } from '../../config/staticData';
 
 function DrawerGlyph({kind, active}) {
-  const color = active ? colors.primary : colors.slate[500];
+  const {colors} = useApp();
+  const color = active ? colors.primary : colors.textMuted;
   const size = 20;
 
   if (kind === 'home') {
@@ -89,25 +73,33 @@ export default function DrawerContent() {
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
   const {user} = useAuth();
-  const {activeTab, goTo} = useSidebar();
+  const {colors, isDark, toggleTheme} = useApp();
+  const styles = useThemedStyles(createStyles);
+  const {activeTab, goTo, closeDrawer} = useSidebar();
   const links = user?.role === 'driver' ? DRIVER_LINKS : PASSENGER_LINKS;
+
+  const handleLogout = () => {
+    closeDrawer();
+    dispatch(logoutUser());
+  };
 
   return (
     <View
       style={[
         styles.root,
-        {paddingTop: insets.top + 16, paddingBottom: bottomSafePad(insets, 12)},
+        {paddingTop: insets.top + 16},
       ]}>
       <View style={styles.profile}>
         <Image
           source={user?.photo ? {uri: user.photo} : images.avatar}
           style={styles.avatar}
         />
-        <Text style={styles.name}>{user?.name || 'User'}</Text>
-        <Text style={styles.email}>{user?.email || 'user@cabora.app'}</Text>
+        <Text style={styles.name}>{user?.name || (user?.role === 'driver' ? 'Driver' : 'Passenger')}</Text>
+        <Text style={styles.email}>{user?.email || (user?.role === 'driver' ? 'driver@cabora.app' : 'user@cabora.app')}</Text>
       </View>
 
       <ScrollView
+        style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollItems}>
         {links.map(link => {
@@ -134,12 +126,46 @@ export default function DrawerContent() {
         })}
       </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          title="Log out"
-          variant="outline"
-          onPress={() => dispatch(logoutUser())}
-        />
+      <View style={[styles.footer, {paddingBottom: bottomSafePad(insets, 16)}]}>
+        {/* Theme Toggle Row */}
+        <View style={styles.themeRow}>
+          <View style={styles.themeLeft}>
+            <View style={styles.themeIconBox}>
+              <Feather
+                name={isDark ? 'moon' : 'sun'}
+                size={18}
+                color={isDark ? colors.primary : colors.text}
+              />
+            </View>
+            <View style={styles.themeTextWrap}>
+              <Text style={styles.themeLabel}>Dark mode</Text>
+              <Text style={styles.themeSub}>
+                {isDark ? 'On' : 'Off'}
+              </Text>
+            </View>
+          </View>
+          <Switch
+            value={isDark}
+            onValueChange={toggleTheme}
+            trackColor={{
+              false: colors.isDark ? colors.navy[700] : colors.gray[300],
+              true: colors.primary,
+            }}
+            thumbColor={colors.white}
+          />
+        </View>
+
+        {/* Log Out Button */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Log out"
+          onPress={handleLogout}
+          style={styles.logoutBtn}>
+          <View style={styles.logoutIconBox}>
+            <Feather name="log-out" size={18} color={colors.isDark ? colors.red[400] : colors.red[600]} />
+          </View>
+          <Text style={styles.logoutText}>Log out</Text>
+        </Pressable>
       </View>
     </View>
   );

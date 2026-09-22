@@ -20,6 +20,7 @@ import {useApp} from '../../context/AppContext';
 import {useAppDispatch} from '../../redux/hooks';
 import {saveDriverDocument} from '../../redux/slices/authSlice';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -165,20 +166,20 @@ export default function DocumentCaptureScreen({navigation, route}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={colors.barStyle} />
       <View style={[styles.header, {paddingTop: insets.top + 8}]}>
         <Pressable
           accessibilityRole="button"
           onPress={handleBack}
           style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.navy[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>{title}</Text>
         <Pressable
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
-          <Feather name="help-circle" size={22} color={colors.navy[800]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

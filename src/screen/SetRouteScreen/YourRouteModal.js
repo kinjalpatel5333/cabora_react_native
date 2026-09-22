@@ -1,3 +1,4 @@
+import { PASSENGER_SET_ROUTE_STOP_POOL } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
 import {
   Animated,
@@ -14,14 +15,9 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './yourRouteStyle';
+import colors from '../../config/color';
 
-const STOP_POOL = [
-  'Trinity Metro Station',
-  'Ulsoor Lake gate 3',
-  'MG Road Metro',
-  'Cubbon Park Gate',
-  'Indiranagar Metro',
-];
+const STOP_POOL = PASSENGER_SET_ROUTE_STOP_POOL;
 
 const BASE_FARE = 480;
 const PER_STOP_FARE = 66;

@@ -1,3 +1,4 @@
+import { PASSENGER_PAYMENT_OFFERS_METHODS } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
 import {
   Animated,
@@ -15,37 +16,9 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './paymentOffersStyle';
+import colors from '../../config/color';
 
-const METHODS = [
-  {
-    id: 'upi',
-    title: 'UPI',
-    subtitle: 'you@okaxis',
-    label: 'UPI • you@okaxis',
-    icon: 'currency-inr',
-  },
-  {
-    id: 'card',
-    title: 'HDFC Credit Card',
-    subtitle: '•••• 4821 · Expires 09/28',
-    label: 'Card •••• 4821',
-    icon: 'credit-card-outline',
-  },
-  {
-    id: 'wallet',
-    title: 'Cabora Wallet',
-    subtitle: 'Balance ₹1,240.00',
-    label: 'Wallet • ₹1,240',
-    icon: 'wallet-outline',
-  },
-  {
-    id: 'cash',
-    title: 'Cash',
-    subtitle: 'Pay the driver directly',
-    label: 'Cash',
-    icon: 'cash',
-  },
-];
+const METHODS = PASSENGER_PAYMENT_OFFERS_METHODS;
 
 function MethodIcon({icon, active, colors}) {
   const tint = active ? colors.white : colors.text;

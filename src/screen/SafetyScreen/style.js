@@ -37,7 +37,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     hero: {
-      backgroundColor: '#0C2D39',
+      backgroundColor: colors.navy.safetyDark1,
       borderRadius: 18,
       paddingTop: 14,
       paddingBottom: 14,
@@ -52,7 +52,7 @@ export default function createStyles(colors) {
       width: 170,
       height: 170,
       borderRadius: 85,
-      backgroundColor: '#123D4D',
+      backgroundColor: colors.navy.safetyDark2,
       opacity: 0.85,
     },
     heroIcon: {
@@ -63,13 +63,13 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     heroTitle: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 17,
       fontWeight: '700',
       marginBottom: 3,
     },
     heroSub: {
-      color: 'rgba(255, 255, 255, 0.8)',
+      color: colors.alpha.white80,
       fontSize: 12,
       fontWeight: '400',
       lineHeight: 16,
@@ -162,7 +162,7 @@ export default function createStyles(colors) {
       paddingTop: 2,
     },
     policyLink: {
-      color: '#FF7006',
+      color: colors.primary,
       fontSize: 13,
       fontWeight: '700',
     },
@@ -179,14 +179,14 @@ export default function createStyles(colors) {
       borderTopColor: colors.border,
     },
     sosBtn: {
-      backgroundColor: '#E53935',
+      backgroundColor: colors.red.primary,
       borderRadius: 18,
       height: 52,
       alignItems: 'center',
       justifyContent: 'center',
     },
     sosText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

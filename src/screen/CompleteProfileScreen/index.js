@@ -20,6 +20,8 @@ import {getMeApi, updatePassengerProfileApi} from '../../config';
 import {useAppDispatch} from '../../redux/hooks';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import createStyles from './style';
+import colors from '../../config/color';
+
 
 function formatDob(text) {
   const digits = text.replace(/\D/g, '').slice(0, 8);
@@ -233,7 +235,7 @@ export default function CompleteProfileScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
 
       {/* Header */}
       <View style={styles.header}>
@@ -241,7 +243,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           accessibilityRole="button"
           onPress={() => navigation.goBack()}
           style={styles.backBtn}>
-          <Feather name="arrow-left" size={22} color="#0A1E36" />
+          <Feather name="arrow-left" size={22} color={colors.navy[925]} />
         </Pressable>
         <Text style={styles.headerTitle}>Complete your profile</Text>
       </View>
@@ -269,10 +271,10 @@ export default function CompleteProfileScreen({navigation, route}) {
               {photoUri ? (
                 <Image source={{uri: photoUri}} style={styles.avatarImage} />
               ) : (
-                <Feather name="user" size={44} color="#94A3B8" />
+                <Feather name="user" size={44} color={colors.slate[400]} />
               )}
               <View style={styles.cameraBadge}>
-                <Feather name="camera" size={15} color="#FFFFFF" />
+                <Feather name="camera" size={15} color={colors.white} />
               </View>
             </View>
             <Text style={styles.addPhotoText}>Add a photo</Text>
@@ -292,7 +294,7 @@ export default function CompleteProfileScreen({navigation, route}) {
                 value={fullName}
                 onChangeText={setFullName}
                 placeholder="Ananya Shah"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.slate[400]}
                 style={[
                   styles.input,
                   focusedField === 'fullName' && styles.inputFocused,
@@ -319,14 +321,14 @@ export default function CompleteProfileScreen({navigation, route}) {
                 <Feather
                   name="calendar"
                   size={18}
-                  color="#0A1E36"
+                  color={colors.navy[925]}
                   style={{marginRight: 10}}
                 />
                 <TextInput
                   value={dob}
                   onChangeText={onChangeDob}
                   placeholder="DD / MM / YYYY"
-                  placeholderTextColor="#94A3B8"
+                  placeholderTextColor={colors.slate[400]}
                   keyboardType="numeric"
                   maxLength={14}
                   style={styles.inputWithIcon}
@@ -346,7 +348,7 @@ export default function CompleteProfileScreen({navigation, route}) {
                 value={email}
                 onChangeText={setEmail}
                 placeholder="name@example.com"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.slate[400]}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 style={[
@@ -361,7 +363,7 @@ export default function CompleteProfileScreen({navigation, route}) {
             {/* Verified Phone Badge */}
             <View style={styles.verifiedPhoneBox}>
               <View style={styles.verifiedIconWrap}>
-                <AntDesign name="check-circle" size={16} color="#16A34A" />
+                <AntDesign name="check-circle" size={16} color={colors.green[600]} />
               </View>
               <Text style={styles.verifiedPhoneText}>{formattedPhone}</Text>
             </View>
