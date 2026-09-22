@@ -8,6 +8,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {getMeApi, selectRoleApi, setAuthToken} from '../../config';
 import {useAppDispatch} from '../../redux/hooks';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import createStyles from './style';
@@ -31,14 +32,6 @@ const ROLES = [
     hint: 'Needs KYC · about 2 days',
     tone: 'warning',
   },
-  // {
-  //   id: 'both',
-  //   label: 'Both',
-  //   title: 'Both',
-  //   body: 'Switch between riding and driving from one login.',
-  //   hint: 'Driving unlocks after KYC',
-  //   tone: 'info',
-  // },
 ];
 
 function RoleIcon({id, selected, colors}) {
@@ -47,9 +40,6 @@ function RoleIcon({id, selected, colors}) {
     return (
       <MaterialDesignIcons name="car-hatchback" size={22} color={color} />
     );
-  }
-  if (id === 'both') {
-    return <Lucide name="users" size={20} color={color} />;
   }
   return <Lucide name="user-round" size={20} color={color} />;
 }
@@ -71,6 +61,7 @@ export default function SetupAccountScreen({navigation, route}) {
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const phone = route?.params?.mobile || '';
+  const userId = route?.params?.userId || route?.params?.user?.id || '';
   const dispatch = useAppDispatch();
   const [selected, setSelected] = useState('passenger');
   const [loading, setLoading] = useState(false);
@@ -81,18 +72,49 @@ export default function SetupAccountScreen({navigation, route}) {
   );
 
   const onContinue = async () => {
-    if (selected === 'driver' || selected === 'both') {
-      setLoading(true);
+    setLoading(true);
+    const roleEnum = selected === 'driver' ? 'DRIVER' : 'PASSENGER';
+
+    try {
+      if (userId) {
+        const response = await selectRoleApi({
+          userId,
+          role: roleEnum,
+        });
+
+        const token =
+          response?.data?.accessToken ||
+          response?.data?.token ||
+          response?.accessToken ||
+          response?.token;
+
+        if (token) {
+          setAuthToken(token);
+        }
+
+        // Call /auth/me to fetch fresh user profile & role state
+        await getMeApi();
+      }
+    } catch (err) {
+      console.warn('selectRoleApi or getMeApi error:', err);
+    }
+
+    if (selected === 'driver') {
       try {
         await dispatch(loginWithPhone({phone, role: selected})).unwrap();
       } catch (err) {
+        console.warn('loginWithPhone driver error:', err);
+      } finally {
         setLoading(false);
       }
       return;
     }
+
+    setLoading(false);
     navigation.navigate('LocationPermission', {
       mobile: phone,
       role: selected,
+      userId,
     });
   };
 

@@ -13,7 +13,6 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {completeLocationPrompt} from '../../redux/slices/appSlice';
-import {loginWithPhone} from '../../redux/slices/authSlice';
 import {
   openLocationSettings,
   requestLocationPermission,
@@ -106,6 +105,7 @@ export default function LocationPermissionScreen({navigation, route}) {
   const sessionRole = useAppSelector(state => state.auth.user?.role);
   const phone = route?.params?.mobile || '';
   const role = route?.params?.role || sessionRole || 'passenger';
+  const userId = route?.params?.userId || '';
   const fromSetup = Boolean(phone);
   const [mode, setMode] = useState('prompt');
   const [search, setSearch] = useState('');
@@ -130,7 +130,11 @@ export default function LocationPermissionScreen({navigation, route}) {
       // Mark location done before login so RootNavigator does not flash this screen again.
       await dispatch(completeLocationPrompt(resolution)).unwrap();
       if (fromSetup) {
-        await dispatch(loginWithPhone({phone, role})).unwrap();
+        navigation.navigate('CompleteProfile', {
+          mobile: phone,
+          role,
+          userId,
+        });
       } else if (role === 'driver' && navigation?.replace) {
         navigation.replace('DriverTabs');
       }

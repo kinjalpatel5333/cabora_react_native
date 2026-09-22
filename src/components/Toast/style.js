@@ -2,6 +2,13 @@ import {StyleSheet} from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
+    providerRoot: {
+      flex: 1,
+      backgroundColor: 'transparent',
+    },
+    toastWrapper: {
+      width: '100%',
+    },
     toast: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -15,7 +22,7 @@ export default function createStyles(colors) {
       shadowOpacity: 0.28,
       shadowRadius: 16,
       shadowOffset: {width: 0, height: 8},
-      elevation: 8,
+      elevation: 10,
     },
     message: {
       fontFamily: colors.fonts.sora.bold,
@@ -32,9 +39,6 @@ export default function createStyles(colors) {
       zIndex: 9999,
       elevation: 9999,
       paddingHorizontal: 16,
-    },
-    modalRoot: {
-      flex: 1,
     },
     stack: {
       gap: 10,

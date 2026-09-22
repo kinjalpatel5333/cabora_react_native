@@ -6,6 +6,7 @@ import {
   storageRemoveMultiple,
 } from '../../utils/storage';
 import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
+import {getMeApi} from '../../services/authApi';
 
 const initialState = {
   user: null,
@@ -152,14 +153,17 @@ export const loginUser = createAsyncThunk(
 
 export const loginWithPhone = createAsyncThunk(
   'auth/loginPhone',
-  async ({phone, role}, {rejectWithValue}) => {
+  async ({phone, role, name, email, dob, photo, gender}, {rejectWithValue}) => {
     try {
       const sessionUser = {
         id: `phone-${phone}`,
-        name: role === 'driver' ? 'Driver' : 'Aarav Mehta',
-        email: `${phone}@cabora.local`,
+        name: name || (role === 'driver' ? 'Driver' : 'User'),
+        email: email || `${phone}@cabora.local`,
         phone,
         role: role || 'passenger',
+        dob: dob || null,
+        photo: photo || null,
+        gender: gender || null,
         kycComplete: role !== 'driver',
         kycDocuments: {},
       };
@@ -220,6 +224,45 @@ export const completeDriverKyc = createAsyncThunk(
   },
 );
 
+export const fetchUserProfile = createAsyncThunk(
+  'auth/fetchUserProfile',
+  async (_, {getState, rejectWithValue}) => {
+    try {
+      const res = await getMeApi();
+      const userData =
+        res?.data?.user ||
+        res?.user ||
+        res?.data?.passenger ||
+        res?.passenger ||
+        res?.data;
+      if (userData) {
+        const currentUser = getState().auth.user || {};
+        const mergedUser = {
+          ...currentUser,
+          ...userData,
+          name: userData.name || userData.fullName || currentUser.name,
+          email: userData.email || currentUser.email,
+          phone: userData.phone || userData.mobile || currentUser.phone,
+          dob: userData.dob || currentUser.dob,
+          photo:
+            userData.profilePhoto ||
+            userData.photo ||
+            userData.avatar ||
+            currentUser.photo,
+        };
+        const token = getState().auth.token;
+        if (token) {
+          await persistSession(token, mergedUser);
+        }
+        return mergedUser;
+      }
+      return null;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Failed to fetch user');
+    }
+  },
+);
+
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
   await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
 });
@@ -231,9 +274,36 @@ const authSlice = createSlice({
     clearAuthError(state) {
       state.error = null;
     },
+    setUser(state, action) {
+      if (action.payload) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+          name:
+            action.payload.name ||
+            action.payload.fullName ||
+            state.user?.name,
+          phone:
+            action.payload.phone ||
+            action.payload.mobile ||
+            state.user?.phone,
+          photo:
+            action.payload.photo ||
+            action.payload.profilePhoto ||
+            action.payload.avatar ||
+            state.user?.photo,
+        };
+        storageSetItem(STORAGE_KEYS.user, JSON.stringify(state.user));
+      }
+    },
   },
   extraReducers: builder => {
     builder
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.user = action.payload;
+        }
+      })
       // bootstrap
       .addCase(bootstrapAuth.fulfilled, (state, action) => {
         state.token = action.payload.token;
@@ -301,5 +371,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {clearAuthError} = authSlice.actions;
+export const {clearAuthError, setUser} = authSlice.actions;
 export default authSlice.reducer;

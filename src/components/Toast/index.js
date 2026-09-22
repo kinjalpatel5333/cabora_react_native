@@ -2,11 +2,12 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
+import {Animated, Pressable, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../../context/AppContext';
 import Icon from '../Icon';
@@ -45,6 +46,72 @@ export default function Toast({
   );
 }
 
+function AnimatedToastItem({item, onDismiss}) {
+  const {colors} = useApp();
+  const styles = useThemedStyles(createStyles);
+  const spec = ICONS[item.type] || ICONS.info;
+  const anim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.spring(anim, {
+      toValue: 1,
+      tension: 70,
+      friction: 12,
+      useNativeDriver: true,
+    }).start();
+  }, [anim]);
+
+  const handleDismiss = () => {
+    Animated.timing(anim, {
+      toValue: 0,
+      duration: 180,
+      useNativeDriver: true,
+    }).start(() => {
+      onDismiss(item.id);
+    });
+  };
+
+  const translateY = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-20, 0],
+  });
+
+  const opacity = anim.interpolate({
+    inputRange: [0, 0.2, 1],
+    outputRange: [0, 0.7, 1],
+  });
+
+  const scale = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.96, 1],
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.toastWrapper,
+        {
+          opacity,
+          transform: [{translateY}, {scale}],
+        },
+      ]}
+      pointerEvents="box-none">
+      <Pressable
+        accessibilityRole="alert"
+        onPress={handleDismiss}
+        style={styles.toast}>
+        <Icon
+          name={spec.name}
+          color={colors[spec.colorKey]}
+          size={22}
+          circle
+        />
+        <Text style={styles.message}>{item.message}</Text>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
 const ToastContext = createContext({
   showToast: () => {},
   hideToast: () => {},
@@ -65,7 +132,7 @@ export function ToastProvider({children}) {
   }, []);
 
   const showToast = useCallback(
-    ({type = 'success', message, duration = 3200} = {}) => {
+    ({type = 'success', message, duration = 3000} = {}) => {
       if (!message) {
         return;
       }
@@ -83,32 +150,26 @@ export function ToastProvider({children}) {
 
   return (
     <ToastContext.Provider value={value}>
-      <View style={{flex: 1, backgroundColor: 'transparent'}}>
+      <View style={styles.providerRoot} pointerEvents="box-none">
         {children}
-        <Modal
-          visible={toasts.length > 0}
-          transparent
-          animationType="fade"
-          statusBarTranslucent
-          presentationStyle="overFullScreen"
-          onRequestClose={() => {}}>
-          <View style={styles.modalRoot} pointerEvents="box-none">
-            <View
-              pointerEvents="box-none"
-              style={[styles.host, {paddingTop: insets.top + 10}]}>
-              <View pointerEvents="box-none" style={styles.stack}>
-                {toasts.map(item => (
-                  <Toast
-                    key={item.id}
-                    type={item.type}
-                    message={item.message}
-                    onPress={() => hideToast(item.id)}
-                  />
-                ))}
-              </View>
+        {toasts.length > 0 && (
+          <View
+            pointerEvents="box-none"
+            style={[
+              styles.host,
+              {paddingTop: insets.top > 0 ? insets.top + 8 : 16},
+            ]}>
+            <View pointerEvents="box-none" style={styles.stack}>
+              {toasts.map(item => (
+                <AnimatedToastItem
+                  key={item.id}
+                  item={item}
+                  onDismiss={hideToast}
+                />
+              ))}
             </View>
           </View>
-        </Modal>
+        )}
       </View>
     </ToastContext.Provider>
   );
