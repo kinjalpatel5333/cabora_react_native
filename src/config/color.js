@@ -334,6 +334,8 @@ export const palette = {
     slateAlpha90: 'rgba(195, 207, 223, 0.9)',
     slateAlpha92: 'rgba(195, 207, 223, 0.92)',
     overlay55: 'rgba(2, 14, 26, 0.55)',
+    blueAlpha: 'rgba(14, 42, 71, 1)',
+    lightGrey: 'rgba(179, 188, 202, 1)',
   },
 };
 
@@ -505,7 +507,7 @@ export const dark = {
   },
 };
 
-export const themes = {light, dark};
+export const themes = { light, dark };
 
 export const DEFAULT_THEME = 'light';
 

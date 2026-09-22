@@ -1,4 +1,8 @@
-import { PASSENGER_SORT_OPTIONS, PASSENGER_SORT_SERVICES } from '../../config/staticData';
+import {
+  PASSENGER_SORT_OPTIONS,
+  PASSENGER_SORT_SERVICES,
+  PASSENGER_PAYMENT_TYPES as PAYMENTS,
+} from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Dimensions, Modal, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -8,10 +12,7 @@ import createStyles from './sortFilterStyle';
 import colors from '../../config/color';
 
 const SORT_OPTIONS = PASSENGER_SORT_OPTIONS;
-
 const SERVICES = PASSENGER_SORT_SERVICES;
-
-const PAYMENTS = ['UPI', 'Cash', 'Wallet', 'Card'];
 
 const FARE_MIN = 0;
 const FARE_MAX = 3000;

@@ -6,6 +6,133 @@
 import colors from './color';
 import { images } from '../assets';
 
+
+// Driver Registration 5-Step Flow Data
+export const DRIVER_REGISTRATION_STEPS = [
+  {
+    step: 1,
+    title: 'Personal details',
+    percent: '20% complete',
+    subtitle: 'We check these against your licence, so use the exact spelling.',
+    btnLabel: 'Continue to licence',
+  },
+  {
+    step: 2,
+    title: 'Driving licence',
+    percent: '40% complete',
+    subtitle: 'Both sides, all four corners in frame and the text readable.',
+    btnLabel: 'Continue to vehicle',
+  },
+  {
+    step: 3,
+    title: 'Vehicle details',
+    percent: '60% complete',
+    subtitle: 'Register the vehicle you will actually drive. You can add more later',
+    btnLabel: 'Continue to insurance',
+  },
+  {
+    step: 4,
+    title: 'Insurance',
+    percent: '80% complete',
+    subtitle: 'A valid policy for this vehicle. We read the expiry date from the document',
+    btnLabel: 'Continue to payout',
+  },
+  {
+    step: 5,
+    title: 'Bank & payout',
+    percent: '100% complete',
+    subtitle: 'Where your daily earnings land. The account must be in your own name',
+    btnLabel: 'Review and submit',
+  },
+];
+
+export const DRIVER_REGISTRATION_CHECKLIST = [
+  { id: '1', text: 'Licence number matches the card', status: 'valid' },
+  { id: '2', text: 'Name matches your personal details', status: 'valid' },
+  { id: '3', text: 'Licence is valid for at least 30 more days', status: 'warning' },
+  { id: '4', text: 'Category covers the vehicle you register', status: 'info' },
+];
+
+export const DRIVER_REGISTRATION_VEHICLE_TYPES = [
+  { id: 'bike', name: 'Bike', meta: '2 seats · solo rider', icon: 'motorbike' },
+  { id: 'auto', name: 'Auto', meta: '3 seats · metered', icon: 'rickshaw' },
+  { id: 'mini', name: 'Cab Mini', meta: '4 seats · hatchback', icon: 'car-hatchback' },
+  { id: 'sedan', name: 'Cab Sedan', meta: '4 seats · AC sedan', icon: 'car-side' },
+];
+
+export const DRIVER_REVIEW_ITEMS = [
+  {
+    id: 'personal',
+    step: 1,
+    title: 'Personal',
+    meta: 'Name, DOB, photo, mobile',
+    count: '4 of 4',
+    icon: 'user',
+  },
+  {
+    id: 'licence',
+    step: 2,
+    title: 'Driving licence',
+    meta: 'Number, front and back',
+    count: '3 of 3',
+    icon: 'credit-card',
+  },
+  {
+    id: 'vehicle',
+    step: 3,
+    title: 'Vehicle',
+    meta: 'Cab Sedan · GJ 01 MJ 4821',
+    count: '4 of 4',
+    icon: 'car',
+  },
+  {
+    id: 'insurance',
+    step: 4,
+    title: 'Insurance',
+    meta: 'Policy, document, expiry',
+    count: '3 of 3',
+    icon: 'shield',
+  },
+  {
+    id: 'payout',
+    step: 5,
+    title: 'Bank & payout',
+    meta: 'HDFC Bank ···4417',
+    count: '3 of 3',
+    icon: 'wallet',
+  },
+];
+
+export const DRIVER_VERIFICATION_TIMELINE = [
+  { id: 'sub', title: 'Application submitted', time: '19 Sep, 2:14 pm', status: 'done' },
+  { id: 'doc', title: 'Document authenticity', time: '~2 hours left', status: 'active' },
+  { id: 'veh', title: 'Vehicle and RC match', time: 'Queued', status: 'pending' },
+  { id: 'final', title: 'Final approval', time: 'Queued', status: 'pending' },
+];
+
+export const DRIVER_VERIFICATION_CHECKING = [
+  { id: '1', title: 'Personal details', status: 'verified', pill: 'Verified' },
+  { id: '2', title: 'Driving licence', status: 'verified', pill: 'Verified' },
+  { id: '3', title: 'Vehicle & RC', status: 'checking', pill: 'Checking' },
+  { id: '4', title: 'Insurance', status: 'verified', pill: 'Verified' },
+  { id: '5', title: 'Bank & payout', status: 'transfer', pill: '₹1 test transfer sent' },
+];
+
+export const DRIVER_REJECTION_ITEMS = [
+  {
+    id: 'dl_back',
+    title: 'DL back',
+    reason: 'Out of focus — the licence number on the reverse is unreadable.',
+    btnLabel: 'Retake',
+  },
+  {
+    id: 'rc_doc',
+    title: 'RC document',
+    reason: 'Name on the RC does not match your personal details.',
+    btnLabel: 'Re-upload',
+  },
+];
+
 // Driver Daily Safety Check
 export const DRIVER_SAFETY_VEHICLE_ITEMS = [
   { id: 'tyres', title: 'Tyres have visible tread and correct pressure' },
@@ -459,9 +586,9 @@ export const SAFETY_TOOLS = [
 // ==================== PASSENGER FLOW STATIC DATA ====================
 
 export const PASSENGER_ACTIVITY_TABS = [
-  {id: 'completed', label: 'Completed'},
-  {id: 'cancelled', label: 'Cancelled'},
-  {id: 'scheduled', label: 'Scheduled'},
+  { id: 'completed', label: 'Completed' },
+  { id: 'cancelled', label: 'Cancelled' },
+  { id: 'scheduled', label: 'Scheduled' },
 ];
 
 export const PASSENGER_ACTIVITY_RIDES = [
@@ -516,10 +643,10 @@ export const PASSENGER_ACTIVITY_RIDES = [
 ];
 
 export const PASSENGER_SORT_OPTIONS = [
-  {id: 'newest', label: 'Newest first'},
-  {id: 'oldest', label: 'Oldest first'},
-  {id: 'fare_high', label: 'Fare · high to low'},
-  {id: 'fare_low', label: 'Fare · low to high'},
+  { id: 'newest', label: 'Newest first' },
+  { id: 'oldest', label: 'Oldest first' },
+  { id: 'fare_high', label: 'Fare · high to low' },
+  { id: 'fare_low', label: 'Fare · low to high' },
 ];
 
 export const PASSENGER_SORT_SERVICES = [
@@ -553,9 +680,9 @@ export const PASSENGER_ADD_MONEY_METHODS = [
 ];
 
 export const PASSENGER_AIRPORT_SURCHARGES = [
-  {id: 'entry', label: 'Airport entry fee', amount: 150},
-  {id: 'parking', label: 'Parking (reimbursed on receipt)', amount: 110},
-  {id: 'terminal', label: 'Terminal pickup surcharge', amount: 80},
+  { id: 'entry', label: 'Airport entry fee', amount: 150 },
+  { id: 'parking', label: 'Parking (reimbursed on receipt)', amount: 110 },
+  { id: 'terminal', label: 'Terminal pickup surcharge', amount: 80 },
 ];
 
 export const PASSENGER_CHOOSE_RIDES = [
@@ -704,7 +831,7 @@ export const PASSENGER_EMERGENCY_CONTACTS = [
 ];
 
 export const PASSENGER_EMERGENCY_QUICK = [
-  {id: 'police', label: 'Police', sub: '100', icon: 'siren', dial: '100'},
+  { id: 'police', label: 'Police', sub: '100', icon: 'siren', dial: '100' },
   {
     id: 'ambulance',
     label: 'Ambulance',
@@ -722,14 +849,14 @@ export const PASSENGER_EMERGENCY_QUICK = [
 ];
 
 export const PASSENGER_FINDING_NEARBY = [
-  {id: 'v1', icon: 'car-side', top: '18%', left: '18%'},
-  {id: 'v2', icon: 'rickshaw', top: '28%', right: '16%'},
-  {id: 'v3', icon: 'motorbike', bottom: '22%', left: '28%'},
+  { id: 'v1', icon: 'car-side', top: '18%', left: '18%' },
+  { id: 'v2', icon: 'rickshaw', top: '28%', right: '16%' },
+  { id: 'v3', icon: 'motorbike', bottom: '22%', left: '28%' },
 ];
 
 export const PASSENGER_FINDING_ALT_RIDES = [
-  {id: 'auto', name: 'Auto', price: 96, icon: 'rickshaw'},
-  {id: 'bike', name: 'Bike', price: 58, icon: 'motorbike'},
+  { id: 'auto', name: 'Auto', price: 96, icon: 'rickshaw' },
+  { id: 'bike', name: 'Bike', price: 58, icon: 'motorbike' },
 ];
 
 export const PASSENGER_RATE_TIP_TAGS = [
@@ -741,18 +868,18 @@ export const PASSENGER_RATE_TIP_TAGS = [
 ];
 
 export const PASSENGER_RATE_TIP_OPTIONS = [
-  {id: 10, label: '₹10'},
-  {id: 20, label: '₹20'},
-  {id: 50, label: '₹50'},
-  {id: 'custom', label: 'Custom'},
+  { id: 10, label: '₹10' },
+  { id: 20, label: '₹20' },
+  { id: 50, label: '₹50' },
+  { id: 'custom', label: 'Custom' },
 ];
 
 export const PASSENGER_TRIP_COMPLETED_FARE_ROWS = [
-  {id: 'base', label: 'Base fare', value: '₹60.00'},
-  {id: 'distance', label: 'Distance · 14.2 km', value: '₹156.20'},
-  {id: 'time', label: 'Time · 38 min', value: '₹41.80'},
-  {id: 'surge', label: 'Peak-hour surge 1.2x', value: '₹19.60'},
-  {id: 'tax', label: 'Taxes & fees (GST 5%)', value: '₹13.90'},
+  { id: 'base', label: 'Base fare', value: '₹60.00' },
+  { id: 'distance', label: 'Distance · 14.2 km', value: '₹156.20' },
+  { id: 'time', label: 'Time · 38 min', value: '₹41.80' },
+  { id: 'surge', label: 'Peak-hour surge 1.2x', value: '₹19.60' },
+  { id: 'tax', label: 'Taxes & fees (GST 5%)', value: '₹13.90' },
   {
     id: 'promo',
     label: 'Promo CABORA50',
@@ -762,10 +889,10 @@ export const PASSENGER_TRIP_COMPLETED_FARE_ROWS = [
 ];
 
 export const PASSENGER_HOME_EXPLORE = [
-  {id: 'auto', label: 'Auto', price: 'from ₹48', icon: 'rickshaw'},
-  {id: 'bike', label: 'Bike', price: 'from ₹29', icon: 'motorbike'},
-  {id: 'portal', label: 'Portal', price: 'from ₹39', icon: 'briefcase'},
-  {id: 'more', label: 'More', price: '9 services', more: true, icon: 'grid'},
+  { id: 'auto', label: 'Auto', price: 'from ₹48', icon: 'rickshaw' },
+  { id: 'bike', label: 'Bike', price: 'from ₹29', icon: 'motorbike' },
+  { id: 'portal', label: 'Portal', price: 'from ₹39', icon: 'briefcase' },
+  { id: 'more', label: 'More', price: '9 services', more: true, icon: 'grid' },
 ];
 
 export const PASSENGER_LOCATION_BENEFITS = [
@@ -898,10 +1025,10 @@ export const PASSENGER_NOTIFICATIONS_EARLIER = [
 ];
 
 export const PASSENGER_NOTIFICATIONS_CATEGORIES = [
-  {id: 'all', label: 'All 12'},
-  {id: 'rides', label: 'Rides'},
-  {id: 'offers', label: 'Offers'},
-  {id: 'safety', label: 'Safety'},
+  { id: 'all', label: 'All 12' },
+  { id: 'rides', label: 'Rides' },
+  { id: 'offers', label: 'Offers' },
+  { id: 'safety', label: 'Safety' },
 ];
 
 export const PASSENGER_OUTSTATION_VEHICLES = [
@@ -932,23 +1059,23 @@ export const PASSENGER_OUTSTATION_VEHICLES = [
 ];
 
 export const PASSENGER_OUTSTATION_FARE_ROWS = [
-  {id: 'km', label: '288 km at ₹13/km', amount: 3744},
-  {id: 'allowance', label: 'Driver allowance (2 days)', amount: 600},
-  {id: 'permit', label: 'State permit & toll', amount: 396},
-  {id: 'gst', label: 'GST (5%)', amount: 120},
+  { id: 'km', label: '288 km at ₹13/km', amount: 3744 },
+  { id: 'allowance', label: 'Driver allowance (2 days)', amount: 600 },
+  { id: 'permit', label: 'State permit & toll', amount: 396 },
+  { id: 'gst', label: 'GST (5%)', amount: 120 },
 ];
 
 export const PASSENGER_PORTAL_DELIVERED_FARE_ROWS = [
-  {id: 'base', label: 'Base fare · 6.4 km', amount: 34},
-  {id: 'handling', label: 'Handling', amount: 5},
-  {id: 'gst', label: 'GST (5%)', amount: 2},
+  { id: 'base', label: 'Base fare · 6.4 km', amount: 34 },
+  { id: 'handling', label: 'Handling', amount: 5 },
+  { id: 'gst', label: 'GST (5%)', amount: 2 },
 ];
 
 export const PASSENGER_PORTAL_SAVED = [
-  {id: 'home', label: 'Home'},
-  {id: 'work', label: 'Work'},
-  {id: 'mums', label: "Mum's place"},
-  {id: 'new', label: '+ New'},
+  { id: 'home', label: 'Home' },
+  { id: 'work', label: 'Work' },
+  { id: 'mums', label: "Mum's place" },
+  { id: 'new', label: '+ New' },
 ];
 
 export const PASSENGER_PORTAL_PLACE_SUGGESTIONS = [
@@ -1005,12 +1132,12 @@ export const PASSENGER_PORTAL_PLACE_SUGGESTIONS = [
 ];
 
 export const PASSENGER_PORTAL_TYPES = [
-  {id: 'documents', label: 'Documents', icon: 'file-text'},
-  {id: 'clothes', label: 'Clothes', icon: 'briefcase'},
-  {id: 'gift', label: 'Gift', icon: 'gift'},
-  {id: 'electronics', label: 'Electronics', icon: 'smartphone'},
-  {id: 'medicines', label: 'Medicines', icon: 'pill'},
-  {id: 'other', label: 'Other', icon: 'more-vertical'},
+  { id: 'documents', label: 'Documents', icon: 'file-text' },
+  { id: 'clothes', label: 'Clothes', icon: 'briefcase' },
+  { id: 'gift', label: 'Gift', icon: 'gift' },
+  { id: 'electronics', label: 'Electronics', icon: 'smartphone' },
+  { id: 'medicines', label: 'Medicines', icon: 'pill' },
+  { id: 'other', label: 'Other', icon: 'more-vertical' },
 ];
 
 export const PASSENGER_PORTAL_SIZES = [
@@ -1069,10 +1196,10 @@ export const PASSENGER_PORTAL_RIDERS = [
 ];
 
 export const PASSENGER_PORTAL_STEP3_FARE_ROWS = [
-  {id: 'base', label: 'Base fare · 6.4 km', amount: 34},
-  {id: 'wait', label: 'Pickup waiting (5 min free)', amount: 0},
-  {id: 'handling', label: 'Handling', amount: 5},
-  {id: 'gst', label: 'GST (5%)', amount: 2},
+  { id: 'base', label: 'Base fare · 6.4 km', amount: 34 },
+  { id: 'wait', label: 'Pickup waiting (5 min free)', amount: 0 },
+  { id: 'handling', label: 'Handling', amount: 5 },
+  { id: 'gst', label: 'GST (5%)', amount: 2 },
 ];
 
 export const PASSENGER_PORTAL_TIMELINE = [
@@ -1169,38 +1296,38 @@ export const PASSENGER_RENTALS_VEHICLES = [
 ];
 
 export const PASSENGER_REPORT_INCIDENTS = [
-  {id: 'driving', label: 'Unsafe driving', iconType: 'feather', icon: 'alert-triangle'},
-  {id: 'behaviour', label: 'Behaviour or\nharassment', iconType: 'feather', icon: 'users'},
-  {id: 'vehicle', label: 'Vehicle condition', iconType: 'lucide', icon: 'car'},
-  {id: 'route', label: 'Route deviation', iconType: 'feather', icon: 'map-pin'},
-  {id: 'payment', label: 'Payment issue', iconType: 'mdi', icon: 'currency-inr'},
-  {id: 'other', label: 'Something else', iconType: 'feather', icon: 'help-circle'},
+  { id: 'driving', label: 'Unsafe driving', iconType: 'feather', icon: 'alert-triangle' },
+  { id: 'behaviour', label: 'Behaviour or\nharassment', iconType: 'feather', icon: 'users' },
+  { id: 'vehicle', label: 'Vehicle condition', iconType: 'lucide', icon: 'car' },
+  { id: 'route', label: 'Route deviation', iconType: 'feather', icon: 'map-pin' },
+  { id: 'payment', label: 'Payment issue', iconType: 'mdi', icon: 'currency-inr' },
+  { id: 'other', label: 'Something else', iconType: 'feather', icon: 'help-circle' },
 ];
 
 export const PASSENGER_REPORT_SUB_CATEGORIES = [
-  {id: 'waiting', label: 'Charged for waiting'},
-  {id: 'surge', label: 'Surge unexpected'},
-  {id: 'toll', label: 'Toll added'},
-  {id: 'promo', label: 'Promo not applied'},
+  { id: 'waiting', label: 'Charged for waiting' },
+  { id: 'surge', label: 'Surge unexpected' },
+  { id: 'toll', label: 'Toll added' },
+  { id: 'promo', label: 'Promo not applied' },
 ];
 
 export const PASSENGER_SAFETY_SERIOUS_LEVELS = [
-  {id: 'uncomfortable', label: 'Uncomfortable'},
-  {id: 'unsafe', label: 'Unsafe'},
-  {id: 'dangerous', label: 'Dangerous'},
+  { id: 'uncomfortable', label: 'Uncomfortable' },
+  { id: 'unsafe', label: 'Unsafe' },
+  { id: 'dangerous', label: 'Dangerous' },
 ];
 
 export const PASSENGER_SAFETY_COMPLAINT_CATEGORIES = [
-  {id: 'driver', label: 'Driver behaviour', iconType: 'feather', icon: 'alert-triangle'},
-  {id: 'route', label: 'Unsafe route', iconType: 'feather', icon: 'map-pin'},
-  {id: 'vehicle', label: 'Vehicle unsafe', iconType: 'lucide', icon: 'car'},
-  {id: 'harassment', label: 'Harassment', iconType: 'feather', icon: 'users'},
+  { id: 'driver', label: 'Driver behaviour', iconType: 'feather', icon: 'alert-triangle' },
+  { id: 'route', label: 'Unsafe route', iconType: 'feather', icon: 'map-pin' },
+  { id: 'vehicle', label: 'Vehicle unsafe', iconType: 'lucide', icon: 'car' },
+  { id: 'harassment', label: 'Harassment', iconType: 'feather', icon: 'users' },
 ];
 
 export const PASSENGER_SAVE_PLACE_LABELS = [
-  {id: 'home', label: 'Home', icon: 'home'},
-  {id: 'work', label: 'Work', icon: 'briefcase'},
-  {id: 'other', label: 'Other', icon: 'map-pin'},
+  { id: 'home', label: 'Home', icon: 'home' },
+  { id: 'work', label: 'Work', icon: 'briefcase' },
+  { id: 'other', label: 'Other', icon: 'map-pin' },
 ];
 
 export const PASSENGER_SAVED_PLACES = [
@@ -1282,10 +1409,10 @@ export const PASSENGER_DATES_SHORT_MONTHS = [
 ];
 
 export const PASSENGER_DATES_QUICK = [
-  {id: 'today', label: 'Today'},
-  {id: 'week', label: 'This week'},
-  {id: '30', label: '30 days'},
-  {id: '90', label: '3 months'},
+  { id: 'today', label: 'Today' },
+  { id: 'week', label: 'This week' },
+  { id: '30', label: '30 days' },
+  { id: '90', label: '3 months' },
 ];
 
 export const PASSENGER_SERVICES_RIDE_NOW = [
@@ -1475,9 +1602,9 @@ export const PASSENGER_SETUP_ACCOUNT_ROLES = [
 ];
 
 export const PASSENGER_SHARE_LIVE_CONTACTS = [
-  {id: 'priya', initials: 'PM', name: 'Priya', selected: true},
-  {id: 'vikram', initials: 'VM', name: 'Vikram', selected: true},
-  {id: 'ananya', initials: 'AS', name: 'Ananya', selected: false},
+  { id: 'priya', initials: 'PM', name: 'Priya', selected: true },
+  { id: 'vikram', initials: 'VM', name: 'Vikram', selected: true },
+  { id: 'ananya', initials: 'AS', name: 'Ananya', selected: false },
 ];
 
 export const PASSENGER_TRUSTED_CONTACTS_INITIAL = [
@@ -1514,9 +1641,9 @@ export const PASSENGER_TRUSTED_CONTACTS_INITIAL = [
 ];
 
 export const PASSENGER_TRUSTED_CONTACTS_PRIVACY = [
-  {ok: true, text: 'Your live location while a trip is running'},
-  {ok: true, text: 'Driver name, photo and vehicle number'},
-  {ok: false, text: 'Your home address or saved places'},
+  { ok: true, text: 'Your live location while a trip is running' },
+  { ok: true, text: 'Driver name, photo and vehicle number' },
+  { ok: false, text: 'Your home address or saved places' },
 ];
 
 export const PASSENGER_WALKTHROUGH_SLIDES = [
@@ -1551,9 +1678,9 @@ export const PASSENGER_WALKTHROUGH_SLIDES = [
 ];
 
 export const PASSENGER_WALLET_TABS = [
-  {id: 'all', label: 'All'},
-  {id: 'credits', label: 'Credits'},
-  {id: 'debits', label: 'Debits'},
+  { id: 'all', label: 'All' },
+  { id: 'credits', label: 'Credits' },
+  { id: 'debits', label: 'Debits' },
 ];
 
 export const PASSENGER_WALLET_TXNS = [
@@ -1608,3 +1735,86 @@ export const PASSENGER_WALLET_TXNS = [
     iconTone: 'navy',
   },
 ];
+
+// Sidebar Navigation Tab Screens
+export const SIDEBAR_TAB_SCREENS = [
+  'Dashboard',
+  'Earnings',
+  'Wallet',
+  'Incentives',
+  'Profile',
+  'Home',
+  'Services',
+  'Activity',
+];
+export const tabScreens = SIDEBAR_TAB_SCREENS;
+
+// Payment Methods
+export const PASSENGER_PAYMENT_TYPES = ['UPI', 'Cash', 'Wallet', 'Card'];
+export const PAYMENTS = PASSENGER_PAYMENT_TYPES;
+
+// Default OTP Array
+export const DEFAULT_OTP_ARRAY = ['4', '8', '2', '6'];
+export const otp = DEFAULT_OTP_ARRAY;
+
+// Help Screen Topics & FAQs
+export const PASSENGER_HELP_TOPICS = [
+  { id: 'fares', title: 'Fares & payments', iconType: 'text', icon: '₹' },
+  { id: 'safety', title: 'Safety', iconType: 'feather', icon: 'shield' },
+  { id: 'lost', title: 'Lost an item', iconType: 'feather', icon: 'shopping-bag' },
+  { id: 'account', title: 'Account & profile', iconType: 'feather', icon: 'user' },
+  { id: 'driver', title: 'Driver behaviour', iconType: 'lucide', icon: 'car' },
+  { id: 'offers', title: 'Offers & referrals', iconType: 'feather', icon: 'gift' },
+];
+export const TOPICS = PASSENGER_HELP_TOPICS;
+
+export const PASSENGER_HELP_FAQS = [
+  { id: 'cancel', question: 'Why was I charged a cancellation fee?' },
+  { id: 'surge', question: 'How do surge prices work?' },
+];
+export const FAQS = PASSENGER_HELP_FAQS;
+
+// Safety Tools
+export const PASSENGER_SAFETY_TOOLS = [
+  {
+    id: 'sos',
+    title: 'Emergency SOS',
+    sub: 'Alert local police & contacts',
+    iconBg: 'red',
+  },
+  {
+    id: 'contacts',
+    title: 'Trusted contacts',
+    sub: 'Share trip details automatically',
+    iconBg: 'blue',
+  },
+  {
+    id: 'share',
+    title: 'Share live trip',
+    sub: 'Auto-share after 9:00 PM is ON',
+    iconBg: 'sky',
+  },
+  {
+    id: 'check',
+    title: 'Ride check',
+    sub: 'Auto-detect long unexpected stops',
+    iconBg: 'green',
+  },
+  {
+    id: 'report',
+    title: 'Report an incident',
+    sub: 'Anonymous option available',
+    iconBg: 'amber',
+  },
+  {
+    id: 'tips',
+    title: 'Safety tips',
+    sub: 'Before, during and after a ride',
+    iconBg: 'gray',
+  },
+];
+export const TOOLS = PASSENGER_SAFETY_TOOLS;
+
+
+export const ITEMS_LIST = SEARCH_ITEMS_LIST;
+

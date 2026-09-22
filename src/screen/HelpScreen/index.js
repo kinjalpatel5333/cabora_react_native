@@ -5,24 +5,14 @@ import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {
+  PASSENGER_HELP_TOPICS as TOPICS,
+  PASSENGER_HELP_FAQS as FAQS,
+} from '../../config/staticData';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
-
-const TOPICS = [
-  {id: 'fares', title: 'Fares & payments', iconType: 'text', icon: '₹'},
-  {id: 'safety', title: 'Safety', iconType: 'feather', icon: 'shield'},
-  {id: 'lost', title: 'Lost an item', iconType: 'feather', icon: 'shopping-bag'},
-  {id: 'account', title: 'Account & profile', iconType: 'feather', icon: 'user'},
-  {id: 'driver', title: 'Driver behaviour', iconType: 'lucide', icon: 'car'},
-  {id: 'offers', title: 'Offers & referrals', iconType: 'feather', icon: 'gift'},
-];
-
-const FAQS = [
-  {id: 'cancel', question: 'Why was I charged a cancellation fee?'},
-  {id: 'surge', question: 'How do surge prices work?'},
-];
 
 function TopicIcon({item, styles, colors}) {
   if (item.iconType === 'text') {

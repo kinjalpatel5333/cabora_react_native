@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { SIDEBAR_TAB_SCREENS } from '../config/staticData';
 
 const SidebarContext = createContext({
   open: false,
@@ -31,17 +32,7 @@ export function SidebarProvider({children}) {
     setOpen(false);
     if (!screen) return;
     setActiveTab(screen);
-    const tabScreens = [
-      'Dashboard',
-      'Earnings',
-      'Wallet',
-      'Incentives',
-      'Profile',
-      'Home',
-      'Services',
-      'Activity',
-    ];
-    if (tabScreens.includes(screen)) {
+    if (SIDEBAR_TAB_SCREENS.includes(screen)) {
       if (navRef.current?.navigate) {
         navRef.current.navigate(screen);
       }

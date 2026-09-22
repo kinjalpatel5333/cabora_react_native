@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -52,7 +52,7 @@ export default function createStyles(colors) {
     },
     skipLabel: {
       fontFamily: colors.fonts.sora.bold,
-      color: colors.text,
+      color: colors.navy[900],
       fontSize: 14,
       fontWeight: '700',
     },

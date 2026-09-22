@@ -1,15 +1,15 @@
 import React from 'react';
-import {Animated, ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
+import { Animated, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { DEFAULT_OTP_ARRAY } from '../../config/staticData';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import createStyles from './matchedStyle';
-import colors from '../../config/color';
 
-export function CoRiderMatchedSheet({fare = 412, onCancel}) {
+export function CoRiderMatchedSheet({ fare = 412, onCancel }) {
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
 
   return (
     <ScrollView
@@ -92,8 +92,8 @@ export function DriverOnWaySheet({
   onShare,
 }) {
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
-  const otp = ['4', '8', '2', '6'];
+  const { colors } = useApp();
+  const otp = DEFAULT_OTP_ARRAY;
 
   return (
     <ScrollView
@@ -202,7 +202,7 @@ export function OnTripSheet({
   onShare,
 }) {
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
 
   return (
     <View>
@@ -218,7 +218,7 @@ export function OnTripSheet({
 
       <View style={styles.onTripTrack}>
         <Animated.View
-          style={[styles.onTripFill, {width: progressWidth || '38%'}]}
+          style={[styles.onTripFill, { width: progressWidth || '38%' }]}
         />
       </View>
 
