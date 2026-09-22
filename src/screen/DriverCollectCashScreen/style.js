@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
     },
     scrollContent: {
       flexGrow: 1,
@@ -14,7 +14,7 @@ export default function createStyles(colors) {
     // Top Peach/Orange Hero Area
     heroArea: {
       position: 'relative',
-      backgroundColor: colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
       borderBottomLeftRadius: 32,
       borderBottomRightRadius: 32,
       alignItems: 'center',
@@ -71,7 +71,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 10,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
       borderRadius: 14,
       paddingVertical: 11,
       paddingHorizontal: 14,
@@ -83,15 +83,15 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 13,
       fontWeight: '600',
-      color: colors.slate[700],
+      color: colors.textSecondary,
     },
 
     // Passenger Pays Card
     card: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 18,
       borderWidth: 1,
-      borderColor: colors.slate[200],
+      borderColor: colors.border,
       padding: 16,
       marginHorizontal: 16,
       marginTop: 12,
@@ -100,7 +100,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
       fontWeight: '700',
-      color: colors.slate[400],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginBottom: 12,
@@ -115,13 +115,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
       fontWeight: '500',
-      color: colors.slate[600],
+      color: colors.textSecondary,
     },
     cardRowValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
       fontWeight: '700',
-      color: colors.slate[900],
+      color: colors.text,
     },
     promoLabel: {
       fontFamily: colors.fonts.sora.semiBold,
@@ -137,20 +137,20 @@ export default function createStyles(colors) {
     },
     cardDivider: {
       height: 1,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
       marginVertical: 6,
     },
     totalLabel: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     totalValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
 
     // Your Earning Card (Navy)
@@ -208,7 +208,7 @@ export default function createStyles(colors) {
 
     // Fixed Bottom Action Section with top border and shadow
     actionSection: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderTopWidth: 1,
       borderTopColor: colors.navy[150],
       paddingHorizontal: 16,
@@ -254,7 +254,7 @@ export default function createStyles(colors) {
     },
     secondaryLinkText: {
       fontFamily: colors.fonts.sora.semiBold,
-      color: colors.slate[500],
+      color: colors.textMuted,
       fontSize: 14,
       fontWeight: '600',
     },

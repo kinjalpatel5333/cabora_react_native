@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.isDark ? colors.navy[950] : colors.slate[50],
     },
 
     // Header
@@ -13,14 +13,14 @@ export default function createStyles(colors) {
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingVertical: 10,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.isDark ? colors.navy[950] : colors.slate[50],
       gap: 14,
     },
     menuBtn: {
       width: 44,
       height: 44,
       borderRadius: 14,
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.navy[900] : colors.white,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: colors.black,
@@ -33,7 +33,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
 
     scrollContent: {
@@ -44,7 +44,7 @@ export default function createStyles(colors) {
     searchBox: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.navy[900] : colors.white,
       borderRadius: 16,
       paddingHorizontal: 16,
       height: 48,
@@ -62,7 +62,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 14,
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
       fontWeight: '500',
       paddingVertical: 0,
     },
@@ -70,7 +70,7 @@ export default function createStyles(colors) {
     // Period Tabs (Today, Week, Month, Custom)
     periodRow: {
       flexDirection: 'row',
-      backgroundColor: colors.navy[250],
+      backgroundColor: colors.isDark ? colors.navy[850] : colors.navy[250],
       borderRadius: 16,
       padding: 4,
       marginHorizontal: 16,
@@ -86,7 +86,7 @@ export default function createStyles(colors) {
       gap: 4,
     },
     periodTabActive: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.navy[700] : colors.white,
       shadowColor: colors.black,
       shadowOpacity: 0.08,
       shadowRadius: 4,
@@ -97,18 +97,18 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     periodTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
       fontWeight: '800',
     },
 
     // Status Filter Row (Completed, Cancelled, All)
     statusFilterRow: {
       flexDirection: 'row',
-      backgroundColor: colors.navy[250],
+      backgroundColor: colors.isDark ? colors.navy[850] : colors.navy[250],
       borderRadius: 16,
       padding: 4,
       marginHorizontal: 16,
@@ -122,7 +122,7 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     statusFilterTabActive: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.navy[700] : colors.white,
       shadowColor: colors.black,
       shadowOpacity: 0.08,
       shadowRadius: 4,
@@ -133,17 +133,17 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     statusFilterTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
       fontWeight: '800',
     },
 
     // Navy Stats Summary Card
     navySummary: {
-      backgroundColor: colors.navy[850],
+      backgroundColor: colors.isDark ? colors.navy[900] : colors.navy[850],
       borderRadius: 20,
       paddingVertical: 16,
       paddingHorizontal: 20,
@@ -186,7 +186,7 @@ export default function createStyles(colors) {
 
     // Trip Card
     tripCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.navy[900] : colors.white,
       borderRadius: 22,
       padding: 16,
       marginHorizontal: 16,
@@ -207,7 +207,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     statusPill: {
       flexDirection: 'row',
@@ -267,14 +267,14 @@ export default function createStyles(colors) {
     routeLine: {
       width: 1.5,
       height: 28,
-      backgroundColor: colors.slate[300],
+      backgroundColor: colors.isDark ? colors.navy[700] : colors.slate[300],
       marginVertical: 3,
     },
     squareNavy: {
       width: 8,
       height: 8,
       borderRadius: 2,
-      backgroundColor: colors.navy[850],
+      backgroundColor: colors.isDark ? colors.navy[300] : colors.navy[850],
     },
     routeAddresses: {
       flex: 1,
@@ -294,7 +294,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
 
     // Card Footer
@@ -303,7 +303,7 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'space-between',
       borderTopWidth: 1,
-      borderTopColor: colors.slate[100],
+      borderTopColor: colors.isDark ? colors.navy[800] : colors.slate[100],
       marginTop: 14,
       paddingTop: 12,
     },
@@ -317,7 +317,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
       fontWeight: '600',
-      color: colors.slate[500],
+      color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     footerRight: {
       flexDirection: 'row',
@@ -328,7 +328,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
   });
 }

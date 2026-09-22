@@ -63,7 +63,7 @@ export default function PreferredDestinationScreen() {
           onPress={() => navigation.goBack()}
           style={styles.headerBtn}
           hitSlop={8}>
-          <AntDesign name="arrow-left" size={22} color={colors.navy[900]} />
+          <AntDesign name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Preferred destination</Text>
         <Pressable
@@ -71,7 +71,7 @@ export default function PreferredDestinationScreen() {
           accessibilityLabel="Help"
           style={styles.headerBtn}
           hitSlop={8}>
-          <Feather name="help-circle" size={22} color={colors.navy[800]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

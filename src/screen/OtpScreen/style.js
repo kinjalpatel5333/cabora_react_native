@@ -43,7 +43,7 @@ export default function createStyles(colors) {
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 28,
       fontWeight: '800',
       letterSpacing: -0.4,

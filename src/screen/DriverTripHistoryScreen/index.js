@@ -110,7 +110,7 @@ export default function DriverTripHistoryScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.slate[50]}
         translucent={false}
       />
@@ -126,7 +126,7 @@ export default function DriverTripHistoryScreen() {
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
-          <Feather name="menu" size={20} color={colors.slate[900]} />
+          <Feather name="menu" size={20} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Trip history</Text>
       </View>

@@ -30,7 +30,7 @@ export default function DriverEnRoutePickupScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={colors.barStyle} />
 
       <Image
         source={images.mapBackdrop}
@@ -87,11 +87,11 @@ export default function DriverEnRoutePickupScreen() {
             name="location-crosshairs"
             iconStyle="solid"
             size={18}
-            color={colors.navy[800]}
+            color={colors.text}
           />
         </Pressable>
         <Pressable accessibilityRole="button" style={styles.fab}>
-          <Feather name="headphones" size={18} color={colors.navy[800]} />
+          <Feather name="headphones" size={18} color={colors.text} />
         </Pressable>
       </View>
 
@@ -131,11 +131,11 @@ export default function DriverEnRoutePickupScreen() {
 
         <View style={styles.actionRow}>
           <Pressable accessibilityRole="button" style={styles.actionBtn}>
-            <Feather name="phone" size={16} color={colors.navy[800]} />
+            <Feather name="phone" size={16} color={colors.text} />
             <Text style={styles.actionText}>Call</Text>
           </Pressable>
           <Pressable accessibilityRole="button" style={styles.actionBtn}>
-            <Feather name="message-circle" size={16} color={colors.navy[800]} />
+            <Feather name="message-circle" size={16} color={colors.text} />
             <Text style={styles.actionText}>Chat</Text>
           </Pressable>
           <Pressable

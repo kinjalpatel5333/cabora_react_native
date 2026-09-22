@@ -43,7 +43,7 @@ export default function DriverAirportQueueScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.transparent}
         translucent
       />
@@ -61,7 +61,7 @@ export default function DriverAirportQueueScreen() {
         accessibilityLabel="Go back"
         onPress={() => navigation.navigate('DriverTabs')}
         style={[styles.backBtn, { top: insets.top + 8 }]}>
-        <Feather name="arrow-left" size={20} color={colors.slate[900]} />
+        <Feather name="arrow-left" size={20} color={colors.text} />
       </Pressable>
 
       {/* Map Geofence Overlay */}

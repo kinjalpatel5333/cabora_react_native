@@ -72,7 +72,7 @@ export default function DriverEarningsScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.slate[50]}
         translucent={false}
       />
@@ -89,7 +89,7 @@ export default function DriverEarningsScreen() {
             accessibilityLabel="Open menu"
             onPress={openDrawer}
             style={styles.menuBtn}>
-            <Feather name="menu" size={20} color={colors.slate[900]} />
+            <Feather name="menu" size={20} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Earnings</Text>
         </View>
@@ -99,7 +99,7 @@ export default function DriverEarningsScreen() {
           accessibilityLabel="Download Statement"
           onPress={handleDownloadStatement}
           style={styles.statementBtn}>
-          <Lucide name="file-text" size={20} color={colors.slate[900]} />
+          <Lucide name="file-text" size={20} color={colors.text} />
         </Pressable>
       </View>
 

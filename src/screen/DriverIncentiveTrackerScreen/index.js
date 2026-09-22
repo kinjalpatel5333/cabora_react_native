@@ -15,6 +15,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
+import { useSidebar } from '../../context/SidebarContext';
 
 const COMPLETED_INCENTIVES = [
   {
@@ -74,7 +75,7 @@ export default function DriverIncentiveTrackerScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -90,7 +91,7 @@ export default function DriverIncentiveTrackerScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>Incentives</Text>
@@ -100,7 +101,7 @@ export default function DriverIncentiveTrackerScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

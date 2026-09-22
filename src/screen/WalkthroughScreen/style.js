@@ -52,7 +52,7 @@ export default function createStyles(colors) {
     },
     skipLabel: {
       fontFamily: colors.fonts.sora.bold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 14,
       fontWeight: '700',
     },

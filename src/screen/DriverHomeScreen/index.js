@@ -140,7 +140,7 @@ export default function DriverHomeScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         translucent
         backgroundColor="transparent"
       />
@@ -159,7 +159,7 @@ export default function DriverHomeScreen() {
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
-          <Feather name="menu" size={22} color={colors.navy[800]} />
+          <Feather name="menu" size={22} color={colors.isDark ? colors.white : colors.navy[800]} />
         </Pressable>
 
         <View style={styles.greetingPill}>
@@ -258,7 +258,7 @@ export default function DriverHomeScreen() {
           name="location-crosshairs"
           iconStyle="solid"
           size={22}
-          color={colors.navy[800]}
+          color={colors.isDark ? colors.white : colors.navy[800]}
         />
       </Pressable>
 
@@ -276,9 +276,10 @@ export default function DriverHomeScreen() {
         <View style={styles.sheet}>
           <View style={styles.grabber} />
           <ScrollView
+            nestedScrollEnabled
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.sheetScroll}
-            bounces={false}>
+            bounces={true}>
             {restricted ? (
               <View style={styles.offlineCard}>
                 <View style={styles.statusIconWarn}>
@@ -339,7 +340,7 @@ export default function DriverHomeScreen() {
             <View style={styles.statsRow}>
               {stats.map(stat => {
                 const muted = !online && stat.id !== 'wallet';
-                const iconColor = muted ? colors.gray[400] : colors.navy[400];
+                const iconColor = muted ? colors.textMuted : (colors.isDark ? colors.orange[400] : colors.navy[600]);
                 return (
                   <View key={stat.id} style={styles.stat}>
                     <StatGlyph name={stat.icon} color={iconColor} />

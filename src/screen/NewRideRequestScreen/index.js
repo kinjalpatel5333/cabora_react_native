@@ -386,7 +386,7 @@ export default function NewRideRequestScreen() {
             <MaterialDesignIcons
               name="currency-inr"
               size={14}
-              color={expired ? colors.navy[600] : colors.navy[700]}
+              color={colors.isDark ? colors.navy[300] : (expired ? colors.navy[600] : colors.navy[700])}
             />
             <Text style={styles.payText}>Cash</Text>
           </View>

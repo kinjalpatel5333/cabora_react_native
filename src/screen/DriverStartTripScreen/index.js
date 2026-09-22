@@ -110,7 +110,7 @@ export default function DriverStartTripScreen() {
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.transparent}
         translucent
       />

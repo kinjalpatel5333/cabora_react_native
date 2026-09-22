@@ -26,7 +26,7 @@ export default function createStyles(colors) {
       textAlign: 'center',
       fontSize: 17,
       fontWeight: '700',
-      color: colors.navy[925],
+      color: colors.text,
       marginRight: 40, // balance out back button
     },
     scroll: {
@@ -48,7 +48,7 @@ export default function createStyles(colors) {
     title: {
       fontSize: 24,
       fontWeight: '800',
-      color: colors.navy[925],
+      color: colors.text,
       marginBottom: 8,
     },
     subtitle: {
@@ -113,7 +113,7 @@ export default function createStyles(colors) {
     label: {
       fontSize: 14,
       fontWeight: '700',
-      color: colors.navy[925],
+      color: colors.text,
       marginBottom: 8,
     },
     requiredStar: {
@@ -128,7 +128,7 @@ export default function createStyles(colors) {
       borderColor: colors.slate[200],
       paddingHorizontal: 16,
       fontSize: 15,
-      color: colors.navy[925],
+      color: colors.text,
     },
     inputFocused: {
       borderColor: colors.orange.brand,
@@ -146,7 +146,7 @@ export default function createStyles(colors) {
     inputWithIcon: {
       flex: 1,
       fontSize: 15,
-      color: colors.navy[925],
+      color: colors.text,
       paddingVertical: 0,
     },
     caption: {

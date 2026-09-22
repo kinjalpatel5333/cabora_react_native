@@ -86,7 +86,7 @@ export default function DriverWalletScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.slate[50]}
         translucent={false}
       />
@@ -102,7 +102,7 @@ export default function DriverWalletScreen() {
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
-          <Feather name="menu" size={20} color={colors.slate[900]} />
+          <Feather name="menu" size={20} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Wallet</Text>
       </View>
@@ -178,7 +178,7 @@ export default function DriverWalletScreen() {
           <View style={styles.bankRow}>
             <View style={styles.bankLeft}>
               <View style={styles.bankIconBox}>
-                <Feather name="credit-card" size={18} color={colors.slate[900]} />
+                <Feather name="credit-card" size={18} color={colors.text} />
               </View>
               <View style={styles.bankInfo}>
                 <Text style={styles.bankName}>HDFC Bank •••• 6621</Text>

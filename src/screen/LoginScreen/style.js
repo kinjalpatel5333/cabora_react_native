@@ -109,7 +109,7 @@ export default function createStyles(colors) {
     },
     dialCode: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[900],
+      color: colors.text,
       fontSize: 16,
       fontWeight: '800',
     },

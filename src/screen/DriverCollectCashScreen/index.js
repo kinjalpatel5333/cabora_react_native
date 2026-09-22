@@ -33,7 +33,7 @@ export default function DriverCollectCashScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor="transparent"
         translucent
       />

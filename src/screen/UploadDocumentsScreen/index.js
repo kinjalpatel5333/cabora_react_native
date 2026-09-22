@@ -111,7 +111,7 @@ export default function UploadDocumentsScreen({ navigation }) {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -127,7 +127,7 @@ export default function UploadDocumentsScreen({ navigation }) {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>Documents</Text>
@@ -137,7 +137,7 @@ export default function UploadDocumentsScreen({ navigation }) {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 

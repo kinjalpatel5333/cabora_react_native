@@ -51,7 +51,7 @@ export default function DriverAirportTripSummaryScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -63,7 +63,7 @@ export default function DriverAirportTripSummaryScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>Trip summary</Text>
@@ -73,7 +73,7 @@ export default function DriverAirportTripSummaryScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerBtn}>
-          <Lucide name="circle-help" size={22} color={colors.slate[900]} />
+          <Lucide name="circle-help" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -94,7 +94,7 @@ export default function DriverAirportTripSummaryScreen() {
         <View style={styles.routeCard}>
           <View style={styles.routeTopRow}>
             <View style={styles.routeIconWrap}>
-              <Lucide name="navigation" size={20} color={colors.slate[900]} />
+              <Lucide name="navigation" size={20} color={colors.text} />
             </View>
             <View style={styles.routeTextWrap}>
               <Text style={styles.routeTitle}>CBR-88214 · airport drop</Text>

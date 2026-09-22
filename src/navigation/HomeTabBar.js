@@ -71,8 +71,10 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
         style={[
           styles.pill,
           {
-            backgroundColor: colors.white,
-            shadowColor: colors.navy[900],
+            backgroundColor: colors.surface,
+            shadowColor: colors.isDark ? colors.black : colors.navy[900],
+            borderWidth: colors.isDark ? 1 : 0,
+            borderColor: colors.border,
           },
         ]}>
         <View style={styles.row}>
@@ -81,8 +83,8 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
             const label = options.tabBarLabel ?? options.title ?? route.name;
             const active = state.index === index;
             const tab = TABS.find(t => t.name === route.name) || TABS[0];
-            const iconTint = active ? colors.primary : colors.driver.tabInactive;
-            const labelTint = active ? colors.driver.heroNavy : colors.driver.tabInactive;
+            const iconTint = active ? colors.primary : (colors.isDark ? colors.navy[300] : colors.driver.tabInactive);
+            const labelTint = active ? (colors.isDark ? colors.primary : colors.driver.heroNavy) : (colors.isDark ? colors.navy[300] : colors.driver.tabInactive);
 
             const onPress = () => {
               const event = navigation.emit({
@@ -118,8 +120,8 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
                     active && [
                       styles.tabChipActive,
                       {
-                        backgroundColor: colors.driver.tabActiveBg,
-                        borderColor: colors.driver.tabActiveBorder,
+                        backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.driver.tabActiveBg,
+                        borderColor: colors.isDark ? colors.alpha.orange30 : colors.driver.tabActiveBorder,
                         shadowColor: colors.primary,
                       },
                     ],
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 12,
     right: 12,
-    bottom: 0,
+    bottom: 10,
     zIndex: 99,
   },
   pill: {

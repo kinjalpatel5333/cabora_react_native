@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     scrollContent: {
@@ -88,7 +88,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
     editBtn: {
       width: 40,
@@ -121,7 +121,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -131,7 +131,7 @@ export default function createStyles(colors) {
 
     // Vehicle Card
     card: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       padding: 18,
       marginHorizontal: 16,
@@ -156,9 +156,9 @@ export default function createStyles(colors) {
       width: 44,
       height: 44,
       borderRadius: 14,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
       borderWidth: 1,
-      borderColor: colors.slate[100],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -166,13 +166,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     vehicleSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     platePill: {
@@ -215,18 +215,18 @@ export default function createStyles(colors) {
       marginTop: 14,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
     },
     vehicleActionText: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.navy[850],
+      color: colors.text,
       fontSize: 14.5,
       fontWeight: '800',
     },
 
     // List Items Card
     listCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       marginHorizontal: 16,
       paddingHorizontal: 16,
@@ -257,9 +257,9 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 12,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
       borderWidth: 1,
-      borderColor: colors.slate[100],
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -270,13 +270,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     listSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
   });

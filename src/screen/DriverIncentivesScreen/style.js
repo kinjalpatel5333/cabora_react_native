@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.slate[50],
+      backgroundColor: colors.background,
     },
 
     scrollContent: {
@@ -72,7 +72,7 @@ export default function createStyles(colors) {
 
     // Dashed Code Card
     codeCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 20,
       borderWidth: 2,
       borderColor: colors.primary,
@@ -105,7 +105,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
       letterSpacing: 0.5,
     },
     copyBtn: {
@@ -126,7 +126,7 @@ export default function createStyles(colors) {
 
     // Milestone Card
     milestoneCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       padding: 18,
       marginHorizontal: 16,
@@ -152,7 +152,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     inProgressBadge: {
       backgroundColor: colors.orange[175],
@@ -184,7 +184,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
       fontWeight: '900',
-      color: colors.slate[900],
+      color: colors.text,
     },
     milestoneReward: {
       fontFamily: colors.fonts.sora.extraBold,
@@ -201,7 +201,7 @@ export default function createStyles(colors) {
       flex: 1,
       height: 8,
       borderRadius: 4,
-      backgroundColor: colors.slate[100],
+      backgroundColor: colors.background,
     },
     segmentFilled: {
       backgroundColor: colors.primary,
@@ -210,7 +210,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
     },
 
     // Referrals Section
@@ -218,7 +218,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
       fontWeight: '700',
-      color: colors.slate[500],
+      color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
       marginHorizontal: 16,
@@ -226,7 +226,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     referralsCard: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.surface,
       borderRadius: 22,
       marginHorizontal: 16,
       paddingHorizontal: 16,
@@ -271,13 +271,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
       fontWeight: '800',
-      color: colors.slate[900],
+      color: colors.text,
     },
     referralSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
       fontWeight: '500',
-      color: colors.slate[500],
+      color: colors.textMuted,
       marginTop: 2,
     },
     referralRight: {

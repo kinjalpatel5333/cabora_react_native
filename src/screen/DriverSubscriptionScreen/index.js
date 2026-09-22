@@ -15,6 +15,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
+import { useSidebar } from '../../context/SidebarContext';
 
 const PRO_BENEFITS = [
   'Unlimited rides every week',
@@ -86,7 +87,7 @@ export default function DriverSubscriptionScreen() {
   return (
     <View style={styles.root}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={colors.barStyle}
         backgroundColor={colors.white}
         translucent={false}
       />
@@ -102,7 +103,7 @@ export default function DriverSubscriptionScreen() {
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.slate[900]} />
+          <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
 
         <Text style={styles.headerTitle}>My subscription</Text>
@@ -112,7 +113,7 @@ export default function DriverSubscriptionScreen() {
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.slate[900]} />
+          <Feather name="help-circle" size={22} color={colors.text} />
         </Pressable>
       </View>
 
@@ -195,7 +196,7 @@ export default function DriverSubscriptionScreen() {
         {/* Bank Account Auto-Debit Card */}
         <View style={styles.bankCard}>
           <View style={styles.bankLeft}>
-            <Feather name="credit-card" size={20} color={colors.slate[900]} />
+            <Feather name="credit-card" size={20} color={colors.text} />
             <View style={styles.bankInfo}>
               <Text style={styles.bankName}>HDFC ••••4821</Text>
               <Text style={styles.bankSub}>Auto-debit on the 14th</Text>
