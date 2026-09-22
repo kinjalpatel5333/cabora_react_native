@@ -94,7 +94,7 @@ export default function SafetyNumberScreen() {
         ]}>
         <View style={styles.infoCard}>
           <View style={styles.infoIcon}>
-            <Feather name="phone" size={18} color=colors.blue[550] />
+            <Feather name="phone" size={18} color={colors.blue[550]} />
           </View>
           <View style={styles.infoBody}>
             <Text style={styles.infoTitle}>Add an alternate number</Text>
@@ -177,7 +177,7 @@ export default function SafetyNumberScreen() {
         <View style={styles.liveLocationCard}>
           <View style={styles.liveLocationTop}>
             <View style={styles.liveLocationIcon}>
-              <Feather name="upload" size={20} color=colors.primary />
+              <Feather name="upload" size={20} color={colors.primary} />
             </View>
             <View style={styles.liveLocationBody}>
               <Text style={styles.liveLocationTitle}>

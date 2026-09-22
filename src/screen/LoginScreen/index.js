@@ -281,7 +281,7 @@ export default function LoginScreen({navigation}) {
             {coolingDown ? (
               <View style={[styles.banner, styles.bannerCooldown]}>
                 <View style={styles.bannerRow}>
-                  <Feather name="clock" size={22} color=colors.orange.amberText />
+                  <Feather name="clock" size={22} color={colors.orange.amberText} />
                   <View style={styles.bannerCopy}>
                     <Text
                       style={[styles.bannerTitle, styles.bannerTitleCooldown]}>

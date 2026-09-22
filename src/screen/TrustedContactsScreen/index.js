@@ -134,7 +134,7 @@ export default function TrustedContactsScreen() {
         ]}>
         <View style={styles.statusCard}>
           <View style={styles.statusIconContainer}>
-            <Feather name="users" size={20} color=colors.blue[550] />
+            <Feather name="users" size={20} color={colors.blue[550]} />
           </View>
           <View style={styles.statusBody}>
             <Text style={styles.statusTitle}>{countLabel}</Text>
@@ -174,7 +174,7 @@ export default function TrustedContactsScreen() {
                 <Feather
                   name="more-vertical"
                   size={18}
-                  color=colors.slate[500]
+                  color={colors.slate[500]}
                 />
               </Pressable>
             </View>
@@ -209,7 +209,7 @@ export default function TrustedContactsScreen() {
           }}
           accessibilityRole="button"
           accessibilityLabel="Add a trusted contact">
-          <Feather name="plus" size={18} color=colors.primary />
+          <Feather name="plus" size={18} color={colors.primary} />
           <Text style={styles.addText}>Add a trusted contact</Text>
         </Pressable>
 

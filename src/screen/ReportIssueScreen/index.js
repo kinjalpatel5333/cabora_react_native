@@ -103,7 +103,7 @@ export default function ReportIssueScreen() {
           accessibilityRole="button"
           accessibilityLabel="Issue category">
           <Text style={styles.categoryText}>Fare looks wrong</Text>
-          <Feather name="chevron-down" size={20} color=colors.primary />
+          <Feather name="chevron-down" size={20} color={colors.primary} />
         </Pressable>
 
         <View style={styles.subCategoriesWrap}>

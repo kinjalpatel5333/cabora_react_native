@@ -201,7 +201,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Notifications"
               onPress={() => navigation.navigate('Notifications')}>
-              <Feather name="bell" size={20} color=colors.white />
+              <Feather name="bell" size={20} color={colors.white} />
             </Pressable>
             <View style={styles.badge} pointerEvents="none">
               <Text style={styles.badgeText}>3</Text>

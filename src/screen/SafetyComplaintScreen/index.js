@@ -196,13 +196,13 @@ export default function SafetyComplaintScreen() {
         <View style={styles.whatNextCard}>
           <Text style={styles.whatNextTitle}>What happens next</Text>
           <View style={styles.whatNextRow}>
-            <Feather name="check-circle" size={16} color=colors.green[600] />
+            <Feather name="check-circle" size={16} color={colors.green[600]} />
             <Text style={styles.whatNextText}>
               Reviewed by the safety desk within 4 hours
             </Text>
           </View>
           <View style={[styles.whatNextRow, styles.whatNextRowLast]}>
-            <Feather name="check-circle" size={16} color=colors.green[600] />
+            <Feather name="check-circle" size={16} color={colors.green[600]} />
             <Text style={styles.whatNextText}>
               The driver is not told who reported
             </Text>

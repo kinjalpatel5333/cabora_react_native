@@ -54,7 +54,7 @@ export default function DriverCollectCashScreen() {
 
         {/* Trip Route Brief Pill */}
         <View style={styles.tripPill}>
-          <Lucide name="git-branch" size={17} color=colors.slate[500] />
+          <Lucide name="git-branch" size={17} color={colors.slate[500]} />
           <Text style={styles.tripPillText} numberOfLines={1}>
             Ananya S. · 14.2 km · 38 min · Airport T2
           </Text>

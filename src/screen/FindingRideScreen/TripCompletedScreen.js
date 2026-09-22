@@ -77,7 +77,7 @@ export default function TripCompletedScreen({
         contentContainerStyle={styles.scrollContent}>
         <View style={[styles.heroContent, {paddingTop: insets.top + 44}]}>
           <View style={styles.checkBadge}>
-            <Feather name="check" size={24} color=colors.green[800] />
+            <Feather name="check" size={24} color={colors.green[800]} />
           </View>
           <Text style={styles.title}>Trip completed</Text>
           <Text style={styles.meta}>

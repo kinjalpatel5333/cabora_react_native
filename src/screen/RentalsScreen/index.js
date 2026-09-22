@@ -154,7 +154,7 @@ export default function RentalsScreen() {
                   accessibilityState={{selected: active}}>
                   {active ? (
                     <View style={styles.packageCheck}>
-                      <Feather name="check" size={12} color=colors.white />
+                      <Feather name="check" size={12} color={colors.white} />
                     </View>
                   ) : null}
                   <Text style={styles.packageHours}>{pkg.label}</Text>

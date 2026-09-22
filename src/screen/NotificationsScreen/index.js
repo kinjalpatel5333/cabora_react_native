@@ -299,7 +299,7 @@ export default function NotificationsScreen() {
 
         {!hasItems && (
           <View style={styles.emptyBox}>
-            <Feather name="bell-off" size={40} color=colors.slate[300] />
+            <Feather name="bell-off" size={40} color={colors.slate[300]} />
             <Text style={styles.emptyText}>No notifications found</Text>
           </View>
         )}

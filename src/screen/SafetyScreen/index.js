@@ -150,7 +150,7 @@ export default function SafetyScreen() {
             <MaterialDesignIcons
               name="shield-check-outline"
               size={24}
-              color=colors.success
+              color={colors.success}
             />
           </View>
           <Text style={styles.heroTitle}>Your rides are protected</Text>
@@ -188,7 +188,7 @@ export default function SafetyScreen() {
               <MaterialDesignIcons
                 name="shield-check-outline"
                 size={22}
-                color=colors.green[600]
+                color={colors.green[600]}
               />
             </View>
             <View style={styles.insuranceBody}>

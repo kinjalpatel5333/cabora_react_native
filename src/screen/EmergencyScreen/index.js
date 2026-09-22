@@ -325,7 +325,7 @@ export default function EmergencyScreen({
                 </View>
                 <View style={[styles.statusRow, styles.statusRowLast]}>
                   <View style={styles.statusSpinner}>
-                    <ActivityIndicator size="small" color=colors.orange.gold />
+                    <ActivityIndicator size="small" color={colors.orange.gold} />
                   </View>
                   <View style={styles.statusCopy}>
                     <Text style={styles.statusTitle}>

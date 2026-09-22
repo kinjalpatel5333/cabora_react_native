@@ -323,7 +323,7 @@ export default function HomeScreen() {
           <MaterialDesignIcons
             name="wifi-off"
             size={18}
-            color=colors.amber[750]
+            color={colors.amber[750]}
             style={styles.offlineIcon}
           />
           <Text style={styles.offlineText}>

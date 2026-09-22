@@ -116,7 +116,7 @@ export default function SearchScreen() {
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Search items..."
-            placeholderTextColor=colors.alpha.white40
+            placeholderTextColor={colors.alpha.white40}
             autoCapitalize="none"
             returnKeyType="search"
             clearButtonMode="while-editing"

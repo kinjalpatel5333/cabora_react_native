@@ -86,7 +86,7 @@ export default function ProfileScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor=colors.navy[950] />
+      <StatusBar barStyle="light-content" backgroundColor={colors.navy[950]} />
       <View style={[styles.hero, {paddingTop: Math.max(insets.top, 24) + 16}]}>
         {/* Real Ambient Corner Orange Glow Image */}
         <Image
@@ -96,7 +96,7 @@ export default function ProfileScreen({navigation}) {
         />
 
         <View style={styles.menuBtn}>
-          <Feather name="menu" size={22} color=colors.white />
+          <Feather name="menu" size={22} color={colors.white} />
         </View>
 
         <View style={styles.userRow}>
@@ -115,7 +115,7 @@ export default function ProfileScreen({navigation}) {
               <MaterialDesignIcons
                 name="shield-check"
                 size={18}
-                color=colors.success
+                color={colors.success}
               />
             </View>
             <Text style={styles.userSub}>{displayPhone}</Text>
@@ -127,7 +127,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}>
-            <Feather name="edit-2" size={16} color=colors.white />
+            <Feather name="edit-2" size={16} color={colors.white} />
           </Pressable>
         </View>
 
@@ -262,7 +262,7 @@ export default function ProfileScreen({navigation}) {
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
-              <Feather name="percent" size={18} color=colors.primary />
+              <Feather name="percent" size={18} color={colors.primary} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Offers & promotions</Text>
@@ -300,7 +300,7 @@ export default function ProfileScreen({navigation}) {
             accessibilityRole="button"
             accessibilityLabel="Delete your account">
             <View style={[styles.rowIconBox, styles.deleteIconBox]}>
-              <Feather name="trash-2" size={18} color=colors.danger />
+              <Feather name="trash-2" size={18} color={colors.danger} />
             </View>
             <View style={styles.rowBody}>
               <Text style={[styles.rowTitle, {color: colors.danger}]}>
@@ -324,7 +324,7 @@ export default function ProfileScreen({navigation}) {
           onPress={() => setShowDeleteModal(false)}>
           <Pressable style={styles.modalCard} onPress={e => e.stopPropagation()}>
             <View style={styles.modalIconRing}>
-              <Feather name="trash-2" size={26} color=colors.red[600] />
+              <Feather name="trash-2" size={26} color={colors.red[600]} />
             </View>
 
             <Text style={styles.modalTitle}>Delete your Cabora account?</Text>
