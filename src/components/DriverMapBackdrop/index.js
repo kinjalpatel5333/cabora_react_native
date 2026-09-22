@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, Image, View } from 'react-native';
 import { images } from '../../assets';
+import { useApp } from '../../context/AppContext';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './styles';
 
@@ -19,11 +20,12 @@ export default function DriverMapBackdrop({
   children,
 }) {
   const styles = useThemedStyles(createStyles);
+  const { isDark } = useApp();
 
   return (
     <View style={styles.map} pointerEvents="none">
       <Image
-        source={images.mapBackdrop}
+        source={isDark ? images.homeMapDark : images.mapBackdrop}
         style={[styles.mapImage, { width: SCREEN_W, height: SCREEN_H }]}
         resizeMode="cover"
       />

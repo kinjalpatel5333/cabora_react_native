@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {Image, Pressable, ScrollView, Switch, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -11,8 +11,9 @@ import {useAuth} from '../../hooks/useAuth';
 import {useAppDispatch} from '../../redux/hooks';
 import {logoutUser} from '../../redux/slices/authSlice';
 import {bottomSafePad} from '../../utils/safeArea';
-import colors from '../../config/color';
-import styles from './style';
+import {useApp} from '../../context/AppContext';
+import useThemedStyles from '../../components/useThemedStyles';
+import createStyles from './style';
 
 const PASSENGER_LINKS = [
   {label: 'Home', screen: 'Home', iconKind: 'home'},
@@ -35,7 +36,8 @@ const DRIVER_LINKS = [
 ];
 
 function DrawerGlyph({kind, active}) {
-  const color = active ? colors.primary : colors.slate[500];
+  const {colors} = useApp();
+  const color = active ? colors.primary : colors.textMuted;
   const size = 20;
 
   if (kind === 'home') {
@@ -89,6 +91,8 @@ export default function DrawerContent() {
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
   const {user} = useAuth();
+  const {colors, isDark, toggleTheme} = useApp();
+  const styles = useThemedStyles(createStyles);
   const {activeTab, goTo, closeDrawer} = useSidebar();
   const links = user?.role === 'driver' ? DRIVER_LINKS : PASSENGER_LINKS;
 
@@ -141,13 +145,42 @@ export default function DrawerContent() {
       </ScrollView>
 
       <View style={[styles.footer, {paddingBottom: bottomSafePad(insets, 16)}]}>
+        {/* Theme Toggle Row */}
+        <View style={styles.themeRow}>
+          <View style={styles.themeLeft}>
+            <View style={styles.themeIconBox}>
+              <Feather
+                name={isDark ? 'moon' : 'sun'}
+                size={18}
+                color={isDark ? colors.primary : colors.text}
+              />
+            </View>
+            <View style={styles.themeTextWrap}>
+              <Text style={styles.themeLabel}>Dark mode</Text>
+              <Text style={styles.themeSub}>
+                {isDark ? 'On' : 'Off'}
+              </Text>
+            </View>
+          </View>
+          <Switch
+            value={isDark}
+            onValueChange={toggleTheme}
+            trackColor={{
+              false: colors.isDark ? colors.navy[700] : colors.gray[300],
+              true: colors.primary,
+            }}
+            thumbColor={colors.white}
+          />
+        </View>
+
+        {/* Log Out Button */}
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Log out"
           onPress={handleLogout}
           style={styles.logoutBtn}>
           <View style={styles.logoutIconBox}>
-            <Feather name="log-out" size={18} color={colors.red[600]} />
+            <Feather name="log-out" size={18} color={colors.isDark ? colors.red[400] : colors.red[600]} />
           </View>
           <Text style={styles.logoutText}>Log out</Text>
         </Pressable>
