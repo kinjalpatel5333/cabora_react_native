@@ -1442,6 +1442,16 @@ export const PASSENGER_SET_ROUTE_STOP_POOL = [
   'Indiranagar Metro',
 ];
 
+export const SETUP_ACCOUNT_STRINGS = {
+  SUPPORT_URL: 'mailto:support@cabora.app',
+  HEADER_TITLE: 'Set up your account',
+  TITLE: 'How will you use Cabora?',
+  SUBTITLE: 'You can add the other role later from your profile — one account holds both.',
+  DRIVER_NOTE: 'Driver accounts need a licence, RC, insurance and a bank account before going online.',
+  PICKED_LABEL: 'You picked',
+  CONTINUE_BTN: 'Continue',
+};
+
 export const PASSENGER_SETUP_ACCOUNT_ROLES = [
   {
     id: 'passenger',

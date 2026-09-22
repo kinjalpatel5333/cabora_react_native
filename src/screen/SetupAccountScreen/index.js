@@ -1,4 +1,4 @@
-import { PASSENGER_SETUP_ACCOUNT_ROLES } from '../../config/staticData';
+import { PASSENGER_SETUP_ACCOUNT_ROLES, SETUP_ACCOUNT_STRINGS } from '../../config/staticData';
 import React, { useMemo, useState } from 'react';
 import { Linking, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
@@ -15,7 +15,7 @@ import { loginWithPhone } from '../../redux/slices/authSlice';
 import createStyles from './style';
 
 
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = SETUP_ACCOUNT_STRINGS.SUPPORT_URL;
 
 const ROLES = PASSENGER_SETUP_ACCOUNT_ROLES;
 
@@ -113,7 +113,7 @@ export default function SetupAccountScreen({ navigation, route }) {
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
-        <Text style={styles.headerTitle}>Set up your account</Text>
+        <Text style={styles.headerTitle}>{SETUP_ACCOUNT_STRINGS.HEADER_TITLE}</Text>
         <Pressable
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
@@ -125,10 +125,9 @@ export default function SetupAccountScreen({ navigation, route }) {
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>How will you use Cabora?</Text>
+        <Text style={styles.title}>{SETUP_ACCOUNT_STRINGS.TITLE}</Text>
         <Text style={styles.subtitle}>
-          You can add the other role later from your profile — one account holds
-          both.
+          {SETUP_ACCOUNT_STRINGS.SUBTITLE}
         </Text>
 
         {ROLES.map(role => {
@@ -172,8 +171,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         <View style={styles.note}>
           <Feather name="shield" size={18} color={colors.navy[700]} />
           <Text style={styles.noteText}>
-            Driver accounts need a licence, RC, insurance and a bank account
-            before going online.
+            {SETUP_ACCOUNT_STRINGS.DRIVER_NOTE}
           </Text>
         </View>
       </ScrollView>
@@ -181,11 +179,11 @@ export default function SetupAccountScreen({ navigation, route }) {
       <View
         style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 8) }]}>
         <View>
-          <Text style={styles.pickedLabel}>You picked</Text>
+          <Text style={styles.pickedLabel}>{SETUP_ACCOUNT_STRINGS.PICKED_LABEL}</Text>
           <Text style={styles.pickedValue}>{picked.label}</Text>
         </View>
         <Button
-          title="Continue"
+          title={SETUP_ACCOUNT_STRINGS.CONTINUE_BTN}
           onPress={onContinue}
           loading={loading}
           fullWidth={false}
