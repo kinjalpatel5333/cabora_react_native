@@ -212,7 +212,7 @@ export default function OutstationScreen() {
               const iconColor = active
                 ? colors.primary
                 : colors.isDark
-                ? '#FFFFFF'
+                ? colors.white
                 : colors.navy[800];
               return (
                 <Pressable

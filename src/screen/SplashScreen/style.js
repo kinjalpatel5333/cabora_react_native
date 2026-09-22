@@ -4,14 +4,14 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: '#08101E',
+      backgroundColor: colors.navy[950],
     },
     bottomFill: {
       position: 'absolute',
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: '#08101E',
+      backgroundColor: colors.navy[950],
       zIndex: 0,
     },
     glow: {
@@ -58,7 +58,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.4,
     },
     tagline: {
-      color: 'rgba(195, 207, 223, 0.9)',
+      color: colors.alpha.slateAlpha90,
       fontSize: 16,
       marginTop: 8,
     },
@@ -75,7 +75,7 @@ export default function createStyles(colors) {
       width: 148,
       height: 4,
       borderRadius: 2,
-      backgroundColor: 'rgba(255,255,255,0.12)',
+      backgroundColor: colors.alpha.white12,
       overflow: 'hidden',
     },
     fill: {
@@ -84,7 +84,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     finding: {
-      color: 'rgba(154, 168, 194, 0.95)',
+      color: colors.alpha.navyAlpha95,
       fontSize: 13,
       marginTop: 12,
     },
@@ -93,14 +93,14 @@ export default function createStyles(colors) {
       flexGrow: 0,
       alignSelf: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.07)',
+      backgroundColor: colors.alpha.white07,
       borderRadius: 24,
       paddingTop: 28,
       paddingRight: 22,
       paddingBottom: 24,
       paddingLeft: 22,
       borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.14)',
+      borderColor: colors.alpha.white14,
       marginBottom: 24,
     },
     cardIcon: {
@@ -116,7 +116,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     cardBody: {
-      color: 'rgba(195, 207, 223, 0.88)',
+      color: colors.alpha.slateAlpha88,
       fontSize: 14,
       lineHeight: 21,
       textAlign: 'center',
@@ -132,12 +132,12 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[600],
     },
     cardButtonInverse: {
-      backgroundColor: 'rgba(255, 255, 255, 0.10)',
+      backgroundColor: colors.alpha.white10,
       borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.22)',
+      borderColor: colors.alpha.white22,
     },
     version: {
-      color: 'rgba(255,255,255,0.32)',
+      color: colors.alpha.white32,
       fontSize: 12,
       textAlign: 'center',
     },

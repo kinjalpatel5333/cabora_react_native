@@ -19,11 +19,11 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     selected: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
       borderColor: colors.primary,
     },
     selectedPressed: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
     },
     disabled: {
       backgroundColor: colors.disabledBg,

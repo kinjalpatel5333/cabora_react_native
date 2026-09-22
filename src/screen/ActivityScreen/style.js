@@ -81,7 +81,7 @@ export default function createStyles(colors) {
     },
     tabActive: {
       backgroundColor: colors.card,
-      shadowColor: colors.isDark ? '#000000' : colors.navy[900],
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOpacity: 0.08,
       shadowRadius: 6,
       shadowOffset: {width: 0, height: 1},

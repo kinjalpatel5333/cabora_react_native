@@ -51,7 +51,7 @@ export default function createStyles(colors) {
     },
     tripTabActive: {
       backgroundColor: colors.isDark ? colors.cardHighlight : colors.white,
-      shadowColor: colors.isDark ? '#000000' : colors.navy[900],
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOpacity: 0.06,
       shadowRadius: 6,
       shadowOffset: {width: 0, height: 1},
@@ -110,7 +110,7 @@ export default function createStyles(colors) {
       width: 10,
       height: 10,
       borderRadius: 5,
-      backgroundColor: colors.isDark ? '#FFFFFF' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.white : colors.navy[800],
     },
     routeCopy: {
       flex: 1,
@@ -182,7 +182,7 @@ export default function createStyles(colors) {
       padding: 10,
     },
     vehicleCardActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
       borderColor: colors.primary,
     },
     vehicleName: {
@@ -262,7 +262,7 @@ export default function createStyles(colors) {
       letterSpacing: -0.4,
     },
     footerNote: {
-      color: colors.isDark ? '#4ADE80' : colors.green[600],
+      color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 11,
       fontWeight: '600',
       marginTop: 2,
@@ -276,7 +276,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

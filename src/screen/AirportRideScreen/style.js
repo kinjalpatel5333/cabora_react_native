@@ -51,7 +51,7 @@ export default function createStyles(colors) {
     },
     tripTabActive: {
       backgroundColor: colors.isDark ? colors.cardHighlight : colors.white,
-      shadowColor: colors.isDark ? '#000000' : colors.navy[900],
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOpacity: 0.06,
       shadowRadius: 6,
       shadowOffset: {width: 0, height: 1},
@@ -93,7 +93,7 @@ export default function createStyles(colors) {
       width: 36,
       height: 36,
       borderRadius: 18,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -132,7 +132,7 @@ export default function createStyles(colors) {
       borderColor: colors.isDark ? colors.border : 'transparent',
     },
     terminalChipActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.white,
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.white,
       borderColor: colors.primary,
     },
     terminalText: {
@@ -199,7 +199,7 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     surchargeCard: {
-      backgroundColor: colors.isDark ? '#1C2534' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.navy.cardBg4 : colors.orange[50],
       borderRadius: 16,
       borderWidth: 1,
       borderColor: colors.isDark ? colors.border : 'transparent',
@@ -282,7 +282,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
-      color: '#FFFFFF',
+      color: colors.white,
       fontSize: 16,
       fontWeight: '700',
     },

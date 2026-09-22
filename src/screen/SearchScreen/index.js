@@ -11,6 +11,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {useSidebar} from '../../context/SidebarContext';
 import styles from './style';
+import colors from '../../config/color';
+
 
 const ITEMS_LIST = [
   {
@@ -18,7 +20,7 @@ const ITEMS_LIST = [
     title: 'Gym & Fitness Transformation',
     category: 'Workout & Health',
     icon: '🏋️',
-    color: '#4C1D95',
+    color: colors.purple.dark,
     tag: 'Fitness',
   },
   {
@@ -26,7 +28,7 @@ const ITEMS_LIST = [
     title: 'AI Productivity Tools 2026',
     category: 'Technology & Software',
     icon: '🤖',
-    color: '#1E3A8A',
+    color: colors.blue[900],
     tag: 'Tech',
   },
   {
@@ -34,7 +36,7 @@ const ITEMS_LIST = [
     title: 'Mobile App UI Design Figma',
     category: 'Design & Graphics',
     icon: '🎨',
-    color: '#831843',
+    color: colors.purple.pink,
     tag: 'Design',
   },
   {
@@ -42,7 +44,7 @@ const ITEMS_LIST = [
     title: 'Personal Finance & Investing',
     category: 'Finance & Wealth',
     icon: '📈',
-    color: '#064E3B',
+    color: colors.green[900],
     tag: 'Finance',
   },
   {
@@ -50,7 +52,7 @@ const ITEMS_LIST = [
     title: 'Healthy Meal Prep Routine',
     category: 'Nutrition & Diet',
     icon: '🥗',
-    color: '#713F12',
+    color: colors.purple.brown,
     tag: 'Lifestyle',
   },
   {
@@ -58,7 +60,7 @@ const ITEMS_LIST = [
     title: 'React Native Cross-Platform Dev',
     category: 'Programming & Code',
     icon: '⚡',
-    color: '#3B0764',
+    color: colors.purple.dark,
     tag: 'Development',
   },
   {
@@ -66,7 +68,7 @@ const ITEMS_LIST = [
     title: 'Travel & Photography Guide',
     category: 'Travel & Leisure',
     icon: '✈️',
-    color: '#164E63',
+    color: colors.navy.safetyDark2,
     tag: 'Travel',
   },
   {
@@ -74,7 +76,7 @@ const ITEMS_LIST = [
     title: 'Daily Mindfulness & Yoga',
     category: 'Wellness & Health',
     icon: '🧘',
-    color: '#701A75',
+    color: colors.purple.deep,
     tag: 'Wellness',
   },
 ];
@@ -114,7 +116,7 @@ export default function SearchScreen() {
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Search items..."
-            placeholderTextColor="rgba(255, 255, 255, 0.4)"
+            placeholderTextColor=colors.alpha.white40
             autoCapitalize="none"
             returnKeyType="search"
             clearButtonMode="while-editing"
@@ -149,7 +151,7 @@ export default function SearchScreen() {
             <View
               style={[
                 styles.itemIconWrap,
-                {backgroundColor: item.color || '#1E1B2E'},
+                {backgroundColor: item.color || colors.navy[975]},
               ]}>
               <Text style={styles.itemIconText}>{item.icon}</Text>
             </View>

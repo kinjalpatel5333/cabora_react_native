@@ -109,19 +109,19 @@ export default function WalletScreen() {
 
   const iconColors = {
     navy: {
-      bg: colors.isDark ? '#1C3F5E' : colors.navy[100],
-      fg: colors.isDark ? '#C3CFDF' : colors.navy[800],
+      bg: colors.isDark ? colors.navy.cardBg2 : colors.navy[100],
+      fg: colors.isDark ? colors.navy[300] : colors.navy[800],
     },
     green: {
-      bg: colors.isDark ? 'rgba(38, 168, 94, 0.2)' : colors.green[100],
+      bg: colors.isDark ? colors.alpha.greenDark20 : colors.green[100],
       fg: colors.green[500],
     },
     blue: {
-      bg: colors.isDark ? 'rgba(46, 123, 231, 0.2)' : colors.blue[100],
+      bg: colors.isDark ? colors.alpha.blue20 : colors.blue[100],
       fg: colors.blue[500],
     },
     orange: {
-      bg: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100],
+      bg: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
       fg: colors.orange[500],
     },
   };

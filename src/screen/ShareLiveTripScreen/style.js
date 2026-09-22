@@ -143,7 +143,7 @@ export default function createStyles(colors) {
       borderWidth: 2.5,
     },
     avatarSelected: {
-      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.navy[800],
       borderColor: colors.orange[500],
     },
     avatarMuted: {
@@ -260,7 +260,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'flex-start',
       gap: 10,
-      backgroundColor: colors.isDark ? 'rgba(59, 130, 246, 0.18)' : colors.blue[100],
+      backgroundColor: colors.isDark ? colors.alpha.blue18 : colors.blue[100],
       borderRadius: 14,
       paddingVertical: 12,
       paddingHorizontal: 14,

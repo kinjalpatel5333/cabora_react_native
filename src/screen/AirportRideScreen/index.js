@@ -170,7 +170,7 @@ export default function AirportRideScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>PICK-UP TIME</Text>
           <View style={styles.pickupCard}>
-            <Feather name="calendar" size={20} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
+            <Feather name="calendar" size={20} color={colors.isDark ? colors.white : colors.navy[800]} />
             <View style={styles.pickupCopy}>
               <Text style={styles.detailTitle}>Today, 06:30 am</Text>
               <Text style={styles.detailMeta}>

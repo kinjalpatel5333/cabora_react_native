@@ -57,7 +57,7 @@ export default function createStyles(colors) {
       width: 34,
       height: 34,
       borderRadius: 17,
-      backgroundColor: 'rgba(38, 168, 94, 0.28)',
+      backgroundColor: colors.alpha.greenDark28,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 12,

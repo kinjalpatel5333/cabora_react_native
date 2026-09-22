@@ -47,8 +47,8 @@ export default function createStyles(colors) {
       paddingLeft: 18,
       borderRadius: 999,
       borderWidth: 1,
-      borderColor: '#E6D5C6',
-      backgroundColor: 'rgba(255, 255, 255, 0.75)',
+      borderColor: colors.orange.borderSoft,
+      backgroundColor: colors.alpha.white75,
     },
     skipLabel: {
       fontFamily: colors.fonts.sora.bold,
@@ -59,7 +59,7 @@ export default function createStyles(colors) {
     hero: {
       flex: 1,
       minHeight: 0,
-      backgroundColor: '#FFD4AA',
+      backgroundColor: colors.orange.lightBadge,
       overflow: 'hidden',
     },
     heroFill: {
@@ -100,9 +100,9 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 8,
-      backgroundColor: 'rgba(255, 140, 60, 0.12)',
+      backgroundColor: colors.alpha.orangeBrand12,
       borderWidth: 1,
-      borderColor: 'rgba(255, 140, 60, 0.28)',
+      borderColor: colors.alpha.orangeBrand28,
       paddingHorizontal: 12,
       paddingVertical: 6,
       borderRadius: 20,
@@ -128,7 +128,7 @@ export default function createStyles(colors) {
     },
     body: {
       fontFamily: colors.fonts.sora.regular,
-      color: 'rgba(195, 207, 223, 0.88)',
+      color: colors.alpha.slateAlpha88,
       fontSize: 15,
       lineHeight: 22,
       marginTop: 10,
@@ -143,7 +143,7 @@ export default function createStyles(colors) {
       width: 8,
       height: 8,
       borderRadius: 4,
-      backgroundColor: 'rgba(255,255,255,0.22)',
+      backgroundColor: colors.alpha.white22,
     },
     dotActive: {
       width: 22,

@@ -335,7 +335,7 @@ export default function PortalScreen() {
           onEndEdit={() => setEditingField(null)}
           query={dropQuery}
           onChangeQuery={setDropQuery}
-          dotColor={colors.isDark ? '#60A5FA' : colors.navy[800]}
+          dotColor={colors.isDark ? colors.blue[400] : colors.navy[800]}
           contact="Priya Sharma · +91 98450 33119"
           contactTrailing={
             <Pressable

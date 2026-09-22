@@ -40,7 +40,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
     },
     markAllText: {
-      color: '#FF7006',
+      color: colors.primary,
       fontSize: 14,
       fontWeight: '700',
     },
@@ -61,8 +61,8 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     pillActive: {
-      borderColor: '#FF7006',
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.2)' : '#FFF5ED',
+      borderColor: colors.primary,
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
     },
     pillText: {
       color: colors.textMuted,
@@ -70,7 +70,7 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     pillTextActive: {
-      color: '#FF7006',
+      color: colors.primary,
     },
     scroll: {
       paddingHorizontal: 18,
@@ -98,7 +98,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
       paddingVertical: 14,
       marginBottom: 10,
-      shadowColor: colors.isDark ? '#000000' : '#0F2840',
+      shadowColor: colors.isDark ? colors.black : colors.navy.textDark,
       shadowOffset: {width: 0, height: 2},
       shadowOpacity: 0.04,
       shadowRadius: 6,
@@ -106,10 +106,10 @@ export default function createStyles(colors) {
       overflow: 'hidden',
     },
     cardUnread: {
-      backgroundColor: colors.isDark ? '#172B3E' : '#FFF8F2',
-      borderColor: colors.isDark ? '#4D311A' : '#FFDEC7',
+      backgroundColor: colors.isDark ? colors.navy[800] : colors.orange[50],
+      borderColor: colors.isDark ? colors.orange[900] : colors.orange.borderLight,
       borderLeftWidth: 4,
-      borderLeftColor: '#FF7006',
+      borderLeftColor: colors.primary,
     },
     iconBox: {
       width: 44,
@@ -153,7 +153,7 @@ export default function createStyles(colors) {
       paddingVertical: 60,
     },
     emptyText: {
-      color: '#8A96A6',
+      color: colors.subtext,
       fontSize: 14,
       fontWeight: '500',
       marginTop: 10,

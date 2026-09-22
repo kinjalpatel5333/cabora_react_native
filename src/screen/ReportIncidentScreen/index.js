@@ -98,7 +98,7 @@ export default function ReportIncidentScreen() {
               <MaterialDesignIcons
                 name="alarm-light-outline"
                 size={22}
-                color="#E53935"
+                color=colors.red.primary
               />
             </View>
             <View style={styles.alertTextCol}>

@@ -1,5 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import colors from '../../config/color';
+
 
 function SearchGlyph({color, size}) {
   const ring = size * 0.62;
@@ -341,7 +343,7 @@ export default function Icon({
   style,
 }) {
   const inner = size * (circle ? (filled ? 0.58 : 0.72) : 1);
-  const glyphColor = filled && circle ? '#FFFFFF' : color;
+  const glyphColor = filled && circle ? colors.white : color;
   let glyph = null;
   if (name === 'search') {
     glyph = <SearchGlyph color={glyphColor} size={inner} />;

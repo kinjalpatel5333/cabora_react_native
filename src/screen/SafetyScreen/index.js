@@ -55,12 +55,12 @@ const TOOLS = [
 ];
 
 const ICON_TONES = {
-  red: {bg: '#FEE2E2', fg: '#EF4444'},
-  blue: {bg: '#E0EAFF', fg: '#2563EB'},
-  sky: {bg: '#E0F2FE', fg: '#0284C7'},
-  green: {bg: '#DCFCE7', fg: '#16A34A'},
-  amber: {bg: '#FEF3C7', fg: '#D97706'},
-  gray: {bg: '#F1F5F9', fg: '#64748B'},
+  red: {bg: colors.red[200], fg: colors.danger},
+  blue: {bg: colors.blue.softBg, fg: colors.blue[550]},
+  sky: {bg: colors.blue.skyBg, fg: colors.blue[600]},
+  green: {bg: colors.green[200], fg: colors.green[600]},
+  amber: {bg: colors.amber[100], fg: colors.amber[600]},
+  gray: {bg: colors.slate[100], fg: colors.slate[500]},
 };
 
 function ToolIcon({id, color}) {
@@ -150,7 +150,7 @@ export default function SafetyScreen() {
             <MaterialDesignIcons
               name="shield-check-outline"
               size={24}
-              color="#22C55E"
+              color=colors.success
             />
           </View>
           <Text style={styles.heroTitle}>Your rides are protected</Text>
@@ -188,7 +188,7 @@ export default function SafetyScreen() {
               <MaterialDesignIcons
                 name="shield-check-outline"
                 size={22}
-                color="#16A34A"
+                color=colors.green[600]
               />
             </View>
             <View style={styles.insuranceBody}>

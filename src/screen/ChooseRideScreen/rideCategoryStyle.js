@@ -9,7 +9,7 @@ export default function createStyles(colors) {
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0, 0, 0, 0.28)',
+      backgroundColor: colors.alpha.black28,
     },
     sheet: {
       backgroundColor: colors.card,
@@ -89,7 +89,7 @@ export default function createStyles(colors) {
     rideRowActive: {
       borderColor: colors.orange[500],
       borderWidth: 2,
-      backgroundColor: colors.isDark ? '#1A3959' : '#FFF8F3',
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.orange.softBg,
     },
     rideIcon: {
       width: 44,
@@ -101,7 +101,7 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     rideIconActive: {
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[100],
     },
     rideCopy: {
       flex: 1,
@@ -138,14 +138,14 @@ export default function createStyles(colors) {
     },
     bookAnyCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? '#1A3959' : '#FFF8F3',
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.orange.softBg,
     },
     bookAnyTop: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     bookAnyBadge: {
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : '#E8F8EF',
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
       paddingHorizontal: 8,
       paddingVertical: 2,
       borderRadius: 8,
@@ -174,7 +174,7 @@ export default function createStyles(colors) {
     },
     chipOn: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     chipText: {
       color: colors.text,
@@ -201,7 +201,7 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     metaIconPromo: {
-      backgroundColor: colors.isDark ? 'rgba(34, 197, 94, 0.15)' : '#E8F8EF',
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
     },
     metaCopy: {
       flex: 1,

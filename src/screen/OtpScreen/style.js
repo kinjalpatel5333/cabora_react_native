@@ -33,13 +33,13 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     avatarChat: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.18)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
     },
     avatarPaused: {
-      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
     },
     avatarVerified: {
-      backgroundColor: colors.isDark ? 'rgba(38,168,94,0.18)' : colors.green[100],
+      backgroundColor: colors.isDark ? colors.alpha.green18 : colors.green[100],
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
@@ -94,11 +94,11 @@ export default function createStyles(colors) {
       borderColor: colors.primary,
     },
     boxError: {
-      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.15)' : '#FFF7F7',
+      backgroundColor: colors.isDark ? colors.alpha.redAlpha15 : colors.red[75],
       borderColor: colors.danger,
     },
     boxSuccess: {
-      backgroundColor: colors.isDark ? 'rgba(38,168,94,0.15)' : colors.green[100],
+      backgroundColor: colors.isDark ? colors.alpha.greenDark15 : colors.green[100],
       borderColor: colors.green[600],
       borderWidth: 1.5,
     },
@@ -149,7 +149,7 @@ export default function createStyles(colors) {
     banner: {
       borderRadius: 16,
       padding: 14,
-      backgroundColor: colors.isDark ? 'rgba(231,61,61,0.18)' : colors.red[100],
+      backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
       marginBottom: 14,
     },
     bannerTitle: {
@@ -185,7 +185,7 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     chipResend: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.18)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
     },
     chipLabel: {
       fontFamily: colors.fonts.sora.semiBold,

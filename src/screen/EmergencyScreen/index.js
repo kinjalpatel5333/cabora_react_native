@@ -184,7 +184,7 @@ export default function EmergencyScreen({
   };
 
   const isAlerted = phase === 'alerted';
-  const rootBg = isAlerted ? '#2A1212' : '#071C31';
+  const rootBg = isAlerted ? colors.red.darkBg : colors.navy[950];
 
   return (
     <Modal
@@ -325,7 +325,7 @@ export default function EmergencyScreen({
                 </View>
                 <View style={[styles.statusRow, styles.statusRowLast]}>
                   <View style={styles.statusSpinner}>
-                    <ActivityIndicator size="small" color="#D4A574" />
+                    <ActivityIndicator size="small" color=colors.orange.gold />
                   </View>
                   <View style={styles.statusCopy}>
                     <Text style={styles.statusTitle}>

@@ -201,7 +201,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Notifications"
               onPress={() => navigation.navigate('Notifications')}>
-              <Feather name="bell" size={20} color="#FFFFFF" />
+              <Feather name="bell" size={20} color=colors.white />
             </Pressable>
             <View style={styles.badge} pointerEvents="none">
               <Text style={styles.badgeText}>3</Text>
@@ -270,7 +270,7 @@ export default function ServicesScreen() {
                   accessibilityLabel={item.title}>
                   <View style={styles.planTopRow}>
                     <View style={styles.planIcon}>
-                      <PlanIcon name={item.icon} color={colors.isDark ? '#FFFFFF' : colors.navy[800]} />
+                      <PlanIcon name={item.icon} color={colors.isDark ? colors.white : colors.navy[800]} />
                     </View>
                     <Text style={styles.planKicker} numberOfLines={2}>
                       {item.kicker}
@@ -294,7 +294,7 @@ export default function ServicesScreen() {
               accessibilityRole="button"
               accessibilityLabel="Portal">
               <View style={styles.portalIcon}>
-                <Lucide name="briefcase" size={22} color={colors.isDark ? '#FF9A4A' : colors.blue[600]} />
+                <Lucide name="briefcase" size={22} color={colors.isDark ? colors.orange[450] : colors.blue[600]} />
               </View>
               <View style={styles.portalCopy}>
                 <View style={styles.portalTitleRow}>

@@ -45,7 +45,7 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     title: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[900],
+      color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 20,
       fontWeight: '800',
       letterSpacing: -0.3,
@@ -63,14 +63,14 @@ export default function createStyles(colors) {
       paddingBottom: 4,
     },
     sectionLabel: {
-      color: colors.isDark ? 'rgba(255, 255, 255, 0.85)' : colors.gray[400],
+      color: colors.isDark ? colors.alpha.white85 : colors.gray[400],
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 8,
     },
     sectionLabelFare: {
-      color: colors.isDark ? 'rgba(255, 255, 255, 0.85)' : colors.gray[400],
+      color: colors.isDark ? colors.alpha.white85 : colors.gray[400],
       fontSize: 11,
       fontWeight: '700',
       letterSpacing: 1.1,
@@ -85,12 +85,12 @@ export default function createStyles(colors) {
       paddingVertical: 9,
     },
     sortLabel: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[800],
+      color: colors.isDark ? colors.white : colors.navy[800],
       fontSize: 15,
       fontWeight: '500',
     },
     sortLabelActive: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[900],
+      color: colors.isDark ? colors.white : colors.navy[900],
       fontWeight: '700',
     },
     radioOuter: {
@@ -152,10 +152,10 @@ export default function createStyles(colors) {
     },
     chipActive: {
       borderColor: colors.primary,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.18)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     chipText: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[800],
+      color: colors.isDark ? colors.white : colors.navy[800],
       fontSize: 12,
       fontWeight: '600',
     },
@@ -170,7 +170,7 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     fareValue: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[900],
+      color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 14,
       fontWeight: '800',
     },
@@ -185,7 +185,7 @@ export default function createStyles(colors) {
     sliderTrack: {
       height: 6,
       borderRadius: 3,
-      backgroundColor: colors.isDark ? 'rgba(255, 112, 6, 0.25)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange25 : colors.orange[100],
       width: '100%',
     },
     sliderFill: {
@@ -215,7 +215,7 @@ export default function createStyles(colors) {
       marginTop: 6,
     },
     sliderLabel: {
-      color: colors.isDark ? '#FFFFFF' : colors.gray[400],
+      color: colors.isDark ? colors.white : colors.gray[400],
       fontSize: 12,
       fontWeight: '500',
     },
@@ -235,7 +235,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     clearText: {
-      color: colors.isDark ? '#FFFFFF' : colors.navy[900],
+      color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 15,
       fontWeight: '700',
     },

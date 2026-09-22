@@ -174,7 +174,7 @@ export default function createStyles(colors) {
     rideCardActive: {
       borderColor: colors.orange[500],
       borderWidth: 2,
-      backgroundColor: colors.isDark ? '#1A3959' : '#FFF8F3',
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.orange.softBg,
     },
     rideIconWrap: {
       width: 52,
@@ -186,7 +186,7 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     rideIconActive: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[100],
     },
     rideCopy: {
       flex: 1,
@@ -208,10 +208,10 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
       paddingVertical: 2,
       borderRadius: 8,
-      backgroundColor: colors.isDark ? 'rgba(34,197,94,0.15)' : '#E8F8EF',
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
     },
     badgeText: {
-      color: colors.isDark ? '#4ADE80' : colors.green[600],
+      color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 11,
       fontWeight: '700',
     },
@@ -252,7 +252,7 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     metaIconPromo: {
-      backgroundColor: colors.isDark ? 'rgba(34,197,94,0.15)' : '#E8F8EF',
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
     },
     metaCopy: {
       flex: 1,
@@ -264,7 +264,7 @@ export default function createStyles(colors) {
       fontWeight: '600',
     },
     metaTextPromo: {
-      color: colors.isDark ? '#4ADE80' : colors.green[600],
+      color: colors.isDark ? colors.green[400] : colors.green[600],
     },
     changeText: {
       color: colors.orange[500],
@@ -272,7 +272,7 @@ export default function createStyles(colors) {
       fontWeight: '700',
     },
     promoAmount: {
-      color: colors.isDark ? '#4ADE80' : colors.green[600],
+      color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 14,
       fontWeight: '700',
     },

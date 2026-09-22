@@ -9,7 +9,7 @@ export default function createStyles(colors) {
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(14, 42, 74, 0.4)',
+      backgroundColor: colors.alpha.navy40,
     },
     sheet: {
       backgroundColor: colors.white,

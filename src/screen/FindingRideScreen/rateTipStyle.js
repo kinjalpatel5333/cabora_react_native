@@ -27,7 +27,7 @@ export default function createStyles(colors) {
       width: 72,
       height: 72,
       borderRadius: 36,
-      backgroundColor: colors.isDark ? '#1A3959' : colors.navy[800],
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.navy[800],
       borderWidth: 2.5,
       borderColor: colors.orange[500],
       alignItems: 'center',
@@ -91,7 +91,7 @@ export default function createStyles(colors) {
     },
     tagSelected: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? '#1A3959' : colors.white,
+      backgroundColor: colors.isDark ? colors.navy.cardBg : colors.white,
     },
     tagText: {
       color: colors.text,

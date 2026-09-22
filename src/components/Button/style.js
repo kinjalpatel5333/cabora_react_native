@@ -39,7 +39,7 @@ export default function createStyles(colors) {
       backgroundColor: 'transparent',
     },
     ghostPressed: {
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     danger: {
       backgroundColor: colors.danger,
@@ -48,12 +48,12 @@ export default function createStyles(colors) {
       backgroundColor: colors.red[600],
     },
     inverse: {
-      backgroundColor: 'rgba(255, 255, 255, 0.10)',
+      backgroundColor: colors.alpha.white10,
       borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.22)',
+      borderColor: colors.alpha.white22,
     },
     inversePressed: {
-      backgroundColor: 'rgba(255, 255, 255, 0.16)',
+      backgroundColor: colors.alpha.white16,
     },
     disabledFill: {
       backgroundColor: colors.disabledBg || colors.gray[100],

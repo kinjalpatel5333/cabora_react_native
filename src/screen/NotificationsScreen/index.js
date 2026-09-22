@@ -26,8 +26,8 @@ const INITIAL_TODAY = [
     unread: true,
     iconType: 'lucide',
     iconName: 'car',
-    iconColor: '#FF7006',
-    iconBg: '#FFF5ED',
+    iconColor: colors.primary,
+    iconBg: colors.orange.subtleBg,
   },
   {
     id: '2',
@@ -38,8 +38,8 @@ const INITIAL_TODAY = [
     unread: true,
     iconType: 'mdi',
     iconName: 'alarm-light-outline',
-    iconColor: '#EF4444',
-    iconBg: '#FEECEC',
+    iconColor: colors.danger,
+    iconBg: colors.red.badge,
   },
   {
     id: '3',
@@ -50,8 +50,8 @@ const INITIAL_TODAY = [
     unread: false,
     iconType: 'mdi',
     iconName: 'gift-outline',
-    iconColor: '#F59E0B',
-    iconBg: '#FFF9EB',
+    iconColor: colors.amber[500],
+    iconBg: colors.orange.accentBg,
   },
 ];
 
@@ -65,8 +65,8 @@ const INITIAL_EARLIER = [
     unread: false,
     iconType: 'feather',
     iconName: 'percent',
-    iconColor: '#FF7006',
-    iconBg: '#FFF5ED',
+    iconColor: colors.primary,
+    iconBg: colors.orange.subtleBg,
   },
   {
     id: '5',
@@ -77,8 +77,8 @@ const INITIAL_EARLIER = [
     unread: false,
     iconType: 'mdi',
     iconName: 'shield-check-outline',
-    iconColor: '#10B981',
-    iconBg: '#ECFDF5',
+    iconColor: colors.green[500],
+    iconBg: colors.green.mint,
   },
   {
     id: '6',
@@ -89,8 +89,8 @@ const INITIAL_EARLIER = [
     unread: false,
     iconType: 'mdi',
     iconName: 'file-document-outline',
-    iconColor: '#3B82F6',
-    iconBg: '#EFF6FF',
+    iconColor: colors.blue[500],
+    iconBg: colors.blue[50],
   },
   {
     id: '7',
@@ -101,8 +101,8 @@ const INITIAL_EARLIER = [
     unread: false,
     iconType: 'feather',
     iconName: 'users',
-    iconColor: '#3B82F6',
-    iconBg: '#EFF6FF',
+    iconColor: colors.blue[500],
+    iconBg: colors.blue[50],
   },
 ];
 
@@ -299,7 +299,7 @@ export default function NotificationsScreen() {
 
         {!hasItems && (
           <View style={styles.emptyBox}>
-            <Feather name="bell-off" size={40} color="#CBD5E1" />
+            <Feather name="bell-off" size={40} color=colors.slate[300] />
             <Text style={styles.emptyText}>No notifications found</Text>
           </View>
         )}

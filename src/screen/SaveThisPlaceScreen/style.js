@@ -65,7 +65,7 @@ export default function createStyles(colors) {
       width: 18,
       height: 6,
       borderRadius: 3,
-      backgroundColor: 'rgba(13,43,71,0.2)',
+      backgroundColor: colors.alpha.navy20,
     },
     dragHint: {
       position: 'absolute',
@@ -183,7 +183,7 @@ export default function createStyles(colors) {
     },
     labelChipActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? 'rgba(255,112,6,0.15)' : colors.orange[50],
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     labelChipText: {
       color: colors.text,

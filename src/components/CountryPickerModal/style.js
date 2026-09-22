@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     backdrop: {
       flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.55)',
+      backgroundColor: colors.alpha.black55,
       justifyContent: 'flex-end',
     },
     sheet: {
@@ -15,7 +15,7 @@ export default function createStyles(colors) {
       minHeight: 420,
       paddingTop: 12,
       paddingHorizontal: 20,
-      shadowColor: '#000',
+      shadowColor: colors.black,
       shadowOffset: {width: 0, height: -4},
       shadowOpacity: 0.15,
       shadowRadius: 12,
@@ -25,7 +25,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 4,
       borderRadius: 2,
-      backgroundColor: colors.isDark ? '#4B5563' : '#E5E7EB',
+      backgroundColor: colors.isDark ? colors.gray.gray600 : colors.gray.gray200,
       alignSelf: 'center',
       marginBottom: 14,
     },
@@ -45,14 +45,14 @@ export default function createStyles(colors) {
       width: 32,
       height: 32,
       borderRadius: 16,
-      backgroundColor: colors.isDark ? '#374151' : '#F3F4F6',
+      backgroundColor: colors.isDark ? colors.gray.gray700 : colors.gray.gray100,
       alignItems: 'center',
       justifyContent: 'center',
     },
     searchContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.isDark ? '#1F2937' : '#F9FAFB',
+      backgroundColor: colors.isDark ? colors.gray.gray900 : colors.gray.gray50,
       borderRadius: 14,
       borderWidth: 1,
       borderColor: colors.border,
@@ -81,7 +81,7 @@ export default function createStyles(colors) {
       borderBottomColor: colors.border,
     },
     itemSelected: {
-      backgroundColor: colors.isDark ? 'rgba(255,140,60,0.12)' : 'rgba(255,140,60,0.08)',
+      backgroundColor: colors.isDark ? colors.alpha.orangeBrand12 : colors.alpha.orangeBrand08,
     },
     flagEmoji: {
       fontSize: 24,

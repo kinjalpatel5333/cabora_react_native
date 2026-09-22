@@ -156,7 +156,7 @@ export default function ActivityScreen() {
             <Feather
               name="menu"
               size={20}
-              color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+              color={colors.isDark ? colors.white : colors.navy[900]}
             />
           </Pressable>
           <Text style={styles.title}>Your rides</Text>
@@ -170,7 +170,7 @@ export default function ActivityScreen() {
               <Feather
                 name="calendar"
                 size={20}
-                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+                color={colors.isDark ? colors.white : colors.navy[900]}
               />
             </Pressable>
             <Pressable
@@ -182,7 +182,7 @@ export default function ActivityScreen() {
               <MaterialDesignIcons
                 name="filter-variant"
                 size={22}
-                color={colors.isDark ? '#FFFFFF' : colors.navy[900]}
+                color={colors.isDark ? colors.white : colors.navy[900]}
               />
             </Pressable>
           </View>
@@ -192,14 +192,14 @@ export default function ActivityScreen() {
           <Feather
             name="search"
             size={18}
-            color={colors.isDark ? '#FFFFFF' : colors.gray[400]}
+            color={colors.isDark ? colors.white : colors.gray[400]}
           />
           <TextInput
             value={query}
             onChangeText={setQuery}
             placeholder="Search by place, date or fare"
             placeholderTextColor={
-              colors.isDark ? 'rgba(255, 255, 255, 0.75)' : colors.gray[400]
+              colors.isDark ? colors.alpha.white75 : colors.gray[400]
             }
             style={styles.searchInput}
             returnKeyType="search"
@@ -232,10 +232,10 @@ export default function ActivityScreen() {
                 const isCompleted = ride.status === 'completed';
                 const isCancelled = ride.status === 'cancelled';
                 const pillBg = isCompleted
-                  ? colors.isDark ? 'rgba(34, 197, 94, 0.2)' : colors.green[100]
+                  ? colors.isDark ? colors.alpha.green20 : colors.green[100]
                   : isCancelled
-                    ? colors.isDark ? 'rgba(239, 68, 68, 0.2)' : colors.red[100]
-                    : colors.isDark ? 'rgba(255, 112, 6, 0.2)' : colors.orange[100];
+                    ? colors.isDark ? colors.alpha.red20 : colors.red[100]
+                    : colors.isDark ? colors.alpha.orange20 : colors.orange[100];
                 const pillColor = isCompleted
                   ? colors.green[500]
                   : isCancelled

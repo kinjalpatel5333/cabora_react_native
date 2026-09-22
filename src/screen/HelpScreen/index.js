@@ -108,7 +108,7 @@ export default function HelpScreen() {
           accessibilityRole="button"
           accessibilityLabel="Get help with your last trip">
           <View style={styles.lastTripIcon}>
-            <Lucide name="car" size={20} color="#FF7006" />
+            <Lucide name="car" size={20} color=colors.primary />
           </View>
           <View style={styles.lastTripBody}>
             <Text style={styles.lastTripTitle}>
