@@ -1,15 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Image,
-  ImageBackground,
-  Linking,
-  StatusBar,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Image, ImageBackground, Linking, Text, useWindowDimensions, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {Button} from '../../components';
@@ -145,11 +135,6 @@ export default function SplashScreen({
       source={images.splashGradient}
       resizeMode="cover"
       style={[styles.root, {width: pageWidth, height: pageHeight}]}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="light-content"
-      />
       {/* Dark under gesture bar — removes the thick white safe-area strip */}
       <View
         pointerEvents="none"

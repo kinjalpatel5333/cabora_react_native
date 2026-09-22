@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Animated, Pressable, StyleSheet, View} from 'react-native';
+import {Animated, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {useSidebar} from '../../context/SidebarContext';
 import DrawerContent from '../DrawerContent';
 import styles, {DRAWER_WIDTH} from './style';
@@ -28,9 +28,9 @@ export default function Sidebar() {
     <View
       pointerEvents={open ? 'auto' : 'none'}
       style={StyleSheet.absoluteFill}>
-      <Pressable style={StyleSheet.absoluteFill} onPress={closeDrawer}>
+      <TouchableOpacity activeOpacity={0.7} style={StyleSheet.absoluteFill} onPress={closeDrawer}>
         <Animated.View style={[styles.overlay, {opacity: overlay}]} />
-      </Pressable>
+      </TouchableOpacity>
       <Animated.View style={[styles.panel, {transform: [{translateX}]}]}>
         <DrawerContent />
       </Animated.View>

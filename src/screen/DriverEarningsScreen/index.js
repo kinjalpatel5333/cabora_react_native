@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -37,11 +31,6 @@ export default function DriverEarningsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.slate[50]}
-        translucent={false}
-      />
 
       {/* Top Header */}
       <View
@@ -50,23 +39,23 @@ export default function DriverEarningsScreen() {
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
         <View style={styles.headerLeft}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             onPress={openDrawer}
             style={styles.menuBtn}>
             <Feather name="menu" size={20} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Earnings</Text>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Download Statement"
           onPress={handleDownloadStatement}
           style={styles.statementBtn}>
           <Lucide name="file-text" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -77,7 +66,7 @@ export default function DriverEarningsScreen() {
           {PERIOD_TABS.map(tab => {
             const isActive = tab === activeTab;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={tab}
                 accessibilityRole="button"
                 onPress={() => setActiveTab(tab)}
@@ -99,7 +88,7 @@ export default function DriverEarningsScreen() {
                   ]}>
                   {tab}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>

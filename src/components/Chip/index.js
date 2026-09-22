@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
@@ -12,7 +12,7 @@ export default function Chip({
   const styles = useThemedStyles(createStyles);
 
   return (
-    <Pressable
+    <TouchableOpacity activeOpacity={0.7}
       accessibilityRole="button"
       accessibilityState={{disabled, selected}}
       onPress={onPress}
@@ -36,6 +36,6 @@ export default function Chip({
         ]}>
         {label}
       </Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 }

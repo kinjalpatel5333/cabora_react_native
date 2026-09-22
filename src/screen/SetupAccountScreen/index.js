@@ -1,6 +1,6 @@
 import { PASSENGER_SETUP_ACCOUNT_ROLES, SETUP_ACCOUNT_STRINGS } from '../../config/staticData';
 import React, { useMemo, useState } from 'react';
-import { Linking, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import {Linking, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -12,6 +12,7 @@ import { useApp } from '../../context/AppContext';
 import { getMeApi, selectRoleApi, setAuthToken } from '../../config';
 import { useAppDispatch } from '../../redux/hooks';
 import { loginWithPhone } from '../../redux/slices/authSlice';
+import { extractUserProfile } from '../../utils/user';
 import createStyles from './style';
 
 
@@ -59,6 +60,7 @@ export default function SetupAccountScreen({ navigation, route }) {
   const onContinue = async () => {
     setLoading(true);
     const roleEnum = selected === 'driver' ? 'DRIVER' : 'PASSENGER';
+    let rawUserData = route?.params?.user || null;
 
     try {
       if (userId) {
@@ -78,15 +80,28 @@ export default function SetupAccountScreen({ navigation, route }) {
         }
 
         // Call /auth/me to fetch fresh user profile & role state
-        await getMeApi();
+        const meRes = await getMeApi();
+        rawUserData = meRes || rawUserData;
       }
     } catch (err) {
       console.warn('selectRoleApi or getMeApi error:', err);
     }
 
+    const profile = extractUserProfile(rawUserData, phone);
+
     if (selected === 'driver') {
       try {
-        await dispatch(loginWithPhone({ phone, role: selected })).unwrap();
+        await dispatch(
+          loginWithPhone({
+            phone: profile.mobile || phone,
+            role: selected,
+            name: profile.name,
+            email: profile.email,
+            dob: profile.dob,
+            photo: profile.photo,
+            gender: profile.gender,
+          }),
+        ).unwrap();
       } catch (err) {
         console.warn('loginWithPhone driver error:', err);
       } finally {
@@ -100,26 +115,28 @@ export default function SetupAccountScreen({ navigation, route }) {
       mobile: phone,
       role: selected,
       userId,
+      user: profile,
     });
   };
 
   return (
     <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
-      <StatusBar barStyle={colors.barStyle} />
       <View style={styles.header}>
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.7}
           accessibilityRole="button"
           onPress={() => navigation.goBack()}
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{SETUP_ACCOUNT_STRINGS.HEADER_TITLE}</Text>
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.7}
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -133,8 +150,9 @@ export default function SetupAccountScreen({ navigation, route }) {
         {ROLES.map(role => {
           const isSelected = role.id === selected;
           return (
-            <Pressable
+            <TouchableOpacity
               key={role.id}
+              activeOpacity={0.8}
               onPress={() => setSelected(role.id)}
               style={[styles.card, isSelected && styles.cardSelected]}>
               <View style={styles.cardTop}>
@@ -164,7 +182,7 @@ export default function SetupAccountScreen({ navigation, route }) {
                   {role.hint}
                 </Text>
               </View>
-            </Pressable>
+            </TouchableOpacity>
           );
         })}
 

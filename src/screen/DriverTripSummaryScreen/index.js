@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToast } from '../../components/Toast';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import createStyles from './style';
@@ -37,11 +32,6 @@ export default function DriverTripSummaryScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.transparent}
-        translucent
-      />
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -127,19 +117,19 @@ export default function DriverTripSummaryScreen() {
           styles.actionSection,
           { paddingBottom: Math.max(insets.bottom, 12) + 4 },
         ]}>
-        <Pressable
-          accessibilityRole="button"
+        <Button
+          title="Confirm & complete trip"
           onPress={handleConfirmComplete}
-          style={styles.confirmBtn}>
-          <Text style={styles.confirmBtnText}>Confirm & complete trip</Text>
-        </Pressable>
+          style={styles.confirmBtn}
+          textStyle={styles.confirmBtnText}
+        />
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleReportProblem}
           style={styles.reportLink}>
           <Text style={styles.reportLinkText}>Report a fare problem</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

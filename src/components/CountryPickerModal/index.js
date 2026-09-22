@@ -1,15 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
@@ -57,7 +47,7 @@ export default function CountryPickerModal({
   const renderItem = ({item}) => {
     const isSelected = selectedCountry?.code === item.code;
     return (
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         onPress={() => handleSelect(item)}
         style={[styles.item, isSelected ? styles.itemSelected : null]}>
@@ -82,7 +72,7 @@ export default function CountryPickerModal({
         {isSelected ? (
           <Feather name="check" size={18} color={colors.primary} />
         ) : null}
-      </Pressable>
+      </TouchableOpacity>
     );
   };
 
@@ -95,17 +85,17 @@ export default function CountryPickerModal({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.backdrop}>
-        <Pressable style={{flex: 1}} onPress={handleClose} />
+        <TouchableOpacity activeOpacity={0.7} style={{flex: 1}} onPress={handleClose} />
         <View style={[styles.sheet, {paddingBottom: Math.max(insets.bottom, 16)}]}>
           <View style={styles.dragHandle} />
           <View style={styles.header}>
             <Text style={styles.title}>Select Country</Text>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               onPress={handleClose}
               style={styles.closeButton}>
               <Feather name="x" size={18} color={colors.text} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.searchContainer}>
@@ -120,9 +110,9 @@ export default function CountryPickerModal({
               autoCorrect={false}
             />
             {search ? (
-              <Pressable onPress={() => setSearch('')}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => setSearch('')}>
                 <Feather name="x-circle" size={16} color={colors.muted} />
-              </Pressable>
+              </TouchableOpacity>
             ) : null}
           </View>
 

@@ -1,16 +1,11 @@
 import { PASSENGER_TRUSTED_CONTACTS_INITIAL, PASSENGER_TRUSTED_CONTACTS_PRIVACY } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -24,7 +19,7 @@ const PRIVACY = PASSENGER_TRUSTED_CONTACTS_PRIVACY;
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (
-    <Pressable
+    <TouchableOpacity activeOpacity={0.7}
       onPress={() => onToggle(!value)}
       accessibilityRole="switch"
       accessibilityState={{checked: value}}
@@ -39,7 +34,7 @@ function CustomToggle({value, onToggle, label, styles}) {
           value ? styles.toggleThumbActive : styles.toggleThumbInactive,
         ]}
       />
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -69,28 +64,24 @@ export default function TrustedContactsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.card}
-      />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Trusted contacts</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -127,7 +118,7 @@ export default function TrustedContactsScreen() {
                 <Text style={styles.contactName}>{contact.name}</Text>
                 <Text style={styles.contactMeta}>{contact.meta}</Text>
               </View>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.menuBtn}
                 onPress={() =>
                   showToast({
@@ -143,7 +134,7 @@ export default function TrustedContactsScreen() {
                   size={18}
                   color={colors.slate[500]}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.togglesRow}>
@@ -169,7 +160,7 @@ export default function TrustedContactsScreen() {
           </View>
         ))}
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.addCard}
           onPress={() => {
             navigation.navigate('SafetyNumber');
@@ -178,7 +169,7 @@ export default function TrustedContactsScreen() {
           accessibilityLabel="Add a trusted contact">
           <Feather name="plus" size={18} color={colors.primary} />
           <Text style={styles.addText}>Add a trusted contact</Text>
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.privacyCard}>
           <Text style={styles.privacyTitle}>What they can see</Text>
@@ -208,13 +199,11 @@ export default function TrustedContactsScreen() {
 
       <View
         style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 12)}]}>
-        <Pressable
-          style={styles.saveBtn}
+        <Button
+          title="Save changes"
           onPress={onSave}
-          accessibilityRole="button"
-          accessibilityLabel="Save changes">
-          <Text style={styles.saveText}>Save changes</Text>
-        </Pressable>
+          accessibilityLabel="Save changes"
+        />
       </View>
     </View>
   );

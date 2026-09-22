@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  Pressable,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Image, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {FontAwesome6} from '@react-native-vector-icons/fontawesome6/static';
@@ -30,7 +23,6 @@ export default function DriverEnRoutePickupScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} />
 
       <Image
         source={images.mapBackdrop}
@@ -82,17 +74,17 @@ export default function DriverEnRoutePickupScreen() {
       </View>
 
       <View style={[styles.fabs, {top: insets.top + 200}]}>
-        <Pressable accessibilityRole="button" style={styles.fab}>
+        <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.fab}>
           <FontAwesome6
             name="location-crosshairs"
             iconStyle="solid"
             size={18}
             color={colors.text}
           />
-        </Pressable>
-        <Pressable accessibilityRole="button" style={styles.fab}>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.fab}>
           <Feather name="headphones" size={18} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View
@@ -130,15 +122,15 @@ export default function DriverEnRoutePickupScreen() {
         </View>
 
         <View style={styles.actionRow}>
-          <Pressable accessibilityRole="button" style={styles.actionBtn}>
+          <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.actionBtn}>
             <Feather name="phone" size={16} color={colors.text} />
             <Text style={styles.actionText}>Call</Text>
-          </Pressable>
-          <Pressable accessibilityRole="button" style={styles.actionBtn}>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.actionBtn}>
             <Feather name="message-circle" size={16} color={colors.text} />
             <Text style={styles.actionText}>Chat</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => navigation.navigate('CancelRideReason')}
             style={[styles.actionBtn, styles.cancelActionBtn]}>
@@ -146,16 +138,16 @@ export default function DriverEnRoutePickupScreen() {
               <Feather name="x" size={10} color={colors.red[700]} />
             </View>
             <Text style={styles.cancelActionText}>Cancel</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           style={styles.arriveBtn}
           onPress={() => navigation.navigate('DriverStartTrip')}>
           <Lucide name="circle-check" size={22} color={colors.white} />
           <Text style={styles.arriveText}>I've arrived at pickup</Text>
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.footerHint}>
           Unlocked because you're inside the pickup zone. Outside 100 m this

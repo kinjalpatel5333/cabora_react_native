@@ -1,14 +1,6 @@
 import { PASSENGER_PAYMENT_OFFERS_METHODS } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -70,7 +62,7 @@ export default function PaymentOffersModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
         <Animated.View
           onLayout={onSheetLayout}
@@ -83,13 +75,13 @@ export default function PaymentOffersModal({
             },
           ]}>
           <View {...panHandlers}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
               style={styles.grabberHit}>
               <View style={styles.grabber} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
           <Text style={styles.title}>Payment & offers</Text>
 
@@ -101,7 +93,7 @@ export default function PaymentOffersModal({
             {METHODS.map(method => {
               const active = method.id === draftId;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={method.id}
                   onPress={() => setDraftId(method.id)}
                   style={[
@@ -134,7 +126,7 @@ export default function PaymentOffersModal({
                       />
                     </View>
                   ) : null}
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -149,9 +141,9 @@ export default function PaymentOffersModal({
             </View>
           </View>
 
-          <Pressable style={styles.saveBtn} onPress={onSaveContinue}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.saveBtn} onPress={onSaveContinue}>
             <Text style={styles.saveText}>Save & continue</Text>
-          </Pressable>
+          </TouchableOpacity>
         </Animated.View>
       </View>
     </Modal>

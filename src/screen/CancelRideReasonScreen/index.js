@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {Button} from '../../components';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -31,8 +32,7 @@ export default function CancelRideReasonScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
-      <Pressable style={styles.backdrop} onPress={onKeepRide} />
+      <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onKeepRide} />
 
       <View
         style={[
@@ -75,7 +75,7 @@ export default function CancelRideReasonScreen() {
             {CANCEL_REASONS.map(reason => {
               const active = selected === reason;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={reason}
                   accessibilityRole="radio"
                   accessibilityState={{selected: active}}
@@ -92,25 +92,29 @@ export default function CancelRideReasonScreen() {
                     ]}>
                     {reason}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
         </ScrollView>
 
         <View style={styles.actions}>
-          <Pressable
-            accessibilityRole="button"
+          <Button
+            title="Keep ride"
+            variant="outline"
             onPress={onKeepRide}
-            style={styles.keepBtn}>
-            <Text style={styles.keepText}>Keep ride</Text>
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
+            style={styles.keepBtn}
+            textStyle={styles.keepText}
+            fullWidth={false}
+          />
+          <Button
+            title="Cancel ride"
+            variant="danger"
             onPress={onCancelRide}
-            style={styles.cancelBtn}>
-            <Text style={styles.cancelText}>Cancel ride</Text>
-          </Pressable>
+            style={styles.cancelBtn}
+            textStyle={styles.cancelText}
+            fullWidth={false}
+          />
         </View>
       </View>
     </View>

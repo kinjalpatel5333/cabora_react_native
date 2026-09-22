@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
@@ -56,7 +56,7 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
       pointerEvents="box-none"
       style={[
         styles.shell,
-        { paddingBottom: Math.max(insets.bottom, 10) },
+        { paddingBottom: Platform.OS === 'android' ? 5 : Math.max(insets.bottom, 10) },
       ]}>
       <View
         style={[
@@ -96,7 +96,7 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
             };
 
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={route.key}
                 accessibilityRole="button"
                 accessibilityState={active ? { selected: true } : {}}
@@ -134,7 +134,7 @@ export default function HomeTabBar({ state, descriptors, navigation }) {
                     {label}
                   </Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>

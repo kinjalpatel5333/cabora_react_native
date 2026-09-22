@@ -1,12 +1,5 @@
 import React, {useState, useMemo} from 'react';
-import {
-  FlatList,
-  Image,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {FlatList, Image, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {useSidebar} from '../../context/SidebarContext';
@@ -102,9 +95,9 @@ export default function SearchScreen() {
       {/* Top Header & Search Bar */}
       <View style={[styles.header, {paddingTop: Math.max(insets.top, 12)}]}>
         <View style={styles.headerTop}>
-          <Pressable onPress={openDrawer} hitSlop={10} style={styles.menuBtn}>
+          <TouchableOpacity activeOpacity={0.7} onPress={openDrawer} hitSlop={10} style={styles.menuBtn}>
             <Image source={images.iconMenu} style={styles.menuIcon} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Search</Text>
           <View style={{width: 32}} />
         </View>
@@ -123,12 +116,12 @@ export default function SearchScreen() {
             style={styles.searchInput}
           />
           {searchQuery.length > 0 ? (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() => setSearchQuery('')}
               style={styles.clearBtn}
               hitSlop={8}>
               <Text style={styles.clearText}>✕</Text>
-            </Pressable>
+            </TouchableOpacity>
           ) : null}
         </View>
       </View>
@@ -147,7 +140,7 @@ export default function SearchScreen() {
           {paddingBottom: insets.bottom + 20},
         ]}
         renderItem={({item}) => (
-          <Pressable style={styles.listItem}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.listItem}>
             <View
               style={[
                 styles.itemIconWrap,
@@ -166,7 +159,7 @@ export default function SearchScreen() {
             </View>
 
             <Text style={styles.arrow}>›</Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View style={styles.emptyWrap}>

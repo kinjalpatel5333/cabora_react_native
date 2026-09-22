@@ -1,20 +1,12 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  Linking,
-  Pressable,
-  Share,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Image, Linking, Share, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {FontAwesome6} from '@react-native-vector-icons/fontawesome6/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
+import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -81,11 +73,6 @@ export default function DriverTripInProgressScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.transparent}
-        translucent
-      />
 
       {/* Map Backdrop */}
       <Image
@@ -110,18 +97,18 @@ export default function DriverTripInProgressScreen() {
           </View>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="SOS Emergency"
           onPress={handleSos}
           style={styles.sosBtn}>
           <Lucide name="siren" size={16} color={colors.red[600]} />
           <Text style={styles.sosText}>SOS</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       {/* Recenter / Crosshairs FAB */}
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Recenter Map"
         onPress={() => {
@@ -138,7 +125,7 @@ export default function DriverTripInProgressScreen() {
           size={18}
           color={colors.text}
         />
-      </Pressable>
+      </TouchableOpacity>
 
       {/* Map Route Graphic Overlay */}
       <View
@@ -232,27 +219,27 @@ export default function DriverTripInProgressScreen() {
           </View>
 
           <View style={styles.actionIconGroup}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel="Call rider"
               onPress={handleCallPassenger}
               style={styles.roundActionBtn}>
               <Feather name="phone" size={17} color={colors.text} />
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel="Message rider"
               onPress={handleChatPassenger}
               style={styles.roundActionBtn}>
               <Feather name="message-circle" size={17} color={colors.text} />
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel="Share trip"
               onPress={handleShareTrip}
               style={styles.roundActionBtn}>
               <Lucide name="share" size={17} color={colors.text} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -265,13 +252,13 @@ export default function DriverTripInProgressScreen() {
         </View>
 
         {/* End Trip Primary Action Button with green border & orange background */}
-        <Pressable
-          accessibilityRole="button"
+        <Button
+          title="End trip & collect ₹241.50"
+          icon={<Lucide name="circle-check" size={20} color={colors.white} />}
           onPress={handleEndTrip}
-          style={styles.endTripBtn}>
-          <Lucide name="circle-check" size={20} color={colors.white} />
-          <Text style={styles.endTripText}>End trip & collect ₹241.50</Text>
-        </Pressable>
+          style={styles.endTripBtn}
+          textStyle={styles.endTripText}
+        />
 
         {/* Home Indicator */}
         <View style={styles.homeIndicator} />

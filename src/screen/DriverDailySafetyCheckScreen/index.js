@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -72,11 +66,6 @@ export default function DriverDailySafetyCheckScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.white}
-        translucent={false}
-      />
 
       {/* Header Bar */}
       <View
@@ -84,23 +73,23 @@ export default function DriverDailySafetyCheckScreen() {
           styles.header,
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>Daily safety check</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -130,7 +119,7 @@ export default function DriverDailySafetyCheckScreen() {
             const isDone = Boolean(checked[item.id]);
 
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: isDone }}
@@ -145,7 +134,7 @@ export default function DriverDailySafetyCheckScreen() {
                   <Text style={styles.checkText}>{item.title}</Text>
                 </View>
                 {isDone && <Text style={styles.doneText}>Done</Text>}
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -157,7 +146,7 @@ export default function DriverDailySafetyCheckScreen() {
             const isDone = Boolean(checked[item.id]);
 
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: isDone }}
@@ -172,7 +161,7 @@ export default function DriverDailySafetyCheckScreen() {
                   <Text style={styles.checkText}>{item.title}</Text>
                 </View>
                 {isDone && <Text style={styles.doneText}>Done</Text>}
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>

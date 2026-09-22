@@ -1,24 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
 import {useAppDispatch} from '../../redux/hooks';
 import {loginWithPhone} from '../../redux/slices/authSlice';
+import {extractUserProfile} from '../../utils/user';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -71,49 +62,50 @@ export default function CompleteProfileScreen({navigation, route}) {
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
 
-  const [phone, setPhone] = useState(route?.params?.mobile || '9879522140');
-  const role = route?.params?.role || 'passenger';
+  const initialProfile = extractUserProfile(route?.params?.user, route?.params?.mobile);
 
-  const [photoUri, setPhotoUri] = useState(null);
+  const [phone, setPhone] = useState(
+    initialProfile.mobile || route?.params?.mobile || '9879522140',
+  );
+  const role = route?.params?.role || initialProfile.role || 'passenger';
+
+  const [photoUri, setPhotoUri] = useState(initialProfile.photo || null);
   const [photoAsset, setPhotoAsset] = useState(null);
-  const [fullName, setFullName] = useState('');
-  const [dob, setDob] = useState('');
-  const [email, setEmail] = useState('');
-  const [gender, setGender] = useState('');
+  const [fullName, setFullName] = useState(initialProfile.name || '');
+  const [dob, setDob] = useState(
+    initialProfile.dob ? convertDobToUi(initialProfile.dob) : '',
+  );
+  const [email, setEmail] = useState(initialProfile.email || '');
+  const [gender, setGender] = useState(initialProfile.gender || '');
   const [focusedField, setFocusedField] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch initial profile info from /api/v1/auth/me on mount
+  // Fetch initial profile info from /api/v1/auth/me on mount if not provided
   useEffect(() => {
     let isMounted = true;
     async function fetchMe() {
       try {
         const res = await getMeApi();
-        const user =
-          res?.data?.user ||
-          res?.user ||
-          res?.data?.passenger ||
-          res?.passenger ||
-          res?.data;
+        const profile = extractUserProfile(res, phone);
 
-        if (isMounted && user) {
-          if (user.name || user.fullName) {
-            setFullName(user.name || user.fullName);
+        if (isMounted && profile) {
+          if (profile.name) {
+            setFullName(profile.name);
           }
-          if (user.email) {
-            setEmail(user.email);
+          if (profile.email) {
+            setEmail(profile.email);
           }
-          if (user.gender) {
-            setGender(user.gender);
+          if (profile.gender) {
+            setGender(profile.gender);
           }
-          if (user.dob) {
-            setDob(convertDobToUi(user.dob));
+          if (profile.dob) {
+            setDob(convertDobToUi(profile.dob));
           }
-          if (user.profilePhoto || user.photo || user.avatar) {
-            setPhotoUri(user.profilePhoto || user.photo || user.avatar);
+          if (profile.photo) {
+            setPhotoUri(profile.photo);
           }
-          if (user.mobile || user.phone) {
-            setPhone(user.mobile || user.phone);
+          if (profile.mobile) {
+            setPhone(profile.mobile);
           }
         }
       } catch (err) {
@@ -124,7 +116,7 @@ export default function CompleteProfileScreen({navigation, route}) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [phone]);
 
   const formattedPhone = phone
     ? `+91 ${phone.slice(0, 5)} ${phone.slice(5)} · already verified`
@@ -235,16 +227,16 @@ export default function CompleteProfileScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
 
       {/* Header */}
       <View style={styles.header}>
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.7}
           accessibilityRole="button"
           onPress={() => navigation.goBack()}
           style={styles.backBtn}>
           <Feather name="arrow-left" size={22} color={colors.navy[925]} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Complete your profile</Text>
       </View>
 
@@ -266,7 +258,10 @@ export default function CompleteProfileScreen({navigation, route}) {
           </View>
 
           {/* Photo Section */}
-          <Pressable onPress={onPickPhoto} style={styles.avatarSection}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={onPickPhoto}
+            style={styles.avatarSection}>
             <View style={styles.avatarWrapper}>
               {photoUri ? (
                 <Image source={{uri: photoUri}} style={styles.avatarImage} />
@@ -281,7 +276,7 @@ export default function CompleteProfileScreen({navigation, route}) {
             <Text style={styles.photoHintText}>
               Optional — helps your driver spot you
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
           {/* Form Fields */}
           <View style={styles.form}>
@@ -376,18 +371,14 @@ export default function CompleteProfileScreen({navigation, route}) {
             styles.footer,
             {paddingBottom: Math.max(insets.bottom, 16) + 6},
           ]}>
-          <Pressable
-            accessibilityRole="button"
+          <Button
+            title="Start riding"
             onPress={onStartRiding}
+            loading={loading}
             disabled={loading}
-            style={({pressed}) => [
-              styles.startBtn,
-              pressed && {opacity: 0.9, transform: [{scale: 0.99}]},
-            ]}>
-            <Text style={styles.startBtnText}>
-              {loading ? 'Starting...' : 'Start riding'}
-            </Text>
-          </Pressable>
+            style={styles.startBtn}
+            textStyle={styles.startBtnText}
+          />
         </View>
       </KeyboardAvoidingView>
     </View>

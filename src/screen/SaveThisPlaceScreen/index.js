@@ -1,18 +1,10 @@
 import { PASSENGER_SAVE_PLACE_LABELS } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -109,7 +101,6 @@ export default function SaveThisPlaceScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.map.land} />
 
       <View style={styles.mapArea}>
         <View style={styles.roadH} />
@@ -125,14 +116,14 @@ export default function SaveThisPlaceScreen() {
           <View style={styles.dragDot} />
           <Text style={styles.dragText}>Drag the map to adjust</Text>
         </View>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={[styles.backBtn, {top: insets.top + 8}]}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <KeyboardAvoidingView
@@ -158,7 +149,7 @@ export default function SaveThisPlaceScreen() {
               {LABELS.map(item => {
                 const active = label === item.id;
                 return (
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     key={item.id}
                     style={[styles.labelChip, active && styles.labelChipActive]}
                     onPress={() => setLabel(item.id)}>
@@ -174,7 +165,7 @@ export default function SaveThisPlaceScreen() {
                       ]}>
                       {item.label}
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -221,14 +212,12 @@ export default function SaveThisPlaceScreen() {
             </View>
           </ScrollView>
 
-          <Pressable
-            style={[styles.saveBtn, !canSave && styles.saveBtnDisabled]}
+          <Button
+            title="Save place"
             disabled={!canSave}
             onPress={onSave}
-            accessibilityRole="button"
-            accessibilityLabel="Save place">
-            <Text style={styles.saveText}>Save place</Text>
-          </Pressable>
+            accessibilityLabel="Save place"
+          />
         </View>
       </KeyboardAvoidingView>
     </View>

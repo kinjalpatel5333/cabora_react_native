@@ -1,17 +1,6 @@
 import { PASSENGER_SET_ROUTE_RECENT_SAVED, PASSENGER_SET_ROUTE_SUGGESTIONS } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -188,7 +177,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.backdrop}
           onPress={onClose}
           accessibilityRole="button"
@@ -210,7 +199,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
               },
             ]}>
             <View {...panHandlers}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 onPress={toggle}
                 accessibilityRole="button"
                 accessibilityLabel={
@@ -218,7 +207,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                 }
                 style={styles.grabberHit}>
                 <View style={styles.grabber} />
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <Text style={styles.title}>Set your route</Text>
 
@@ -253,7 +242,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         {pickup}
                       </Text>
                     )}
-                    <Pressable
+                    <TouchableOpacity activeOpacity={0.7}
                       accessibilityRole="button"
                       accessibilityLabel="Edit pickup"
                       onPress={() => setEditingPickup(true)}
@@ -263,7 +252,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         size={16}
                         color={colors.isDark ? colors.muted : colors.gray[400]}
                       />
-                    </Pressable>
+                    </TouchableOpacity>
                   </View>
 
                   <View style={styles.fieldDivider} />
@@ -285,7 +274,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                       returnKeyType="search"
                     />
                     {destination.length > 0 ? (
-                      <Pressable
+                      <TouchableOpacity activeOpacity={0.7}
                         accessibilityRole="button"
                         accessibilityLabel="Clear destination"
                         onPress={clearDestination}
@@ -297,7 +286,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                             colors.isDark ? colors.muted : colors.gray[400]
                           }
                         />
-                      </Pressable>
+                      </TouchableOpacity>
                     ) : null}
                   </View>
                 </View>
@@ -313,11 +302,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
               ) : null}
 
               <View style={styles.actions}>
-                <Pressable style={styles.actionChip}>
+                <TouchableOpacity activeOpacity={0.7} style={styles.actionChip}>
                   <Feather name="map-pin" size={15} color={colors.text} />
                   <Text style={styles.actionChipText}>Choose on map</Text>
-                </Pressable>
-                <Pressable
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}
                   style={[
                     styles.actionChip,
                     !canOpenAddStop && styles.actionChipDisabled,
@@ -347,7 +336,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                     ]}>
                     Add a stop
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
 
               {isOutOfArea && !isSamePlace ? (
@@ -367,7 +356,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                     service area. We'll tell you the moment we start operating
                     there.
                   </Text>
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     style={styles.notifyBtn}
                     onPress={() => setNotifySaved(true)}>
                     <Text style={styles.notifyBtnText}>
@@ -375,7 +364,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                         ? "You're on the list"
                         : 'Notify me when available'}
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               ) : null}
 
@@ -387,7 +376,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                           TRY ONE OF THESE INSTEAD
                         </Text>
                       ) : null}
-                      <Pressable
+                      <TouchableOpacity activeOpacity={0.7}
                         style={styles.placeRow}
                         onPress={() => onPickPlace(item)}>
                         <View style={styles.placeIcon}>
@@ -401,7 +390,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                             {item.subtitle}
                           </Text>
                         </View>
-                      </Pressable>
+                      </TouchableOpacity>
                     </View>
                   ))
                 : null}
@@ -415,7 +404,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                     </Text>
                   ) : null}
                   {listData.map(item => (
-                    <Pressable
+                    <TouchableOpacity activeOpacity={0.7}
                       key={item.id}
                       style={styles.placeRow}
                       onPress={() => onPickPlace(item)}>
@@ -438,13 +427,13 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                           {item.subtitle}
                         </Text>
                       </View>
-                    </Pressable>
+                    </TouchableOpacity>
                   ))}
                 </>
               ) : null}
             </ScrollView>
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityState={{disabled: !canConfirm}}
               disabled={!canConfirm}
@@ -464,18 +453,18 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                 ]}>
                 Confirm locations
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </Animated.View>
         </KeyboardAvoidingView>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <YourRouteModal
           visible={routeStopsOpen}

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -62,11 +56,6 @@ export default function DriverProfileScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={colors.navy[850]}
-        translucent={false}
-      />
 
       <ScrollView
         contentContainerStyle={[
@@ -82,13 +71,13 @@ export default function DriverProfileScreen() {
           ]}>
           <View style={styles.heroDeco} />
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             onPress={openDrawer}
             style={styles.menuBtn}>
             <Feather name="menu" size={20} color={colors.white} />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles.profileRow}>
             <View style={styles.avatarCircle}>
@@ -112,13 +101,13 @@ export default function DriverProfileScreen() {
               </Text>
             </View>
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               accessibilityLabel="Edit profile"
               onPress={handleEditProfile}
               style={styles.editBtn}>
               <Feather name="edit-2" size={16} color={colors.white} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.kycBanner}>
@@ -159,20 +148,20 @@ export default function DriverProfileScreen() {
             </Text>
           </View>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={handleVehicleChange}
             style={styles.vehicleActionBtn}>
             <Text style={styles.vehicleActionText}>
               Request a vehicle change
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* DOCUMENTS & COMPLIANCE Section */}
         <Text style={styles.sectionTitle}>DOCUMENTS & COMPLIANCE</Text>
         <View style={styles.listCard}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={handleDocuments}
             style={[styles.listItem, styles.listBorder]}>
@@ -188,9 +177,9 @@ export default function DriverProfileScreen() {
               </View>
             </View>
             <Feather name="chevron-right" size={18} color={colors.slate[400]} />
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => handleAction('Police verification')}
             style={styles.listItem}>
@@ -206,13 +195,13 @@ export default function DriverProfileScreen() {
               </View>
             </View>
             <Feather name="chevron-right" size={18} color={colors.slate[400]} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* PAYOUTS & ACCOUNT Section */}
         <Text style={styles.sectionTitle}>PAYOUTS & ACCOUNT</Text>
         <View style={styles.listCard}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => handleAction('App settings')}
             style={[styles.listItem, styles.listBorder]}>
@@ -228,9 +217,9 @@ export default function DriverProfileScreen() {
               </View>
             </View>
             <Feather name="chevron-right" size={18} color={colors.slate[400]} />
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => handleAction('Help & Support')}
             style={styles.listItem}>
@@ -244,7 +233,7 @@ export default function DriverProfileScreen() {
               </View>
             </View>
             <Feather name="chevron-right" size={18} color={colors.slate[400]} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

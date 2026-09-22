@@ -1,17 +1,10 @@
 import { PASSENGER_RATE_TIP_TAGS, PASSENGER_RATE_TIP_OPTIONS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './rateTipStyle';
@@ -87,14 +80,14 @@ export default function RateTipScreen({
           styles.scrollContent,
           {paddingTop: insets.top + 8},
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Close"
           style={styles.closeBtn}
           onPress={onClose}
           hitSlop={8}>
           <Feather name="x" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>{driverInitials}</Text>
@@ -109,7 +102,7 @@ export default function RateTipScreen({
 
         <View style={styles.starsRow}>
           {[1, 2, 3, 4, 5].map(value => (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               key={value}
               style={styles.starHit}
               onPress={() => setRating(value)}
@@ -120,7 +113,7 @@ export default function RateTipScreen({
                 color={
                   value <= rating ? colors.amber[500] : colors.gray[300]
                 }
-              />            </Pressable>
+              />            </TouchableOpacity>
           ))}
         </View>
 
@@ -129,7 +122,7 @@ export default function RateTipScreen({
           {TAGS.map(tag => {
             const selected = selectedTags.includes(tag);
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={tag}
                 onPress={() => toggleTag(tag)}
                 style={[styles.tag, selected && styles.tagSelected]}>
@@ -140,7 +133,7 @@ export default function RateTipScreen({
                   ]}>
                   {tag}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -159,7 +152,7 @@ export default function RateTipScreen({
           {TIP_OPTIONS.map(opt => {
             const selected = tipId === opt.id;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={String(opt.id)}
                 onPress={() => setTipId(opt.id)}
                 style={[styles.tipBtn, selected && styles.tipBtnSelected]}>
@@ -170,7 +163,7 @@ export default function RateTipScreen({
                   ]}>
                   {opt.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -188,12 +181,19 @@ export default function RateTipScreen({
       </ScrollView>
 
       <View style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 16)}]}>
-        <Pressable style={styles.submitBtn} onPress={handleSubmit}>
-          <Text style={styles.submitText}>{submitLabel}</Text>
-        </Pressable>
-        <Pressable style={styles.skipBtn} onPress={onSkip}>
-          <Text style={styles.skipText}>Not now</Text>
-        </Pressable>
+        <Button
+          title={submitLabel}
+          onPress={handleSubmit}
+          style={styles.submitBtn}
+          textStyle={styles.submitText}
+        />
+        <Button
+          title="Not now"
+          variant="ghost"
+          onPress={onSkip}
+          style={styles.skipBtn}
+          textStyle={styles.skipText}
+        />
       </View>
     </KeyboardAvoidingView>
   );

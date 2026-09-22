@@ -1,13 +1,6 @@
 import { PASSENGER_SAVED_PLACES } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -102,38 +95,37 @@ export default function SavedPlacesScreen() {
             {description}
           </Text>
         </View>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.actionBtn}
           onPress={() => openSave('edit', place)}
           hitSlop={8}
           accessibilityRole="button"
           accessibilityLabel={`Edit ${place.name}`}>
           <Feather name="edit-2" size={16} color={colors.gray[500]} />
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.actionBtn}
           onPress={() => onDelete(place.id)}
           hitSlop={8}
           accessibilityRole="button"
           accessibilityLabel={`Delete ${place.name}`}>
           <Feather name="trash-2" size={16} color={colors.red[500]} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
     );
   };
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Saved places</Text>
         <View style={styles.headerBtn} />
       </View>
@@ -188,13 +180,13 @@ export default function SavedPlacesScreen() {
           styles.footer,
           {paddingBottom: Math.max(insets.bottom, 12)},
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.addBtn}
           onPress={() => openSave('add')}
           accessibilityRole="button"
           accessibilityLabel="Add a place">
           <Text style={styles.addText}>Add a place</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

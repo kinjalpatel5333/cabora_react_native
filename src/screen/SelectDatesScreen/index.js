@@ -1,12 +1,6 @@
-import { PASSENGER_DATES_WEEKDAYS, PASSENGER_DATES_SHORT_MONTHS, PASSENGER_DATES_QUICK } from '../../config/staticData';
+import { PASSENGER_DATES_WEEKDAYS, PASSENGER_DATES_MONTHS, PASSENGER_DATES_SHORT_MONTHS, PASSENGER_DATES_QUICK } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -181,20 +175,19 @@ export default function SelectDatesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Select dates</Text>
-        <Pressable style={styles.headerBtn} onPress={onReset} hitSlop={8}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.headerBtn} onPress={onReset} hitSlop={8}>
           <Text style={styles.resetText}>Reset</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -204,7 +197,7 @@ export default function SelectDatesScreen() {
           {QUICK.map(item => {
             const active = item.id === quickId;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.chip, active && styles.chipActive]}
                 onPress={() => applyQuick(item.id)}>
@@ -212,7 +205,7 @@ export default function SelectDatesScreen() {
                   style={[styles.chipText, active && styles.chipTextActive]}>
                   {item.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -223,7 +216,7 @@ export default function SelectDatesScreen() {
               {MONTHS[cursor.month]} {cursor.year}
             </Text>
             <View style={styles.monthNav}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.navBtn}
                 onPress={() => shiftMonth(-1)}
                 hitSlop={8}>
@@ -232,8 +225,8 @@ export default function SelectDatesScreen() {
                   size={22}
                   color={colors.text}
                 />
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.navBtn}
                 onPress={() => shiftMonth(1)}
                 hitSlop={8}>
@@ -242,7 +235,7 @@ export default function SelectDatesScreen() {
                   size={22}
                   color={colors.text}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -271,7 +264,7 @@ export default function SelectDatesScreen() {
                     const mid = inRange && !isStart && !isEnd;
 
                     return (
-                      <Pressable
+                      <TouchableOpacity activeOpacity={0.7}
                         key={`${cell.date.toISOString()}-${index}`}
                         style={[
                           styles.dayCell,
@@ -298,7 +291,7 @@ export default function SelectDatesScreen() {
                             {cell.date.getDate()}
                           </Text>
                         )}
-                      </Pressable>
+                      </TouchableOpacity>
                     );
                   })}
                 </View>
@@ -346,7 +339,7 @@ export default function SelectDatesScreen() {
               Show trips you or the driver cancelled
             </Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="switch"
             accessibilityState={{checked: includeCancelled}}
             onPress={() => setIncludeCancelled(v => !v)}
@@ -357,7 +350,7 @@ export default function SelectDatesScreen() {
                 : styles.switchTrackOff,
             ]}>
             <View style={styles.switchThumb} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -366,7 +359,7 @@ export default function SelectDatesScreen() {
           styles.footer,
           {paddingBottom: Math.max(insets.bottom, 12)},
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.applyBtn}
           onPress={() => {
             showToast({
@@ -378,7 +371,7 @@ export default function SelectDatesScreen() {
           accessibilityRole="button"
           accessibilityLabel="Apply date range">
           <Text style={styles.applyText}>Apply date range</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

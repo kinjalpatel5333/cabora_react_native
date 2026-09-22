@@ -1,15 +1,6 @@
 import { PASSENGER_HOME_EXPLORE } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  PanResponder,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -262,11 +253,6 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle="dark-content"
-        translucent
-        backgroundColor="transparent"
-      />
       <MapBackdrop />
 
       {!overlayOpen ? (
@@ -275,7 +261,7 @@ export default function HomeScreen() {
             <Feather name="menu" size={22} color={colors.text} />
           </View>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.greetingPill}
             onPress={openRoute}
             accessibilityRole="button"
@@ -284,11 +270,11 @@ export default function HomeScreen() {
             <Text style={styles.greetingName} numberOfLines={1}>
               {displayName}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles.headerActions}>
             <View>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.iconCircle}
                 accessibilityRole="button"
                 accessibilityLabel="Notifications"
@@ -296,18 +282,18 @@ export default function HomeScreen() {
                   navigation.navigate('Notifications');
                 }}>
                 <Feather name="bell" size={20} color={colors.white} />
-              </Pressable>
+              </TouchableOpacity>
               <View style={styles.badge} pointerEvents="none">
                 <Text style={styles.badgeText}>3</Text>
               </View>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.avatar}
               onPress={() => navigation.navigate('Profile')}
               accessibilityRole="button"
               accessibilityLabel="Open profile">
               <Text style={styles.avatarText}>{initials(displayName)}</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       ) : null}
@@ -330,7 +316,7 @@ export default function HomeScreen() {
       ) : null}
 
       {!overlayOpen ? (
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Recenter map"
           onPress={() =>
@@ -345,7 +331,7 @@ export default function HomeScreen() {
             size={22}
             color={colors.text}
           />
-        </Pressable>
+        </TouchableOpacity>
       ) : null}
 
       {!overlayOpen ? (
@@ -356,7 +342,7 @@ export default function HomeScreen() {
           ]}>
           <View style={styles.sheet}>
             <View style={styles.grabberHit} {...panResponder.panHandlers}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 accessibilityRole="button"
                 accessibilityLabel={
                   sheetExpanded ? 'Collapse sheet' : 'Expand sheet'
@@ -367,7 +353,7 @@ export default function HomeScreen() {
                 hitSlop={8}
                 style={styles.grabberPress}>
                 <View style={styles.grabber} />
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <ScrollView
@@ -377,7 +363,7 @@ export default function HomeScreen() {
               scrollEnabled={sheetExpanded}
               nestedScrollEnabled>
               <View onLayout={onSheetContentLayout}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.searchCard}
                 onPress={openRoute}
                 accessibilityRole="button"
@@ -389,7 +375,7 @@ export default function HomeScreen() {
                   <Text style={styles.searchTitle}>Where to?</Text>
                   <Text style={styles.searchSub}>Pickup: 12, Brigade Road</Text>
                 </View>
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   style={styles.nowBtn}
                   onPress={e => {
                     e?.stopPropagation?.();
@@ -403,11 +389,11 @@ export default function HomeScreen() {
                   accessibilityLabel="Leave now">
                   <Feather name="clock" size={15} color={colors.orange[500]} />
                   <Text style={styles.nowText}>Now</Text>
-                </Pressable>
-              </Pressable>
+                </TouchableOpacity>
+              </TouchableOpacity>
 
               <View style={styles.shortcuts}>
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   style={styles.shortcut}
                   onPress={() => {
                     openRoute();
@@ -417,8 +403,8 @@ export default function HomeScreen() {
                   accessibilityLabel="Go home">
                   <Feather name="home" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
                   <Text style={styles.shortcutText}>Home</Text>
-                </Pressable>
-                <Pressable
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}
                   style={styles.shortcut}
                   onPress={() => {
                     openRoute();
@@ -432,29 +418,29 @@ export default function HomeScreen() {
                     color={colors.isDark ? colors.orange[500] : colors.navy[800]}
                   />
                   <Text style={styles.shortcutText}>Work</Text>
-                </Pressable>
-                <Pressable
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}
                   style={styles.shortcut}
                   onPress={() => navigation.navigate('SavedPlaces')}
                   accessibilityRole="button"
                   accessibilityLabel="Add saved place">
                   <Feather name="plus" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
                   <Text style={styles.shortcutText}>Add</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
 
               <View style={styles.sectionHead}>
                 <Text style={styles.sectionTitle}>EXPLORE</Text>
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   onPress={() => navigation.navigate('Services')}
                   accessibilityRole="button"
                   hitSlop={8}>
                   <Text style={styles.sectionLink}>More</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
               <View style={styles.exploreRow}>
                 {EXPLORE.map(item => (
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     key={item.id}
                     style={[
                       styles.exploreCard,
@@ -482,20 +468,20 @@ export default function HomeScreen() {
                       ]}>
                       {item.price}
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 ))}
               </View>
 
               <View style={styles.sectionHead}>
                 <Text style={styles.sectionTitle}>RECENT DESTINATIONS</Text>
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   onPress={() => navigation.navigate('Activity')}
                   accessibilityRole="button"
                   hitSlop={8}>
                   <Text style={styles.sectionLink}>See all</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.recentRow}
                 onPress={() => {
                   openRoute();
@@ -524,9 +510,9 @@ export default function HomeScreen() {
                   size={20}
                   color={colors.textMuted}
                 />
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.promo}
                 onPress={() =>
                   showToast({
@@ -552,7 +538,7 @@ export default function HomeScreen() {
                   size={20}
                   color={colors.orange[500]}
                 />
-              </Pressable>
+              </TouchableOpacity>
               </View>
             </ScrollView>
           </View>

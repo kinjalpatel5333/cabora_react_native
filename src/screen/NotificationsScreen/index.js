@@ -1,12 +1,6 @@
 import { PASSENGER_NOTIFICATIONS_TODAY, PASSENGER_NOTIFICATIONS_EARLIER, PASSENGER_NOTIFICATIONS_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -81,33 +75,29 @@ export default function NotificationsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.background}
-      />
 
       {/* Header */}
       <View style={[styles.headerRow, {paddingTop: Math.max(insets.top, 20) + 8}]}>
         <View style={styles.headerLeft}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.backBtn}
             onPress={() => navigation.goBack()}
             accessibilityRole="button"
             accessibilityLabel="Go back"
             hitSlop={8}>
             <Feather name="arrow-left" size={20} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Notifications</Text>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.markAllBtn}
           onPress={markAllRead}
           accessibilityRole="button"
           accessibilityLabel="Mark all read"
           hitSlop={8}>
           <Text style={styles.markAllText}>Mark all read</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       {/* Filter Tabs */}
@@ -119,7 +109,7 @@ export default function NotificationsScreen() {
           {CATEGORIES.map(cat => {
             const isActive = activeCategory === cat.id;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={cat.id}
                 style={[styles.pill, isActive && styles.pillActive]}
                 onPress={() => setActiveCategory(cat.id)}
@@ -129,7 +119,7 @@ export default function NotificationsScreen() {
                   style={[styles.pillText, isActive && styles.pillTextActive]}>
                   {cat.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
@@ -146,7 +136,7 @@ export default function NotificationsScreen() {
           <View>
             <Text style={styles.sectionTitle}>TODAY</Text>
             {filteredToday.map(item => (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.card, item.unread && styles.cardUnread]}
                 onPress={() => handleCardPress(item)}
@@ -167,7 +157,7 @@ export default function NotificationsScreen() {
                   </View>
                   <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </View>
         )}
@@ -182,7 +172,7 @@ export default function NotificationsScreen() {
               EARLIER THIS WEEK
             </Text>
             {filteredEarlier.map(item => (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.card, item.unread && styles.cardUnread]}
                 onPress={() => handleCardPress(item)}
@@ -203,7 +193,7 @@ export default function NotificationsScreen() {
                   </View>
                   <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </View>
         )}

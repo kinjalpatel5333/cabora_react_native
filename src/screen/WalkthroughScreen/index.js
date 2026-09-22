@@ -1,15 +1,6 @@
 import { PASSENGER_WALKTHROUGH_SLIDES } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  StatusBar,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {Dimensions, FlatList, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {Button} from '../../components';
@@ -81,11 +72,6 @@ export default function WalkthroughScreen() {
 
   return (
     <View style={[styles.root, {width: pageWidth, height: pageHeight}]}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="dark-content"
-      />
       {/* Navy under gesture bar — removes the thick white safe-area strip */}
       <View
         pointerEvents="none"
@@ -156,16 +142,17 @@ export default function WalkthroughScreen() {
               </Text>
               <View style={[styles.dots, {marginBottom: metrics.dotsMb}]}>
                 {SLIDES.map((slide, i) => (
-                  <Pressable
+                  <TouchableOpacity
                     key={slide.key}
-                    hitSlop={12}
+                    hitSlop={{top: 12, bottom: 12, left: 12, right: 12}}
+                    activeOpacity={0.7}
                     onPress={() => goTo(i)}
                     accessibilityRole="button"
                     accessibilityLabel={`Go to slide ${i + 1}`}>
                     <View
                       style={[styles.dot, i === index && styles.dotActive]}
                     />
-                  </Pressable>
+                  </TouchableOpacity>
                 ))}
               </View>
               <Button
@@ -185,9 +172,13 @@ export default function WalkthroughScreen() {
           resizeMode="contain"
           accessibilityLabel="Cabora"
         />
-        <Pressable onPress={finish} hitSlop={8} style={styles.skip}>
+        <TouchableOpacity
+          onPress={finish}
+          hitSlop={{top: 8, bottom: 8, left: 8, right: 8}}
+          activeOpacity={0.7}
+          style={styles.skip}>
           <Text style={styles.skipLabel}>Skip</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

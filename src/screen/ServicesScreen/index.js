@@ -1,14 +1,6 @@
 import { PASSENGER_SERVICES_RIDE_NOW, PASSENGER_SERVICES_PLAN_AHEAD } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Dimensions,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -131,10 +123,6 @@ export default function ServicesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.background}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -153,13 +141,13 @@ export default function ServicesScreen() {
             </Text>
           </View>
           <View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.bellBtn}
               accessibilityRole="button"
               accessibilityLabel="Notifications"
               onPress={() => navigation.navigate('Notifications')}>
               <Feather name="bell" size={20} color={colors.white} />
-            </Pressable>
+            </TouchableOpacity>
             <View style={styles.badge} pointerEvents="none">
               <Text style={styles.badgeText}>3</Text>
             </View>
@@ -184,7 +172,7 @@ export default function ServicesScreen() {
             <Text style={styles.sectionLabel}>RIDE NOW</Text>
             <View style={styles.rideList}>
               {rideItems.map(item => (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={styles.rideCard}
                   onPress={() => onSelectService(item.label, item.id)}
@@ -208,7 +196,7 @@ export default function ServicesScreen() {
                     size={18}
                     color={colors.textMuted}
                   />
-                </Pressable>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -219,7 +207,7 @@ export default function ServicesScreen() {
             <Text style={styles.sectionLabel}>PLAN AHEAD</Text>
             <View style={styles.planGrid}>
               {planItems.map(item => (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={[styles.planCard, {width: PLAN_CARD_W}]}
                   onPress={() => onSelectService(item.title, item.id)}
@@ -236,7 +224,7 @@ export default function ServicesScreen() {
                   <Text style={styles.planTitle} numberOfLines={2}>
                     {item.title}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -245,7 +233,7 @@ export default function ServicesScreen() {
         {showPortal ? (
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>SEND SOMETHING</Text>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.portalCard}
               onPress={() => onSelectService('Portal', 'portal')}
               accessibilityRole="button"
@@ -271,7 +259,7 @@ export default function ServicesScreen() {
                 size={18}
                 color={colors.textMuted}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
         ) : null}
 

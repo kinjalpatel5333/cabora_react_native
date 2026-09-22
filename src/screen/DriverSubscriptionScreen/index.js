@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -80,11 +74,6 @@ export default function DriverSubscriptionScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.white}
-        translucent={false}
-      />
 
       {/* Header Bar */}
       <View
@@ -92,23 +81,23 @@ export default function DriverSubscriptionScreen() {
           styles.header,
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>My subscription</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -196,11 +185,11 @@ export default function DriverSubscriptionScreen() {
               <Text style={styles.bankSub}>Auto-debit on the 14th</Text>
             </View>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={handleChangeBank}>
             <Text style={styles.changeText}>Change</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -210,19 +199,19 @@ export default function DriverSubscriptionScreen() {
           styles.bottomBar,
           { paddingBottom: Math.max(insets.bottom, 12) },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleChangePlan}
           style={styles.changePlanBtn}>
           <Text style={styles.changePlanText}>Change plan</Text>
-        </Pressable>
+        </TouchableOpacity>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleCancelSubscription}
           style={styles.cancelBtn}>
           <Text style={styles.cancelText}>Cancel subscription</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

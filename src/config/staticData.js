@@ -3,6 +3,9 @@
  * Exports all static data arrays used across application screens.
  */
 
+import colors from './color';
+import { images } from '../assets';
+
 // Driver Daily Safety Check
 export const DRIVER_SAFETY_VEHICLE_ITEMS = [
   { id: 'tyres', title: 'Tyres have visible tread and correct pressure' },

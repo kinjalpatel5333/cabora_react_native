@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Animated, Pressable, Text, View} from 'react-native';
+import {Animated, Text, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useApp} from '../../context/AppContext';
 import Icon from '../Icon';
@@ -31,7 +31,7 @@ export default function Toast({
   const spec = ICONS[type] || ICONS.info;
 
   return (
-    <Pressable
+    <TouchableOpacity activeOpacity={0.7}
       accessibilityRole="alert"
       onPress={onPress}
       style={styles.toast}>
@@ -42,7 +42,7 @@ export default function Toast({
         circle
       />
       <Text style={styles.message}>{message}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -96,7 +96,7 @@ function AnimatedToastItem({item, onDismiss}) {
         },
       ]}
       pointerEvents="box-none">
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="alert"
         onPress={handleDismiss}
         style={styles.toast}>
@@ -107,7 +107,7 @@ function AnimatedToastItem({item, onDismiss}) {
           circle
         />
         <Text style={styles.message}>{item.message}</Text>
-      </Pressable>
+      </TouchableOpacity>
     </Animated.View>
   );
 }

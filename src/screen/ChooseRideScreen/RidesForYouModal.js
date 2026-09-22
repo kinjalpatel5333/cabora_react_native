@@ -1,11 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -229,7 +223,7 @@ export default function RidesForYouModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={[styles.root, {paddingBottom: Math.max(insets.bottom, 12)}]}>
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
         <View style={styles.card}>
           <View style={styles.header}>
@@ -246,9 +240,9 @@ export default function RidesForYouModal({
                 </View>
               </View>
             </View>
-            <Pressable style={styles.closeBtn} onPress={onClose} hitSlop={8}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.closeBtn} onPress={onClose} hitSlop={8}>
               <Feather name="x" size={18} color={colors.text} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.sectionLabel}>RIDES FOR YOU</Text>
@@ -262,7 +256,7 @@ export default function RidesForYouModal({
               const active = !bookAny && selectedId === ride.id;
               const tint = active ? colors.orange[500] : colors.text;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={ride.id}
                   onPress={() => {
                     setBookAny(false);
@@ -294,11 +288,11 @@ export default function RidesForYouModal({
                     </View>
                   </View>
                   <Text style={styles.ridePrice}>₹{ride.price}</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() => setBookAny(true)}
               style={[styles.bookAnyCard, !bookAny && {opacity: 0.92}]}>
               <View style={styles.bookAnyTop}>
@@ -333,7 +327,7 @@ export default function RidesForYouModal({
                 {rides.map(ride => {
                   const on = anyIds.includes(ride.id);
                   return (
-                    <Pressable
+                    <TouchableOpacity activeOpacity={0.7}
                       key={`pill-${ride.id}`}
                       onPress={() => toggleAnyId(ride.id)}
                       style={[styles.pill, on && styles.pillOn]}>
@@ -346,11 +340,11 @@ export default function RidesForYouModal({
                         style={[styles.pillText, on && styles.pillTextOn]}>
                         {ride.name}
                       </Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   );
                 })}
               </View>
-            </Pressable>
+            </TouchableOpacity>
           </ScrollView>
 
           <View style={styles.footer}>
@@ -365,9 +359,9 @@ export default function RidesForYouModal({
               <Text style={styles.payText} numberOfLines={1}>
                 {paymentLabel}
               </Text>
-              <Pressable hitSlop={8} onPress={onChangePayment}>
+              <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={onChangePayment}>
                 <Text style={styles.changeText}>Change</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.promoRow}>
@@ -383,9 +377,9 @@ export default function RidesForYouModal({
                 <Text style={styles.totalLabel}>TOTAL</Text>
                 <Text style={styles.totalValue}>{totalLabel}</Text>
               </View>
-              <Pressable style={styles.bookBtn} onPress={onBook}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.bookBtn} onPress={onBook}>
                 <Text style={styles.bookText}>{bookLabel}</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -1,15 +1,6 @@
 import { PASSENGER_SHARE_LIVE_CONTACTS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Clipboard,
-  Modal,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Clipboard, Modal, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -85,16 +76,15 @@ export default function ShareLiveTripScreen({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root}>
-        <StatusBar barStyle={colors.isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
         <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.headerBtn}
             onPress={onClose}
             accessibilityRole="button"
             accessibilityLabel="Go back"
             hitSlop={8}>
             <Feather name="arrow-left" size={22} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Share live trip</Text>
           <View style={styles.headerBtn} />
         </View>
@@ -138,7 +128,7 @@ export default function ShareLiveTripScreen({
           <Text style={styles.sectionLabel}>WHO CAN FOLLOW THIS TRIP</Text>
           <View style={styles.contactsRow}>
             {contacts.map(contact => (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={contact.id}
                 style={styles.contactItem}
                 onPress={() => toggleContact(contact.id)}>
@@ -162,9 +152,9 @@ export default function ShareLiveTripScreen({
                   ]}>
                   {contact.name}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             ))}
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.contactItem}
               onPress={() =>
                 showToast({type: 'info', message: 'Add a contact'})
@@ -173,7 +163,7 @@ export default function ShareLiveTripScreen({
                 <Feather name="plus" size={20} color={colors.muted} />
               </View>
               <Text style={styles.contactNameMuted}>Add</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.orLabel}>Or send to a mobile number</Text>
@@ -186,9 +176,9 @@ export default function ShareLiveTripScreen({
               placeholder="+91 98765 43210"
               placeholderTextColor={colors.muted}
             />
-            <Pressable style={styles.sendBtn} onPress={onSendPhone}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.sendBtn} onPress={onSendPhone}>
               <Text style={styles.sendText}>Send</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.linkCard}>
@@ -197,10 +187,10 @@ export default function ShareLiveTripScreen({
               <Text style={styles.linkText} numberOfLines={1}>
                 {TRACKING_LINK}
               </Text>
-              <Pressable style={styles.copyBtn} onPress={onCopy}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.copyBtn} onPress={onCopy}>
                 <Feather name="copy" size={14} color={colors.text} />
                 <Text style={styles.copyText}>Copy</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -218,7 +208,7 @@ export default function ShareLiveTripScreen({
             styles.footer,
             {paddingBottom: Math.max(insets.bottom, 12)},
           ]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.shareBtn}
             onPress={onShare}
             accessibilityRole="button"
@@ -227,7 +217,7 @@ export default function ShareLiveTripScreen({
               Share with {selectedCount} contact
               {selectedCount === 1 ? '' : 's'}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

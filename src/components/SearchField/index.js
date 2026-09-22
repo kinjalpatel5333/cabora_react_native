@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, TextInput, View} from 'react-native';
+import {TextInput, View, TouchableOpacity} from 'react-native';
 import {useApp} from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
@@ -60,7 +60,7 @@ export default function SearchField({
         {...rest}
       />
       {hasValue && !disabled ? (
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Clear search"
           hitSlop={8}
@@ -73,7 +73,7 @@ export default function SearchField({
             circle
             circleColor={colors.gray[300]}
           />
-        </Pressable>
+        </TouchableOpacity>
       ) : null}
     </View>
   );

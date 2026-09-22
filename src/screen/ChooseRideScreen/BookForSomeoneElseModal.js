@@ -1,6 +1,6 @@
 import { PASSENGER_BOOK_FOR_OTHERS_RECEIVES } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
-import {Modal, Pressable, ScrollView, Text, View} from 'react-native';
+import {Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -49,18 +49,18 @@ export default function BookForSomeoneElseModal({
       onRequestClose={onClose}>
       <View style={styles.root}>
         <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Go back"
             style={styles.headerBtn}
             onPress={onClose}
             hitSlop={8}>
             <Feather name="arrow-left" size={22} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Book for someone else</Text>
-          <Pressable style={styles.headerBtn} hitSlop={8}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.headerBtn} hitSlop={8}>
             <Feather name="help-circle" size={22} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <ScrollView
@@ -96,9 +96,9 @@ export default function BookForSomeoneElseModal({
                 <Text style={styles.riderName}>{riderName}</Text>
                 <Text style={styles.riderPhone}>{riderPhone}</Text>
               </View>
-              <Pressable hitSlop={8}>
+              <TouchableOpacity activeOpacity={0.7} hitSlop={8}>
                 <Text style={styles.changeText}>Change</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <View style={styles.riderFooter}>
               <Feather name="users" size={14} color={colors.muted} />
@@ -132,9 +132,9 @@ export default function BookForSomeoneElseModal({
                   <Text style={styles.routeSub}>{dropSub}</Text>
                 </View>
               </View>
-              <Pressable style={styles.editBtn} hitSlop={8} onPress={onClose}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.editBtn} hitSlop={8} onPress={onClose}>
                 <Feather name="edit-2" size={18} color={colors.text} />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -167,9 +167,9 @@ export default function BookForSomeoneElseModal({
                   {firstName} is not asked for payment
                 </Text>
               </View>
-              <Pressable hitSlop={8} onPress={onChangePayment}>
+              <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={onChangePayment}>
                 <Text style={styles.changeText}>Change</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -185,9 +185,9 @@ export default function BookForSomeoneElseModal({
               Charged to you when the trip ends
             </Text>
           </View>
-          <Pressable style={styles.bookBtn} onPress={onBook}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.bookBtn} onPress={onBook}>
             <Text style={styles.bookText}>Book</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

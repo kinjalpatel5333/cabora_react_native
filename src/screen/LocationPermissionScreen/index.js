@@ -1,11 +1,6 @@
 import { PASSENGER_LOCATION_BENEFITS, PASSENGER_LOCATION_SAVED_PLACES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -14,12 +9,14 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {completeLocationPrompt} from '../../redux/slices/appSlice';
+import {loginWithPhone} from '../../redux/slices/authSlice';
+import {getMeApi} from '../../services/authApi';
+import {extractUserProfile} from '../../utils/user';
 import {
   openLocationSettings,
   requestLocationPermission,
 } from '../../utils/locationPermission';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const BENEFITS = PASSENGER_LOCATION_BENEFITS;
 
@@ -97,11 +94,40 @@ export default function LocationPermissionScreen({navigation, route}) {
       // Mark location done before login so RootNavigator does not flash this screen again.
       await dispatch(completeLocationPrompt(resolution)).unwrap();
       if (fromSetup) {
-        navigation.navigate('CompleteProfile', {
-          mobile: phone,
-          role,
-          userId,
-        });
+        let userRaw = route?.params?.user;
+        if (!userRaw || !userRaw.name) {
+          try {
+            const meRes = await getMeApi();
+            userRaw = meRes;
+          } catch (e) {
+            console.warn('Failed to fetch me in LocationPermission:', e);
+          }
+        }
+
+        const profile = extractUserProfile(userRaw, phone);
+
+        if (profile.isProfileComplete) {
+          // Returning user who already has profile data filled / verified
+          await dispatch(
+            loginWithPhone({
+              phone: profile.mobile || phone,
+              role,
+              name: profile.name,
+              email: profile.email || `${phone}@cabora.local`,
+              dob: profile.dob,
+              photo: profile.photo,
+              gender: profile.gender,
+            }),
+          ).unwrap();
+        } else {
+          // 1st-time user with no profile data - proceed to CompleteProfile screen
+          navigation.navigate('CompleteProfile', {
+            mobile: phone,
+            role,
+            userId,
+            user: profile,
+          });
+        }
       } else if (role === 'driver' && navigation?.replace) {
         navigation.replace('DriverTabs');
       }
@@ -131,7 +157,6 @@ export default function LocationPermissionScreen({navigation, route}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.map.land} />
       <MapBackdrop styles={styles} />
 
       {mode === 'manual' ? (
@@ -172,12 +197,13 @@ export default function LocationPermissionScreen({navigation, route}) {
                 onPress={onAllow}
                 loading={loading}
               />
-              <Pressable
+              <TouchableOpacity
+                activeOpacity={0.7}
                 accessibilityRole="button"
                 onPress={onManualEntry}
                 style={styles.linkBtn}>
                 <Text style={styles.linkText}>Enter my pickup manually</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </>
         ) : (
@@ -197,8 +223,9 @@ export default function LocationPermissionScreen({navigation, route}) {
             {places.map(place => {
               const selected = selectedPlace === place.id;
               return (
-                <Pressable
+                <TouchableOpacity
                   key={place.id}
+                  activeOpacity={0.7}
                   accessibilityRole="button"
                   onPress={() => setSelectedPlace(place.id)}
                   style={styles.placeRow}>
@@ -217,7 +244,7 @@ export default function LocationPermissionScreen({navigation, route}) {
                     <Text style={styles.placeSub}>{place.subtitle}</Text>
                   </View>
                   <Text style={styles.chevron}>›</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
             <View style={styles.actions}>

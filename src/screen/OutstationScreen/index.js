@@ -1,17 +1,12 @@
 import { PASSENGER_OUTSTATION_VEHICLES, PASSENGER_OUTSTATION_FARE_ROWS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -59,32 +54,31 @@ export default function OutstationScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Outstation trip</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.scroll, {paddingBottom: 24}]}>
         <View style={styles.tripToggle}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.tripTab,
               tripType === 'oneway' && styles.tripTabActive,
@@ -97,8 +91,8 @@ export default function OutstationScreen() {
               ]}>
               One way
             </Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.tripTab,
               tripType === 'round' && styles.tripTabActive,
@@ -111,7 +105,7 @@ export default function OutstationScreen() {
               ]}>
               Round trip
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.routeCard}>
@@ -130,14 +124,14 @@ export default function OutstationScreen() {
               <Text style={styles.routeMeta}>{toCity.detail}</Text>
             </View>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.swapBtn}
             onPress={swapCities}
             accessibilityRole="button"
             accessibilityLabel="Swap locations"
             hitSlop={8}>
             <Feather name="refresh-cw" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
@@ -146,13 +140,13 @@ export default function OutstationScreen() {
             <View style={styles.dateCol}>
               <Text style={styles.dateLabel}>DEPART</Text>
               <Text style={styles.dateValue}>Sat 13 Sep · 07:00 am</Text>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 onPress={() =>
                   showToast({type: 'info', message: 'Edit depart time'})
                 }
                 hitSlop={8}>
                 <Text style={styles.editText}>Edit</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             {tripType === 'round' ? (
               <>
@@ -160,13 +154,13 @@ export default function OutstationScreen() {
                 <View style={styles.dateCol}>
                   <Text style={styles.dateLabel}>RETURN</Text>
                   <Text style={styles.dateValue}>Sun 14 Sep · 06:00 pm</Text>
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     onPress={() =>
                       showToast({type: 'info', message: 'Edit return time'})
                     }
                     hitSlop={8}>
                     <Text style={styles.editText}>Edit</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </>
             ) : null}
@@ -187,7 +181,7 @@ export default function OutstationScreen() {
                 ? colors.white
                 : colors.navy[800];
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={vehicle.id}
                   style={[
                     styles.vehicleCard,
@@ -208,7 +202,7 @@ export default function OutstationScreen() {
                   <Text style={styles.vehicleMeta}>
                     {vehicle.model} · {vehicle.seats}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -249,13 +243,14 @@ export default function OutstationScreen() {
             25% now, the rest after the trip
           </Text>
         </View>
-        <Pressable
-          style={styles.bookBtn}
+        <Button
+          title="Book"
           onPress={onBook}
-          accessibilityRole="button"
-          accessibilityLabel="Book outstation trip">
-          <Text style={styles.bookText}>Book</Text>
-        </Pressable>
+          style={styles.bookBtn}
+          textStyle={styles.bookText}
+          fullWidth={false}
+          accessibilityLabel="Book outstation trip"
+        />
       </View>
     </View>
   );

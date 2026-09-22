@@ -5,18 +5,12 @@ import {
   PASSENGER_ADD_MONEY_METHODS,
 } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -24,6 +18,9 @@ import createStyles from './style';
 import colors from '../../config/color';
 
 const QUICK = PASSENGER_ADD_MONEY_QUICK;
+const MIN = PASSENGER_ADD_MONEY_MIN;
+const MAX = PASSENGER_ADD_MONEY_MAX;
+const METHODS = PASSENGER_ADD_MONEY_METHODS;
 
 function formatAmount(n) {
   return Number(n || 0).toLocaleString('en-IN');
@@ -60,16 +57,15 @@ export default function AddMoneyScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Add money</Text>
         <View style={styles.headerBtn} />
       </View>
@@ -106,7 +102,7 @@ export default function AddMoneyScreen() {
           {QUICK.map(value => {
             const active = amountNum === value;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={value}
                 style={[styles.quickChip, active && styles.quickChipActive]}
                 onPress={() => pickQuick(value)}>
@@ -117,7 +113,7 @@ export default function AddMoneyScreen() {
                   ]}>
                   ₹{formatAmount(value)}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -127,7 +123,7 @@ export default function AddMoneyScreen() {
           {METHODS.map(item => {
             const active = method === item.id;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.methodCard, active && styles.methodCardActive]}
                 onPress={() => setMethod(item.id)}
@@ -161,7 +157,7 @@ export default function AddMoneyScreen() {
                     <Feather name="check" size={12} color={colors.orange[500]} />
                   </View>
                 ) : null}
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -180,8 +176,8 @@ export default function AddMoneyScreen() {
           styles.footer,
           {paddingBottom: Math.max(insets.bottom, 12)},
         ]}>
-        <Pressable
-          style={[styles.submitBtn, !canSubmit && styles.submitBtnDisabled]}
+        <Button
+          title={`Add ₹${formatAmount(amountNum || 0)} to wallet`}
           disabled={!canSubmit}
           onPress={() => {
             showToast({
@@ -190,12 +186,8 @@ export default function AddMoneyScreen() {
             });
             navigation.goBack();
           }}
-          accessibilityRole="button"
-          accessibilityLabel={`Add ₹${formatAmount(amountNum)} to wallet`}>
-          <Text style={styles.submitText}>
-            Add ₹{formatAmount(amountNum || 0)} to wallet
-          </Text>
-        </Pressable>
+          accessibilityLabel={`Add ₹${formatAmount(amountNum)} to wallet`}
+        />
       </View>
     </View>
   );

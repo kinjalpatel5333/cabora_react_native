@@ -1,19 +1,13 @@
 import { PASSENGER_PORTAL_TYPES, PASSENGER_PORTAL_SIZES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -69,27 +63,26 @@ export default function PortalStep2Screen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>
           What are you sending?
         </Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.progressWrap}>
@@ -117,7 +110,7 @@ export default function PortalStep2Screen() {
                       ? colors.primary
                       : colors.muted;
                     return (
-                      <Pressable
+                      <TouchableOpacity activeOpacity={0.7}
                         key={item.id}
                         style={[
                           styles.typeCard,
@@ -134,7 +127,7 @@ export default function PortalStep2Screen() {
                           ]}>
                           {item.label}
                         </Text>
-                      </Pressable>
+                      </TouchableOpacity>
                     );
                   },
                 )}
@@ -149,7 +142,7 @@ export default function PortalStep2Screen() {
             {SIZES.map(item => {
               const active = item.id === sizeId;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={[styles.sizeCard, active && styles.sizeCardActive]}
                   onPress={() => setSizeId(item.id)}
@@ -163,7 +156,7 @@ export default function PortalStep2Screen() {
                     <Text style={styles.sizeMeta}>{item.weight}</Text>
                   </View>
                   <Text style={styles.sizeHint}>{item.hint}</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -186,7 +179,7 @@ export default function PortalStep2Screen() {
           Cover up to ₹5,000 is included free. Higher cover costs ₹19.
         </Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.confirmCard}
           onPress={() => setConfirmed(v => !v)}
           accessibilityRole="checkbox"
@@ -209,7 +202,7 @@ export default function PortalStep2Screen() {
               </Text>
             </Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       </ScrollView>
 
       <View
@@ -223,14 +216,15 @@ export default function PortalStep2Screen() {
           </Text>
           <Text style={styles.footerTitle}>{selectedSize.vehicle}</Text>
         </View>
-        <Pressable
-          style={[styles.pricesBtn, !confirmed && styles.pricesBtnDisabled]}
+        <Button
+          title="See prices"
           disabled={!confirmed}
           onPress={() => navigation.navigate('PortalStep3')}
-          accessibilityRole="button"
-          accessibilityLabel="See prices">
-          <Text style={styles.pricesText}>See prices</Text>
-        </Pressable>
+          style={styles.pricesBtn}
+          textStyle={styles.pricesText}
+          fullWidth={false}
+          accessibilityLabel="See prices"
+        />
       </View>
     </View>
   );

@@ -1,14 +1,6 @@
 import { PASSENGER_FINDING_NEARBY, PASSENGER_FINDING_ALT_RIDES } from '../../config/staticData';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Easing,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Easing, Modal, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -323,7 +315,7 @@ export default function FindingRideModal({
         />
       ) : (
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={stepBack} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={stepBack} />
 
         {phase === 'onTrip' ? (
           <View style={[styles.navBanner, {top: insets.top + 8}]}>
@@ -344,7 +336,7 @@ export default function FindingRideModal({
         ) : null}
 
         {phase === 'onTrip' ? (
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[styles.sosPill, {top: insets.top + 10}]}
             onPress={() => setEmergencyOpen(true)}
             accessibilityRole="button"
@@ -355,7 +347,7 @@ export default function FindingRideModal({
               color={colors.red[500]}
             />
             <Text style={styles.sosPillText}>SOS</Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : null}
 
         {phase === 'driver' ? (
@@ -372,7 +364,7 @@ export default function FindingRideModal({
         ) : null}
 
         {phase === 'driver' || phase === 'onTrip' ? (
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Recenter map"
             style={[styles.locateFab, {bottom: sheetMaxH + 14}]}>
@@ -381,7 +373,7 @@ export default function FindingRideModal({
               size={22}
               color={colors.text}
             />
-          </Pressable>
+          </TouchableOpacity>
         ) : null}
 
         <View style={styles.radarArea} pointerEvents="none">
@@ -471,13 +463,13 @@ export default function FindingRideModal({
             },
           ]}>
           <View {...panHandlers}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
               style={styles.grabberHit}>
               <View style={styles.grabber} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View>
@@ -525,7 +517,7 @@ export default function FindingRideModal({
               <Text style={styles.altLabel}>AVAILABLE NEARBY INSTEAD</Text>
               <View style={styles.altRow}>
                 {ALT_RIDES.map(ride => (
-                  <Pressable key={ride.id} style={styles.altCard}>
+                  <TouchableOpacity activeOpacity={0.7} key={ride.id} style={styles.altCard}>
                     <MaterialDesignIcons
                       name={ride.icon}
                       size={22}
@@ -533,7 +525,7 @@ export default function FindingRideModal({
                     />
                     <Text style={styles.altName}>{ride.name}</Text>
                     <Text style={styles.altPrice}>₹{ride.price}</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 ))}
               </View>
 
@@ -567,12 +559,12 @@ export default function FindingRideModal({
                 </Text>
               </View>
 
-              <Pressable style={styles.searchAgainBtn} onPress={onSearchAgain}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.searchAgainBtn} onPress={onSearchAgain}>
                 <Text style={styles.searchAgainText}>Search again</Text>
-              </Pressable>
-              <Pressable style={styles.cancelLink} onPress={onCancelPress}>
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} style={styles.cancelLink} onPress={onCancelPress}>
                 <Text style={styles.cancelLinkText}>Cancel ride</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           ) : null}
 
@@ -633,16 +625,16 @@ export default function FindingRideModal({
                 </Text>
               </View>
 
-              <Pressable style={styles.cancelBtn} onPress={onCancelPress}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.cancelBtn} onPress={onCancelPress}>
                 <Text style={styles.cancelText}>Cancel ride</Text>
-              </Pressable>
+              </TouchableOpacity>
             </>
           ) : null}
           </View>
         </Animated.View>
 
         {phase !== 'onTrip' ? (
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Go back"
             onPress={stepBack}
@@ -653,7 +645,7 @@ export default function FindingRideModal({
               size={22}
               color={colors.text}
             />
-          </Pressable>
+          </TouchableOpacity>
         ) : null}
       </View>
       )}

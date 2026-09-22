@@ -1,12 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Dimensions,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -139,11 +132,6 @@ export default function DriverHomeScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        translucent
-        backgroundColor="transparent"
-      />
       <DriverMapBackdrop showUserDot={false} showDemand={online} />
 
       <View pointerEvents="none" style={styles.mapMarkers}>
@@ -154,13 +142,13 @@ export default function DriverHomeScreen() {
       </View>
 
       <View style={[styles.header, { top: headerTop }]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
           <Feather name="menu" size={22} color={colors.isDark ? colors.white : colors.navy[800]} />
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.greetingPill}>
           <Text style={styles.greetingKicker}>{greeting}</Text>
@@ -170,19 +158,19 @@ export default function DriverHomeScreen() {
         </View>
 
         <View style={styles.headerActions}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.avatar}
             onPress={() => navigation.navigate('Profile')}
             accessibilityRole="button">
             <Text style={styles.avatarText}>{initials(displayName)}</Text>
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles.bellWrap}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.iconCircle}
               accessibilityRole="button"
               accessibilityLabel="Notifications">
               <Feather name="bell" size={18} color={colors.white} />
-            </Pressable>
+            </TouchableOpacity>
             <View style={styles.badge}>
               <Text style={styles.badgeText}>3</Text>
             </View>
@@ -190,7 +178,7 @@ export default function DriverHomeScreen() {
         </View>
       </View>
 
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Toggle online and restricted offline preview"
         onPress={() => {
@@ -229,20 +217,20 @@ export default function DriverHomeScreen() {
               ? `${driver.gpsLabel} · online ${driver.today.onlineLabel} · synced`
               : `${driver.gpsLabel} · offline · synced`}
         </Text>
-      </Pressable>
+      </TouchableOpacity>
 
       {online ? (
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={[styles.demandChip, { top: headerTop + 104 }]}
           accessibilityRole="button">
           <Lucide name="navigation" size={14} color={colors.white} />
           <Text style={styles.demandText}>
             High demand {driver.demand.km} km away · Navigate
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       ) : null}
 
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Preferred destination"
         onPress={() => {
@@ -260,7 +248,7 @@ export default function DriverHomeScreen() {
           size={22}
           color={colors.isDark ? colors.white : colors.navy[800]}
         />
-      </Pressable>
+      </TouchableOpacity>
 
       <View
         style={[
@@ -377,9 +365,9 @@ export default function DriverHomeScreen() {
                       />
                       <Text style={styles.requireText}>{item.title}</Text>
                       {item.kind === 'link' ? (
-                        <Pressable onPress={openDocuments}>
+                        <TouchableOpacity activeOpacity={0.7} onPress={openDocuments}>
                           <Text style={styles.requireLink}>{item.action}</Text>
-                        </Pressable>
+                        </TouchableOpacity>
                       ) : (
                         <Text
                           style={[

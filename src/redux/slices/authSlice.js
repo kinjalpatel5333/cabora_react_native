@@ -7,6 +7,7 @@ import {
 } from '../../utils/storage';
 import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
 import {getMeApi} from '../../services/authApi';
+import {extractUserProfile} from '../../utils/user';
 
 const initialState = {
   user: null,
@@ -229,26 +230,13 @@ export const fetchUserProfile = createAsyncThunk(
   async (_, {getState, rejectWithValue}) => {
     try {
       const res = await getMeApi();
-      const userData =
-        res?.data?.user ||
-        res?.user ||
-        res?.data?.passenger ||
-        res?.passenger ||
-        res?.data;
-      if (userData) {
-        const currentUser = getState().auth.user || {};
+      const currentUser = getState().auth.user || {};
+      const profile = extractUserProfile(res, currentUser.phone || currentUser.mobile);
+
+      if (profile && profile.id) {
         const mergedUser = {
           ...currentUser,
-          ...userData,
-          name: userData.name || userData.fullName || currentUser.name,
-          email: userData.email || currentUser.email,
-          phone: userData.phone || userData.mobile || currentUser.phone,
-          dob: userData.dob || currentUser.dob,
-          photo:
-            userData.profilePhoto ||
-            userData.photo ||
-            userData.avatar ||
-            currentUser.photo,
+          ...profile,
         };
         const token = getState().auth.token;
         if (token) {

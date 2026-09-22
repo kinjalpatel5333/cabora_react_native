@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, Pressable, ScrollView, Text, View} from 'react-native';
+import {Animated, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -78,9 +78,9 @@ export function CoRiderMatchedSheet({fare = 412, onCancel}) {
         </Text>
       </View>
 
-      <Pressable style={styles.cancelLinkSpaced} onPress={onCancel}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.cancelLinkSpaced} onPress={onCancel}>
         <Text style={styles.cancelLinkText}>Cancel ride</Text>
-      </Pressable>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -150,19 +150,19 @@ export function DriverOnWaySheet({
       </View>
 
       <View style={styles.actionsRow}>
-        <Pressable style={styles.actionBtn}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn}>
           <Feather name="phone" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Call</Text>
-        </Pressable>
-        <Pressable style={styles.actionBtn}>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn}>
           <Feather name="message-circle" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Chat</Text>
-        </Pressable>
-        <Pressable style={styles.actionBtn} onPress={onShare}>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn} onPress={onShare}>
           <Feather name="upload" size={18} color={colors.text} />
           <Text style={styles.actionLabel}>Share trip</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7}
           style={[styles.actionBtn, styles.actionBtnSos]}
           onPress={onSos}
           accessibilityRole="button"
@@ -173,10 +173,10 @@ export function DriverOnWaySheet({
             color={colors.red[500]}
           />
           <Text style={[styles.actionLabel, styles.actionLabelSos]}>SOS</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
-      <Pressable style={styles.safetyBanner}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.safetyBanner}>
         <View style={styles.safetyIcon}>
           <Feather name="shield" size={18} color={colors.blue[600]} />
         </View>
@@ -187,11 +187,11 @@ export function DriverOnWaySheet({
           </Text>
         </View>
         <Feather name="chevron-right" size={18} color={colors.blue[600]} />
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable style={styles.cancelLink} onPress={onCancel}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.cancelLink} onPress={onCancel}>
         <Text style={styles.cancelLinkText}>Cancel ride</Text>
-      </Pressable>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -247,17 +247,17 @@ export function OnTripSheet({
             White Maruti Dzire · KA 05 MJ 4821
           </Text>
         </View>
-        <Pressable style={styles.miniAction}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.miniAction}>
           <Feather name="phone" size={16} color={colors.text} />
-        </Pressable>
-        <Pressable style={styles.miniAction}>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7} style={styles.miniAction}>
           <Feather name="message-circle" size={16} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
-      <Pressable style={styles.shareLiveBtn} onPress={onShare}>
+      <TouchableOpacity activeOpacity={0.7} style={styles.shareLiveBtn} onPress={onShare}>
         <Text style={styles.shareLiveText}>Share live location</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }
