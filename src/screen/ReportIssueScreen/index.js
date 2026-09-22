@@ -15,6 +15,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SUB_CATEGORIES = [
   {id: 'waiting', label: 'Charged for waiting'},

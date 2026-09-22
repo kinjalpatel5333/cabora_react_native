@@ -15,6 +15,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './paymentOffersStyle';
+import colors from '../../config/color';
 
 const METHODS = [
   {

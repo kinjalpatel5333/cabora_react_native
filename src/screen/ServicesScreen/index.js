@@ -20,6 +20,7 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
 import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SCREEN_W = Dimensions.get('window').width;
 const H_PAD = 20;

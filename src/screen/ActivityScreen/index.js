@@ -19,6 +19,7 @@ import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import SortFilterModal from './SortFilterModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TABS = [
   {id: 'completed', label: 'Completed'},

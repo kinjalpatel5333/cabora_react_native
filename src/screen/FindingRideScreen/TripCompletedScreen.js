@@ -12,6 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './tripCompletedStyle';
+import colors from '../../config/color';
 
 const FARE_ROWS = [
   {id: 'base', label: 'Base fare', value: '₹60.00'},

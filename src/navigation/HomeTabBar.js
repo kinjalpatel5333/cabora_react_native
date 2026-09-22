@@ -6,6 +6,7 @@ import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
 import { fonts } from '../config/typography';
+import colors from '../config/color';
 
 const TABS = [
   { name: 'Home', label: 'Home', kind: 'home' },

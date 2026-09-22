@@ -20,6 +20,7 @@ import {useApp} from '../../context/AppContext';
 import {useAppDispatch} from '../../redux/hooks';
 import {saveDriverDocument} from '../../redux/slices/authSlice';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 const MAX_BYTES = 5 * 1024 * 1024;

@@ -17,7 +17,7 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {fetchUserProfile} from '../../redux/slices/authSlice';
+import {fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -293,6 +293,23 @@ export default function ProfileScreen({navigation}) {
               styles={styles}
             />
           </View>
+
+          <Pressable
+            style={[styles.rowItem, styles.rowBorder]}
+            onPress={() => dispatch(logoutUser())}
+            accessibilityRole="button"
+            accessibilityLabel="Log out">
+            <View style={[styles.rowIconBox, {backgroundColor: colors.alpha.red10}]}>
+              <Feather name="log-out" size={18} color={colors.red[600]} />
+            </View>
+            <View style={styles.rowBody}>
+              <Text style={[styles.rowTitle, {color: colors.red[600]}]}>
+                Log out
+              </Text>
+              <Text style={styles.rowSub}>Sign out of your account</Text>
+            </View>
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
+          </Pressable>
 
           <Pressable
             style={styles.rowItem}

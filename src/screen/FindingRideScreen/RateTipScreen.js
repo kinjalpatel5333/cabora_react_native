@@ -14,6 +14,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './rateTipStyle';
+import colors from '../../config/color';
 
 const TAGS = [
   'Safe driving',

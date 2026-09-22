@@ -13,6 +13,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (

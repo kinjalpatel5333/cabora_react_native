@@ -16,6 +16,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SERIOUS_LEVELS = [
   {id: 'uncomfortable', label: 'Uncomfortable'},

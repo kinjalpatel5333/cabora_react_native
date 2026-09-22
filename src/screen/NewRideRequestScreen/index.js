@@ -17,6 +17,7 @@ import {images} from '../../assets';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const COUNTDOWN_SECONDS = 12;
 const SCREEN_W = Dimensions.get('window').width;

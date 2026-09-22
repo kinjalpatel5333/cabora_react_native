@@ -12,6 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './sortFilterStyle';
+import colors from '../../config/color';
 
 const SORT_OPTIONS = [
   {id: 'newest', label: 'Newest first'},

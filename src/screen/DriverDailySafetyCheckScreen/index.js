@@ -14,6 +14,7 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const VEHICLE_ITEMS = [
   { id: 'tyres', title: 'Tyres have visible tread and correct pressure' },

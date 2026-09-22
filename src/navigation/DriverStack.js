@@ -25,6 +25,7 @@ import DriverTripHistoryScreen from '../screen/DriverTripHistoryScreen';
 import DriverSubscriptionScreen from '../screen/DriverSubscriptionScreen';
 import DriverDailySafetyCheckScreen from '../screen/DriverDailySafetyCheckScreen';
 import DriverIncentiveTrackerScreen from '../screen/DriverIncentiveTrackerScreen';
+import colors from '../config/color';
 
 const Stack = createNativeStackNavigator();
 

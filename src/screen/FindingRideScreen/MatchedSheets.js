@@ -5,6 +5,7 @@ import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-ic
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './matchedStyle';
+import colors from '../../config/color';
 
 export function CoRiderMatchedSheet({fare = 412, onCancel}) {
   const styles = useThemedStyles(createStyles);

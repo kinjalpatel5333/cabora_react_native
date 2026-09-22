@@ -16,6 +16,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const QUICK_AMOUNTS = [
   { id: '1000', label: '₹1,000', value: '1,000' },

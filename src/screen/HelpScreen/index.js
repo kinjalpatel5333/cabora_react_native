@@ -15,6 +15,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TOPICS = [
   {id: 'fares', title: 'Fares & payments', iconType: 'text', icon: '₹'},

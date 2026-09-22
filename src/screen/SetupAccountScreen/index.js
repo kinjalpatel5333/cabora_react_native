@@ -12,6 +12,7 @@ import {getMeApi, selectRoleApi, setAuthToken} from '../../config';
 import {useAppDispatch} from '../../redux/hooks';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 

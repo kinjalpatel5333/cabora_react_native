@@ -17,6 +17,7 @@ import {useToast} from '../../components/Toast';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const INCIDENTS = [
   {id: 'driving', label: 'Unsafe driving', iconType: 'feather', icon: 'alert-triangle'},

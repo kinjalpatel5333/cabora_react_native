@@ -19,6 +19,7 @@ import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './style';
 import YourRouteModal from './YourRouteModal';
+import colors from '../../config/color';
 
 const DEFAULT_PICKUP = '12, Brigade Road, Ashok Nagar';
 

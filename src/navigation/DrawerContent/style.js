@@ -36,6 +36,9 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 16,
   },
+  scrollView: {
+    flex: 1,
+  },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -59,21 +62,45 @@ export default StyleSheet.create({
     backgroundColor: colors.orange[250],
   },
   itemLabel: {
-      fontFamily: fonts.sora.bold,
+    fontFamily: fonts.sora.bold,
     marginLeft: 12,
     color: colors.slate[700],
     fontSize: 15,
     fontWeight: '700',
   },
   itemLabelActive: {
-      fontFamily: fonts.sora.extraBold,
+    fontFamily: fonts.sora.extraBold,
     color: colors.primary,
     fontWeight: '800',
   },
   footer: {
     paddingHorizontal: 16,
-    paddingTop: 10,
+    paddingTop: 12,
     borderTopWidth: 1,
     borderTopColor: colors.slate[100],
+    backgroundColor: colors.white,
+  },
+  logoutBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.red[50],
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+  },
+  logoutIconBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: colors.red[100],
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  logoutText: {
+    fontFamily: fonts.sora.bold,
+    color: colors.red[600],
+    fontSize: 15,
+    fontWeight: '700',
   },
 });

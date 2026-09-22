@@ -12,6 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './ridesForYouStyle';
+import colors from '../../config/color';
 
 const PROMO_OFF = 50;
 

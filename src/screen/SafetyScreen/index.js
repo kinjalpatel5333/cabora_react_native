@@ -1,19 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Pressable,
   StatusBar,
   Text,
   View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useToast} from '../../components/Toast';
+import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import EmergencyModal from '../EmergencyScreen';
 import createStyles from './style';
+import { colors } from '../../config';
 
 const TOOLS = [
   {
@@ -55,15 +56,15 @@ const TOOLS = [
 ];
 
 const ICON_TONES = {
-  red: {bg: colors.red[200], fg: colors.danger},
-  blue: {bg: colors.blue.softBg, fg: colors.blue[550]},
-  sky: {bg: colors.blue.skyBg, fg: colors.blue[600]},
-  green: {bg: colors.green[200], fg: colors.green[600]},
-  amber: {bg: colors.amber[100], fg: colors.amber[600]},
-  gray: {bg: colors.slate[100], fg: colors.slate[500]},
+  red: { bg: colors.red[200], fg: colors.danger },
+  blue: { bg: colors.blue.softBg, fg: colors.blue[550] },
+  sky: { bg: colors.blue.skyBg, fg: colors.blue[600] },
+  green: { bg: colors.green[200], fg: colors.green[600] },
+  amber: { bg: colors.amber[100], fg: colors.amber[600] },
+  gray: { bg: colors.slate[100], fg: colors.slate[500] },
 };
 
-function ToolIcon({id, color}) {
+function ToolIcon({ id, color }) {
   if (id === 'sos') {
     return <MaterialDesignIcons name="alarm-light-outline" size={20} color={color} />;
   }
@@ -84,10 +85,10 @@ function ToolIcon({id, color}) {
 
 export default function SafetyScreen() {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const navigation = useNavigation();
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const [emergencyOpen, setEmergencyOpen] = useState(false);
 
   const onToolPress = id => {
@@ -100,11 +101,11 @@ export default function SafetyScreen() {
       return;
     }
     if (id === 'share') {
-      showToast({type: 'info', message: 'Live location sharing is on for night rides'});
+      showToast({ type: 'info', message: 'Live location sharing is on for night rides' });
       return;
     }
     if (id === 'check') {
-      showToast({type: 'info', message: 'Ride check is monitoring long stops'});
+      showToast({ type: 'info', message: 'Ride check is monitoring long stops' });
       return;
     }
     if (id === 'report') {
@@ -123,7 +124,7 @@ export default function SafetyScreen() {
         barStyle={colors.barStyle}
         backgroundColor={colors.card}
       />
-      <View style={[styles.header, {paddingTop: insets.top + 4}]}>
+      <View style={[styles.header, { paddingTop: insets.top + 4 }]}>
         <Pressable
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
@@ -171,7 +172,7 @@ export default function SafetyScreen() {
                   onPress={() => onToolPress(tool.id)}
                   accessibilityRole="button"
                   accessibilityLabel={tool.title}>
-                  <View style={[styles.toolIcon, {backgroundColor: tone.bg}]}>
+                  <View style={[styles.toolIcon, { backgroundColor: tone.bg }]}>
                     <ToolIcon id={tool.id} color={tone.fg} />
                   </View>
                   <Text style={styles.toolTitle}>{tool.title}</Text>
@@ -203,7 +204,7 @@ export default function SafetyScreen() {
           <View style={styles.insuranceFooter}>
             <Pressable
               onPress={() =>
-                showToast({type: 'info', message: 'Opening insurance policy'})
+                showToast({ type: 'info', message: 'Opening insurance policy' })
               }
               hitSlop={6}>
               <Text style={styles.policyLink}>View policy</Text>
@@ -214,7 +215,7 @@ export default function SafetyScreen() {
       </View>
 
       <View
-        style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 12)}]}>
+        style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
         <Pressable
           style={styles.sosBtn}
           onPress={() => setEmergencyOpen(true)}

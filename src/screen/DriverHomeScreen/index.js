@@ -23,6 +23,7 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {setDriverOnline, setDriverRestricted} from '../../redux/slices/driverSlice';
 import createStyles from './style';
+import colors from '../../config/color';
 
 function greetingForHour(hour) {
   if (hour < 12) {

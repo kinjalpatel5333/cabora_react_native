@@ -27,6 +27,7 @@ import ChooseRideModal from '../ChooseRideScreen';
 import FindingRideModal from '../FindingRideScreen';
 import SetRouteModal from '../SetRouteScreen';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const EXPLORE = [
   {id: 'auto', label: 'Auto', price: 'from ₹48', icon: 'rickshaw'},

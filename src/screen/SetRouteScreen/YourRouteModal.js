@@ -14,6 +14,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './yourRouteStyle';
+import colors from '../../config/color';
 
 const STOP_POOL = [
   'Trinity Metro Station',

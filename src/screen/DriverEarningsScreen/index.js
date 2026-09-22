@@ -14,6 +14,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const PERIOD_TABS = ['Today', 'Week', 'Month', 'Custom'];
 

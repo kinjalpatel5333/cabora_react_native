@@ -7,6 +7,7 @@ import Toggle from '../../components/Toggle';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './bookForSomeoneStyle';
+import colors from '../../config/color';
 
 const RECEIVES = [
   'Driver name, photo and vehicle number',

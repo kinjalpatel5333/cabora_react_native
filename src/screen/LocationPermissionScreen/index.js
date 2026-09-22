@@ -18,6 +18,7 @@ import {
   requestLocationPermission,
 } from '../../utils/locationPermission';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const BENEFITS = [
   {

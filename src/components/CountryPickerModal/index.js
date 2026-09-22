@@ -17,6 +17,7 @@ import {useApp} from '../../context/AppContext';
 import {COUNTRIES} from '../../utils/countries';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 export default function CountryPickerModal({
   visible,

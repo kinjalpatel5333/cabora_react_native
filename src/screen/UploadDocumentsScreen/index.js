@@ -15,6 +15,7 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:compliance@cabora.app';
 

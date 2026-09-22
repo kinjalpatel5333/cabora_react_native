@@ -11,6 +11,7 @@ import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TABS = [
   {id: 'all', label: 'All'},

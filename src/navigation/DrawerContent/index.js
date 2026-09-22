@@ -89,25 +89,31 @@ export default function DrawerContent() {
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
   const {user} = useAuth();
-  const {activeTab, goTo} = useSidebar();
+  const {activeTab, goTo, closeDrawer} = useSidebar();
   const links = user?.role === 'driver' ? DRIVER_LINKS : PASSENGER_LINKS;
+
+  const handleLogout = () => {
+    closeDrawer();
+    dispatch(logoutUser());
+  };
 
   return (
     <View
       style={[
         styles.root,
-        {paddingTop: insets.top + 16, paddingBottom: bottomSafePad(insets, 12)},
+        {paddingTop: insets.top + 16},
       ]}>
       <View style={styles.profile}>
         <Image
           source={user?.photo ? {uri: user.photo} : images.avatar}
           style={styles.avatar}
         />
-        <Text style={styles.name}>{user?.name || 'User'}</Text>
-        <Text style={styles.email}>{user?.email || 'user@cabora.app'}</Text>
+        <Text style={styles.name}>{user?.name || (user?.role === 'driver' ? 'Driver' : 'Passenger')}</Text>
+        <Text style={styles.email}>{user?.email || (user?.role === 'driver' ? 'driver@cabora.app' : 'user@cabora.app')}</Text>
       </View>
 
       <ScrollView
+        style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollItems}>
         {links.map(link => {
@@ -134,12 +140,17 @@ export default function DrawerContent() {
         })}
       </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          title="Log out"
-          variant="outline"
-          onPress={() => dispatch(logoutUser())}
-        />
+      <View style={[styles.footer, {paddingBottom: bottomSafePad(insets, 16)}]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Log out"
+          onPress={handleLogout}
+          style={styles.logoutBtn}>
+          <View style={styles.logoutIconBox}>
+            <Feather name="log-out" size={18} color={colors.red[600]} />
+          </View>
+          <Text style={styles.logoutText}>Log out</Text>
+        </Pressable>
       </View>
     </View>
   );

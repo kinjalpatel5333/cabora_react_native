@@ -5,6 +5,7 @@ import {Lucide} from '@react-native-vector-icons/lucide/static';
 import useThemedStyles from '../useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 /**
  * Centered confirmation card over a full-screen dim.

@@ -15,6 +15,7 @@ import { useApp } from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const PERIODS = ['Today', 'Week', 'Month', 'Custom'];
 const STATUS_FILTERS = ['Completed', 'Cancelled', 'All'];

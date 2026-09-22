@@ -25,6 +25,7 @@ import {
   isValidIndianMobile,
 } from '../../utils/validators';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const TEST_BLOCKED_NUMBER = '0000000000';
 const TEST_COOLDOWN_NUMBER = '1234567890';

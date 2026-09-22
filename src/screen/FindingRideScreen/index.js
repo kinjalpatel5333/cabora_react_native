@@ -22,6 +22,7 @@ import RateTipScreen from './RateTipScreen';
 import RatedPaidScreen from './RatedPaidScreen';
 import TripCompletedScreen from './TripCompletedScreen';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const NEARBY = [
   {id: 'v1', icon: 'car-side', top: '18%', left: '18%'},

@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './ratedPaidStyle';
+import colors from '../../config/color';
 
 function formatMoney(amount) {
   const n = Number(amount);

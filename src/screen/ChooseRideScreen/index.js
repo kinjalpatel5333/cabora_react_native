@@ -19,6 +19,7 @@ import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
 import ScheduleRideModal from './ScheduleRideModal';
 import createStyles from './style';
+import colors from '../../config/color';
 
 const PROMO_OFF = 50;
 
