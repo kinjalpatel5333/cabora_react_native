@@ -1,3 +1,4 @@
+import { PASSENGER_SET_ROUTE_RECENT_SAVED, PASSENGER_SET_ROUTE_SUGGESTIONS } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   Animated,
@@ -23,105 +24,9 @@ import colors from '../../config/color';
 
 const DEFAULT_PICKUP = '12, Brigade Road, Ashok Nagar';
 
-const RECENT_SAVED = [
-  {
-    id: 'home',
-    title: 'Home',
-    subtitle: '12, Brigade Road, Ashok Nagar',
-    icon: 'home',
-    address: '12, Brigade Road, Ashok Nagar',
-  },
-  {
-    id: 'work',
-    title: 'Work',
-    subtitle: 'Prestige Tech Park, Marathahalli',
-    icon: 'briefcase',
-    address: 'Prestige Tech Park, Marathahalli',
-  },
-  {
-    id: 'airport',
-    title: 'Kempegowda Intl. Airport',
-    subtitle: 'Terminal 2, Devanahalli · 38 km',
-    icon: 'navigation',
-    address: 'Kempegowda Intl. Airport, Terminal 2',
-  },
-  {
-    id: 'phoenix',
-    title: 'Phoenix Marketcity',
-    subtitle: 'Whitefield Main Rd · 16 km',
-    icon: 'map-pin',
-    address: 'Phoenix Marketcity, Whitefield',
-  },
-];
+const RECENT_SAVED = PASSENGER_SET_ROUTE_RECENT_SAVED;
 
-const SUGGESTIONS = [
-  {
-    id: 'indira-100',
-    title: 'Indiranagar 100 Feet Road',
-    subtitle: 'Indiranagar, Bengaluru · 4.2 km',
-    address: 'Indiranagar 100 Feet Road',
-  },
-  {
-    id: 'indira-metro',
-    title: 'Indiranagar Metro Station',
-    subtitle: '100 Feet Rd, Indiranagar · 4.5 km',
-    address: 'Indiranagar Metro Station',
-  },
-  {
-    id: 'indira-double',
-    title: 'Indira Nagar Double Road',
-    subtitle: 'Indiranagar, Bengaluru · 4.8 km',
-    address: 'Indira Nagar Double Road',
-  },
-  {
-    id: 'indira-fountain',
-    title: 'Indira Gandhi Musical Fountain',
-    subtitle: 'Cubbon Park · 6.1 km',
-    address: 'Indira Gandhi Musical Fountain',
-  },
-  {
-    id: 'mg-road',
-    title: 'MG Road Metro Station',
-    subtitle: 'MG Road, Bengaluru · 2.1 km',
-    address: 'MG Road Metro Station',
-  },
-  {
-    id: 'church',
-    title: 'Church Street',
-    subtitle: 'Shivaji Nagar, Bengaluru · 1.8 km',
-    address: 'Church Street',
-  },
-  {
-    id: 'koramangala',
-    title: 'Koramangala 5th Block',
-    subtitle: 'Koramangala, Bengaluru · 7.4 km',
-    address: 'Koramangala 5th Block',
-  },
-  {
-    id: 'nandi',
-    title: 'Nandi Hills Summit',
-    subtitle: 'Chikkaballapur · 60 km',
-    address: 'Nandi Hills Summit',
-    outOfArea: true,
-    areaLabel: 'Nandi Hills',
-  },
-  {
-    id: 'mysore',
-    title: 'Mysore Palace',
-    subtitle: 'Mysuru · 145 km',
-    address: 'Mysore Palace',
-    outOfArea: true,
-    areaLabel: 'Mysore',
-  },
-  {
-    id: 'coorg',
-    title: 'Coorg Madikeri',
-    subtitle: 'Kodagu · 260 km',
-    address: 'Coorg Madikeri',
-    outOfArea: true,
-    areaLabel: 'Coorg',
-  },
-];
+const SUGGESTIONS = PASSENGER_SET_ROUTE_SUGGESTIONS;
 
 const SAME_PLACE_ALTS = RECENT_SAVED.filter(
   item => item.id === 'work' || item.id === 'airport',

@@ -1,3 +1,4 @@
+import { PASSENGER_PORTAL_TIMELINE } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
 import {
   Animated,
@@ -20,32 +21,7 @@ import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const TIMELINE = [
-  {
-    id: 'booked',
-    title: 'Portal booked',
-    time: '19:02',
-    status: 'done',
-  },
-  {
-    id: 'collected',
-    title: 'Rider collected it',
-    time: '19:14',
-    status: 'done',
-  },
-  {
-    id: 'transit',
-    title: 'In transit to Koramangala',
-    time: 'now',
-    status: 'active',
-  },
-  {
-    id: 'handed',
-    title: 'Handed to Priya',
-    time: 'expected 19:34',
-    status: 'pending',
-  },
-];
+const TIMELINE = PASSENGER_PORTAL_TIMELINE;
 
 export default function PortalTrackingScreen() {
   const insets = useSafeAreaInsets();

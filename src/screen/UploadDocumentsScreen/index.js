@@ -19,52 +19,7 @@ import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:compliance@cabora.app';
 
-const DOCUMENTS_LIST = [
-  {
-    id: 'insurance',
-    title: 'Insurance certificate',
-    sub: 'Expired 2 Sep 2026 · blocks you now',
-    status: 'expired',
-    statusLabel: 'Expired',
-    actionText: 'Re-upload',
-    captureTitle: 'Photograph Insurance Policy',
-    captureHint: 'Policy number and validity dates must be readable.',
-    fileName: 'insurance_policy.jpg',
-  },
-  {
-    id: 'rc',
-    title: 'Registration certificate (RC)',
-    sub: 'Expires 25 Sep 2026 · 7 days left',
-    status: 'warning',
-    statusLabel: '7 days left',
-    actionText: 'Renew now',
-    captureTitle: 'Photograph the RC',
-    captureHint: 'Vehicle number and owner name must be clearly visible.',
-    fileName: 'rc_front.jpg',
-  },
-  {
-    id: 'licence',
-    title: 'Driving licence',
-    sub: 'Valid till 14 Mar 2028',
-    status: 'verified',
-    statusLabel: 'Verified',
-    actionText: null,
-    captureTitle: 'Photograph Driving Licence',
-    captureHint: 'Name, licence number and expiry must all be readable.',
-    fileName: 'licence_front.jpg',
-  },
-  {
-    id: 'police',
-    title: 'Police verification',
-    sub: 'Submitted 9 Sep · under review',
-    status: 'review',
-    statusLabel: 'In review',
-    actionText: null,
-    captureTitle: 'Photograph Police Verification',
-    captureHint: 'Certificate number and stamp must be clear.',
-    fileName: 'police_verification.jpg',
-  },
-];
+import { DRIVER_DOCUMENTS_LIST as DOCUMENTS_LIST } from '../../config/staticData';
 
 export default function UploadDocumentsScreen({ navigation }) {
   const insets = useSafeAreaInsets();

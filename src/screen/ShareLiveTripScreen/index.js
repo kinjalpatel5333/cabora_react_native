@@ -1,3 +1,4 @@
+import { PASSENGER_SHARE_LIVE_CONTACTS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Clipboard,
@@ -18,11 +19,7 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const CONTACTS = [
-  {id: 'priya', initials: 'PM', name: 'Priya', selected: true},
-  {id: 'vikram', initials: 'VM', name: 'Vikram', selected: true},
-  {id: 'ananya', initials: 'AS', name: 'Ananya', selected: false},
-];
+const CONTACTS = PASSENGER_SHARE_LIVE_CONTACTS;
 
 const TRACKING_LINK = 'cabora.in/t/8QK2-M4RD';
 

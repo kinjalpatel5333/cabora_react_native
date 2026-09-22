@@ -28,18 +28,7 @@ const ROUTE_H = Math.min(SCREEN_H * 0.38, 320);
 
 /** Street-like waypoints (normalized) — pickup → car → drop
  *  Kept high enough that the orange pickup pin stays above the sheet. */
-const ROUTE_WAYPOINTS = [
-  {x: 0.14, y: 0.68},
-  {x: 0.18, y: 0.58},
-  {x: 0.26, y: 0.52},
-  {x: 0.36, y: 0.48},
-  {x: 0.46, y: 0.42},
-  {x: 0.52, y: 0.36},
-  {x: 0.6, y: 0.28},
-  {x: 0.68, y: 0.2},
-  {x: 0.76, y: 0.14},
-  {x: 0.84, y: 0.08},
-];
+import { DRIVER_ROUTE_WAYPOINTS as ROUTE_WAYPOINTS } from '../../config/staticData';
 
 const PICKUP_POINT = ROUTE_WAYPOINTS[0];
 const CAR_POINT = ROUTE_WAYPOINTS[5];

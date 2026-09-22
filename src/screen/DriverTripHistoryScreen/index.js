@@ -17,59 +17,7 @@ import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const PERIODS = ['Today', 'Week', 'Month', 'Custom'];
-const STATUS_FILTERS = ['Completed', 'Cancelled', 'All'];
-
-const TRIPS_DATA = [
-  {
-    id: '1',
-    time: 'Today · 12:24 pm',
-    status: 'completed',
-    statusLabel: 'Completed',
-    pickup: 'Prestige Tech Park, Gate 3',
-    drop: 'Kempegowda Intl. Airport, T2',
-    rideType: 'Cab Sedan',
-    distance: '14.2 km',
-    duration: '38 min',
-    fare: '₹198.03',
-  },
-  {
-    id: '2',
-    time: 'Today · 10:58 am',
-    status: 'completed',
-    statusLabel: 'Completed',
-    pickup: 'Indiranagar 100 Feet Road',
-    drop: 'Whitefield, ITPL Main Rd',
-    rideType: 'Cab Sedan',
-    distance: '16.8 km',
-    duration: '42 min',
-    fare: '₹219.76',
-  },
-  {
-    id: '3',
-    time: 'Yesterday · 6:15 pm',
-    status: 'cancelled',
-    statusLabel: 'Cancelled',
-    pickup: 'Koramangala 5th Block',
-    drop: 'MG Road Metro Station',
-    rideType: 'Cab Sedan',
-    distance: '5.4 km',
-    duration: '14 min',
-    fare: '₹50.00',
-  },
-  {
-    id: '4',
-    time: 'Yesterday · 08:30 am',
-    status: 'completed',
-    statusLabel: 'Completed',
-    pickup: 'HSR Layout Sector 2',
-    drop: 'Electronic City Phase 1',
-    rideType: 'Cab Sedan',
-    distance: '12.1 km',
-    duration: '26 min',
-    fare: '₹165.20',
-  },
-];
+import { DRIVER_TRIP_PERIODS as PERIODS, DRIVER_TRIP_STATUS_FILTERS as STATUS_FILTERS, DRIVER_TRIPS_DATA as TRIPS_DATA } from '../../config/staticData';
 
 export default function DriverTripHistoryScreen() {
   const insets = useSafeAreaInsets();

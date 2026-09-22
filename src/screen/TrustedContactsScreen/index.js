@@ -1,3 +1,4 @@
+import { PASSENGER_TRUSTED_CONTACTS_INITIAL, PASSENGER_TRUSTED_CONTACTS_PRIVACY } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -17,44 +18,9 @@ import colors from '../../config/color';
 
 const MAX_CONTACTS = 5;
 
-const INITIAL = [
-  {
-    id: 'c1',
-    initials: 'PS',
-    name: 'Priya Sharma',
-    meta: 'Sister · +91 98450 33119',
-    avatarBg: colors.orange.avatarBg,
-    avatarFg: colors.orange[850],
-    autoShare: true,
-    alertSos: true,
-  },
-  {
-    id: 'c2',
-    initials: 'VS',
-    name: 'Vikram Sharma',
-    meta: 'Father · +91 98450 21004',
-    avatarBg: colors.blue.lightBadge,
-    avatarFg: colors.blue[700],
-    autoShare: true,
-    alertSos: false,
-  },
-  {
-    id: 'c3',
-    initials: 'NK',
-    name: 'Neha Kulkarni',
-    meta: 'Friend · +91 99010 55218',
-    avatarBg: colors.green[200],
-    avatarFg: colors.green[700],
-    autoShare: false,
-    alertSos: true,
-  },
-];
+const INITIAL = PASSENGER_TRUSTED_CONTACTS_INITIAL;
 
-const PRIVACY = [
-  {ok: true, text: 'Your live location while a trip is running'},
-  {ok: true, text: 'Driver name, photo and vehicle number'},
-  {ok: false, text: 'Your home address or saved places'},
-];
+const PRIVACY = PASSENGER_TRUSTED_CONTACTS_PRIVACY;
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (

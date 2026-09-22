@@ -1,3 +1,4 @@
+import { PASSENGER_ACTIVITY_TABS, PASSENGER_ACTIVITY_RIDES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -21,62 +22,9 @@ import SortFilterModal from './SortFilterModal';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const TABS = [
-  {id: 'completed', label: 'Completed'},
-  {id: 'cancelled', label: 'Cancelled'},
-  {id: 'scheduled', label: 'Scheduled'},
-];
+const TABS = PASSENGER_ACTIVITY_TABS;
 
-const RIDES = [
-  {
-    id: 'r1',
-    status: 'completed',
-    when: 'Today · 12:24 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: '12, Brigade Road, Ashok Nagar',
-    drop: 'Kempegowda Intl. Airport, T2',
-    vehicle: 'Cab Sedan',
-    meta: '14.2 km',
-    icon: 'car-side',
-    fare: '₹241.50',
-  },
-  {
-    id: 'r2',
-    status: 'cancelled',
-    when: 'Yesterday · 8:02 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Prestige Tech Park, Marathahalli',
-    drop: 'Indiranagar 100 Feet Road',
-    vehicle: 'Auto',
-    meta: 'cancelled by you',
-    icon: 'rickshaw',
-    fare: '₹30',
-  },
-  {
-    id: 'r3',
-    status: 'completed',
-    when: 'Fri 11 Sep · 6:40 pm',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Indiranagar 100ft Road',
-    drop: 'Koramangala 5th Block',
-    vehicle: 'Bike',
-    meta: '6.4 km',
-    icon: 'motorbike',
-    fare: '₹41',
-  },
-  {
-    id: 'r4',
-    status: 'scheduled',
-    when: 'Sat 20 Sep · 07:00 am',
-    month: 'SEPTEMBER 2026',
-    pickup: 'Home, Brigade Road',
-    drop: 'Kempegowda Intl. Airport, T2',
-    vehicle: 'Cab Sedan',
-    meta: 'scheduled',
-    icon: 'car-side',
-    fare: '₹520',
-  },
-];
+const RIDES = PASSENGER_ACTIVITY_RIDES;
 
 const EMPTY_COPY = {
   completed: {

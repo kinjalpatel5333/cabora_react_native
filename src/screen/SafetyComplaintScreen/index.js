@@ -1,3 +1,4 @@
+import { PASSENGER_SAFETY_SERIOUS_LEVELS, PASSENGER_SAFETY_COMPLAINT_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -18,18 +19,9 @@ import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const SERIOUS_LEVELS = [
-  {id: 'uncomfortable', label: 'Uncomfortable'},
-  {id: 'unsafe', label: 'Unsafe'},
-  {id: 'dangerous', label: 'Dangerous'},
-];
+const SERIOUS_LEVELS = PASSENGER_SAFETY_SERIOUS_LEVELS;
 
-const COMPLAINT_CATEGORIES = [
-  {id: 'driver', label: 'Driver behaviour', iconType: 'feather', icon: 'alert-triangle'},
-  {id: 'route', label: 'Unsafe route', iconType: 'feather', icon: 'map-pin'},
-  {id: 'vehicle', label: 'Vehicle unsafe', iconType: 'lucide', icon: 'car'},
-  {id: 'harassment', label: 'Harassment', iconType: 'feather', icon: 'users'},
-];
+const COMPLAINT_CATEGORIES = PASSENGER_SAFETY_COMPLAINT_CATEGORIES;
 
 function CategoryIcon({item, isSelected, colors}) {
   const color = isSelected ? colors.primary : colors.textMuted;

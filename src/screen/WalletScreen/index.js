@@ -1,3 +1,4 @@
+import { PASSENGER_WALLET_TABS, PASSENGER_WALLET_TXNS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -13,64 +14,9 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const TABS = [
-  {id: 'all', label: 'All'},
-  {id: 'credits', label: 'Credits'},
-  {id: 'debits', label: 'Debits'},
-];
+const TABS = PASSENGER_WALLET_TABS;
 
-const TXNS = [
-  {
-    id: 't1',
-    type: 'debit',
-    title: 'Cab Sedan to Airport',
-    meta: 'Today 12:24 pm · CBR8241905',
-    amount: '- ₹241.50',
-    status: 'Paid',
-    icon: 'car',
-    iconTone: 'navy',
-  },
-  {
-    id: 't2',
-    type: 'credit',
-    title: 'Added money',
-    meta: 'Yesterday 9:10 pm · UPI',
-    amount: '+ ₹500.00',
-    status: 'Success',
-    icon: 'plus',
-    iconTone: 'green',
-  },
-  {
-    id: 't3',
-    type: 'credit',
-    title: 'Refund · Cancelled Auto',
-    meta: 'Fri 11 Sep · CBR8192044',
-    amount: '+ ₹30.00',
-    status: 'Refunded',
-    icon: 'rotate-ccw',
-    iconTone: 'blue',
-  },
-  {
-    id: 't4',
-    type: 'credit',
-    title: 'Referral bonus',
-    meta: 'Thu 10 Sep · Promo',
-    amount: '+ ₹100.00',
-    status: 'Success',
-    icon: 'gift',
-    iconTone: 'orange',
-  },
-  {
-    id: 't5',
-    type: 'debit',
-    title: 'Bike to Koramangala',
-    meta: 'Wed 9 Sep · CBR8102211',
-    amount: '- ₹41.00',
-    status: 'Paid',
-    icon: 'bike',
-    iconTone: 'navy',
-  },
-];
+const TXNS = PASSENGER_WALLET_TXNS;
 
 function TxnIcon({name, color, size = 18}) {
   if (name === 'car') {

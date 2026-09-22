@@ -1,3 +1,4 @@
+import { PASSENGER_REPORT_SUB_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -17,12 +18,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const SUB_CATEGORIES = [
-  {id: 'waiting', label: 'Charged for waiting'},
-  {id: 'surge', label: 'Surge unexpected'},
-  {id: 'toll', label: 'Toll added'},
-  {id: 'promo', label: 'Promo not applied'},
-];
+const SUB_CATEGORIES = PASSENGER_REPORT_SUB_CATEGORIES;
 
 export default function ReportIssueScreen() {
   const insets = useSafeAreaInsets();

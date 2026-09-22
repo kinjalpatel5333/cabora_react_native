@@ -1,3 +1,4 @@
+import { PASSENGER_PORTAL_TYPES, PASSENGER_PORTAL_SIZES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -18,38 +19,9 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const PORTAL_TYPES = [
-  {id: 'documents', label: 'Documents', icon: 'file-text'},
-  {id: 'clothes', label: 'Clothes', icon: 'briefcase'},
-  {id: 'gift', label: 'Gift', icon: 'gift'},
-  {id: 'electronics', label: 'Electronics', icon: 'smartphone'},
-  {id: 'medicines', label: 'Medicines', icon: 'pill'},
-  {id: 'other', label: 'Other', icon: 'more-vertical'},
-];
+const PORTAL_TYPES = PASSENGER_PORTAL_TYPES;
 
-const SIZES = [
-  {
-    id: 'small',
-    title: 'Small',
-    weight: 'up to 3 kg',
-    hint: 'fits a bike box',
-    vehicle: 'Bike is enough',
-  },
-  {
-    id: 'medium',
-    title: 'Medium',
-    weight: '3–10 kg',
-    hint: 'needs an auto',
-    vehicle: 'Auto is enough',
-  },
-  {
-    id: 'large',
-    title: 'Large',
-    weight: '10–25 kg',
-    hint: 'needs a cab',
-    vehicle: 'Cab is needed',
-  },
-];
+const SIZES = PASSENGER_PORTAL_SIZES;
 
 function TypeIcon({name, color}) {
   if (name === 'gift') {

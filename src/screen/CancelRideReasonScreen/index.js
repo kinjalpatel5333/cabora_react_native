@@ -8,13 +8,7 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const CANCEL_REASONS = [
-  'Passenger is not at the pickup point',
-  'Passenger asked me to cancel',
-  'Pickup is too far or unreachable',
-  'Vehicle problem or breakdown',
-  'Wrong drop location or route',
-];
+import { DRIVER_CANCEL_REASONS as CANCEL_REASONS } from '../../config/staticData';
 
 export default function CancelRideReasonScreen() {
   const insets = useSafeAreaInsets();

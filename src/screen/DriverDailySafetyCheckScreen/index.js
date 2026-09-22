@@ -17,19 +17,7 @@ import createStyles from './style';
 import colors from '../../config/color';
 import { useSidebar } from '../../context/SidebarContext';
 
-const VEHICLE_ITEMS = [
-  { id: 'tyres', title: 'Tyres have visible tread and correct pressure' },
-  { id: 'brakes', title: 'Brakes and handbrake working' },
-  { id: 'lights', title: 'Headlights, indicators and horn working' },
-  { id: 'mirrors', title: 'Windscreen and mirrors clean' },
-];
-
-const IN_CAR_ITEMS = [
-  { id: 'firstaid', title: 'First-aid kit present and sealed' },
-  { id: 'extinguisher', title: 'Fire extinguisher in date' },
-  { id: 'cabin', title: 'Cabin clean, no strong odour' },
-  { id: 'emergency', title: 'Emergency numbers sticker visible' },
-];
+import { DRIVER_SAFETY_VEHICLE_ITEMS as VEHICLE_ITEMS, DRIVER_SAFETY_IN_CAR_ITEMS as IN_CAR_ITEMS } from '../../config/staticData';
 
 export default function DriverDailySafetyCheckScreen() {
   const insets = useSafeAreaInsets();

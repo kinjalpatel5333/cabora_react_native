@@ -1,41 +1,25 @@
-import React, {useMemo, useState} from 'react';
-import {Linking, Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button} from '../../components';
+import { PASSENGER_SETUP_ACCOUNT_ROLES } from '../../config/staticData';
+import React, { useMemo, useState } from 'react';
+import { Linking, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {getMeApi, selectRoleApi, setAuthToken} from '../../config';
-import {useAppDispatch} from '../../redux/hooks';
-import {loginWithPhone} from '../../redux/slices/authSlice';
+import { useApp } from '../../context/AppContext';
+import { getMeApi, selectRoleApi, setAuthToken } from '../../config';
+import { useAppDispatch } from '../../redux/hooks';
+import { loginWithPhone } from '../../redux/slices/authSlice';
 import createStyles from './style';
-import colors from '../../config/color';
+
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 
-const ROLES = [
-  {
-    id: 'passenger',
-    label: 'Passenger',
-    title: 'Ride as a passenger',
-    body: 'Book cabs, autos, bikes, Portal deliveries and outstation trips.',
-    hint: 'Ready in a minute',
-    tone: 'success',
-  },
-  {
-    id: 'driver',
-    label: 'Driver',
-    title: 'Drive and earn',
-    body: 'Accept rides, track earnings and withdraw daily.',
-    hint: 'Needs KYC · about 2 days',
-    tone: 'warning',
-  },
-];
+const ROLES = PASSENGER_SETUP_ACCOUNT_ROLES;
 
-function RoleIcon({id, selected, colors}) {
+function RoleIcon({ id, selected, colors }) {
   const color = selected ? colors.orange[500] : colors.navy[800];
   if (id === 'driver') {
     return (
@@ -45,7 +29,7 @@ function RoleIcon({id, selected, colors}) {
   return <Lucide name="user-round" size={20} color={color} />;
 }
 
-function HintIcon({tone, colors}) {
+function HintIcon({ tone, colors }) {
   if (tone === 'success') {
     return <AntDesign name="check-circle" size={14} color={colors.green[600]} />;
   }
@@ -57,9 +41,9 @@ function HintIcon({tone, colors}) {
   return <AntDesign name="info-circle" size={14} color={colors.blue[600]} />;
 }
 
-export default function SetupAccountScreen({navigation, route}) {
+export default function SetupAccountScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const phone = route?.params?.mobile || '';
   const userId = route?.params?.userId || route?.params?.user?.id || '';
@@ -102,7 +86,7 @@ export default function SetupAccountScreen({navigation, route}) {
 
     if (selected === 'driver') {
       try {
-        await dispatch(loginWithPhone({phone, role: selected})).unwrap();
+        await dispatch(loginWithPhone({ phone, role: selected })).unwrap();
       } catch (err) {
         console.warn('loginWithPhone driver error:', err);
       } finally {
@@ -120,7 +104,7 @@ export default function SetupAccountScreen({navigation, route}) {
   };
 
   return (
-    <View style={[styles.root, {paddingTop: insets.top + 8}]}>
+    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
       <StatusBar barStyle={colors.barStyle} />
       <View style={styles.header}>
         <Pressable
@@ -195,7 +179,7 @@ export default function SetupAccountScreen({navigation, route}) {
       </ScrollView>
 
       <View
-        style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 8)}]}>
+        style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 8) }]}>
         <View>
           <Text style={styles.pickedLabel}>You picked</Text>
           <Text style={styles.pickedValue}>{picked.label}</Text>

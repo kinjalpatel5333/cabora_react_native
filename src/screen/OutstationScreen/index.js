@@ -1,3 +1,4 @@
+import { PASSENGER_OUTSTATION_VEHICLES, PASSENGER_OUTSTATION_FARE_ROWS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -16,39 +17,9 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const VEHICLES = [
-  {
-    id: 'comfort',
-    name: 'Comfort',
-    model: 'Dzire',
-    seats: '4 seats',
-    icon: 'car-side',
-    price: 4860,
-  },
-  {
-    id: 'xl',
-    name: 'XL',
-    model: 'Ertiga',
-    seats: '6',
-    icon: 'car-estate',
-    price: 6420,
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    model: 'Civic',
-    seats: '4',
-    icon: 'car-side',
-    price: 8940,
-  },
-];
+const VEHICLES = PASSENGER_OUTSTATION_VEHICLES;
 
-const FARE_ROWS = [
-  {id: 'km', label: '288 km at ₹13/km', amount: 3744},
-  {id: 'allowance', label: 'Driver allowance (2 days)', amount: 600},
-  {id: 'permit', label: 'State permit & toll', amount: 396},
-  {id: 'gst', label: 'GST (5%)', amount: 120},
-];
+const FARE_ROWS = PASSENGER_OUTSTATION_FARE_ROWS;
 
 function formatPrice(n) {
   return `₹${n.toLocaleString('en-IN')}`;

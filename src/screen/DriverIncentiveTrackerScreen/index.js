@@ -17,32 +17,7 @@ import createStyles from './style';
 import colors from '../../config/color';
 import { useSidebar } from '../../context/SidebarContext';
 
-const COMPLETED_INCENTIVES = [
-  {
-    id: '1',
-    title: 'Daily 8-ride target',
-    date: 'Yesterday',
-    amount: '₹200',
-    status: 'paid',
-    statusLabel: 'Paid',
-  },
-  {
-    id: '2',
-    title: 'Airport queue bonus',
-    date: '09 Sep',
-    amount: '₹150',
-    status: 'paid',
-    statusLabel: 'Paid',
-  },
-  {
-    id: '3',
-    title: 'Rainy hour bonus',
-    date: '07 Sep',
-    amount: '₹250',
-    status: 'processing',
-    statusLabel: 'Processing',
-  },
-];
+import { DRIVER_COMPLETED_INCENTIVES as COMPLETED_INCENTIVES } from '../../config/staticData';
 
 export default function DriverIncentiveTrackerScreen() {
   const insets = useSafeAreaInsets();

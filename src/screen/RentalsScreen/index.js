@@ -1,3 +1,4 @@
+import { PASSENGER_RENTALS_PACKAGES, PASSENGER_RENTALS_VEHICLES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -16,71 +17,9 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const PACKAGES = [
-  {
-    id: '2h',
-    hours: 2,
-    label: '2 hours',
-    km: 20,
-    price: 649,
-    afterKm: 12,
-    beyondHr: 120,
-  },
-  {
-    id: '4h',
-    hours: 4,
-    label: '4 hours',
-    km: 40,
-    price: 1199,
-    afterKm: 12,
-    beyondHr: 120,
-  },
-  {
-    id: '8h',
-    hours: 8,
-    label: '8 hours',
-    km: 80,
-    price: 2199,
-    afterKm: 11,
-    beyondHr: 120,
-  },
-  {
-    id: '12h',
-    hours: 12,
-    label: '12 hours',
-    km: 120,
-    price: 3099,
-    afterKm: 11,
-    beyondHr: 120,
-  },
-];
+const PACKAGES = PASSENGER_RENTALS_PACKAGES;
 
-const VEHICLES = [
-  {
-    id: 'comfort',
-    name: 'Comfort',
-    model: 'Dzire',
-    seats: 4,
-    icon: 'car-side',
-    priceAdd: 0,
-  },
-  {
-    id: 'xl',
-    name: 'XL',
-    model: 'Ertiga',
-    seats: 6,
-    icon: 'car-estate',
-    priceAdd: 850,
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    model: 'Honda City',
-    seats: 4,
-    icon: 'car-side',
-    priceAdd: 1400,
-  },
-];
+const VEHICLES = PASSENGER_RENTALS_VEHICLES;
 
 function formatPrice(n) {
   return `₹${n.toLocaleString('en-IN')}`;

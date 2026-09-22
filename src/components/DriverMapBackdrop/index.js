@@ -8,11 +8,7 @@ import createStyles from './styles';
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 /** Soft radial demand glows */
-const DEMAND_ZONES = [
-  { top: 120, left: 210, size: 200, opacity: 1 },
-  { top: 250, left: 66, size: 180, opacity: 0.85 },
-  { top: 300, left: 250, size: 120, opacity: 0.95 },
-];
+import { DRIVER_DEMAND_ZONES as DEMAND_ZONES } from '../../config/staticData';
 
 export default function DriverMapBackdrop({
   showUserDot = true,

@@ -8,16 +8,7 @@ import { useApp } from '../context/AppContext';
 import { fonts } from '../config/typography';
 import colors from '../config/color';
 
-const TABS = [
-  { name: 'Home', label: 'Home', kind: 'home' },
-  { name: 'Dashboard', label: 'Dashboard', kind: 'home' },
-  { name: 'Services', label: 'Services', kind: 'grid' },
-  { name: 'Activity', label: 'Activity', kind: 'clock' },
-  { name: 'Earnings', label: 'Earnings', kind: 'rupee' },
-  { name: 'Wallet', label: 'Wallet', kind: 'wallet' },
-  { name: 'Incentives', label: 'Incentives', kind: 'gift' },
-  { name: 'Profile', label: 'Profile', kind: 'user' },
-];
+import { HOME_TAB_BAR_ITEMS as TABS } from '../config/staticData';
 
 function TabGlyph({ kind, color, active }) {
   const size = 22;

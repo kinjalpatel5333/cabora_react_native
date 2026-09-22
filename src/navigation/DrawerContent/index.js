@@ -15,25 +15,7 @@ import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
-const PASSENGER_LINKS = [
-  {label: 'Home', screen: 'Home', iconKind: 'home'},
-  {label: 'Services', screen: 'Services', iconKind: 'grid'},
-  {label: 'Activity', screen: 'Activity', iconKind: 'clock'},
-  {label: 'Wallet', screen: 'Wallet', iconKind: 'wallet'},
-  {label: 'Profile', screen: 'Profile', iconKind: 'user'},
-];
-
-const DRIVER_LINKS = [
-  {label: 'Dashboard', screen: 'Dashboard', iconKind: 'home'},
-  {label: 'Trip History', screen: 'DriverTripHistory', iconKind: 'history'},
-  {label: 'My Subscription', screen: 'DriverSubscription', iconKind: 'crown'},
-  {label: 'Daily Safety Check', screen: 'DriverDailySafetyCheck', iconKind: 'shield'},
-  {label: 'Incentive Tracker', screen: 'DriverIncentiveTracker', iconKind: 'target'},
-  {label: 'Earnings', screen: 'Earnings', iconKind: 'rupee'},
-  {label: 'Wallet', screen: 'Wallet', iconKind: 'wallet'},
-  {label: 'Incentives', screen: 'Incentives', iconKind: 'gift'},
-  {label: 'Profile', screen: 'Profile', iconKind: 'user'},
-];
+import { PASSENGER_SIDEBAR_LINKS as PASSENGER_LINKS, DRIVER_SIDEBAR_LINKS as DRIVER_LINKS } from '../../config/staticData';
 
 function DrawerGlyph({kind, active}) {
   const {colors} = useApp();

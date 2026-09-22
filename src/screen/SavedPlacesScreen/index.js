@@ -1,3 +1,4 @@
+import { PASSENGER_SAVED_PLACES } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
 import {
   Pressable,
@@ -16,52 +17,7 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const INITIAL_PLACES = [
-  {
-    id: 'home',
-    section: 'pinned',
-    name: 'Home',
-    tag: 'Default pickup',
-    address: '12, Brigade Road, Ashok Nagar, Bengaluru',
-    landmark: '',
-    note: '',
-    icon: 'home',
-    tone: 'orange',
-  },
-  {
-    id: 'work',
-    section: 'pinned',
-    name: 'Work',
-    tag: 'Weekday mornings',
-    address: 'Prestige Tech Park, Marathahalli, Bengaluru',
-    landmark: '',
-    note: '',
-    icon: 'briefcase',
-    tone: 'orange',
-  },
-  {
-    id: 'mums',
-    section: 'other',
-    name: "Mum's place",
-    tag: null,
-    address: '48, 4th Cross Road, Jayanagar 4th Block',
-    landmark: 'Flat 3B, opposite the temple',
-    note: '',
-    icon: 'map-pin',
-    tone: 'gray',
-  },
-  {
-    id: 'gym',
-    section: 'other',
-    name: 'Gym',
-    tag: null,
-    address: 'Cult Fit, Indiranagar 100 Feet Road',
-    landmark: '',
-    note: '',
-    icon: 'clock',
-    tone: 'gray',
-  },
-];
+const INITIAL_PLACES = PASSENGER_SAVED_PLACES;
 
 export default function SavedPlacesScreen() {
   const insets = useSafeAreaInsets();

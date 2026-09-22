@@ -1,3 +1,4 @@
+import { PASSENGER_SERVICES_RIDE_NOW, PASSENGER_SERVICES_PLAN_AHEAD } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Dimensions,
@@ -27,54 +28,9 @@ const H_PAD = 20;
 const PLAN_GAP = 12;
 const PLAN_CARD_W = (SCREEN_W - H_PAD * 2 - PLAN_GAP) / 2;
 
-const RIDE_NOW = [
-  {
-    id: 'cab',
-    label: 'Cab',
-    meta: '4 seats · from ₹68',
-    icon: 'car-side',
-    badge: 'Most booked',
-  },
-  {
-    id: 'auto',
-    label: 'Auto',
-    meta: '3 seats · from ₹48',
-    icon: 'rickshaw',
-  },
-  {
-    id: 'bike',
-    label: 'Bike',
-    meta: '1 seat · from ₹29',
-    icon: 'motorbike',
-  },
-];
+const RIDE_NOW = PASSENGER_SERVICES_RIDE_NOW;
 
-const PLAN_AHEAD = [
-  {
-    id: 'schedule',
-    kicker: 'Book up to',
-    title: 'Schedule a ride',
-    icon: 'calendar',
-  },
-  {
-    id: 'airport',
-    kicker: 'Flight tracking and',
-    title: 'Airport',
-    icon: 'send',
-  },
-  {
-    id: 'rentals',
-    kicker: 'Keep the car',
-    title: 'Rentals',
-    icon: 'refresh-cw',
-  },
-  {
-    id: 'outstation',
-    kicker: 'One way or',
-    title: 'Outstation',
-    icon: 'route',
-  },
-];
+const PLAN_AHEAD = PASSENGER_SERVICES_PLAN_AHEAD;
 
 function RideIcon({name, color}) {
   if (name === 'rickshaw' || name === 'motorbike' || name === 'car-side') {

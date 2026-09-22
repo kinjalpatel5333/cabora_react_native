@@ -19,28 +19,7 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const MATCHING_RULES = [
-  {
-    id: 'radius',
-    ok: true,
-    text: 'Rides must end within 3 km of your destination',
-  },
-  {
-    id: 'duration',
-    ok: true,
-    text: 'Active for 90 minutes or until you accept',
-  },
-  {
-    id: 'airport',
-    ok: false,
-    text: 'Airport and outstation rides are excluded',
-  },
-  {
-    id: 'surge',
-    ok: true,
-    text: 'Surge still applies on matched rides',
-  },
-];
+import { DRIVER_MATCHING_RULES as MATCHING_RULES } from '../../config/staticData';
 
 export default function PreferredDestinationScreen() {
   const insets = useSafeAreaInsets();

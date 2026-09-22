@@ -1,3 +1,4 @@
+import { PASSENGER_AIRPORT_SURCHARGES } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -15,11 +16,7 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const SURCHARGES = [
-  {id: 'entry', label: 'Airport entry fee', amount: 150},
-  {id: 'parking', label: 'Parking (reimbursed on receipt)', amount: 110},
-  {id: 'terminal', label: 'Terminal pickup surcharge', amount: 80},
-];
+const SURCHARGES = PASSENGER_AIRPORT_SURCHARGES;
 
 const SURCHARGE_TOTAL = SURCHARGES.reduce((sum, row) => sum + row.amount, 0);
 

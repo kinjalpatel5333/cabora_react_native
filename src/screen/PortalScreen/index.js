@@ -1,3 +1,4 @@
+import { PASSENGER_PORTAL_SAVED, PASSENGER_PORTAL_PLACE_SUGGESTIONS } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
 import {
   Pressable,
@@ -17,65 +18,9 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const SAVED = [
-  {id: 'home', label: 'Home'},
-  {id: 'work', label: 'Work'},
-  {id: 'mums', label: "Mum's place"},
-  {id: 'new', label: '+ New'},
-];
+const SAVED = PASSENGER_PORTAL_SAVED;
 
-const PLACE_SUGGESTIONS = [
-  {
-    id: 'indira-100',
-    title: 'Indiranagar 100ft Road',
-    meta: '402, Brigade Residency, Bengaluru 560038',
-  },
-  {
-    id: 'indira-metro',
-    title: 'Indiranagar Metro Station',
-    meta: '100 Feet Rd, Indiranagar, Bengaluru 560038',
-  },
-  {
-    id: 'indira-12th',
-    title: 'Indiranagar 12th Main',
-    meta: 'Near CMH Road, Bengaluru 560008',
-  },
-  {
-    id: 'kora-5',
-    title: 'Koramangala 5th Block',
-    meta: '18, 80 Feet Road, near Sony World, Bengaluru 560095',
-  },
-  {
-    id: 'kora-forum',
-    title: 'The Forum Mall Koramangala',
-    meta: 'Hosur Road, Koramangala, Bengaluru 560095',
-  },
-  {
-    id: 'hsr',
-    title: 'HSR Layout Sector 2',
-    meta: '27th Main Rd, HSR Layout, Bengaluru 560102',
-  },
-  {
-    id: 'jayanagar',
-    title: 'Jayanagar 4th Block',
-    meta: '11th Main Rd, Jayanagar, Bengaluru 560011',
-  },
-  {
-    id: 'mg',
-    title: 'MG Road',
-    meta: 'Near Trinity Metro, Bengaluru 560001',
-  },
-  {
-    id: 'whitefield',
-    title: 'Whitefield Main Road',
-    meta: 'ITPL Road, Whitefield, Bengaluru 560066',
-  },
-  {
-    id: 'airport',
-    title: 'Kempegowda International Airport',
-    meta: 'Terminal 2, Devanahalli, Bengaluru 560300',
-  },
-];
+const PLACE_SUGGESTIONS = PASSENGER_PORTAL_PLACE_SUGGESTIONS;
 
 const SAVED_PLACES = {
   home: {

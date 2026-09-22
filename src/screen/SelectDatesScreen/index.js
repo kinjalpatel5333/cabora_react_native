@@ -1,3 +1,4 @@
+import { PASSENGER_DATES_WEEKDAYS, PASSENGER_DATES_SHORT_MONTHS, PASSENGER_DATES_QUICK } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
 import {
   Pressable,
@@ -15,42 +16,11 @@ import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-const SHORT_MONTHS = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+const WEEKDAYS = PASSENGER_DATES_WEEKDAYS;
+const MONTHS = PASSENGER_DATES_MONTHS;
+const SHORT_MONTHS = PASSENGER_DATES_SHORT_MONTHS;
 
-const QUICK = [
-  {id: 'today', label: 'Today'},
-  {id: 'week', label: 'This week'},
-  {id: '30', label: '30 days'},
-  {id: '90', label: '3 months'},
-];
+const QUICK = PASSENGER_DATES_QUICK;
 
 function startOfDay(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());

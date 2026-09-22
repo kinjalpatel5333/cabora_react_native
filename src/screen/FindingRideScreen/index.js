@@ -1,3 +1,4 @@
+import { PASSENGER_FINDING_NEARBY, PASSENGER_FINDING_ALT_RIDES } from '../../config/staticData';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
@@ -24,16 +25,9 @@ import TripCompletedScreen from './TripCompletedScreen';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const NEARBY = [
-  {id: 'v1', icon: 'car-side', top: '18%', left: '18%'},
-  {id: 'v2', icon: 'rickshaw', top: '28%', right: '16%'},
-  {id: 'v3', icon: 'motorbike', bottom: '22%', left: '28%'},
-];
+const NEARBY = PASSENGER_FINDING_NEARBY;
 
-const ALT_RIDES = [
-  {id: 'auto', name: 'Auto', price: 96, icon: 'rickshaw'},
-  {id: 'bike', name: 'Bike', price: 58, icon: 'motorbike'},
-];
+const ALT_RIDES = PASSENGER_FINDING_ALT_RIDES;
 
 const PULSE_COUNT = 3;
 const MATCH_MS = 5000;

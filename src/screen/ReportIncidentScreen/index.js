@@ -1,3 +1,4 @@
+import { PASSENGER_REPORT_INCIDENTS } from '../../config/staticData';
 import React, {useState} from 'react';
 import {
   Linking,
@@ -19,14 +20,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const INCIDENTS = [
-  {id: 'driving', label: 'Unsafe driving', iconType: 'feather', icon: 'alert-triangle'},
-  {id: 'behaviour', label: 'Behaviour or\nharassment', iconType: 'feather', icon: 'users'},
-  {id: 'vehicle', label: 'Vehicle condition', iconType: 'lucide', icon: 'car'},
-  {id: 'route', label: 'Route deviation', iconType: 'feather', icon: 'map-pin'},
-  {id: 'payment', label: 'Payment issue', iconType: 'mdi', icon: 'currency-inr'},
-  {id: 'other', label: 'Something else', iconType: 'feather', icon: 'help-circle'},
-];
+const INCIDENTS = PASSENGER_REPORT_INCIDENTS;
 
 function CategoryIcon({item, isSelected, colors}) {
   const color = isSelected ? colors.primary : colors.textMuted;

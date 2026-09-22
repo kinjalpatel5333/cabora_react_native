@@ -1,3 +1,4 @@
+import { PASSENGER_HOME_EXPLORE } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
 import {
   Animated,
@@ -29,12 +30,7 @@ import SetRouteModal from '../SetRouteScreen';
 import createStyles from './style';
 import colors from '../../config/color';
 
-const EXPLORE = [
-  {id: 'auto', label: 'Auto', price: 'from ₹48', icon: 'rickshaw'},
-  {id: 'bike', label: 'Bike', price: 'from ₹29', icon: 'motorbike'},
-  {id: 'portal', label: 'Portal', price: 'from ₹39', icon: 'briefcase'},
-  {id: 'more', label: 'More', price: '9 services', more: true, icon: 'grid'},
-];
+const EXPLORE = PASSENGER_HOME_EXPLORE;
 
 const SHEET_COLLAPSED = 292;
 

@@ -17,13 +17,7 @@ import createStyles from './style';
 import colors from '../../config/color';
 import { useSidebar } from '../../context/SidebarContext';
 
-const PRO_BENEFITS = [
-  'Unlimited rides every week',
-  '12% commission after 40 rides',
-  'Priority ride matching',
-  'Daily payouts before 6 pm',
-  'Priority support within 4 hours',
-];
+import { DRIVER_PRO_BENEFITS as PRO_BENEFITS } from '../../config/staticData';
 
 export default function DriverSubscriptionScreen() {
   const insets = useSafeAreaInsets();
