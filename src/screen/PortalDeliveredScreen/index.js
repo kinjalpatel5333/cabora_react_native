@@ -1,12 +1,6 @@
 import { PASSENGER_PORTAL_DELIVERED_FARE_ROWS } from '../../config/staticData';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -39,25 +33,24 @@ export default function PortalDeliveredScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={goServices}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Portal delivered</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -118,13 +111,13 @@ export default function PortalDeliveredScreen() {
             <Text style={styles.paidLabel}>Paid with HDFC ....4821</Text>
             <Text style={styles.paidAmount}>₹41</Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             onPress={() =>
               showToast({type: 'success', message: 'Receipt downloaded'})
             }
             hitSlop={8}>
             <Text style={styles.downloadText}>Download receipt</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.card}>
@@ -132,7 +125,7 @@ export default function PortalDeliveredScreen() {
           <View style={styles.rateRow}>
             <View style={styles.stars}>
               {[1, 2, 3, 4, 5].map(star => (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={star}
                   onPress={() => setRating(star)}
                   hitSlop={4}
@@ -143,16 +136,16 @@ export default function PortalDeliveredScreen() {
                     size={28}
                     color={colors.primary}
                   />
-                </Pressable>
+                </TouchableOpacity>
               ))}
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() =>
                 showToast({type: 'info', message: 'Tip the rider'})
               }
               hitSlop={8}>
               <Text style={styles.tipText}>Tip the rider</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -162,13 +155,13 @@ export default function PortalDeliveredScreen() {
           styles.footer,
           {paddingBottom: Math.max(insets.bottom, 12)},
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.sendBtn}
           onPress={sendAnother}
           accessibilityRole="button"
           accessibilityLabel="Send another package">
           <Text style={styles.sendText}>Send another package</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

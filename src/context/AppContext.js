@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import {StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   DEFAULT_THEME,
@@ -58,7 +59,16 @@ export function AppProvider({children}) {
     [theme, isDark, colors, setTheme, toggleTheme],
   );
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={value}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle={colors?.barStyle || (isDark ? 'light-content' : 'dark-content')}
+      />
+      {children}
+    </AppContext.Provider>
+  );
 }
 
 export function useApp() {

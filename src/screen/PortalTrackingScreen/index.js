@@ -1,14 +1,6 @@
 import { PASSENGER_PORTAL_TIMELINE } from '../../config/staticData';
 import React, {useEffect, useState} from 'react';
-import {
-  Animated,
-  Image,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Image, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -50,36 +42,31 @@ export default function PortalTrackingScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor="transparent"
-        translucent
-      />
       <View style={styles.mapBg}>
         <Image
           source={colors.isDark ? images.homeMapDark : images.homeMap}
           style={styles.mapImage}
           resizeMode="cover"
         />
-        <Pressable style={styles.backdrop} onPress={closeTracking} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={closeTracking} />
       </View>
 
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         style={[styles.backBtn, {top: insets.top + 8}]}
         onPress={closeTracking}
         accessibilityRole="button"
         accessibilityLabel="Go back"
         hitSlop={8}>
         <Feather name="arrow-left" size={20} color={colors.text} />
-      </Pressable>
+      </TouchableOpacity>
 
       <Animated.View
         onLayout={onSheetLayout}
         style={[styles.sheet, {transform: [{translateY: sheetTY}]}]}>
         <View {...panHandlers} style={styles.handleHit}>
-          <Pressable onPress={toggle} accessibilityRole="button">
+          <TouchableOpacity activeOpacity={0.7} onPress={toggle} accessibilityRole="button">
             <View style={styles.handle} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <ScrollView
@@ -158,15 +145,15 @@ export default function PortalTrackingScreen() {
               </View>
             </View>
             <View style={styles.actionRow}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.actionBtn}
                 onPress={() =>
                   showToast({type: 'info', message: 'Calling rider'})
                 }>
                 <Feather name="phone" size={14} color={colors.text} />
                 <Text style={styles.actionText}>Call</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.actionBtn}
                 onPress={() =>
                   showToast({type: 'info', message: 'Message rider'})
@@ -177,15 +164,15 @@ export default function PortalTrackingScreen() {
                   color={colors.text}
                 />
                 <Text style={styles.actionText}>Message</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.actionBtn}
                 onPress={() =>
                   showToast({type: 'info', message: 'Share tracking link'})
                 }>
                 <Feather name="upload" size={14} color={colors.text} />
                 <Text style={styles.actionText}>Share link</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -196,9 +183,9 @@ export default function PortalTrackingScreen() {
             {paddingBottom: Math.max(insets.bottom, 12)},
           ]}>
           <Text style={styles.footerPaid}>Total ₹41 · paid</Text>
-          <Pressable onPress={() => setCancelOpen(true)} hitSlop={8}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setCancelOpen(true)} hitSlop={8}>
             <Text style={styles.cancelText}>Cancel portal</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </Animated.View>
 

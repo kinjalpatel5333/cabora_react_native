@@ -1,17 +1,12 @@
 import { PASSENGER_PORTAL_RIDERS, PASSENGER_PORTAL_STEP3_FARE_ROWS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -48,25 +43,24 @@ export default function PortalStep3Screen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Choose a rider</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.progressWrap}>
@@ -112,7 +106,7 @@ export default function PortalStep3Screen() {
                 ? colors.primary
                 : colors.text;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={[styles.riderCard, active && styles.riderCardActive]}
                   onPress={() => setRiderId(item.id)}
@@ -155,7 +149,7 @@ export default function PortalStep3Screen() {
                     ]}>
                     {formatPrice(item.price)}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -183,13 +177,13 @@ export default function PortalStep3Screen() {
             <Text style={styles.payTitle}>HDFC ....4821</Text>
             <Text style={styles.payMeta}>Charged on pickup</Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             onPress={() =>
               showToast({type: 'info', message: 'Change payment method'})
             }
             hitSlop={8}>
             <Text style={styles.changeText}>Change</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -203,13 +197,14 @@ export default function PortalStep3Screen() {
           <Text style={styles.footerPrice}>{formatPrice(selected.total)}</Text>
           <Text style={styles.footerNote}>Free cover up to ₹5,000</Text>
         </View>
-        <Pressable
-          style={styles.confirmBtn}
+        <Button
+          title="Confirm"
           onPress={onConfirm}
-          accessibilityRole="button"
-          accessibilityLabel="Confirm portal booking">
-          <Text style={styles.confirmText}>Confirm</Text>
-        </Pressable>
+          style={styles.confirmBtn}
+          textStyle={styles.confirmText}
+          fullWidth={false}
+          accessibilityLabel="Confirm portal booking"
+        />
       </View>
     </View>
   );

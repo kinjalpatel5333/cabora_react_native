@@ -1,13 +1,6 @@
 import { PASSENGER_REPORT_SUB_CATEGORIES } from '../../config/staticData';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -39,16 +32,15 @@ export default function ReportIssueScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Report an issue</Text>
         <View style={styles.headerSpacer} />
       </View>
@@ -74,7 +66,7 @@ export default function ReportIssueScreen() {
         </View>
 
         <Text style={styles.sectionLabel}>WHICH TRIP?</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.tripCard}
           onPress={() => showToast({type: 'info', message: 'Choose trip'})}
           accessibilityRole="button"
@@ -89,10 +81,10 @@ export default function ReportIssueScreen() {
             </Text>
           </View>
           <Feather name="chevron-down" size={18} color={colors.textMuted} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.sectionLabel}>ISSUE CATEGORY · REQUIRED</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.categoryDropdown}
           onPress={() =>
             showToast({type: 'info', message: 'Select issue category'})
@@ -101,13 +93,13 @@ export default function ReportIssueScreen() {
           accessibilityLabel="Issue category">
           <Text style={styles.categoryText}>Fare looks wrong</Text>
           <Feather name="chevron-down" size={20} color={colors.primary} />
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.subCategoriesWrap}>
           {SUB_CATEGORIES.map(item => {
             const isSelected = selectedSub === item.id;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[
                   styles.subPill,
@@ -123,7 +115,7 @@ export default function ReportIssueScreen() {
                   ]}>
                   {item.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -149,7 +141,7 @@ export default function ReportIssueScreen() {
           <View style={styles.fileBox}>
             <Feather name="file-text" size={20} color={colors.textMuted} />
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.addBox}
             onPress={() =>
               showToast({type: 'info', message: 'Attach image or file'})
@@ -158,19 +150,19 @@ export default function ReportIssueScreen() {
             accessibilityLabel="Add attachment">
             <Feather name="camera" size={16} color={colors.textMuted} />
             <Text style={styles.addText}>Add</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
       <View
         style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 12)}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.submitBtn}
           onPress={onSubmit}
           accessibilityRole="button"
           accessibilityLabel="Submit ticket">
           <Text style={styles.submitText}>Submit ticket</Text>
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.replyHint}>
           Most tickets get a first reply within 4 hours.
         </Text>

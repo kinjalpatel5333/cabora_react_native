@@ -19,11 +19,6 @@ export default function App() {
         <SafeAreaProvider style={{flex: 1, backgroundColor: colors.white}}>
           <AppProvider>
             <ToastProvider>
-              <StatusBar
-                translucent
-                barStyle="dark-content"
-                backgroundColor="transparent"
-              />
               <View style={{flex: 1, backgroundColor: colors.white}}>
                 <RootNavigator />
               </View>

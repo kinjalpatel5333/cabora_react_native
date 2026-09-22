@@ -1,13 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useFocusEffect} from '@react-navigation/native';
@@ -23,7 +15,7 @@ import colors from '../../config/color';
 
 function CustomToggle({value, onToggle, label, styles}) {
   return (
-    <Pressable
+    <TouchableOpacity activeOpacity={0.7}
       onPress={() => onToggle(!value)}
       accessibilityRole="switch"
       accessibilityState={{checked: value}}
@@ -38,7 +30,7 @@ function CustomToggle({value, onToggle, label, styles}) {
           value ? styles.toggleThumbActive : styles.toggleThumbInactive,
         ]}
       />
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -86,7 +78,6 @@ export default function ProfileScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.navy[950]} />
       <View style={[styles.hero, {paddingTop: Math.max(insets.top, 24) + 16}]}>
         {/* Real Ambient Corner Orange Glow Image */}
         <Image
@@ -121,18 +112,18 @@ export default function ProfileScreen({navigation}) {
             <Text style={styles.userSub}>{displayPhone}</Text>
             <Text style={styles.userEmail}>{displayEmail}</Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.editBtn}
             onPress={() => showToast({type: 'info', message: 'Edit profile'})}
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}>
             <Feather name="edit-2" size={16} color={colors.white} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.roleBar}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.roleTab,
               activeRole === 'passenger' && styles.roleTabActive,
@@ -152,9 +143,9 @@ export default function ProfileScreen({navigation}) {
               ]}>
               Passenger
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.roleTab,
               activeRole === 'driver' && styles.roleTabActive,
@@ -180,7 +171,7 @@ export default function ProfileScreen({navigation}) {
             <View style={styles.approvedBadge}>
               <Text style={styles.approvedText}>APPROVED</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -192,7 +183,7 @@ export default function ProfileScreen({navigation}) {
         ]}>
         <Text style={styles.sectionLabel}>ACCOUNT</Text>
         <View style={styles.card}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
             onPress={() =>
               showToast({type: 'info', message: 'Personal details'})
@@ -207,9 +198,9 @@ export default function ProfileScreen({navigation}) {
               <Text style={styles.rowSub}>Name, gender, date of birth</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
             onPress={() => showToast({type: 'info', message: 'Language'})}
             accessibilityRole="button"
@@ -222,9 +213,9 @@ export default function ProfileScreen({navigation}) {
               <Text style={styles.rowSub}>English (India)</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.rowItem}
             onPress={() =>
               showToast({type: 'info', message: 'Payment methods'})
@@ -239,7 +230,7 @@ export default function ProfileScreen({navigation}) {
               <Text style={styles.rowSub}>UPI, 1 card, wallet</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.sectionLabel}>PREFERENCES & PRIVACY</Text>
@@ -294,7 +285,7 @@ export default function ProfileScreen({navigation}) {
             />
           </View>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
             onPress={() => dispatch(logoutUser())}
             accessibilityRole="button"
@@ -309,9 +300,9 @@ export default function ProfileScreen({navigation}) {
               <Text style={styles.rowSub}>Sign out of your account</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.rowItem}
             onPress={() => setShowDeleteModal(true)}
             accessibilityRole="button"
@@ -326,7 +317,7 @@ export default function ProfileScreen({navigation}) {
               <Text style={styles.rowSub}>Permanent removal of data</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -336,10 +327,10 @@ export default function ProfileScreen({navigation}) {
         transparent
         animationType="fade"
         onRequestClose={() => setShowDeleteModal(false)}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.modalOverlay}
           onPress={() => setShowDeleteModal(false)}>
-          <Pressable style={styles.modalCard} onPress={e => e.stopPropagation()}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.modalCard} onPress={e => e.stopPropagation()}>
             <View style={styles.modalIconRing}>
               <Feather name="trash-2" size={26} color={colors.red[600]} />
             </View>
@@ -370,7 +361,7 @@ export default function ProfileScreen({navigation}) {
               </View>
             </View>
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.modalDeleteBtn}
               onPress={() => {
                 setShowDeleteModal(false);
@@ -382,17 +373,17 @@ export default function ProfileScreen({navigation}) {
               accessibilityRole="button"
               accessibilityLabel="Delete my account">
               <Text style={styles.modalDeleteBtnText}>Delete my account</Text>
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.modalKeepBtn}
               onPress={() => setShowDeleteModal(false)}
               accessibilityRole="button"
               accessibilityLabel="Keep my account">
               <Text style={styles.modalKeepBtnText}>Keep my account</Text>
-            </Pressable>
-          </Pressable>
-        </Pressable>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
     </View>
   );

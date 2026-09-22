@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Pressable, Text, View} from 'react-native';
+import {Modal, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import useThemedStyles from '../useThemedStyles';
@@ -46,7 +46,7 @@ export default function ConfirmDialog({
       onRequestClose={handleCancel}
       statusBarTranslucent>
       <View style={styles.root}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.backdrop}
           onPress={handleCancel}
           accessibilityRole="button"
@@ -77,18 +77,18 @@ export default function ConfirmDialog({
           <Text style={styles.title}>{title}</Text>
           {message ? <Text style={styles.message}>{message}</Text> : null}
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.primaryBtn,
               isDanger ? styles.primaryBtnDanger : styles.primaryBtnDefault,
             ]}
             onPress={handleConfirm}>
             <Text style={styles.primaryText}>{confirmLabel}</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable style={styles.secondaryBtn} onPress={handleCancel}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.secondaryBtn} onPress={handleCancel}>
             <Text style={styles.secondaryText}>{cancelLabel}</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

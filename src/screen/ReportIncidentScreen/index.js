@@ -1,14 +1,6 @@
 import { PASSENGER_REPORT_INCIDENTS } from '../../config/staticData';
 import React, {useState} from 'react';
-import {
-  Linking,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Linking, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -60,25 +52,24 @@ export default function ReportIncidentScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Report an incident</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -103,13 +94,13 @@ export default function ReportIncidentScreen() {
               </Text>
             </View>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.callBtn}
             onPress={onCall112}
             accessibilityRole="button"
             accessibilityLabel="Call 112">
             <Text style={styles.callBtnText}>Call 112</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.sectionLabel}>WHICH RIDE</Text>
@@ -125,11 +116,11 @@ export default function ReportIncidentScreen() {
               </Text>
             </View>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             onPress={() => showToast({type: 'info', message: 'Change ride'})}
             hitSlop={6}>
             <Text style={styles.changeRideLink}>Change ride</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.sectionLabel}>WHAT HAPPENED</Text>
@@ -137,7 +128,7 @@ export default function ReportIncidentScreen() {
           {INCIDENTS.map(item => {
             const isSelected = selectedIncident === item.id;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[
                   styles.categoryCard,
@@ -156,7 +147,7 @@ export default function ReportIncidentScreen() {
                   ]}>
                   {item.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -175,7 +166,7 @@ export default function ReportIncidentScreen() {
           <Text style={styles.charCount}>{`${description.length} / 500`}</Text>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.photoBtn}
           onPress={() =>
             showToast({type: 'info', message: 'Attach photo or screenshot'})
@@ -184,7 +175,7 @@ export default function ReportIncidentScreen() {
           accessibilityLabel="Add a photo or screenshot">
           <Feather name="camera" size={18} color={colors.textMuted} />
           <Text style={styles.photoBtnText}>Add a photo or screenshot</Text>
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.anonymousCard}>
           <View style={styles.anonymousInfo}>
@@ -193,7 +184,7 @@ export default function ReportIncidentScreen() {
               The driver won't see your name
             </Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             onPress={() => setAnonymous(!anonymous)}
             accessibilityRole="switch"
             accessibilityState={{checked: anonymous}}
@@ -210,7 +201,7 @@ export default function ReportIncidentScreen() {
                   : styles.toggleThumbInactive,
               ]}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

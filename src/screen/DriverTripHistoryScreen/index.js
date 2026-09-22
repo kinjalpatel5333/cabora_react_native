@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
@@ -57,11 +50,6 @@ export default function DriverTripHistoryScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.slate[50]}
-        translucent={false}
-      />
 
       {/* Header */}
       <View
@@ -69,13 +57,13 @@ export default function DriverTripHistoryScreen() {
           styles.header,
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
           <Feather name="menu" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Trip history</Text>
       </View>
 
@@ -93,9 +81,9 @@ export default function DriverTripHistoryScreen() {
             style={styles.searchInput}
           />
           {searchQuery ? (
-            <Pressable onPress={() => setSearchQuery('')}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => setSearchQuery('')}>
               <Feather name="x" size={16} color={colors.slate[400]} />
-            </Pressable>
+            </TouchableOpacity>
           ) : null}
         </View>
 
@@ -104,7 +92,7 @@ export default function DriverTripHistoryScreen() {
           {PERIODS.map(period => {
             const active = period === selectedPeriod;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={period}
                 accessibilityRole="button"
                 onPress={() => setSelectedPeriod(period)}
@@ -123,7 +111,7 @@ export default function DriverTripHistoryScreen() {
                   ]}>
                   {period}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -133,7 +121,7 @@ export default function DriverTripHistoryScreen() {
           {STATUS_FILTERS.map(status => {
             const active = status === selectedStatus;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={status}
                 accessibilityRole="button"
                 onPress={() => setSelectedStatus(status)}
@@ -148,7 +136,7 @@ export default function DriverTripHistoryScreen() {
                   ]}>
                   {status}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>

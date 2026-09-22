@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, Pressable, Text} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
 import {useApp} from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
@@ -8,6 +8,7 @@ import colors from '../../config/color';
 
 export default function Button({
   title,
+  children,
   onPress,
   loading = false,
   disabled = false,
@@ -16,6 +17,8 @@ export default function Button({
   fullWidth = true,
   icon,
   style,
+  textStyle,
+  activeOpacity = 0.7,
 }) {
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
@@ -35,66 +38,75 @@ export default function Button({
 
   const iconColor = spinnerColor;
 
+  const row = [styles.base, size === 'sm' ? styles.sm : styles.md];
+  if (fullWidth) {
+    row.push(styles.fullWidth);
+  }
+  if (isDisabled) {
+    if (isGhost) {
+      row.push(styles.disabledGhost);
+    } else if (isOutline) {
+      row.push(styles.disabledOutline);
+    } else {
+      row.push(styles.disabledFill);
+    }
+  } else if (isOutline) {
+    row.push(styles.outline);
+  } else if (isGhost) {
+    row.push(styles.ghost);
+  } else if (isDanger) {
+    row.push(styles.danger);
+  } else if (isInverse) {
+    row.push(styles.inverse);
+  } else {
+    row.push(styles.primary);
+  }
+  if (style) {
+    row.push(style);
+  }
+
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={activeOpacity}
       accessibilityRole="button"
       accessibilityState={{disabled: disabled || loading, busy: loading}}
       onPress={onPress}
       disabled={disabled || loading}
-      style={({pressed}) => {
-        const row = [styles.base, size === 'sm' ? styles.sm : styles.md];
-        if (fullWidth) {
-          row.push(styles.fullWidth);
-        }
-        if (isDisabled) {
-          if (isGhost) {
-            row.push(styles.disabledGhost);
-          } else if (isOutline) {
-            row.push(styles.disabledOutline);
-          } else {
-            row.push(styles.disabledFill);
-          }
-        } else if (isOutline) {
-          row.push(styles.outline, pressed && styles.outlinePressed);
-        } else if (isGhost) {
-          row.push(styles.ghost, pressed && styles.ghostPressed);
-        } else if (isDanger) {
-          row.push(styles.danger, pressed && styles.dangerPressed);
-        } else if (isInverse) {
-          row.push(styles.inverse, pressed && styles.inversePressed);
-        } else {
-          row.push(styles.primary, pressed && styles.primaryPressed);
-        }
-        if (style) {
-          row.push(style);
-        }
-        return row;
-      }}>
+      style={row}>
       {loading ? (
         <ActivityIndicator color={spinnerColor} size="small" />
-      ) : icon ? (
-        typeof icon === 'string' ? (
-          <Icon name={icon} color={iconColor} size={size === 'sm' ? 16 : 18} />
-        ) : (
-          icon
-        )
-      ) : null}
-      <Text
-        style={[
-          styles.label,
-          size === 'sm' && styles.labelSm,
-          isDisabled
-            ? styles.labelDisabled
-            : isOutline
-              ? styles.labelOutline
-              : isGhost
-                ? styles.labelGhost
-                : isInverse
-                  ? styles.labelInverse
-                  : styles.labelOnFill,
-        ]}>
-        {title}
-      </Text>
-    </Pressable>
+      ) : children ? (
+        children
+      ) : (
+        <>
+          {icon ? (
+            typeof icon === 'string' ? (
+              <Icon name={icon} color={iconColor} size={size === 'sm' ? 16 : 18} />
+            ) : (
+              icon
+            )
+          ) : null}
+          {title ? (
+            <Text
+              style={[
+                styles.label,
+                size === 'sm' && styles.labelSm,
+                isDisabled
+                  ? styles.labelDisabled
+                  : isOutline
+                    ? styles.labelOutline
+                    : isGhost
+                      ? styles.labelGhost
+                      : isInverse
+                        ? styles.labelInverse
+                        : styles.labelOnFill,
+                textStyle,
+              ]}>
+              {title}
+            </Text>
+          ) : null}
+        </>
+      )}
+    </TouchableOpacity>
   );
 }

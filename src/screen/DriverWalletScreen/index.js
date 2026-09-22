@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -53,11 +46,6 @@ export default function DriverWalletScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.slate[50]}
-        translucent={false}
-      />
 
       {/* Top Header */}
       <View
@@ -65,13 +53,13 @@ export default function DriverWalletScreen() {
           styles.header,
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Open menu"
           onPress={openDrawer}
           style={styles.menuBtn}>
           <Feather name="menu" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Wallet</Text>
       </View>
 
@@ -128,7 +116,7 @@ export default function DriverWalletScreen() {
             {QUICK_AMOUNTS.map(item => {
               const active = item.id === selectedPill;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   accessibilityRole="button"
                   onPress={() => handleSelectPill(item)}
@@ -137,7 +125,7 @@ export default function DriverWalletScreen() {
                     style={[styles.pillText, active && styles.pillTextActive]}>
                     {item.label}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -153,23 +141,23 @@ export default function DriverWalletScreen() {
                 <Text style={styles.bankVerified}>Rajesh Kumar · verified</Text>
               </View>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               onPress={handleChangeBank}
               style={styles.changeBtn}>
               <Text style={styles.changeText}>Change</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           {/* Action Button */}
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={handleWithdraw}
             style={styles.withdrawBtn}>
             <Text style={styles.withdrawBtnText}>
               Withdraw ₹{withdrawAmount} to bank
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Payout History Section */}

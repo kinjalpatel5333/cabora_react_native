@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Pressable,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
@@ -120,28 +115,24 @@ export default function SafetyScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.card}
-      />
       <View style={[styles.header, { paddingTop: insets.top + 4 }]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Safety</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.content}>
@@ -166,7 +157,7 @@ export default function SafetyScreen() {
             {TOOLS.map(tool => {
               const tone = ICON_TONES[tool.iconBg] || ICON_TONES.gray;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={tool.id}
                   style={styles.toolCard}
                   onPress={() => onToolPress(tool.id)}
@@ -177,7 +168,7 @@ export default function SafetyScreen() {
                   </View>
                   <Text style={styles.toolTitle}>{tool.title}</Text>
                   <Text style={styles.toolSub}>{tool.sub}</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -202,13 +193,13 @@ export default function SafetyScreen() {
             </View>
           </View>
           <View style={styles.insuranceFooter}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() =>
                 showToast({ type: 'info', message: 'Opening insurance policy' })
               }
               hitSlop={6}>
               <Text style={styles.policyLink}>View policy</Text>
-            </Pressable>
+            </TouchableOpacity>
             <Text style={styles.policyId}>Policy CBR-INS-2026</Text>
           </View>
         </View>
@@ -216,13 +207,13 @@ export default function SafetyScreen() {
 
       <View
         style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.sosBtn}
           onPress={() => setEmergencyOpen(true)}
           accessibilityRole="button"
           accessibilityLabel="Emergency SOS">
           <Text style={styles.sosText}>Emergency SOS</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <EmergencyModal

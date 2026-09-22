@@ -1,14 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  Pressable,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {KeyboardAvoidingView, Linking, Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -348,17 +339,17 @@ export default function OtpScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top + 8}]}>
-      <StatusBar barStyle={colors.barStyle} />
       <KeyboardAvoidingView
         style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.top}>
-          <Pressable
+          <TouchableOpacity
+            activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => navigation.goBack()}
             style={styles.back}>
             <Feather name="arrow-left" size={20} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={[styles.avatar, avatarStyle]}>
             {verified ? (
@@ -385,12 +376,17 @@ export default function OtpScreen({navigation, route}) {
             <Text style={styles.metaText}>
               Code sent to {maskPhone(phone, countryCode)} ·{' '}
             </Text>
-            <Text style={styles.change} onPress={() => navigation.goBack()}>
-              Change
-            </Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => navigation.goBack()}>
+              <Text style={styles.change}>Change</Text>
+            </TouchableOpacity>
           </View>
 
-          <Pressable onPress={() => inputRef.current?.focus()} style={styles.boxesHit}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => inputRef.current?.focus()}
+            style={styles.boxesHit}>
             <View style={styles.boxes}>
               {Array.from({length: CODE_LENGTH}).map((_, index) => {
                 const digit = digits[index];
@@ -440,7 +436,7 @@ export default function OtpScreen({navigation, route}) {
               onBlur={() => setFocused(false)}
               style={styles.hiddenInput}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           {paused ? (
             <View style={styles.banner}>
@@ -449,9 +445,11 @@ export default function OtpScreen({navigation, route}) {
                 You've used all 5 attempts. For your account's safety, try again
                 in 15 minutes or reach support.
               </Text>
-              <Pressable onPress={() => Linking.openURL(SUPPORT_URL)}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => Linking.openURL(SUPPORT_URL)}>
                 <Text style={styles.support}>Contact support →</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           ) : helper ? (
             <View style={styles.hintRow}>
@@ -479,14 +477,18 @@ export default function OtpScreen({navigation, route}) {
               <Text style={styles.chipLabel}>Resend paused</Text>
             </View>
           ) : expired ? (
-            <Pressable onPress={startNewCode} style={[styles.chip, styles.chipResend]}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={startNewCode}
+              style={[styles.chip, styles.chipResend]}>
               <Feather name="refresh-cw" size={14} color={colors.primary} />
               <Text style={[styles.chipLabel, styles.chipLabelResend]}>
                 Resend code
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           ) : (
-            <Pressable
+            <TouchableOpacity
+              activeOpacity={0.7}
               onPress={startNewCode}
               disabled={!canResend}
               style={styles.chip}>
@@ -496,7 +498,7 @@ export default function OtpScreen({navigation, route}) {
                   ? `Resend code in ${formatTimer(resendIn)}`
                   : 'Resend code'}
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
         </View>
 

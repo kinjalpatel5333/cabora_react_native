@@ -1,13 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -238,7 +230,7 @@ export default function RideCategoryModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
         <Animated.View
           onLayout={onSheetLayout}
@@ -251,13 +243,13 @@ export default function RideCategoryModal({
             },
           ]}>
           <View {...panHandlers}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
               style={styles.grabberHit}>
               <View style={styles.grabber} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerRow}>
@@ -289,7 +281,7 @@ export default function RideCategoryModal({
               const active = selectedId === ride.id;
               const tint = active ? colors.orange[500] : colors.text;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={ride.id}
                   onPress={() => setSelectedId(ride.id)}
                   style={[styles.rideRow, active && styles.rideRowActive]}>
@@ -307,11 +299,11 @@ export default function RideCategoryModal({
                     </View>
                   </View>
                   <Text style={styles.ridePrice}>₹{ride.price}</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
 
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() => setSelectedId(category.bookAny.id)}
               style={[
                 styles.bookAnyCard,
@@ -353,7 +345,7 @@ export default function RideCategoryModal({
                 {category.rides.map(ride => {
                   const on = chips.includes(ride.id);
                   return (
-                    <Pressable
+                    <TouchableOpacity activeOpacity={0.7}
                       key={ride.id}
                       onPress={() => toggleChip(ride.id)}
                       style={[styles.chip, on && styles.chipOn]}>
@@ -366,11 +358,11 @@ export default function RideCategoryModal({
                         style={[styles.chipText, on && styles.chipTextOn]}>
                         {on ? ride.name : `+ ${ride.name}`}
                       </Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   );
                 })}
               </View>
-            </Pressable>
+            </TouchableOpacity>
           </ScrollView>
 
           <View style={styles.metaRow}>
@@ -384,9 +376,9 @@ export default function RideCategoryModal({
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
               {paymentLabel}
             </Text>
-            <Pressable hitSlop={8} onPress={onChangePayment}>
+            <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={onChangePayment}>
               <Text style={styles.changeText}>Change</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={[styles.metaRow, {borderTopWidth: 0, paddingTop: 0}]}>
@@ -406,7 +398,7 @@ export default function RideCategoryModal({
               <Text style={styles.totalLabel}>TOTAL</Text>
               <Text style={styles.totalValue}>{totalLabel}</Text>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.bookBtn}
               onPress={() => {
                 const name = isBookAny
@@ -425,7 +417,7 @@ export default function RideCategoryModal({
                 });
               }}>
               <Text style={styles.bookText}>{bookLabel}</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </Animated.View>
       </View>

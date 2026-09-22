@@ -1,14 +1,6 @@
 import { PASSENGER_CHOOSE_RIDES } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -97,7 +89,7 @@ export default function ChooseRideModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
         <View style={[styles.routeSummary, {top: insets.top + 10}]}>
           <MaterialDesignIcons
@@ -122,7 +114,7 @@ export default function ChooseRideModal({
           </View>
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Recenter map"
           style={[styles.locateFab, {bottom: sheetMaxH + 12}]}>
@@ -131,7 +123,7 @@ export default function ChooseRideModal({
             size={22}
             color={colors.text}
           />
-        </Pressable>
+        </TouchableOpacity>
 
         <Animated.View
           onLayout={onSheetLayout}
@@ -144,23 +136,23 @@ export default function ChooseRideModal({
             },
           ]}>
           <View {...panHandlers}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
               style={styles.grabberHit}>
               <View style={styles.grabber} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>Choose a ride</Text>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.scheduleBtn}
               onPress={() => setScheduleOpen(true)}>
               <Feather name="calendar" size={15} color={colors.text} />
               <Text style={styles.scheduleText}>Schedule</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <ScrollView
@@ -174,7 +166,7 @@ export default function ChooseRideModal({
                 ? colors.orange[500]
                 : colors.text;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={ride.id}
                   onPress={() => openCategory(ride.id)}
                   style={[styles.rideCard, active && styles.rideCardActive]}>
@@ -203,7 +195,7 @@ export default function ChooseRideModal({
                     <Text style={styles.ridePrice}>₹{ride.price}</Text>
                     <Text style={styles.rideEta}>{ride.eta}</Text>
                   </View>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -219,9 +211,9 @@ export default function ChooseRideModal({
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
               {paymentMethod.label}
             </Text>
-            <Pressable hitSlop={8} onPress={() => setPaymentOpen(true)}>
+            <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={() => setPaymentOpen(true)}>
               <Text style={styles.changeText}>Change</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={[styles.metaRow, {borderTopWidth: 0, paddingTop: 0}]}>
@@ -241,23 +233,23 @@ export default function ChooseRideModal({
               <Text style={styles.totalLabel}>TOTAL</Text>
               <Text style={styles.totalValue}>₹{total}</Text>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.bookBtn}
               onPress={() => openCategory(selectedId)}>
               <Text style={styles.bookText}>Book {selected.name}</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </Animated.View>
 
         {/* Above sheet so taps always register */}
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <PaymentOffersModal
           visible={paymentOpen}

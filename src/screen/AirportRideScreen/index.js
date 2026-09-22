@@ -1,16 +1,11 @@
 import { PASSENGER_AIRPORT_SURCHARGES } from '../../config/staticData';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -36,25 +31,24 @@ export default function AirportRideScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Airport ride</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Safety')}
           accessibilityRole="button"
           accessibilityLabel="Safety"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -64,7 +58,7 @@ export default function AirportRideScreen() {
           {paddingBottom: 24},
         ]}>
         <View style={styles.tripToggle}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.tripTab,
               tripType === 'drop' && styles.tripTabActive,
@@ -77,8 +71,8 @@ export default function AirportRideScreen() {
               ]}>
               Drop to airport
             </Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.7}
             style={[
               styles.tripTab,
               tripType === 'pickup' && styles.tripTabActive,
@@ -91,7 +85,7 @@ export default function AirportRideScreen() {
               ]}>
               Pickup from airport
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
@@ -110,7 +104,7 @@ export default function AirportRideScreen() {
             </View>
             <View style={styles.divider} />
             <View style={styles.terminalRow}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={[
                   styles.terminalChip,
                   terminal === 't1' && styles.terminalChipActive,
@@ -123,8 +117,8 @@ export default function AirportRideScreen() {
                   ]}>
                   T1 · Domestic
                 </Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 style={[
                   styles.terminalChip,
                   terminal === 't2' && styles.terminalChipActive,
@@ -137,7 +131,7 @@ export default function AirportRideScreen() {
                   ]}>
                   T2 · International
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -175,14 +169,14 @@ export default function AirportRideScreen() {
                 Arrive 3 h before an international departure
               </Text>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.editBtn}
               onPress={() =>
                 showToast({type: 'info', message: 'Edit pick-up time'})
               }
               hitSlop={8}>
               <Text style={styles.editText}>Edit</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -218,13 +212,14 @@ export default function AirportRideScreen() {
             Includes ₹{SURCHARGE_TOTAL} of airport charges
           </Text>
         </View>
-        <Pressable
-          style={styles.bookBtn}
+        <Button
+          title="Book"
           onPress={onBook}
-          accessibilityRole="button"
-          accessibilityLabel="Book airport ride">
-          <Text style={styles.bookText}>Book</Text>
-        </Pressable>
+          style={styles.bookBtn}
+          textStyle={styles.bookText}
+          fullWidth={false}
+          accessibilityLabel="Book airport ride"
+        />
       </View>
     </View>
   );

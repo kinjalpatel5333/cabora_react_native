@@ -1,15 +1,9 @@
 import { PASSENGER_TRIP_COMPLETED_FARE_ROWS } from '../../config/staticData';
 import React from 'react';
-import {
-  Dimensions,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './tripCompletedStyle';
@@ -36,12 +30,6 @@ export default function TripCompletedScreen({
 
   return (
     <View style={[styles.root, {height: SCREEN_H, width: SCREEN_W}]}>
-      <StatusBar
-        animated
-        barStyle="dark-content"
-        translucent
-        backgroundColor="transparent"
-      />
 
       {/* Full mint wash under status bar — only behind hero */}
       <View style={[styles.mintWash, {height: heroHeight}]} />
@@ -131,9 +119,12 @@ export default function TripCompletedScreen({
           <Text style={styles.totalLabel}>Total paid</Text>
           <Text style={styles.totalValue}>{totalPaid}</Text>
         </View>
-        <Pressable style={styles.rateBtn} onPress={onRate}>
-          <Text style={styles.rateText}>Rate your ride</Text>
-        </Pressable>
+        <Button
+          title="Rate your ride"
+          onPress={onRate}
+          style={styles.rateBtn}
+          textStyle={styles.rateText}
+        />
       </View>
     </View>
   );

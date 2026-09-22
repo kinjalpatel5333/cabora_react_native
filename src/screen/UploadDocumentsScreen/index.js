@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  Linking,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Linking, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 import colors from '../../config/color';
@@ -65,11 +59,6 @@ export default function UploadDocumentsScreen({ navigation }) {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.white}
-        translucent={false}
-      />
 
       {/* Header Bar */}
       <View
@@ -77,23 +66,23 @@ export default function UploadDocumentsScreen({ navigation }) {
           styles.header,
           { paddingTop: insets.top > 0 ? insets.top : 8 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerIconBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>Documents</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerIconBtn}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -125,7 +114,7 @@ export default function UploadDocumentsScreen({ navigation }) {
             const isReview = doc.status === 'review';
 
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={doc.id}
                 accessibilityRole="button"
                 onPress={() => handleUploadDoc(doc)}
@@ -212,7 +201,7 @@ export default function UploadDocumentsScreen({ navigation }) {
                     <Text style={styles.actionLinkText}>{doc.actionText}</Text>
                   )}
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -224,19 +213,19 @@ export default function UploadDocumentsScreen({ navigation }) {
           styles.bottomBar,
           { paddingBottom: Math.max(insets.bottom, 12) },
         ]}>
-        <Pressable
-          accessibilityRole="button"
+        <Button
+          title="Upload insurance certificate"
           onPress={() => handleUploadDoc(DOCUMENTS_LIST[0])}
-          style={styles.uploadBtn}>
-          <Text style={styles.uploadBtnText}>Upload insurance certificate</Text>
-        </Pressable>
+          style={styles.uploadBtn}
+          textStyle={styles.uploadBtnText}
+        />
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleComplianceSupport}
           style={styles.supportLink}>
           <Text style={styles.supportLinkText}>Talk to the compliance team</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

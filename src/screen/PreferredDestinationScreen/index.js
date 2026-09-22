@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Image, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
@@ -33,25 +26,24 @@ export default function PreferredDestinationScreen() {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
-      <StatusBar barStyle="dark-content" />
 
       <View style={styles.header}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={() => navigation.goBack()}
           style={styles.headerBtn}
           hitSlop={8}>
           <AntDesign name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Preferred destination</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Help"
           style={styles.headerBtn}
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -96,9 +88,9 @@ export default function PreferredDestinationScreen() {
               <Text style={styles.destTitle}>Home · Jayanagar 4th Block</Text>
               <Text style={styles.destMeta}>14.2 km away · about 34 min</Text>
             </View>
-            <Pressable accessibilityRole="button" hitSlop={8}>
+            <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" hitSlop={8}>
               <Text style={styles.changeLink}>Change</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 

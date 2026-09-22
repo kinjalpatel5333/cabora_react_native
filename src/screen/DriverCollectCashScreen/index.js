@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToast } from '../../components/Toast';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import createStyles from './style';
@@ -32,11 +27,6 @@ export default function DriverCollectCashScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor="transparent"
-        translucent
-      />
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -122,20 +112,20 @@ export default function DriverCollectCashScreen() {
           styles.actionSection,
           { paddingBottom: Math.max(insets.bottom, 12) + 4 },
         ]}>
-        <Pressable
-          accessibilityRole="button"
+        <Button
+          title="Cash received · complete trip"
+          icon={<Text style={styles.btnRupee}>₹</Text>}
           onPress={handleCashReceived}
-          style={styles.completeBtn}>
-          <Text style={styles.btnRupee}>₹</Text>
-          <Text style={styles.completeBtnText}>Cash received · complete trip</Text>
-        </Pressable>
+          style={styles.completeBtn}
+          textStyle={styles.completeBtnText}
+        />
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handlePaidOnlineInstead}
           style={styles.secondaryLink}>
           <Text style={styles.secondaryLinkText}>Passenger paid online instead</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

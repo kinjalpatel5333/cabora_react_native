@@ -1,6 +1,6 @@
 import { PASSENGER_WALLET_TABS, PASSENGER_WALLET_TXNS } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -75,10 +75,6 @@ export default function WalletScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.background}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
@@ -89,16 +85,16 @@ export default function WalletScreen() {
           },
         ]}>
         <View style={styles.headerRow}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.iconBtn}
             onPress={openDrawer}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             hitSlop={8}>
             <Feather name="menu" size={20} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.title}>Wallet</Text>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={[styles.iconBtn, styles.iconBtnOutline]}
             onPress={() =>
               showToast({type: 'info', message: 'Wallet help'})
@@ -107,7 +103,7 @@ export default function WalletScreen() {
             accessibilityLabel="Help"
             hitSlop={8}>
             <Feather name="help-circle" size={20} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.balanceCard}>
@@ -125,15 +121,15 @@ export default function WalletScreen() {
             Updated just now · Auto top-up on
           </Text>
           <View style={styles.balanceActions}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.addMoneyBtn}
               onPress={() => navigation.navigate('AddMoney')}
               accessibilityRole="button"
               accessibilityLabel="Add money">
               <Feather name="plus" size={14} color={colors.white} />
               <Text style={styles.addMoneyText}>Add money</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.historyBtn}
               onPress={() =>
                 showToast({type: 'info', message: 'Wallet history'})
@@ -142,7 +138,7 @@ export default function WalletScreen() {
               accessibilityLabel="History">
               <Feather name="clock" size={13} color={colors.white} />
               <Text style={styles.historyText}>History</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -150,7 +146,7 @@ export default function WalletScreen() {
           {TABS.map(item => {
             const active = item.id === tab;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.tab, active && styles.tabActive]}
                 onPress={() => setTab(item.id)}>
@@ -158,7 +154,7 @@ export default function WalletScreen() {
                   style={[styles.tabText, active && styles.tabTextActive]}>
                   {item.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -168,7 +164,7 @@ export default function WalletScreen() {
             const tone = iconColors[txn.iconTone] || iconColors.navy;
             const isCredit = txn.type === 'credit';
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={txn.id}
                 style={styles.txnCard}
                 onPress={() =>
@@ -197,7 +193,7 @@ export default function WalletScreen() {
                   </Text>
                   <Text style={styles.txnStatus}>{txn.status}</Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>

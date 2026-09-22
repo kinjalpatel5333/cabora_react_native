@@ -1,16 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Keyboard, KeyboardAvoidingView, Linking, Platform, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -109,25 +98,20 @@ export default function DriverStartTripScreen() {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.transparent}
-        translucent
-      />
 
       {/* Header */}
       <View style={styles.header}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={() => navigation.goBack()}
           style={styles.backBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>Start trip</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Support"
           onPress={() => {
@@ -141,7 +125,7 @@ export default function DriverStartTripScreen() {
           }}
           style={styles.supportBtn}>
           <Feather name="headphones" size={20} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <KeyboardAvoidingView
@@ -151,7 +135,7 @@ export default function DriverStartTripScreen() {
           contentContainerStyle={{flexGrow: 1, paddingBottom: 24}}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.content}
             onPress={() => !isLocked && inputRef.current?.focus()}>
             {/* Passenger Card */}
@@ -182,7 +166,7 @@ export default function DriverStartTripScreen() {
             </View>
 
             {/* OTP Digit Boxes Container */}
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.otpSectionWrapper}
               onPress={() => !isLocked && inputRef.current?.focus()}>
               <View style={styles.otpSection}>
@@ -229,7 +213,7 @@ export default function DriverStartTripScreen() {
                 editable={!isLocked}
                 caretHidden
               />
-            </Pressable>
+            </TouchableOpacity>
 
             {/* Attempt Counter Badge */}
             <View
@@ -284,7 +268,7 @@ export default function DriverStartTripScreen() {
                     manually. If you cancel now there's no penalty and no effect
                     on your rating.
                   </Text>
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     accessibilityRole="button"
                     onPress={() => Linking.openURL('tel:18004190000')}
                     style={styles.callSupportBtn}>
@@ -292,11 +276,11 @@ export default function DriverStartTripScreen() {
                     <Text style={styles.callSupportText}>
                       Call support · 1800 419 0000
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </>
             )}
-          </Pressable>
+          </TouchableOpacity>
         </ScrollView>
 
         {/* Footer Buttons pinned to bottom with top border and shadow */}
@@ -305,7 +289,7 @@ export default function DriverStartTripScreen() {
             styles.footer,
             {paddingBottom: Math.max(insets.bottom, 16) + 4},
           ]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             disabled={!isValid}
             onPress={handleStartTrip}
@@ -320,9 +304,9 @@ export default function DriverStartTripScreen() {
               ]}>
               {isLocked ? 'Start trip · locked' : 'Start trip'}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={() => {
               Keyboard.dismiss();
@@ -345,7 +329,7 @@ export default function DriverStartTripScreen() {
                 ? 'Cancel without penalty'
                 : "Passenger can't find the code?"}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>

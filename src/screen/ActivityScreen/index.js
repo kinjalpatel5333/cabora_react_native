@@ -1,13 +1,6 @@
 import { PASSENGER_ACTIVITY_TABS, PASSENGER_ACTIVITY_RIDES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -81,10 +74,6 @@ export default function ActivityScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.background}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -96,7 +85,7 @@ export default function ActivityScreen() {
           },
         ]}>
         <View style={styles.headerRow}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.iconBtn}
             onPress={openDrawer}
             accessibilityRole="button"
@@ -107,10 +96,10 @@ export default function ActivityScreen() {
               size={20}
               color={colors.isDark ? colors.white : colors.navy[900]}
             />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.title}>Your rides</Text>
           <View style={styles.headerActions}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={[styles.iconBtn, styles.iconBtnOutline]}
               onPress={() => navigation.navigate('SelectDates')}
               accessibilityRole="button"
@@ -121,8 +110,8 @@ export default function ActivityScreen() {
                 size={20}
                 color={colors.isDark ? colors.white : colors.navy[900]}
               />
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}
               style={[styles.iconBtn, styles.iconBtnOutline]}
               onPress={() => setFilterOpen(true)}
               accessibilityRole="button"
@@ -133,7 +122,7 @@ export default function ActivityScreen() {
                 size={22}
                 color={colors.isDark ? colors.white : colors.navy[900]}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -160,7 +149,7 @@ export default function ActivityScreen() {
           {TABS.map(item => {
             const active = item.id === tab;
             return (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.tab, active && styles.tabActive]}
                 onPress={() => setTab(item.id)}>
@@ -168,7 +157,7 @@ export default function ActivityScreen() {
                   style={[styles.tabText, active && styles.tabTextActive]}>
                   {item.label}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -197,7 +186,7 @@ export default function ActivityScreen() {
                     : 'Scheduled';
 
                 return (
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     key={ride.id}
                     style={styles.rideCard}
                     onPress={() =>
@@ -256,7 +245,7 @@ export default function ActivityScreen() {
                         color={colors.muted}
                       />
                     </View>
-                  </Pressable>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -277,13 +266,13 @@ export default function ActivityScreen() {
                 : emptyCopy.body}
             </Text>
             {!query.trim() ? (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.bookBtn}
                 onPress={() => navigation.navigate('Home')}
                 accessibilityRole="button"
                 accessibilityLabel="Book a ride">
                 <Text style={styles.bookText}>Book a ride</Text>
-              </Pressable>
+              </TouchableOpacity>
             ) : null}
           </View>
         )}

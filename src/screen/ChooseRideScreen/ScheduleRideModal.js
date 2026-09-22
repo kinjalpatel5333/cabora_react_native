@@ -1,13 +1,6 @@
-import { PASSENGER_SCHEDULE_DAY_NAMES, PASSENGER_SCHEDULE_TIMES, PASSENGER_SCHEDULE_VEHICLES } from '../../config/staticData';
+import { PASSENGER_SCHEDULE_DAY_NAMES, PASSENGER_SCHEDULE_MONTH_NAMES, PASSENGER_SCHEDULE_TIMES, PASSENGER_SCHEDULE_VEHICLES } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  Dimensions,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -119,18 +112,18 @@ export default function ScheduleRideModal({
       onRequestClose={onClose}>
       <View style={styles.root}>
         <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Go back"
             style={styles.headerBtn}
             onPress={onClose}
             hitSlop={8}>
             <Feather name="arrow-left" size={22} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Schedule a ride</Text>
-          <Pressable style={styles.headerBtn} hitSlop={8}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.headerBtn} hitSlop={8}>
             <Feather name="help-circle" size={22} color={colors.text} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <ScrollView
@@ -161,9 +154,9 @@ export default function ScheduleRideModal({
                 </Text>
               </View>
             </View>
-            <Pressable style={styles.editBtn} onPress={onClose} hitSlop={8}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.editBtn} onPress={onClose} hitSlop={8}>
               <Feather name="edit-2" size={18} color={colors.text} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.sectionLabel}>WHEN</Text>
@@ -172,13 +165,13 @@ export default function ScheduleRideModal({
               {MONTH_NAMES[monthIndex]} {year}
             </Text>
             <View style={styles.monthNav}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.monthNavBtn}
                 onPress={() => shiftMonth(-1)}
                 hitSlop={6}>
                 <Feather name="chevron-left" size={18} color={colors.text} />
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.monthNavBtn}
                 onPress={() => shiftMonth(1)}
                 hitSlop={6}>
@@ -187,7 +180,7 @@ export default function ScheduleRideModal({
                   size={18}
                   color={colors.text}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -199,7 +192,7 @@ export default function ScheduleRideModal({
             {days.map(item => {
               const active = item.day === selectedDay;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.key}
                   onPress={() => setSelectedDay(item.day)}
                   style={[styles.dayCard, active && styles.dayCardActive]}>
@@ -210,7 +203,7 @@ export default function ScheduleRideModal({
                   <Text style={[styles.dayNum, active && styles.dayNumActive]}>
                     {item.day}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -223,7 +216,7 @@ export default function ScheduleRideModal({
             {TIMES.map(time => {
               const active = time === selectedTime;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={time}
                   onPress={() => setSelectedTime(time)}
                   style={[
@@ -235,7 +228,7 @@ export default function ScheduleRideModal({
                     style={[styles.timeText, active && styles.timeTextActive]}>
                     {time}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -252,7 +245,7 @@ export default function ScheduleRideModal({
                 ? colors.orange[500]
                 : colors.text;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={vehicle.id}
                   onPress={() => setVehicleId(vehicle.id)}
                   style={[
@@ -271,7 +264,7 @@ export default function ScheduleRideModal({
                     {formatPrice(vehicle.price)}
                   </Text>
                   <Text style={styles.vehicleMeta}>{vehicle.meta}</Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -286,9 +279,9 @@ export default function ScheduleRideModal({
                 Charged when the ride completes
               </Text>
             </View>
-            <Pressable hitSlop={8} onPress={onChangePayment}>
+            <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={onChangePayment}>
               <Text style={styles.changeText}>Change</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </ScrollView>
 
@@ -303,9 +296,9 @@ export default function ScheduleRideModal({
               Free cancellation until 30 min before
             </Text>
           </View>
-          <Pressable style={styles.confirmBtn} onPress={handleConfirm}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.confirmBtn} onPress={handleConfirm}>
             <Text style={styles.confirmText}>Confirm</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Image, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
+import { Button } from '../../components';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
@@ -42,11 +36,6 @@ export default function DriverAirportQueueScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.transparent}
-        translucent
-      />
 
       {/* Map Backdrop */}
       <Image
@@ -56,13 +45,13 @@ export default function DriverAirportQueueScreen() {
       />
 
       {/* Back Button */}
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Go back"
         onPress={() => navigation.navigate('DriverTabs')}
         style={[styles.backBtn, { top: insets.top + 8 }]}>
         <Feather name="arrow-left" size={20} color={colors.text} />
-      </Pressable>
+      </TouchableOpacity>
 
       {/* Map Geofence Overlay */}
       <View
@@ -162,19 +151,23 @@ export default function DriverAirportQueueScreen() {
             styles.footer,
             { paddingBottom: Math.max(insets.bottom, 12) + 4 },
           ]}>
-          <Pressable
-            accessibilityRole="button"
+          <Button
+            title="Leave queue"
+            variant="outline"
             onPress={handleLeaveQueue}
-            style={styles.leaveBtn}>
-            <Text style={styles.leaveBtnText}>Leave queue</Text>
-          </Pressable>
+            style={styles.leaveBtn}
+            textStyle={styles.leaveBtnText}
+            fullWidth={false}
+          />
 
-          <Pressable
-            accessibilityRole="button"
+          <Button
+            title="Refresh"
+            variant="primary"
             onPress={handleRefresh}
-            style={styles.refreshBtn}>
-            <Text style={styles.refreshBtnText}>Refresh</Text>
-          </Pressable>
+            style={styles.refreshBtn}
+            textStyle={styles.refreshBtnText}
+            fullWidth={false}
+          />
         </View>
       </View>
     </View>

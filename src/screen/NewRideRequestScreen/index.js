@@ -1,14 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Easing,
-  Image,
-  Pressable,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Easing, Image, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -189,7 +180,6 @@ export default function NewRideRequestScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
 
       <Image
         source={images.mapBackdrop}
@@ -383,12 +373,12 @@ export default function NewRideRequestScreen() {
 
         {expired ? (
           <>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
               onPress={() => navigation.goBack()}
               style={styles.backBtn}>
               <Text style={styles.backBtnText}>Back to dashboard</Text>
-            </Pressable>
+            </TouchableOpacity>
             <Text style={styles.footerHint}>
               Your acceptance rate is unchanged — timeouts aren't counted
               against you.
@@ -397,13 +387,13 @@ export default function NewRideRequestScreen() {
         ) : (
           <>
             <View style={styles.actions}>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 accessibilityRole="button"
                 onPress={() => navigation.navigate('CancelRideReason')}
                 style={styles.rejectBtn}>
                 <Text style={styles.rejectText}>REJECT</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7}
                 accessibilityRole="button"
                 onPress={() => navigation.replace('DriverEnRoutePickup')}
                 style={styles.acceptBtn}>
@@ -411,7 +401,7 @@ export default function NewRideRequestScreen() {
                 <Text style={styles.acceptSub}>
                   {formatInr(184)} · 13.5 km
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <Text style={styles.footerHint}>
               Accepting locks this ride to you. Rejecting won't affect your

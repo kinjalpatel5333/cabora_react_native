@@ -1,16 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Alert,
-  Image,
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
@@ -185,7 +174,6 @@ export default function LoginScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
       <View style={[styles.hero, {paddingTop: insets.top + 16}]}>
         <Image
           source={images.loginGlow}
@@ -237,7 +225,8 @@ export default function LoginScreen({navigation}) {
                 ) : null
               }
               left={
-                <Pressable
+                <TouchableOpacity
+                  activeOpacity={0.7}
                   accessibilityRole="button"
                   onPress={() => setCountryPickerVisible(true)}
                   style={styles.prefix}>
@@ -255,7 +244,7 @@ export default function LoginScreen({navigation}) {
                     <Feather name="chevron-down" size={16} color={colors.navy[600]} />
                   </View>
                   <View style={styles.dialDivider} />
-                </Pressable>
+                </TouchableOpacity>
               }
             />
 
@@ -271,9 +260,11 @@ export default function LoginScreen({navigation}) {
                       Too many failed verifications. Contact support to unblock,
                       or try a different number.
                     </Text>
-                    <Pressable onPress={() => Linking.openURL(SUPPORT_URL)}>
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => Linking.openURL(SUPPORT_URL)}>
                       <Text style={styles.support}>Contact support →</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

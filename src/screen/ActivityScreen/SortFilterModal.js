@@ -1,14 +1,6 @@
 import { PASSENGER_SORT_OPTIONS, PASSENGER_SORT_SERVICES } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  Dimensions,
-  Modal,
-  PanResponder,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Modal, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -228,7 +220,7 @@ export default function SortFilterModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.backdrop}
           onPress={onClose}
           accessibilityRole="button"
@@ -249,9 +241,9 @@ export default function SortFilterModal({
 
           <View style={styles.headerRow}>
             <Text style={styles.title}>Sort & filter</Text>
-            <Pressable onPress={resetAll} hitSlop={8}>
+            <TouchableOpacity activeOpacity={0.7} onPress={resetAll} hitSlop={8}>
               <Text style={styles.resetText}>Reset all</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <ScrollView
@@ -264,7 +256,7 @@ export default function SortFilterModal({
               {SORT_OPTIONS.map(opt => {
                 const active = sort === opt.id;
                 return (
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     key={opt.id}
                     style={styles.sortRow}
                     onPress={() => setSort(opt.id)}
@@ -284,7 +276,7 @@ export default function SortFilterModal({
                       ]}>
                       {active ? <View style={styles.radioInner} /> : null}
                     </View>
-                  </Pressable>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -306,7 +298,7 @@ export default function SortFilterModal({
                     {row.map(item => {
                       const active = services.includes(item);
                       return (
-                        <Pressable
+                        <TouchableOpacity activeOpacity={0.7}
                           key={item}
                           style={[
                             styles.serviceChip,
@@ -323,7 +315,7 @@ export default function SortFilterModal({
                             numberOfLines={1}>
                             {item}
                           </Text>
-                        </Pressable>
+                        </TouchableOpacity>
                       );
                     })}
                     {row.length < 5
@@ -346,7 +338,7 @@ export default function SortFilterModal({
               {PAYMENTS.map(item => {
                 const active = payments.includes(item);
                 return (
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     key={item}
                     style={[styles.chip, active && styles.chipActive]}
                     onPress={() => toggleIn(payments, setPayments, item)}>
@@ -357,7 +349,7 @@ export default function SortFilterModal({
                       ]}>
                       {item}
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -380,14 +372,14 @@ export default function SortFilterModal({
           </ScrollView>
 
           <View style={styles.footer}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.clearBtn}
               onPress={clearAll}
               accessibilityRole="button"
               accessibilityLabel="Clear all filters">
               <Text style={styles.clearText}>Clear all</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.applyBtn}
               onPress={() => {
                 onApply?.({sort, services, payments, fare});
@@ -396,7 +388,7 @@ export default function SortFilterModal({
               accessibilityRole="button"
               accessibilityLabel={`Show ${tripCount} trips`}>
               <Text style={styles.applyText}>Show {tripCount} trips</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

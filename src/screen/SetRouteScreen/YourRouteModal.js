@@ -1,14 +1,6 @@
 import { PASSENGER_SET_ROUTE_STOP_POOL } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -154,7 +146,7 @@ export default function YourRouteModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
         <View style={styles.routePreview} pointerEvents="none">
           <View style={styles.routeLine} />
@@ -183,13 +175,13 @@ export default function YourRouteModal({
             },
           ]}>
           <View {...panHandlers}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
               style={styles.grabberHit}>
               <View style={styles.grabber} />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerRow}>
@@ -214,11 +206,11 @@ export default function YourRouteModal({
               const selected = selectedId === item.id;
               const isMid = item.kind === 'stop';
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   onPress={() => setSelectedId(item.id)}
                   style={[styles.stopCard, selected && styles.stopCardActive]}>
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     hitSlop={6}
                     onPress={() => {
                       if (!isMid) {
@@ -228,7 +220,7 @@ export default function YourRouteModal({
                     }}
                     style={styles.dragHandle}>
                     <Feather name="menu" size={18} color={colors.muted} />
-                  </Pressable>
+                  </TouchableOpacity>
 
                   <View
                     style={[
@@ -247,25 +239,25 @@ export default function YourRouteModal({
                   </View>
 
                   {isMid ? (
-                    <Pressable
+                    <TouchableOpacity activeOpacity={0.7}
                       accessibilityRole="button"
                       accessibilityLabel={`Remove ${item.label}`}
                       onPress={() => removeStop(item.id)}
                       hitSlop={8}>
                       <Feather name="x" size={18} color={colors.muted} />
-                    </Pressable>
+                    </TouchableOpacity>
                   ) : (
                     <View style={styles.xSpacer} />
                   )}
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
 
             {canAddStop ? (
-              <Pressable style={styles.addStopBtn} onPress={addStop}>
+              <TouchableOpacity activeOpacity={0.7} style={styles.addStopBtn} onPress={addStop}>
                 <Feather name="plus" size={18} color={colors.orange[500]} />
                 <Text style={styles.addStopText}>Add another stop</Text>
-              </Pressable>
+              </TouchableOpacity>
             ) : (
               <Text style={styles.maxStopsHint}>Maximum of 3 stops added</Text>
             )}
@@ -279,25 +271,25 @@ export default function YourRouteModal({
                 Each stop adds up to 5 free waiting minutes
               </Text>
             </View>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.confirmBtn}
               onPress={() => {
                 onConfirm?.(stops, fare);
                 onClose?.();
               }}>
               <Text style={styles.confirmText}>Confirm</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </Animated.View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={onClose}
           hitSlop={12}
           style={[styles.backBtn, {top: insets.top + 8}]}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </Modal>
   );

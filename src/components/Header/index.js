@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import {Image, Text, View, TouchableOpacity} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
 import { useSidebar } from '../../context/SidebarContext';
@@ -13,12 +13,12 @@ export default function Header({ title }) {
 
   return (
     <View style={[styles.wrap, { paddingTop: Math.max(insets.top, 12) }]}>
-      <Pressable
+      <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Open menu"
         onPress={openDrawer}>
         <Image source={images.iconMenu} style={styles.menu} />
-      </Pressable>
+      </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
     </View>
   );

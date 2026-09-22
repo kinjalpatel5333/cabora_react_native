@@ -1,8 +1,9 @@
 import React, {useMemo} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './ratedPaidStyle';
@@ -97,30 +98,37 @@ export default function RatedPaidScreen({
           </View>
 
           <View style={styles.actionRow}>
-            <Pressable style={styles.actionBtn}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn}>
               <Feather name="share" size={14} color={colors.navy[800]} />
               <Text style={styles.actionText}>Share</Text>
-            </Pressable>
-            <Pressable style={styles.actionBtn}>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn}>
               <Feather name="copy" size={14} color={colors.navy[800]} />
               <Text style={styles.actionText}>Copy ID</Text>
-            </Pressable>
-            <Pressable style={styles.actionBtn}>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} style={styles.actionBtn}>
               <Feather name="headphones" size={14} color={colors.navy[800]} />
               <Text style={styles.actionText}>Get help</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
 
       <View
         style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 16)}]}>
-        <Pressable style={styles.homeBtn} onPress={onBackHome}>
-          <Text style={styles.homeText}>Back to home</Text>
-        </Pressable>
-        <Pressable style={styles.rebookBtn} onPress={onBookAgain}>
-          <Text style={styles.rebookText}>Book this route again</Text>
-        </Pressable>
+        <Button
+          title="Back to home"
+          onPress={onBackHome}
+          style={styles.homeBtn}
+          textStyle={styles.homeText}
+        />
+        <Button
+          title="Book this route again"
+          variant="outline"
+          onPress={onBookAgain}
+          style={styles.rebookBtn}
+          textStyle={styles.rebookText}
+        />
       </View>
     </View>
   );

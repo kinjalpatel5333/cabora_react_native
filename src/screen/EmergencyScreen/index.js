@@ -1,15 +1,6 @@
 import { PASSENGER_EMERGENCY_CONTACTS, PASSENGER_EMERGENCY_QUICK } from '../../config/staticData';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Linking,
-  Modal,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Linking, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -167,7 +158,6 @@ export default function EmergencyScreen({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={[styles.root, {backgroundColor: rootBg}]}>
-        <StatusBar barStyle="light-content" backgroundColor={rootBg} />
         <ScrollView
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -179,21 +169,21 @@ export default function EmergencyScreen({
             },
           ]}>
           <View style={styles.headerRow}>
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.closeBtn}
               onPress={onClose}
               accessibilityRole="button"
               accessibilityLabel="Close emergency"
               hitSlop={8}>
               <Feather name="x" size={20} color={colors.white} />
-            </Pressable>
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>Emergency</Text>
           </View>
 
           {!isAlerted ? (
             <>
               <View style={styles.sosBlock}>
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   style={[styles.sosCircle, holding && styles.sosCircleHolding]}
                   onPressIn={startHold}
                   onPressOut={endHold}
@@ -206,7 +196,7 @@ export default function EmergencyScreen({
                   />
                   <Text style={styles.sosTitle}>SOS</Text>
                   <Text style={styles.sosHoldHint}>Hold to alert</Text>
-                </Pressable>
+                </TouchableOpacity>
                 <Text style={styles.sosHeadline}>
                   Hold to alert Cabora safety
                 </Text>
@@ -219,13 +209,13 @@ export default function EmergencyScreen({
               <View style={styles.contactsCard}>
                 <View style={styles.contactsHead}>
                   <Text style={styles.contactsLabel}>EMERGENCY CONTACTS</Text>
-                  <Pressable
+                  <TouchableOpacity activeOpacity={0.7}
                     onPress={() =>
                       showToast({type: 'info', message: 'Manage contacts'})
                     }
                     hitSlop={8}>
                     <Text style={styles.manageText}>Manage</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
                 {CONTACTS.map((contact, index) => (
                   <View
@@ -313,7 +303,7 @@ export default function EmergencyScreen({
 
           <View style={styles.quickRow}>
             {QUICK.map(item => (
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 key={item.id}
                 style={[styles.quickBtn, isAlerted && styles.quickBtnAlerted]}
                 onPress={() => dial(item.dial)}
@@ -332,7 +322,7 @@ export default function EmergencyScreen({
                 )}
                 <Text style={styles.quickLabel}>{item.label}</Text>
                 <Text style={styles.quickSub}>{item.sub}</Text>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </View>
 
@@ -357,7 +347,7 @@ export default function EmergencyScreen({
           </View>
 
           {!isAlerted ? (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.shareBtn}
               onPress={() =>
                 showToast({
@@ -368,15 +358,15 @@ export default function EmergencyScreen({
               accessibilityRole="button"
               accessibilityLabel="Share live location instead">
               <Text style={styles.shareText}>Share live location instead</Text>
-            </Pressable>
+            </TouchableOpacity>
           ) : (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               style={styles.shareBtn}
               onPress={openCancelAlertModal}
               accessibilityRole="button"
               accessibilityLabel="Cancel alert — I'm safe">
               <Text style={styles.shareText}>Cancel alert — I'm safe</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
         </ScrollView>
       </View>

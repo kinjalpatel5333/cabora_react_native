@@ -1,17 +1,12 @@
 import { PASSENGER_RENTALS_PACKAGES, PASSENGER_RENTALS_VEHICLES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useToast} from '../../components/Toast';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
@@ -51,27 +46,26 @@ export default function RentalsScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>
           Rent a car with driver
         </Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -83,7 +77,7 @@ export default function RentalsScreen() {
             {PACKAGES.map(pkg => {
               const active = pkg.id === packageId;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={pkg.id}
                   style={[
                     styles.packageCard,
@@ -109,7 +103,7 @@ export default function RentalsScreen() {
                   <Text style={styles.packageAfter}>
                     ₹{pkg.afterKm}/km after
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -136,14 +130,14 @@ export default function RentalsScreen() {
                 <Text style={styles.whereTitle}>Sat 13 Sep · 09:00 am</Text>
                 <Text style={styles.whereMeta}>Ends around 05:00 pm</Text>
               </View>
-              <Pressable
+              <TouchableOpacity activeOpacity={0.7}
                 style={styles.editBtn}
                 onPress={() =>
                   showToast({type: 'info', message: 'Edit schedule'})
                 }
                 hitSlop={8}>
                 <Text style={styles.editText}>Edit</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -163,7 +157,7 @@ export default function RentalsScreen() {
                 ? colors.white
                 : colors.navy[800];
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={vehicle.id}
                   style={[
                     styles.vehicleCard,
@@ -188,7 +182,7 @@ export default function RentalsScreen() {
                   <Text style={styles.vehicleMeta}>
                     {vehicle.model} · {vehicle.seats} seats
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -219,13 +213,14 @@ export default function RentalsScreen() {
             package
           </Text>
         </View>
-        <Pressable
-          style={styles.bookBtn}
+        <Button
+          title="Book"
           onPress={onBook}
-          accessibilityRole="button"
-          accessibilityLabel="Book rental">
-          <Text style={styles.bookText}>Book</Text>
-        </Pressable>
+          style={styles.bookBtn}
+          textStyle={styles.bookText}
+          fullWidth={false}
+          accessibilityLabel="Book rental"
+        />
       </View>
     </View>
   );

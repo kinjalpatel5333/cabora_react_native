@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Pressable, ScrollView, Switch, Text, View} from 'react-native';
+import {Image, ScrollView, Switch, Text, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -105,7 +105,7 @@ export default function DrawerContent() {
         {links.map(link => {
           const active = activeTab === link.screen;
           return (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               key={link.screen}
               accessibilityRole="button"
               accessibilityLabel={link.label}
@@ -121,7 +121,7 @@ export default function DrawerContent() {
               <Text style={[styles.itemLabel, active && styles.itemLabelActive]}>
                 {link.label}
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           );
         })}
       </ScrollView>
@@ -156,7 +156,7 @@ export default function DrawerContent() {
         </View>
 
         {/* Log Out Button */}
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Log out"
           onPress={handleLogout}
@@ -165,7 +165,7 @@ export default function DrawerContent() {
             <Feather name="log-out" size={18} color={colors.isDark ? colors.red[400] : colors.red[600]} />
           </View>
           <Text style={styles.logoutText}>Log out</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

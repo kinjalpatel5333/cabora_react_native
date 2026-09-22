@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, View} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
@@ -17,7 +17,7 @@ export default function Toggle({
   const isDisabled = disabled || locked;
 
   return (
-    <Pressable
+    <TouchableOpacity activeOpacity={0.7}
       accessibilityRole="switch"
       accessibilityState={{checked: value, disabled: isDisabled}}
       disabled={isDisabled}
@@ -55,6 +55,6 @@ export default function Toggle({
           style={[styles.lockDash, large && styles.lockDashLg]}
         />
       ) : null}
-    </Pressable>
+    </TouchableOpacity>
   );
 }

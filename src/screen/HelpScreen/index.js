@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -63,18 +56,17 @@ export default function HelpScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Help</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() =>
             showToast({type: 'info', message: 'Help center information'})
@@ -83,7 +75,7 @@ export default function HelpScreen() {
           accessibilityLabel="Help info"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -103,7 +95,7 @@ export default function HelpScreen() {
           />
         </View>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.lastTripCard}
           onPress={() => navigation.navigate('ReportIssue')}
           accessibilityRole="button"
@@ -120,12 +112,12 @@ export default function HelpScreen() {
             </Text>
           </View>
           <Feather name="chevron-right" size={20} color={colors.textMuted} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.sectionLabel}>BROWSE BY TOPIC</Text>
         <View style={styles.topicsGrid}>
           {TOPICS.map(topic => (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               key={topic.id}
               style={styles.topicCard}
               onPress={() => onTopicPress(topic)}
@@ -135,14 +127,14 @@ export default function HelpScreen() {
                 <TopicIcon item={topic} styles={styles} colors={colors} />
               </View>
               <Text style={styles.topicTitle}>{topic.title}</Text>
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </View>
 
         <Text style={styles.sectionLabel}>POPULAR QUESTIONS</Text>
         <View style={styles.faqCard}>
           {FAQS.map((faq, index) => (
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               key={faq.id}
               style={[
                 styles.faqItem,
@@ -153,14 +145,14 @@ export default function HelpScreen() {
               accessibilityLabel={faq.question}>
               <Text style={styles.faqText}>{faq.question}</Text>
               <Feather name="chevron-right" size={18} color={colors.textMuted} />
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
 
       <View
         style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 12)}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.chatBtn}
           onPress={() =>
             showToast({type: 'info', message: 'Connecting to support chat…'})
@@ -168,7 +160,7 @@ export default function HelpScreen() {
           accessibilityRole="button"
           accessibilityLabel="Chat with support">
           <Text style={styles.chatBtnText}>Chat with support</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

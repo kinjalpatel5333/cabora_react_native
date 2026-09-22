@@ -1,13 +1,6 @@
 import { PASSENGER_PORTAL_SAVED, PASSENGER_PORTAL_PLACE_SUGGESTIONS } from '../../config/staticData';
 import React, {useMemo, useRef, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -101,7 +94,7 @@ function AddressBlock({
               </>
             )}
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             style={styles.editIconBtn}
             onPress={() => {
               if (editing) {
@@ -123,7 +116,7 @@ function AddressBlock({
               size={16}
               color={editing ? colors.primary : colors.muted}
             />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {editing ? (
@@ -132,7 +125,7 @@ function AddressBlock({
               <Text style={styles.suggestEmpty}>No places match “{query}”</Text>
             ) : (
               suggestions.map((item, index) => (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={[
                     styles.suggestRow,
@@ -149,7 +142,7 @@ function AddressBlock({
                       {item.meta}
                     </Text>
                   </View>
-                </Pressable>
+                </TouchableOpacity>
               ))
             )}
           </View>
@@ -209,25 +202,24 @@ export default function PortalScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} backgroundColor={colors.card} />
       <View style={[styles.header, {paddingTop: insets.top + 4}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Send with Portal</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.navigate('Help')}
           accessibilityRole="button"
           accessibilityLabel="Help"
           hitSlop={8}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.progressWrap}>
@@ -284,13 +276,13 @@ export default function PortalScreen() {
           dotColor={colors.isDark ? colors.blue[400] : colors.navy[800]}
           contact="Priya Sharma · +91 98450 33119"
           contactTrailing={
-            <Pressable
+            <TouchableOpacity activeOpacity={0.7}
               onPress={() =>
                 showToast({type: 'info', message: 'Edit recipient'})
               }
               hitSlop={8}>
               <Text style={styles.editText}>Edit</Text>
-            </Pressable>
+            </TouchableOpacity>
           }
           styles={styles}
           colors={colors}
@@ -318,7 +310,7 @@ export default function PortalScreen() {
             {SAVED.map(item => {
               const active = item.id === savedId;
               return (
-                <Pressable
+                <TouchableOpacity activeOpacity={0.7}
                   key={item.id}
                   style={[
                     styles.savedChip,
@@ -343,7 +335,7 @@ export default function PortalScreen() {
                     ]}>
                     {item.label}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -359,13 +351,13 @@ export default function PortalScreen() {
           <Text style={styles.footerLabel}>Distance</Text>
           <Text style={styles.footerValue}>6.4 km · about 24 min</Text>
         </View>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           style={styles.continueBtn}
           onPress={() => navigation.navigate('PortalStep2')}
           accessibilityRole="button"
           accessibilityLabel="Continue">
           <Text style={styles.continueText}>Continue</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

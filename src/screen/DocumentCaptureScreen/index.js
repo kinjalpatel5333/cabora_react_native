@@ -1,14 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Alert,
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {Alert, Image, Linking, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
@@ -166,21 +157,20 @@ export default function DocumentCaptureScreen({navigation, route}) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle={colors.barStyle} />
       <View style={[styles.header, {paddingTop: insets.top + 8}]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleBack}
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
           <Feather name="help-circle" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -189,7 +179,7 @@ export default function DocumentCaptureScreen({navigation, route}) {
         <Text style={styles.title}>{captureTitle}</Text>
         <Text style={styles.hint}>{captureHint}</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           onPress={openCamera}
           style={[styles.preview, asset?.uri && styles.previewFilled]}>
           {asset?.uri ? (
@@ -215,10 +205,10 @@ export default function DocumentCaptureScreen({navigation, route}) {
               </View>
             </>
           )}
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.sourceRow}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             onPress={openCamera}
             style={[styles.sourceBtn, source === 'camera' && styles.sourceOn]}>
             <Lucide
@@ -233,8 +223,8 @@ export default function DocumentCaptureScreen({navigation, route}) {
               ]}>
               Camera
             </Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.7}
             onPress={openGallery}
             style={[styles.sourceBtn, source === 'gallery' && styles.sourceOn]}>
             <Feather
@@ -249,7 +239,7 @@ export default function DocumentCaptureScreen({navigation, route}) {
               ]}>
               From gallery
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {asset ? (
@@ -266,9 +256,9 @@ export default function DocumentCaptureScreen({navigation, route}) {
                     : `Uploading · ${formatSize(fileSize)}`}
                 </Text>
               </View>
-              <Pressable onPress={clearAsset}>
+              <TouchableOpacity activeOpacity={0.7} onPress={clearAsset}>
                 <Feather name="x" size={18} color={colors.gray[500]} />
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <Text style={styles.filePct}>{Math.min(progress, 100)}%</Text>
             <View style={styles.track}>

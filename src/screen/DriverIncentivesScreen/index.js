@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -57,11 +51,6 @@ export default function DriverIncentivesScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={colors.navy[850]}
-        translucent={false}
-      />
 
       <ScrollView
         contentContainerStyle={[
@@ -77,13 +66,13 @@ export default function DriverIncentivesScreen() {
           ]}>
           <View style={styles.heroDeco} />
 
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             onPress={openDrawer}
             style={styles.menuBtn}>
             <Feather name="menu" size={20} color={colors.white} />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles.giftBadge}>
             <Lucide name="gift" size={24} color={colors.white} />
@@ -101,14 +90,14 @@ export default function DriverIncentivesScreen() {
             <Text style={styles.codeLabel}>YOUR CODE</Text>
             <Text style={styles.codeValue}>{referralCode}</Text>
           </View>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Copy code"
             onPress={handleCopyCode}
             style={styles.copyBtn}>
             <Lucide name="copy" size={15} color={colors.primary} />
             <Text style={styles.copyText}>Copy</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Referral Milestone Card */}
@@ -213,12 +202,12 @@ export default function DriverIncentivesScreen() {
           styles.shareBtnWrap,
           { bottom: Math.max(insets.bottom, 10) + 74 },
         ]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleShareCode}
           style={styles.shareBtn}>
           <Text style={styles.shareBtnText}>Share my code</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

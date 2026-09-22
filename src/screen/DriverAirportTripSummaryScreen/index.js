@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -50,31 +44,26 @@ export default function DriverAirportTripSummaryScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar
-        barStyle={colors.barStyle}
-        backgroundColor={colors.white}
-        translucent={false}
-      />
 
       {/* Top Header */}
       <View style={[styles.header, { paddingTop: insets.top > 0 ? insets.top : 8 }]}>
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={handleBack}
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>Trip summary</Text>
 
-        <Pressable
+        <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel="Help"
           onPress={handleHelp}
           style={styles.headerBtn}>
           <Lucide name="circle-help" size={22} color={colors.text} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -181,12 +170,12 @@ export default function DriverAirportTripSummaryScreen() {
           styles.footer,
           { paddingBottom: Math.max(insets.bottom, 12) + 4 },
         ]}>
-          <Pressable
+          <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
             onPress={handleDone}
             style={styles.doneBtn}>
             <Text style={styles.doneBtnText}>Done</Text>
-          </Pressable>
+          </TouchableOpacity>
       </View>
     </View>
   );
