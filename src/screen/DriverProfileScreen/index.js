@@ -22,11 +22,12 @@ export default function DriverProfileScreen() {
   const { showToast } = useToast();
 
   const handleEditProfile = () => {
-    showToast({
-      title: 'Edit Profile',
-      message: 'Profile editing options opening...',
-      type: 'info',
-    });
+    const parent = navigation.getParent();
+    if (parent) {
+      parent.navigate('PersonalDetails');
+      return;
+    }
+    navigation.navigate('PersonalDetails');
   };
 
   const handleVehicleChange = () => {

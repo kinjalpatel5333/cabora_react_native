@@ -114,7 +114,7 @@ export default function ProfileScreen({navigation}) {
           </View>
           <TouchableOpacity activeOpacity={0.7}
             style={styles.editBtn}
-            onPress={() => showToast({type: 'info', message: 'Edit profile'})}
+            onPress={() => navigation.navigate('PersonalDetails')}
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}>
@@ -185,9 +185,7 @@ export default function ProfileScreen({navigation}) {
         <View style={styles.card}>
           <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
-            onPress={() =>
-              showToast({type: 'info', message: 'Personal details'})
-            }
+            onPress={() => navigation.navigate('PersonalDetails')}
             accessibilityRole="button"
             accessibilityLabel="Personal details">
             <View style={styles.rowIconBox}>
