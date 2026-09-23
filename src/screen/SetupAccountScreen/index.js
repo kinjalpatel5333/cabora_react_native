@@ -3,7 +3,6 @@ import React, { useMemo, useState } from 'react';
 import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
-import { Ionicons } from '@react-native-vector-icons/ionicons/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -206,7 +205,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         })}
 
         <View style={styles.note}>
-          <Ionicons name="shield-checkmark-outline" size={18} color={colors.navy[700]} />
+          <MaterialDesignIcons name="shield-check-outline" size={18} color={colors.navy[700]} />
           <Text style={styles.noteText}>
             {SETUP_ACCOUNT_STRINGS.DRIVER_NOTE}
           </Text>

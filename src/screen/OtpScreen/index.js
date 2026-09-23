@@ -1,5 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Linking, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Linking,
+  Modal,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +21,6 @@ import { useApp } from '../../context/AppContext';
 import { sendOtpApi, verifyOtpApi, setAuthToken } from '../../config';
 import { formatIndianMobile } from '../../utils/validators';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const CODE_LENGTH = 6;
 const CORRECT_OTP = '123456';
@@ -51,9 +62,7 @@ export default function OtpScreen({ navigation, route }) {
     route?.params?.challengeId || '',
   );
   const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');
-  const [showOtpModal, setShowOtpModal] = useState(
-    Boolean(route?.params?.serverOtp || serverOtp || true),
-  );
+  const [showOtpModal, setShowOtpModal] = useState(true);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
@@ -64,6 +73,9 @@ export default function OtpScreen({ navigation, route }) {
   const [expired, setExpired] = useState(false);
   const [verified, setVerified] = useState(false);
   const [focused, setFocused] = useState(true);
+  const [verifiedUser, setVerifiedUser] = useState(null);
+  const [verifiedToken, setVerifiedToken] = useState(null);
+  const [verifiedResponseData, setVerifiedResponseData] = useState(null);
 
   useEffect(() => {
     console.log('\n==========================================');
@@ -73,12 +85,22 @@ export default function OtpScreen({ navigation, route }) {
     console.log('==========================================\n');
   }, [countryCode, phone, challengeId, serverOtp]);
 
+  useEffect(() => {
+    if (route?.params?.serverOtp) {
+      setServerOtp(route.params.serverOtp);
+    }
+    if (route?.params?.challengeId) {
+      setChallengeId(route.params.challengeId);
+    }
+    setShowOtpModal(true);
+  }, [route?.params?.serverOtp, route?.params?.challengeId]);
+
   const activeOtp = serverOtp || route?.params?.serverOtp || CORRECT_OTP;
 
   const handleAutoFill = () => {
     setShowOtpModal(false);
-    if (activeOtp) {
-      const val = String(activeOtp).replace(/\D/g, '').slice(0, CODE_LENGTH);
+    const val = String(activeOtp || CORRECT_OTP).replace(/\D/g, '').slice(0, CODE_LENGTH);
+    if (val) {
       setCode(val);
       if (val.length === CODE_LENGTH) {
         verifySubmittedCode(val);
@@ -162,9 +184,6 @@ export default function OtpScreen({ navigation, route }) {
     return () => clearInterval(timer);
   }, [paused]);
 
-  const [verifiedUser, setVerifiedUser] = useState(null);
-  const [verifiedToken, setVerifiedToken] = useState(null);
-
   useEffect(() => {
     if (!verified) {
       return undefined;
@@ -179,10 +198,14 @@ export default function OtpScreen({ navigation, route }) {
           verifiedUser?.userId,
         user: verifiedUser,
         token: verifiedToken,
+        isOnBoarding:
+          verifiedResponseData?.isOnBoarding ??
+          verifiedUser?.isOnBoarding ??
+          verifiedResponseData?.user?.isOnBoarding,
       });
     }, VERIFY_REDIRECT_MS);
     return () => clearTimeout(timeout);
-  }, [navigation, phone, countryCode, verified, verifiedUser, verifiedToken]);
+  }, [navigation, phone, countryCode, verified, verifiedUser, verifiedToken, verifiedResponseData]);
 
   useEffect(() => {
     if (pauseIn > 0 || attemptsLeft > 0) {
@@ -519,7 +542,11 @@ export default function OtpScreen({ navigation, route }) {
 
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setShowOtpModal(true)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setShowOtpModal(true);
+                }}
                 style={[styles.chip, styles.chipResend]}>
                 <Feather name="key" size={14} color={colors.orange[500]} />
                 <Text style={[styles.chipLabel, { color: colors.orange[500] }]}>
@@ -554,6 +581,7 @@ export default function OtpScreen({ navigation, route }) {
       <Modal
         visible={showOtpModal}
         transparent
+        statusBarTranslucent
         animationType="fade"
         onRequestClose={() => setShowOtpModal(false)}>
         <View style={styles.otpModalOverlay}>
