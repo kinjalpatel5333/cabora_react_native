@@ -66,13 +66,13 @@ export default function createStyles(colors) {
       borderRadius: 16,
     },
     disabledFill: {
-      backgroundColor: colors.disabledBg || colors.gray[100],
-      borderWidth: 1,
+      backgroundColor: colors.isDark ? colors.navy[850] : colors.gray.lightgray,
+      borderWidth: 0,
+      borderRadius: 16,
     },
     disabledOutline: {
-      backgroundColor: colors.surface,
-      borderWidth: 1.5,
-      borderColor: colors.border,
+      backgroundColor: colors.isDark ? colors.navy[850] : colors.gray.lightgray,
+      borderWidth: 0,
       borderRadius: 16,
     },
     disabledGhost: {
@@ -100,7 +100,7 @@ export default function createStyles(colors) {
       color: colors.white,
     },
     labelDisabled: {
-      color: colors.disabledText || colors.muted,
+      color: colors.isDark ? colors.navy[400] : '#A0ABC0',
     },
   });
 }
