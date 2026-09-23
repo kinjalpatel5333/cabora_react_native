@@ -1,13 +1,13 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Alert, KeyboardAvoidingView, Linking, Modal, Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button} from '../../components';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, KeyboardAvoidingView, Linking, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {sendOtpApi, verifyOtpApi, setAuthToken} from '../../config';
-import {formatIndianMobile} from '../../utils/validators';
+import { useApp } from '../../context/AppContext';
+import { sendOtpApi, verifyOtpApi, setAuthToken } from '../../config';
+import { formatIndianMobile } from '../../utils/validators';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -17,8 +17,8 @@ const TEST_INCORRECT_OTP = '000000';
 const TEST_EXPIRED_OTP = '111111';
 const TEST_PAUSED_OTP = '222222';
 const MAX_ATTEMPTS = 5;
-const RESEND_SECONDS = 45;
-const EXPIRE_SECONDS = 90;
+const RESEND_SECONDS = 3 * 60; // 3 minutes = 180 seconds
+const EXPIRE_SECONDS = 3 * 60; // 3 minutes = 180 seconds
 const PAUSE_SECONDS = 15 * 60;
 const VERIFY_REDIRECT_MS = 1200;
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -39,9 +39,9 @@ function maskPhone(digits, dialCode = '+91') {
   return `${dialCode} ${digits.slice(0, 5)} ••${digits.slice(-3)}`;
 }
 
-export default function OtpScreen({navigation, route}) {
+export default function OtpScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const inputRef = useRef(null);
   const phone = route?.params?.mobile || '';
@@ -124,7 +124,7 @@ export default function OtpScreen({navigation, route}) {
       };
     }
     if (error) {
-      return {type: 'error', text: error};
+      return { type: 'error', text: error };
     }
     if (resendIn > 0 && code.length >= 5 && !paused) {
       return {
@@ -247,6 +247,10 @@ export default function OtpScreen({navigation, route}) {
           setVerifiedToken(token);
         }
 
+        if (response?.data) {
+          setVerifiedResponseData(response.data);
+        }
+
         const userData = response?.data?.user || response?.user || response?.data;
         if (userData) {
           setVerifiedUser(userData);
@@ -318,7 +322,7 @@ export default function OtpScreen({navigation, route}) {
     inputRef.current?.focus();
     try {
       if (phone) {
-        const res = await sendOtpApi({mobile: phone, countryCode});
+        const res = await sendOtpApi({ mobile: phone, countryCode });
         const newChallengeId =
           res?.data?.challengeId ||
           res?.challengeId ||
@@ -358,7 +362,7 @@ export default function OtpScreen({navigation, route}) {
   };
 
   return (
-    <View style={[styles.root, {paddingTop: insets.top + 8}]}>
+    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
       <KeyboardAvoidingView
         style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -408,7 +412,7 @@ export default function OtpScreen({navigation, route}) {
             onPress={() => inputRef.current?.focus()}
             style={styles.boxesHit}>
             <View style={styles.boxes}>
-              {Array.from({length: CODE_LENGTH}).map((_, index) => {
+              {Array.from({ length: CODE_LENGTH }).map((_, index) => {
                 const digit = digits[index];
                 const isActive =
                   focused &&
@@ -497,7 +501,7 @@ export default function OtpScreen({navigation, route}) {
               <Text style={styles.chipLabel}>Resend paused</Text>
             </View>
           ) : (
-            <View style={{flexDirection: 'row', gap: 10, flexWrap: 'wrap'}}>
+            <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={startNewCode}
@@ -518,7 +522,7 @@ export default function OtpScreen({navigation, route}) {
                 onPress={() => setShowOtpModal(true)}
                 style={[styles.chip, styles.chipResend]}>
                 <Feather name="key" size={14} color={colors.orange[500]} />
-                <Text style={[styles.chipLabel, {color: colors.orange[500]}]}>
+                <Text style={[styles.chipLabel, { color: colors.orange[500] }]}>
                   View OTP Code
                 </Text>
               </TouchableOpacity>
@@ -527,7 +531,7 @@ export default function OtpScreen({navigation, route}) {
         </View>
 
         <View
-          style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 8)}]}>
+          style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 8) }]}>
           <Button
             title={buttonTitle}
             onPress={onVerify}

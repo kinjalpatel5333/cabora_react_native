@@ -19,7 +19,7 @@ import {
   DRIVER_VERIFICATION_CHECKING as CHECKING_ITEMS,
   DRIVER_REJECTION_ITEMS as REJECTION_ITEMS,
 } from '../../config/staticData';
-import { Button } from '../../components';
+import { Button, Header } from '../../components';
 import { getOnboardingStatusApi } from '../../services/driverApi';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -405,28 +405,14 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
 
   return (
     <View style={styles.root}>
-
-
-      {/* Header Bar */}
-      <View style={[styles.header, { paddingTop: insets.top > 0 ? insets.top + 4 : 12 }]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={handleBack}
-          style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Verification status</Text>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Contact support"
-          onPress={handleContactSupport}
-          style={styles.headerBtn}>
-          <Feather name="headphones" size={22} color={colors.text} />
-        </TouchableOpacity>
-      </View>
+      {/* Reusable Header Component */}
+      <Header
+        title="Verification status"
+        showBack
+        showSupport
+        onBackPress={handleBack}
+        onSupportPress={handleContactSupport}
+      />
 
       {/* Status Mode Toggle Bar (For testing in-progress vs rejected states) */}
       <View style={{ paddingHorizontal: 20, paddingTop: 14 }}>

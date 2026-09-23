@@ -1,13 +1,13 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../../assets';
-import {Button, CountryPickerModal, Input} from '../../components';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { images } from '../../assets';
+import { Button, CountryPickerModal, Input } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {sendOtpApi} from '../../config';
-import {DEFAULT_COUNTRY} from '../../utils/countries';
+import { useApp } from '../../context/AppContext';
+import { sendOtpApi } from '../../config';
+import { DEFAULT_COUNTRY } from '../../utils/countries';
 import {
   digitsOnly,
   formatIndianMobile,
@@ -28,9 +28,37 @@ function formatTimer(seconds) {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-export default function LoginScreen({navigation}) {
+function parseCooldownSeconds(errMsg, errData) {
+  if (errData?.retryAfter) return Number(errData.retryAfter);
+  if (errData?.cooldown) return Number(errData.cooldown);
+  if (errData?.expiresIn) return Number(errData.expiresIn);
+
+  if (typeof errMsg === 'string') {
+    const lower = errMsg.toLowerCase();
+    const secMatch =
+      errMsg.match(/(\d+)\s*seconds?\s*remaining/i) ||
+      errMsg.match(/try again in\s*(\d+)/i) ||
+      errMsg.match(/after\s*(\d+)\s*sec/i);
+
+    if (secMatch && secMatch[1]) {
+      const parsed = parseInt(secMatch[1], 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+    if (
+      lower.includes('already been sent') ||
+      lower.includes('please try again after')
+    ) {
+      return COOLDOWN_SECONDS;
+    }
+  }
+  return null;
+}
+
+export default function LoginScreen({ navigation }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const [country, setCountry] = useState(DEFAULT_COUNTRY);
   const [countryPickerVisible, setCountryPickerVisible] = useState(false);
@@ -40,6 +68,7 @@ export default function LoginScreen({navigation}) {
   const [sendCount, setSendCount] = useState(0);
   const [cooldown, setCooldown] = useState(0);
   const [loading, setLoading] = useState(false);
+  const prevDigitsRef = useRef('');
 
   const digits = useMemo(() => digitsOnly(mobile), [mobile]);
   const isTestBlocked = digits === TEST_BLOCKED_NUMBER;
@@ -81,18 +110,20 @@ export default function LoginScreen({navigation}) {
     : 'Send OTP';
 
   useEffect(() => {
-    if (digits === TEST_BLOCKED_NUMBER) {
-      setBlocked(true);
-      setCooldown(0);
-      return;
-    }
-    if (digits === TEST_COOLDOWN_NUMBER) {
+    if (prevDigitsRef.current !== digits) {
+      prevDigitsRef.current = digits;
+      if (digits === TEST_BLOCKED_NUMBER) {
+        setBlocked(true);
+        setCooldown(0);
+        return;
+      }
+      if (digits === TEST_COOLDOWN_NUMBER) {
+        setBlocked(false);
+        setCooldown(value => (value > 0 ? value : COOLDOWN_SECONDS));
+        return;
+      }
       setBlocked(false);
-      setCooldown(value => (value > 0 ? value : COOLDOWN_SECONDS));
-      return;
     }
-    setBlocked(false);
-    setCooldown(0);
   }, [digits]);
 
   useEffect(() => {
@@ -167,7 +198,13 @@ export default function LoginScreen({navigation}) {
           : typeof rawMsg?.message === 'string'
             ? rawMsg.message
             : 'Failed to send OTP. Please check your connection and try again.';
-      Alert.alert('Send OTP Failed', String(errMsg));
+
+      const extractedCooldown = parseCooldownSeconds(errMsg, err?.data || err);
+      if (extractedCooldown) {
+        setCooldown(extractedCooldown > 0 ? extractedCooldown : COOLDOWN_SECONDS);
+      } else {
+        Alert.alert('Send OTP Failed', String(errMsg));
+      }
     } finally {
       setLoading(false);
     }
@@ -175,7 +212,7 @@ export default function LoginScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <View style={[styles.hero, {paddingTop: insets.top + 16}]}>
+      <View style={[styles.hero, { paddingTop: insets.top + 16 }]}>
         <Image
           source={images.loginGlow}
           style={styles.glow}
@@ -200,7 +237,7 @@ export default function LoginScreen({navigation}) {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={[
             styles.scroll,
-            {paddingBottom: Math.max(insets.bottom, 8)},
+            { paddingBottom: Math.max(insets.bottom, 8) },
           ]}
           showsVerticalScrollIndicator={false}>
           <View style={styles.form}>
@@ -239,7 +276,7 @@ export default function LoginScreen({navigation}) {
                         resizeMode="cover"
                       />
                     ) : (
-                      <Text style={{fontSize: 20}}>{country.flag}</Text>
+                      <Text style={{ fontSize: 20 }}>{country.flag}</Text>
                     )}
                     <Text style={styles.dialCode}>{country.dialCode}</Text>
                     <Feather name="chevron-down" size={16} color={colors.navy[600]} />

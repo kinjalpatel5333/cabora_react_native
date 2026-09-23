@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.background,
+      backgroundColor: colors.surface,
     },
     hero: {
       backgroundColor: colors.navy[950],
@@ -97,7 +97,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       height: 44,
-      backgroundColor: colors.card,
+      backgroundColor: colors.gray[100],
       borderRadius: 16,
       paddingHorizontal: 12,
       gap: 8,

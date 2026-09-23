@@ -11,6 +11,7 @@ import createStyles from './style';
 import colors from '../../config/color';
 import { useSidebar } from '../../context/SidebarContext';
 
+import { Header } from '../../components';
 import { DRIVER_COMPLETED_INCENTIVES as COMPLETED_INCENTIVES } from '../../config/staticData';
 
 export default function DriverIncentiveTrackerScreen() {
@@ -43,31 +44,14 @@ export default function DriverIncentiveTrackerScreen() {
 
   return (
     <View style={styles.root}>
-
-      {/* Header Bar */}
-      <View
-        style={[
-          styles.header,
-          { paddingTop: insets.top > 0 ? insets.top : 8 },
-        ]}>
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={handleBack}
-          style={styles.headerIconBtn}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
-
-        <Text style={styles.headerTitle}>Incentives</Text>
-
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Help"
-          onPress={handleHelp}
-          style={styles.headerIconBtn}>
-          <Feather name="help-circle" size={22} color={colors.text} />
-        </TouchableOpacity>
-      </View>
+      {/* Reusable Header Component */}
+      <Header
+        title="Incentives"
+        showBack
+        showHelp
+        onBackPress={handleBack}
+        onHelpPress={handleHelp}
+      />
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}

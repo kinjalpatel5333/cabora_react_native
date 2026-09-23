@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.background,
+      backgroundColor: colors.surface,
     },
     header: {
       flexDirection: 'row',
@@ -157,7 +157,7 @@ export default function createStyles(colors) {
       paddingTop: 12,
       borderTopWidth: 1,
       borderTopColor: colors.border,
-      backgroundColor: colors.background,
+      backgroundColor: colors.surface,
     },
     pickedLabel: {
       fontFamily: colors.fonts.sora.regular,

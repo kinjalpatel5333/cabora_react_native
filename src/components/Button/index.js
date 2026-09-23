@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
@@ -74,7 +74,22 @@ export default function Button({
       disabled={disabled || loading}
       style={row}>
       {loading ? (
-        <ActivityIndicator color={spinnerColor} size="small" />
+        <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', position: 'relative' }}>
+          <ActivityIndicator color={spinnerColor} size="small" style={{ position: 'absolute' }} />
+          {title ? (
+            <Text
+              style={[
+                styles.label,
+                size === 'sm' && styles.labelSm,
+                { opacity: 0 },
+                textStyle,
+              ]}>
+              {title}
+            </Text>
+          ) : (
+            <View style={{ width: 24, height: 24 }} />
+          )}
+        </View>
       ) : children ? (
         children
       ) : (

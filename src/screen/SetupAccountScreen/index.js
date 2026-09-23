@@ -1,8 +1,9 @@
 import { PASSENGER_SETUP_ACCOUNT_ROLES, SETUP_ACCOUNT_STRINGS } from '../../config/staticData';
 import React, { useMemo, useState } from 'react';
-import {Linking, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
+import { Ionicons } from '@react-native-vector-icons/ionicons/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -92,6 +93,11 @@ export default function SetupAccountScreen({ navigation, route }) {
 
     const profile = extractUserProfile(rawUserData, phone);
 
+    const isOnBoarding =
+      route?.params?.isOnBoarding ??
+      rawUserData?.isOnBoarding ??
+      rawUserData?.data?.isOnBoarding;
+
     if (selected === 'driver') {
       try {
         await dispatch(
@@ -111,6 +117,14 @@ export default function SetupAccountScreen({ navigation, route }) {
       } finally {
         setLoading(false);
       }
+
+      // If isOnBoarding === true (or not completed), redirect to Driver Registration Flow
+      setLoading(false);
+      navigation.navigate('DriverRegistration', {
+        mobile: phone,
+        userId,
+        user: profile,
+      });
       return;
     }
 
@@ -192,7 +206,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         })}
 
         <View style={styles.note}>
-          <Feather name="shield" size={18} color={colors.navy[700]} />
+          <Ionicons name="shield-checkmark-outline" size={18} color={colors.navy[700]} />
           <Text style={styles.noteText}>
             {SETUP_ACCOUNT_STRINGS.DRIVER_NOTE}
           </Text>
@@ -210,7 +224,7 @@ export default function SetupAccountScreen({ navigation, route }) {
           onPress={onContinue}
           loading={loading}
           fullWidth={false}
-          style={styles.continue}
+        // style={styles.continue}
         />
       </View>
     </View>
