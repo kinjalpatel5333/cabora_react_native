@@ -1,8 +1,8 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Dimensions, Image, ImageBackground, Linking, Text, useWindowDimensions, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
-import {Button} from '../../components';
+import {AppStatusModal} from '../../components';
 import {APP_MARKET, APP_VERSION, STORE_URL} from '../../config/setting';
 import useThemedStyles from '../../components/useThemedStyles';
 import {bottomSafePad} from '../../utils/safeArea';
@@ -23,38 +23,6 @@ const GLOW_WIDTH = FIGMA_GLOW_WIDTH * SCALE;
 const GLOW_HEIGHT = FIGMA_GLOW_HEIGHT * SCALE;
 const RING_SIZE = 128 * SCALE;
 const ICON_SIZE = 82 * SCALE;
-const CARD_WIDTH = 326 * SCALE;
-const CARD_RADIUS = 24 * SCALE;
-const CARD_PAD_TOP = 28 * SCALE;
-const CARD_PAD_X = 22 * SCALE;
-const CARD_PAD_BOTTOM = 24 * SCALE;
-const CARD_ICON_SIZE = 56 * SCALE;
-const CARD_BTN_HEIGHT = 52 * SCALE;
-const CARD_BTN_RADIUS = 16 * SCALE;
-
-const COPY = {
-  offline: {
-    image: images.splashNoInternet,
-    title: 'No internet connection',
-    body: 'Cabora needs a connection to find drivers near you. Check Wi-Fi or mobile data and try again.',
-    action: 'Retry',
-    variant: 'primary',
-  },
-  update: {
-    image: images.splashRefresh,
-    title: 'Update Cabora to continue',
-    body: 'This version is no longer supported. Version 2.1 adds live trip recovery and faster pickups.',
-    action: 'Update now',
-    variant: 'primary',
-  },
-  maintenance: {
-    image: images.splashSetting,
-    title: "We'll be right back",
-    body: 'Cabora is under scheduled maintenance until 03:30 IST. Any trip in progress is safe and will resume.',
-    action: 'Check again',
-    variant: 'inverse',
-  },
-};
 
 function statusFromFlags() {
   if (SHOW_NO_INTERNET) {
@@ -83,7 +51,6 @@ export default function SplashScreen({
   const styles = useThemedStyles(createStyles);
   const status = statusProp || statusFromFlags();
   const progress = useRef(new Animated.Value(0.12)).current;
-  const copy = COPY[status];
 
   // Full device screen — covers gesture/nav inset so white strip doesn't show under navy.
   const pageWidth = screen.width || windowWidth;
@@ -118,16 +85,26 @@ export default function SplashScreen({
     outputRange: ['0%', '100%'],
   });
 
-  const onAction = () => {
-    if (status === 'offline') {
-      onRetry?.();
+  const [actionLoading, setActionLoading] = useState(false);
+
+  const onAction = async () => {
+    if (actionLoading) {
       return;
     }
-    if (status === 'maintenance') {
-      onCheckAgain?.();
-      return;
+    setActionLoading(true);
+    try {
+      if (status === 'offline') {
+        await onRetry?.();
+        return;
+      }
+      if (status === 'maintenance') {
+        await onCheckAgain?.();
+        return;
+      }
+      await Linking.openURL(STORE_URL).catch(() => onRetry?.());
+    } finally {
+      setActionLoading(false);
     }
-    Linking.openURL(STORE_URL).catch(() => onRetry?.());
   };
 
   return (
@@ -205,46 +182,15 @@ export default function SplashScreen({
               </View>
               <Text style={styles.finding}>Finding your city...</Text>
             </View>
-          ) : copy ? (
-            <View
-              style={[
-                styles.card,
-                {
-                  width: CARD_WIDTH,
-                  borderRadius: CARD_RADIUS,
-                  paddingTop: CARD_PAD_TOP,
-                  paddingRight: CARD_PAD_X,
-                  paddingBottom: CARD_PAD_BOTTOM,
-                  paddingLeft: CARD_PAD_X,
-                },
-              ]}>
-              <Image
-                source={copy.image}
-                style={[
-                  styles.cardIcon,
-                  {width: CARD_ICON_SIZE, height: CARD_ICON_SIZE},
-                ]}
-                resizeMode="contain"
-              />
-              <Text style={styles.cardTitle}>{copy.title}</Text>
-              <Text style={styles.cardBody}>{copy.body}</Text>
-              <Button
-                title={copy.action}
-                variant={copy.variant}
-                onPress={onAction}
-                style={[
-                  styles.cardButton,
-                  copy.variant === 'primary' && styles.cardButtonPrimary,
-                  copy.variant === 'inverse' && styles.cardButtonInverse,
-                  {
-                    minHeight: CARD_BTN_HEIGHT,
-                    height: CARD_BTN_HEIGHT,
-                    borderRadius: CARD_BTN_RADIUS,
-                  },
-                ]}
-              />
-            </View>
-          ) : null}
+          ) : (
+            <AppStatusModal
+              isModal={false}
+              type={status}
+              onAction={onAction}
+              loading={actionLoading}
+              style={{marginBottom: 24}}
+            />
+          )}
           <Text style={styles.version}>
             v{APP_VERSION} · {APP_MARKET}
           </Text>

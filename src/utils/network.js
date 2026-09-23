@@ -1,4 +1,15 @@
-export async function checkInternet(timeoutMs = 4000) {
+import NetInfo from '@react-native-community/netinfo';
+
+export async function checkInternet(timeoutMs = 3000) {
+  try {
+    const state = await NetInfo.fetch();
+    if (state.isConnected !== null && state.isConnected !== undefined) {
+      return state.isConnected;
+    }
+  } catch {
+    // fallback if NetInfo fails
+  }
+
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
