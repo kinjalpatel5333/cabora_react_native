@@ -5,6 +5,8 @@ import OtpScreen from '../screen/OtpScreen';
 import SetupAccountScreen from '../screen/SetupAccountScreen';
 import DriverRegistrationScreen from '../screen/DriverRegistrationScreen';
 import DriverVerificationStatusScreen from '../screen/DriverVerificationStatusScreen';
+import UploadDocumentsScreen from '../screen/UploadDocumentsScreen';
+import DocumentCaptureScreen from '../screen/DocumentCaptureScreen';
 import LocationPermissionScreen from '../screen/LocationPermissionScreen';
 import CompleteProfileScreen from '../screen/CompleteProfileScreen';
 import SignupScreen from '../screen/SignupScreen';
@@ -15,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function AuthStack() {
   return (
     <Stack.Navigator
-      // initialRouteName="DriverRegistration"
+      initialRouteName="Login"
       screenOptions={{
         headerShadowVisible: false,
         headerStyle: { backgroundColor: colors.background },
@@ -45,6 +47,16 @@ export default function AuthStack() {
       <Stack.Screen
         name="DriverVerificationStatus"
         component={DriverVerificationStatusScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UploadDocuments"
+        component={UploadDocumentsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DocumentCapture"
+        component={DocumentCaptureScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

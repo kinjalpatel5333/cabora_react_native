@@ -19,7 +19,7 @@ export default function createStyles(colors) {
       borderRadius: 10,
     },
     fullWidth: {
-      alignSelf: 'stretch',
+      width: '100%',
     },
     primary: {
       backgroundColor: colors.primary,

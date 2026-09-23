@@ -13,102 +13,110 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 16,
-      paddingVertical: 12,
-      backgroundColor: colors.surface,
+      paddingBottom: 12,
+      backgroundColor: colors.card,
       borderBottomWidth: 1,
-      borderBottomColor: colors.slate[100],
+      borderBottomColor: colors.border,
     },
     headerIconBtn: {
       width: 40,
       height: 40,
+      borderRadius: 20,
       alignItems: 'center',
       justifyContent: 'center',
     },
     headerTitle: {
-      fontFamily: colors.fonts.sora.extraBold,
+      fontFamily: colors.fonts?.sora?.bold || 'System',
       fontSize: 18,
-      fontWeight: '800',
+      fontWeight: '700',
       color: colors.text,
     },
 
     scrollContent: {
-      paddingBottom: 20,
+      paddingTop: 16,
+      paddingBottom: 30,
     },
 
-    // Blocked Warning Banner Card
-    blockedCard: {
-      backgroundColor: colors.red[150],
-      borderWidth: 1.2,
-      borderColor: colors.red[250],
+    // Top Progress Card
+    progressCard: {
+      backgroundColor: colors.card,
       borderRadius: 20,
       padding: 18,
       marginHorizontal: 16,
-      marginTop: 14,
+      borderWidth: 1,
+      borderColor: colors.border,
     },
-    blockedHead: {
+    progressTopRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 8,
-      marginBottom: 6,
+      justifyContent: 'space-between',
+      marginBottom: 4,
     },
-    blockedTitle: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 15.5,
+    progressCardTitle: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    progressPctText: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 16,
       fontWeight: '800',
-      color: colors.red[800],
+      color: colors.primary,
     },
-    blockedSub: {
-      fontFamily: colors.fonts.sora.medium,
+    progressCardSub: {
+      fontFamily: colors.fonts?.sora?.regular || 'System',
       fontSize: 13,
-      fontWeight: '500',
-      color: colors.red[600],
-      lineHeight: 18,
+      color: colors.gray[500],
+      marginBottom: 14,
+    },
+    progressTrack: {
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.gray[100],
+      overflow: 'hidden',
+    },
+    progressFill: {
+      height: '100%',
+      borderRadius: 4,
+      backgroundColor: colors.primary,
     },
 
-    // Section Title
+    // Section Header
     sectionTitle: {
-      fontFamily: colors.fonts.sora.bold,
-      fontSize: 11.5,
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 12,
       fontWeight: '700',
-      color: colors.textMuted,
-      letterSpacing: 0.6,
+      color: '#64748B',
+      letterSpacing: 0.8,
       textTransform: 'uppercase',
       marginHorizontal: 16,
       marginTop: 20,
       marginBottom: 12,
     },
 
-    // Document Cards
+    // Documents List
     docsList: {
       gap: 12,
       marginHorizontal: 16,
     },
     docCard: {
-      backgroundColor: colors.surface,
+      backgroundColor: colors.card,
       borderRadius: 20,
       padding: 16,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      borderWidth: 1.5,
+      borderWidth: 1,
       borderColor: colors.border,
-      shadowColor: colors.black,
-      shadowOpacity: 0.02,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 1 },
-      elevation: 1,
     },
-    docCardExpired: {
-      borderColor: colors.red[250],
-      backgroundColor: colors.surface,
-    },
-    docCardWarning: {
-      borderColor: colors.amber[200],
-      backgroundColor: colors.surface,
+    docCardRejected: {
+      borderColor: '#FCA5A5',
+      backgroundColor: '#FFF5F5',
     },
     docLeft: {
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       gap: 12,
       flex: 1,
       marginRight: 10,
@@ -119,171 +127,137 @@ export default function createStyles(colors) {
       borderRadius: 14,
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: 2,
     },
-    iconBoxExpired: {
-      backgroundColor: colors.red[200],
+    iconBoxApproved: {
+      backgroundColor: colors.green.mint,
     },
-    iconBoxWarning: {
-      backgroundColor: colors.amber[100],
+    iconBoxRejected: {
+      backgroundColor: colors.red.light,
     },
-    iconBoxVerified: {
-      backgroundColor: colors.green[200],
-    },
-    iconBoxReview: {
-      backgroundColor: colors.blue[50],
+    iconBoxPending: {
+      backgroundColor: colors.gray[100],
     },
     docInfo: {
       flex: 1,
     },
     docTitle: {
-      fontFamily: colors.fonts.sora.extraBold,
+      fontFamily: colors.fonts?.sora?.bold || 'System',
       fontSize: 15,
-      fontWeight: '800',
+      fontWeight: '700',
       color: colors.text,
+      marginBottom: 2,
     },
-    docSubExpired: {
-      fontFamily: colors.fonts.sora.medium,
+    docSub: {
+      fontFamily: colors.fonts?.sora?.regular || 'System',
       fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.red[600],
-      marginTop: 2,
+      color: colors.gray[500],
+      marginBottom: 8,
     },
-    docSubWarning: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.amber[600],
-      marginTop: 2,
-    },
-    docSubVerified: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.textMuted,
-      marginTop: 2,
-    },
-    docSubReview: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.blue[550],
-      marginTop: 2,
-    },
-    docRight: {
-      alignItems: 'flex-end',
-    },
-    statusBadge: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 4,
-      paddingHorizontal: 9,
-      paddingVertical: 3,
-      borderRadius: 12,
-    },
-    badgeExpired: {
-      backgroundColor: colors.red[200],
-    },
-    badgeWarning: {
-      backgroundColor: colors.amber[100],
-    },
-    badgeVerified: {
-      backgroundColor: colors.green[200],
-    },
-    badgeReview: {
-      backgroundColor: colors.blue[50],
-    },
-    statusDotExpired: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: colors.red[600],
-    },
-    statusDotWarning: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: colors.amber[600],
-    },
-    statusDotVerified: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: colors.green[600],
-    },
-    statusDotReview: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: colors.blue[550],
-    },
-    statusTextExpired: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.red[600],
-    },
-    statusTextWarning: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.amber[700],
-    },
-    statusTextVerified: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.green[700],
-    },
-    statusTextReview: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.blue[550],
-    },
-    actionLinkText: {
-      fontFamily: colors.fonts.sora.extraBold,
-      color: colors.primary,
-      fontSize: 13,
-      fontWeight: '800',
-      marginTop: 4,
+    docSubRejected: {
+      color: '#DC2626',
     },
 
-    // Bottom Sticky Bar
-    bottomBar: {
-      backgroundColor: colors.surface,
-      borderTopWidth: 1,
-      borderTopColor: colors.slate[100],
+    // Status Pills
+    statusPill: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      alignSelf: 'flex-start',
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 12,
+      gap: 5,
+    },
+    pillApproved: {
+      backgroundColor: colors.green.mint,
+    },
+    pillRejected: {
+      backgroundColor: colors.red.badge,
+    },
+    pillPending: {
+      backgroundColor: colors.gray[100],
+    },
+    statusDot: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+    },
+    dotApproved: {
+      backgroundColor: colors.green[700],
+    },
+    dotRejected: {
+      backgroundColor: colors.danger,
+    },
+    dotPending: {
+      backgroundColor: colors.gray[600],
+    },
+    statusPillText: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 11.5,
+      fontWeight: '700',
+    },
+    pillTextApproved: {
+      color: colors.green[700],
+    },
+    pillTextRejected: {
+      color: colors.danger,
+    },
+    pillTextPending: {
+      color: colors.gray[700],
+    },
+
+    // Actions (Right Side)
+    docRight: {
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+    eyeBtn: {
+      padding: 8,
+    },
+    reuploadBtn: {
+      backgroundColor: '#EF4444',
       paddingHorizontal: 16,
-      paddingTop: 12,
+      paddingVertical: 8,
+      borderRadius: 12,
+    },
+    reuploadBtnText: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 13,
+      fontWeight: '700',
+      color: colors.white,
     },
     uploadBtn: {
       backgroundColor: colors.primary,
-      height: 52,
-      borderRadius: 16,
-      alignItems: 'center',
-      justifyContent: 'center',
-      shadowColor: colors.primary,
-      shadowOpacity: 0.25,
-      shadowRadius: 8,
-      shadowOffset: { width: 0, height: 4 },
-      elevation: 3,
+      paddingHorizontal: 18,
+      paddingVertical: 8,
+      borderRadius: 12,
     },
     uploadBtnText: {
-      fontFamily: colors.fonts.sora.extraBold,
-      color: colors.white,
-      fontSize: 16,
-      fontWeight: '800',
-    },
-    supportLink: {
-      paddingVertical: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    supportLinkText: {
-      fontFamily: colors.fonts.sora.bold,
-      color: colors.textMuted,
-      fontSize: 14,
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 13,
       fontWeight: '700',
+      color: colors.white,
+    },
+
+    // Amber Notice Card
+    amberNoticeCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#FFFBEB',
+      borderRadius: 16,
+      padding: 16,
+      marginHorizontal: 16,
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: '#FDE68A',
+    },
+    amberNoticeText: {
+      flex: 1,
+      fontFamily: colors.fonts?.sora?.medium || 'System',
+      fontSize: 13,
+      color: '#92400E',
+      lineHeight: 18,
+      fontWeight: '500',
     },
   });
 }

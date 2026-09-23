@@ -51,20 +51,11 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
   };
 
   const handleFixItem = item => {
-    showToast({
-      type: 'info',
-      title: item.title,
-      message: `Opening camera to ${item.btnLabel.toLowerCase()} document`,
-    });
+    navigation.navigate('UploadDocuments');
   };
 
   const handleFixAndResubmit = () => {
-    showToast({
-      type: 'success',
-      title: 'Resubmitted',
-      message: 'Your corrected documents have been sent for re-verification.',
-    });
-    setStatusMode('in_progress');
+    navigation.navigate('UploadDocuments');
   };
 
   const renderInProgress = () => (
@@ -102,53 +93,57 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
       {/* Verification Timeline */}
       <View style={styles.sectionCard}>
         <Text style={styles.sectionHeader}>VERIFICATION TIMELINE</Text>
-        {TIMELINE.map((item, idx) => {
-          const isDone = item.status === 'done';
-          const isActive = item.status === 'active';
-          const isLast = idx === TIMELINE.length - 1;
+        <View style={styles.timelineContainer}>
+          {TIMELINE.map((item, idx) => {
+            const isDone = item.status === 'done';
+            const isActive = item.status === 'active';
+            const isLast = idx === TIMELINE.length - 1;
 
-          return (
-            <View key={item.id} style={styles.timelineRow}>
-              <View style={styles.timelineIndicatorWrap}>
-                {isDone ? (
-                  <View style={styles.timelineDotDone} />
-                ) : isActive ? (
-                  <View style={styles.timelineDotActive} />
-                ) : (
-                  <View style={styles.timelineDotPending} />
-                )}
-                {!isLast && (
-                  <View
+            return (
+              <View key={item.id} style={styles.timelineRow}>
+                <View style={styles.timelineIndicatorWrap}>
+                  {!isLast && (
+                    <View
+                      style={[
+                        styles.timelineLine,
+                        isDone && styles.timelineLineDone,
+                      ]}
+                    />
+                  )}
+                  {isDone ? (
+                    <View style={styles.timelineDotDone} />
+                  ) : isActive ? (
+                    <View style={styles.timelineDotActive}>
+                      <View style={styles.timelineDotActiveInner} />
+                    </View>
+                  ) : (
+                    <View style={styles.timelineDotPending} />
+                  )}
+                </View>
+
+                <View style={styles.timelineCopy}>
+                  <Text
                     style={[
-                      styles.timelineLine,
-                      isDone && styles.timelineLineDone,
-                    ]}
-                  />
-                )}
+                      styles.timelineTitle,
+                      !isDone && !isActive && styles.timelineTitlePending,
+                    ]}>
+                    {item.title}
+                  </Text>
+                  <Text
+                    style={
+                      isActive
+                        ? styles.timelineTimeActive
+                        : isDone
+                          ? styles.timelineTime
+                          : styles.timelineTimePending
+                    }>
+                    {item.time}
+                  </Text>
+                </View>
               </View>
-
-              <View style={styles.timelineCopy}>
-                <Text
-                  style={[
-                    styles.timelineTitle,
-                    !isDone && !isActive && styles.timelineTitlePending,
-                  ]}>
-                  {item.title}
-                </Text>
-                <Text
-                  style={
-                    isActive
-                      ? styles.timelineTimeActive
-                      : isDone
-                        ? styles.timelineTime
-                        : styles.timelineTimePending
-                  }>
-                  {item.time}
-                </Text>
-              </View>
-            </View>
-          );
-        })}
+            );
+          })}
+        </View>
       </View>
 
       {/* What We Are Checking */}
@@ -366,6 +361,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
             />
             <Button
               title="Fix and resubmit"
+              variant="primary"
               fullWidth={false}
               style={styles.btnFixSubmit}
               onPress={handleFixAndResubmit}

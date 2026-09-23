@@ -895,27 +895,20 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
         {step > 1 && step <= 5 && (
-          // <TouchableOpacity
-          //   activeOpacity={0.7}
-          //   accessibilityRole="button"
-          //   onPress={handlePrevStep}
-          //   style={styles.btnBack}>
-          //   <Text style={styles.btnBackText}>Back</Text>
-          // </TouchableOpacity>
           <Button
-            variant='outline'
-            title={"Back"}
-
+            title="Back"
+            variant="outline"
+            fullWidth={false}
+            style={styles.btnBack}
             onPress={handlePrevStep}
-
-
           />
         )}
         <Button
           title={step === 6 ? 'Submit for verification' : currentStepData.btnLabel}
-          onPress={handleNextStep}
-
+          variant="primary"
+          fullWidth={false}
           style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
+          onPress={handleNextStep}
         />
       </View>
 

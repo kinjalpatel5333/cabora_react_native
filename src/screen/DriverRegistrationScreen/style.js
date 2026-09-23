@@ -900,12 +900,6 @@ export default function createStyles(colors) {
     btnBack: {
       flex: 1,
       height: 52,
-      borderRadius: 26,
-      borderWidth: 1.5,
-      borderColor: colors.border,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: colors.card,
     },
     btnBackText: {
       fontSize: 15,
@@ -915,19 +909,10 @@ export default function createStyles(colors) {
     btnNext: {
       flex: 2,
       height: 52,
-      borderRadius: 16,
-      backgroundColor: colors.primary,
-      // backgroundColor: colors.orange[500],
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     btnNextFull: {
       flex: 1,
       height: 52,
-      borderRadius: 26,
-      backgroundColor: colors.orange[500],
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     btnNextText: {
       fontSize: 15,
