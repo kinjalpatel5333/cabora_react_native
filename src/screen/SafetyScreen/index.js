@@ -10,45 +10,7 @@ import { useApp } from '../../context/AppContext';
 import EmergencyModal from '../EmergencyScreen';
 import createStyles from './style';
 import { colors } from '../../config';
-
-const TOOLS = [
-  {
-    id: 'sos',
-    title: 'Emergency SOS',
-    sub: 'Alert local police & contacts',
-    iconBg: 'red',
-  },
-  {
-    id: 'contacts',
-    title: 'Trusted contacts',
-    sub: 'Share trip details automatically',
-    iconBg: 'blue',
-  },
-  {
-    id: 'share',
-    title: 'Share live trip',
-    sub: 'Auto-share after 9:00 PM is ON',
-    iconBg: 'sky',
-  },
-  {
-    id: 'check',
-    title: 'Ride check',
-    sub: 'Auto-detect long unexpected stops',
-    iconBg: 'green',
-  },
-  {
-    id: 'report',
-    title: 'Report an incident',
-    sub: 'Anonymous option available',
-    iconBg: 'amber',
-  },
-  {
-    id: 'tips',
-    title: 'Safety tips',
-    sub: 'Before, during and after a ride',
-    iconBg: 'gray',
-  },
-];
+import { PASSENGER_SAFETY_TOOLS as TOOLS } from '../../config/staticData';
 
 const ICON_TONES = {
   red: { bg: colors.red[200], fg: colors.danger },

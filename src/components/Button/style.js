@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -19,41 +19,51 @@ export default function createStyles(colors) {
       borderRadius: 10,
     },
     fullWidth: {
-      alignSelf: 'stretch',
+      width: '100%',
     },
     primary: {
       backgroundColor: colors.primary,
+      borderRadius: 16,
     },
     primaryPressed: {
       backgroundColor: colors.primaryDark,
+      borderRadius: 16,
     },
     outline: {
       backgroundColor: colors.surface,
       borderWidth: 1.5,
-      borderColor: colors.isDark ? colors.border : colors.navy[800],
+      borderRadius: 16,
+      borderColor: colors.isDark ? colors.border : colors.navy[300],
     },
     outlinePressed: {
       backgroundColor: colors.isDark ? colors.card : colors.navy[25],
+      borderRadius: 16,
     },
     ghost: {
       backgroundColor: 'transparent',
+      borderRadius: 16,
     },
     ghostPressed: {
       backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
+      borderRadius: 16,
     },
     danger: {
       backgroundColor: colors.danger,
+      borderRadius: 16,
     },
     dangerPressed: {
       backgroundColor: colors.red[600],
+      borderRadius: 16,
     },
     inverse: {
       backgroundColor: colors.alpha.white10,
       borderWidth: 1,
       borderColor: colors.alpha.white22,
+      borderRadius: 16,
     },
     inversePressed: {
       backgroundColor: colors.alpha.white16,
+      borderRadius: 16,
     },
     disabledFill: {
       backgroundColor: colors.disabledBg || colors.gray[100],
@@ -63,6 +73,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
       borderWidth: 1.5,
       borderColor: colors.border,
+      borderRadius: 16,
     },
     disabledGhost: {
       backgroundColor: 'transparent',

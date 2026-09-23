@@ -5,74 +5,7 @@ import {images} from '../../assets';
 import {useSidebar} from '../../context/SidebarContext';
 import styles from './style';
 import colors from '../../config/color';
-
-
-const ITEMS_LIST = [
-  {
-    id: '1',
-    title: 'Gym & Fitness Transformation',
-    category: 'Workout & Health',
-    icon: '🏋️',
-    color: colors.purple.dark,
-    tag: 'Fitness',
-  },
-  {
-    id: '2',
-    title: 'AI Productivity Tools 2026',
-    category: 'Technology & Software',
-    icon: '🤖',
-    color: colors.blue[900],
-    tag: 'Tech',
-  },
-  {
-    id: '3',
-    title: 'Mobile App UI Design Figma',
-    category: 'Design & Graphics',
-    icon: '🎨',
-    color: colors.purple.pink,
-    tag: 'Design',
-  },
-  {
-    id: '4',
-    title: 'Personal Finance & Investing',
-    category: 'Finance & Wealth',
-    icon: '📈',
-    color: colors.green[900],
-    tag: 'Finance',
-  },
-  {
-    id: '5',
-    title: 'Healthy Meal Prep Routine',
-    category: 'Nutrition & Diet',
-    icon: '🥗',
-    color: colors.purple.brown,
-    tag: 'Lifestyle',
-  },
-  {
-    id: '6',
-    title: 'React Native Cross-Platform Dev',
-    category: 'Programming & Code',
-    icon: '⚡',
-    color: colors.purple.dark,
-    tag: 'Development',
-  },
-  {
-    id: '7',
-    title: 'Travel & Photography Guide',
-    category: 'Travel & Leisure',
-    icon: '✈️',
-    color: colors.navy.safetyDark2,
-    tag: 'Travel',
-  },
-  {
-    id: '8',
-    title: 'Daily Mindfulness & Yoga',
-    category: 'Wellness & Health',
-    icon: '🧘',
-    color: colors.purple.deep,
-    tag: 'Wellness',
-  },
-];
+import {SEARCH_ITEMS_LIST as ITEMS_LIST} from '../../config/staticData';
 
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();

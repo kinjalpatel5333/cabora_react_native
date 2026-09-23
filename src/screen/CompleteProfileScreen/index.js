@@ -4,7 +4,7 @@ import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button} from '../../components';
+import {Button, DatePickerModal} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
 import {useAppDispatch} from '../../redux/hooks';
@@ -75,6 +75,7 @@ export default function CompleteProfileScreen({navigation, route}) {
   const [dob, setDob] = useState(
     initialProfile.dob ? convertDobToUi(initialProfile.dob) : '',
   );
+  const [dobPickerVisible, setDobPickerVisible] = useState(false);
   const [email, setEmail] = useState(initialProfile.email || '');
   const [gender, setGender] = useState(initialProfile.gender || '');
   const [focusedField, setFocusedField] = useState(null);
@@ -308,7 +309,9 @@ export default function CompleteProfileScreen({navigation, route}) {
               <Text style={styles.label}>
                 Date of birth <Text style={styles.requiredStar}>*</Text>
               </Text>
-              <View
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setDobPickerVisible(true)}
                 style={[
                   styles.inputIconWrapper,
                   focusedField === 'dob' && styles.inputFocused,
@@ -322,15 +325,13 @@ export default function CompleteProfileScreen({navigation, route}) {
                 <TextInput
                   value={dob}
                   onChangeText={onChangeDob}
-                  placeholder="DD / MM / YYYY"
+                  placeholder="14 Mar 1994"
                   placeholderTextColor={colors.slate[400]}
-                  keyboardType="numeric"
-                  maxLength={14}
                   style={styles.inputWithIcon}
-                  onFocus={() => setFocusedField('dob')}
-                  onBlur={() => setFocusedField(null)}
+                  pointerEvents="none"
+                  editable={false}
                 />
-              </View>
+              </TouchableOpacity>
               <Text style={styles.caption}>
                 Never shown to drivers — used for age-restricted offers
               </Text>
@@ -381,6 +382,14 @@ export default function CompleteProfileScreen({navigation, route}) {
           />
         </View>
       </KeyboardAvoidingView>
+
+      <DatePickerModal
+        visible={dobPickerVisible}
+        onClose={() => setDobPickerVisible(false)}
+        onSelectDate={dateStr => setDob(dateStr)}
+        value={dob}
+        title="Select Date of Birth"
+      />
     </View>
   );
 }

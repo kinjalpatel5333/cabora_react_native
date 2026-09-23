@@ -1,10 +1,10 @@
 import React from 'react';
-import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
-import {useApp} from '../../context/AppContext';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { useApp } from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
+
 
 export default function Button({
   title,
@@ -20,7 +20,7 @@ export default function Button({
   textStyle,
   activeOpacity = 0.7,
 }) {
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const isDisabled = disabled && !loading;
   const isOutline = variant === 'outline';
@@ -69,7 +69,7 @@ export default function Button({
     <TouchableOpacity
       activeOpacity={activeOpacity}
       accessibilityRole="button"
-      accessibilityState={{disabled: disabled || loading, busy: loading}}
+      accessibilityState={{ disabled: disabled || loading, busy: loading }}
       onPress={onPress}
       disabled={disabled || loading}
       style={row}>

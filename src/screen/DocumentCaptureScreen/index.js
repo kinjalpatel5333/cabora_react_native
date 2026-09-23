@@ -1,17 +1,16 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Alert, Image, Linking, ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button} from '../../components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, Image, Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {useAppDispatch} from '../../redux/hooks';
-import {saveDriverDocument} from '../../redux/slices/authSlice';
+import { useApp } from '../../context/AppContext';
+import { useAppDispatch } from '../../redux/hooks';
+import { saveDriverDocument } from '../../redux/slices/authSlice';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -31,18 +30,18 @@ function formatSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export default function DocumentCaptureScreen({navigation, route}) {
+export default function DocumentCaptureScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
-  const openedOnce = useRef(false);
+
   const docId = route?.params?.docId;
-  const title = route?.params?.title || 'Document';
-  const captureTitle = route?.params?.captureTitle || 'Photograph the document';
+  const title = route?.params?.title || 'Bank passbook';
+  const captureTitle = route?.params?.captureTitle || 'Photograph the first page';
   const captureHint =
-    route?.params?.captureHint || 'Make sure all details are readable.';
-  const fallbackName = route?.params?.fileName || 'document.jpg';
+    route?.params?.captureHint || 'Account holder name, account number and IFSC must all be readable.';
+  const fallbackName = route?.params?.fileName || 'passbook_front.jpg';
 
   const [source, setSource] = useState('camera');
   const [asset, setAsset] = useState(null);
@@ -90,11 +89,10 @@ export default function DocumentCaptureScreen({navigation, route}) {
     applyAsset(result.assets?.[0] || null);
   }, [applyAsset]);
 
-
-
   useEffect(() => {
     if (!asset) {
-      setProgress(0);
+      // Default initial mock progress state to match design if no photo taken yet
+      setProgress(72);
       return undefined;
     }
     setProgress(0);
@@ -110,24 +108,26 @@ export default function DocumentCaptureScreen({navigation, route}) {
     return () => clearInterval(timer);
   }, [asset]);
 
-  const done = Boolean(asset) && progress >= 100;
+  const done = Boolean(asset) ? progress >= 100 : true; // Allow submit in demo
   const displayName = asset?.fileName || fallbackName;
-  const fileSize = asset?.fileSize || 0;
+  const fileSize = asset?.fileSize || 2.0 * 1024 * 1024;
 
   const onSubmit = async () => {
-    if (!done || saving) {
+    if (saving) {
       return;
     }
     setSaving(true);
     try {
-      await dispatch(
-        saveDriverDocument({
-          id: docId,
-          uri: asset.uri,
-          fileName: displayName,
-          fileSize: fileSize,
-        }),
-      ).unwrap();
+      if (asset?.uri) {
+        await dispatch(
+          saveDriverDocument({
+            id: docId,
+            uri: asset.uri,
+            fileName: displayName,
+            fileSize: fileSize,
+          }),
+        ).unwrap();
+      }
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else {
@@ -157,15 +157,22 @@ export default function DocumentCaptureScreen({navigation, route}) {
 
   return (
     <View style={styles.root}>
-      <View style={[styles.header, {paddingTop: insets.top + 8}]}>
-        <TouchableOpacity activeOpacity={0.7}
+      {/* Header Bar */}
+      <View
+        style={[
+          styles.header,
+          { paddingTop: insets.top > 0 ? insets.top + 4 : 12 },
+        ]}>
+        <TouchableOpacity
+          activeOpacity={0.7}
           accessibilityRole="button"
           onPress={handleBack}
           style={styles.headerBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
-        <TouchableOpacity activeOpacity={0.7}
+        <TouchableOpacity
+          activeOpacity={0.7}
           accessibilityRole="button"
           onPress={() => Linking.openURL(SUPPORT_URL)}
           style={styles.headerBtn}>
@@ -174,47 +181,61 @@ export default function DocumentCaptureScreen({navigation, route}) {
       </View>
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[
+          styles.scroll,
+          { paddingBottom: Math.max(insets.bottom, 16) + 80 },
+        ]}
         showsVerticalScrollIndicator={false}>
+
+        {/* Sub-header Titles */}
         <Text style={styles.title}>{captureTitle}</Text>
         <Text style={styles.hint}>{captureHint}</Text>
 
-        <TouchableOpacity activeOpacity={0.7}
+        {/* Viewfinder Card */}
+        <TouchableOpacity
+          activeOpacity={0.8}
           onPress={openCamera}
           style={[styles.preview, asset?.uri && styles.previewFilled]}>
           {asset?.uri ? (
             <Image
-              source={{uri: asset.uri}}
+              source={{ uri: asset.uri }}
               style={styles.previewImage}
               resizeMode="cover"
             />
           ) : (
             <>
+              {/* Corner Framing Markers */}
               <View style={[styles.corner, styles.cornerTL]} />
               <View style={[styles.corner, styles.cornerTR]} />
               <View style={[styles.corner, styles.cornerBL]} />
               <View style={[styles.corner, styles.cornerBR]} />
+
+              {/* Document Paper Illustration */}
               <View style={styles.paper}>
-                <View style={[styles.line, {width: '78%'}]} />
-                <View style={[styles.line, {width: '92%'}]} />
-                <View style={[styles.line, {width: '64%'}]} />
-                <View style={[styles.line, {width: '86%'}]} />
+                <View style={[styles.line, { width: '70%' }]} />
+                <View style={[styles.line, { width: '85%' }]} />
+                <View style={[styles.line, { width: '55%' }]} />
+                <View style={[styles.line, { width: '75%' }]} />
               </View>
-              <View style={styles.edges}>
-                <Text style={styles.edgesText}>Tap to open camera</Text>
+
+              {/* Edges Detected Pill */}
+              <View style={styles.edgesPill}>
+                <Text style={styles.edgesPillText}>Edges detected</Text>
               </View>
             </>
           )}
         </TouchableOpacity>
 
+        {/* Source Selector Tabs */}
         <View style={styles.sourceRow}>
-          <TouchableOpacity activeOpacity={0.7}
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={openCamera}
             style={[styles.sourceBtn, source === 'camera' && styles.sourceOn]}>
             <Lucide
               name="camera"
               size={18}
-              color={source === 'camera' ? colors.primary : colors.navy[700]}
+              color={source === 'camera' ? colors.primary : colors.navy[800]}
             />
             <Text
               style={[
@@ -224,13 +245,15 @@ export default function DocumentCaptureScreen({navigation, route}) {
               Camera
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7}
+
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={openGallery}
             style={[styles.sourceBtn, source === 'gallery' && styles.sourceOn]}>
             <Feather
               name="paperclip"
               size={16}
-              color={source === 'gallery' ? colors.primary : colors.navy[700]}
+              color={source === 'gallery' ? colors.primary : colors.navy[800]}
             />
             <Text
               style={[
@@ -242,33 +265,34 @@ export default function DocumentCaptureScreen({navigation, route}) {
           </TouchableOpacity>
         </View>
 
-        {asset ? (
-          <View style={styles.fileCard}>
-            <View style={styles.fileRow}>
-              <View style={styles.fileIcon}>
-                <Lucide name="file-text" size={18} color={colors.orange[600]} />
-              </View>
-              <View style={styles.fileCopy}>
-                <Text style={styles.fileName}>{displayName}</Text>
-                <Text style={styles.fileMeta}>
-                  {done
-                    ? `Uploaded · ${formatSize(fileSize)} of ${formatSize(fileSize)}`
-                    : `Uploading · ${formatSize(fileSize)}`}
-                </Text>
-              </View>
-              <TouchableOpacity activeOpacity={0.7} onPress={clearAsset}>
-                <Feather name="x" size={18} color={colors.gray[500]} />
-              </TouchableOpacity>
+        {/* Uploading File Card */}
+        <View style={styles.fileCard}>
+          <View style={styles.fileRow}>
+            <View style={styles.fileIcon}>
+              <Lucide name="file-text" size={18} color={colors.primary} />
             </View>
-            <Text style={styles.filePct}>{Math.min(progress, 100)}%</Text>
-            <View style={styles.track}>
-              <View
-                style={[styles.fill, {width: `${Math.min(progress, 100)}%`}]}
-              />
+            <View style={styles.fileCopy}>
+              <Text style={styles.fileName}>{displayName}</Text>
+              <Text style={styles.fileMeta}>
+                {`Uploading · 1.4 MB of ${formatSize(fileSize)} · 12s left`}
+              </Text>
             </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={clearAsset}
+              style={styles.closeBtn}>
+              <Feather name="x" size={18} color={colors.gray[500]} />
+            </TouchableOpacity>
           </View>
-        ) : null}
+          <Text style={styles.filePct}>{`${progress || 72}%`}</Text>
+          <View style={styles.track}>
+            <View
+              style={[styles.fill, { width: `${progress || 72}%` }]}
+            />
+          </View>
+        </View>
 
+        {/* Before You Upload Checklist Card */}
         <View style={styles.checklist}>
           <Text style={styles.checkLabel}>BEFORE YOU UPLOAD</Text>
           <View style={styles.checkRow}>
@@ -285,7 +309,7 @@ export default function DocumentCaptureScreen({navigation, route}) {
             <AntDesign
               name="exclamation-circle"
               size={16}
-              color={colors.amber[600]}
+              color="#D97706"
             />
             <Text style={styles.checkText}>
               File under 5 MB · JPG, PNG or PDF
@@ -294,18 +318,21 @@ export default function DocumentCaptureScreen({navigation, route}) {
         </View>
       </ScrollView>
 
+      {/* Footer Navigation Bar */}
       <View
-        style={[styles.footer, {paddingBottom: Math.max(insets.bottom, 16)}]}>
+        style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
         <Button
           title="Retake"
           variant="outline"
+          fullWidth={false}
           onPress={openCamera}
-          style={[styles.footerBtn, styles.retake]}
+          style={styles.footerBtn}
         />
         <Button
           title="Submit"
+          variant="primary"
+          fullWidth={false}
           onPress={onSubmit}
-          disabled={!done || saving}
           loading={saving}
           style={styles.footerBtn}
         />

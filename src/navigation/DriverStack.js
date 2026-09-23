@@ -1,11 +1,11 @@
 import React from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useAuth} from '../hooks/useAuth';
-import {useAppSelector} from '../redux/hooks';
-import {useApp} from '../context/AppContext';
-import {SidebarProvider} from '../context/SidebarContext';
+import { Platform, StyleSheet, View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from '../hooks/useAuth';
+import { useAppSelector } from '../redux/hooks';
+import { useApp } from '../context/AppContext';
+import { SidebarProvider } from '../context/SidebarContext';
 import Sidebar from './Sidebar';
 import DriverTabNavigator from './DriverTabNavigator';
 import UploadDocumentsScreen from '../screen/UploadDocumentsScreen';
@@ -26,7 +26,9 @@ import DriverSubscriptionScreen from '../screen/DriverSubscriptionScreen';
 import DriverDailySafetyCheckScreen from '../screen/DriverDailySafetyCheckScreen';
 import DriverIncentiveTrackerScreen from '../screen/DriverIncentiveTrackerScreen';
 import PersonalDetailsScreen from '../screen/PersonalDetailsScreen';
-import colors from '../config/color';
+import DriverRegistrationScreen from '../screen/DriverRegistrationScreen';
+import DriverVerificationStatusScreen from '../screen/DriverVerificationStatusScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -35,19 +37,19 @@ function DriverMain() {
   const iosBottom = Platform.OS === 'ios' ? insets.bottom : 0;
 
   return (
-    <View style={[styles.main, iosBottom ? {marginBottom: -iosBottom} : null]}>
+    <View style={[styles.main, iosBottom ? { marginBottom: -iosBottom } : null]}>
       <DriverTabNavigator />
     </View>
   );
 }
 
 export default function DriverStack() {
-  const {user} = useAuth();
-  const {colors} = useApp();
+  const { user } = useAuth();
+  const { colors } = useApp();
   const locationResolved = useAppSelector(state => state.app.locationResolved);
   const kycComplete = Boolean(user?.kycComplete);
 
-  let initialRouteName = 'UploadDocuments';
+  let initialRouteName = 'DriverRegistration';
   if (kycComplete && locationResolved) {
     initialRouteName = 'DriverTabs';
   } else if (kycComplete) {
@@ -59,7 +61,15 @@ export default function DriverStack() {
       <View style={styles.main}>
         <Stack.Navigator
           initialRouteName={initialRouteName}
-          screenOptions={{headerShown: false}}>
+          screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="DriverRegistration"
+            component={DriverRegistrationScreen}
+          />
+          <Stack.Screen
+            name="DriverVerificationStatus"
+            component={DriverVerificationStatusScreen}
+          />
           <Stack.Screen
             name="UploadDocuments"
             component={UploadDocumentsScreen}
@@ -71,14 +81,14 @@ export default function DriverStack() {
           <Stack.Screen
             name="LocationPermission"
             component={LocationPermissionScreen}
-            options={{gestureEnabled: false}}
+            options={{ gestureEnabled: false }}
           />
           <Stack.Screen
             name="DriverTabs"
             component={DriverMain}
             options={{
               headerShown: false,
-              unstable_headerInsets: {bottom: false},
+              unstable_headerInsets: { bottom: false },
               contentStyle: styles.main,
             }}
           />
@@ -91,7 +101,7 @@ export default function DriverStack() {
             component={NewRideRequestScreen}
             options={{
               gestureEnabled: false,
-              contentStyle: {backgroundColor: colors.map.land},
+              contentStyle: { backgroundColor: colors.map.land },
               animation: 'slide_from_bottom',
             }}
           />
@@ -101,7 +111,7 @@ export default function DriverStack() {
             options={{
               presentation: 'transparentModal',
               animation: 'slide_from_bottom',
-              contentStyle: {backgroundColor: colors.transparent},
+              contentStyle: { backgroundColor: colors.transparent },
             }}
           />
           <Stack.Screen
