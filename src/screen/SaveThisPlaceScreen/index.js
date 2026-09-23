@@ -8,6 +8,7 @@ import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {addSavedAddressApi} from '../../services/userApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -46,6 +47,7 @@ export default function SaveThisPlaceScreen() {
   const [placeName, setPlaceName] = useState('');
   const [landmark, setLandmark] = useState('');
   const [note, setNote] = useState('');
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (place) {
@@ -70,15 +72,34 @@ export default function SaveThisPlaceScreen() {
   const address = place?.address || DEFAULT_ADDRESS;
   const canSave = placeName.trim().length > 0;
 
-  const onSave = () => {
-    if (!canSave) {
+  const onSave = async () => {
+    if (!canSave || saving) {
       return;
     }
+    setSaving(true);
     const meta = labelMeta(label);
+    const fullAddress = landmark.trim() ? `${landmark.trim()}, ${address}` : address;
+    const apiLabel = label === 'other' ? (placeName.trim().toUpperCase() || 'OTHER') : label.toUpperCase();
+
+    let createdPlace = null;
+    try {
+      const res = await addSavedAddressApi({
+        label: apiLabel,
+        address: fullAddress,
+        lat: place?.latitude || place?.lat || 12.9716,
+        lng: place?.longitude || place?.lng || 77.5946,
+      });
+      createdPlace = res?.data || res;
+    } catch (err) {
+      console.warn('addSavedAddressApi error:', err);
+    } finally {
+      setSaving(false);
+    }
+
     const saved = {
-      id: place?.id || `place_${Date.now()}`,
+      id: createdPlace?._id || createdPlace?.id || place?.id || `place_${Date.now()}`,
       name: placeName.trim(),
-      address,
+      address: fullAddress,
       landmark: landmark.trim(),
       note: note.trim(),
       icon: meta.icon,
@@ -215,6 +236,7 @@ export default function SaveThisPlaceScreen() {
           <Button
             title="Save place"
             disabled={!canSave}
+            loading={saving}
             onPress={onSave}
             accessibilityLabel="Save place"
           />

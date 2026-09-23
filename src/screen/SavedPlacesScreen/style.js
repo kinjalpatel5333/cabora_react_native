@@ -123,11 +123,25 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    loadingWrap: {
+      paddingVertical: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyWrap: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 48,
+      paddingHorizontal: 20,
+    },
+    emptyIcon: {
+      opacity: 0.6,
+      marginBottom: 12,
+    },
     emptyText: {
       color: colors.muted,
       fontSize: 14,
       textAlign: 'center',
-      marginTop: 40,
     },
     footer: {
       position: 'absolute',

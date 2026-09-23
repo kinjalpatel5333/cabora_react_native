@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Image, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {Image, Modal, RefreshControl, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useFocusEffect} from '@react-navigation/native';
@@ -9,7 +9,7 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
+import {fetchPassengerProfile, fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -44,16 +44,31 @@ export default function ProfileScreen({navigation}) {
 
   const [activeRole, setActiveRole] = useState(user?.role || 'passenger');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [preferences, setPreferences] = useState({
     notifications: true,
     offers: false,
   });
 
+  const loadProfile = useCallback(async () => {
+    try {
+      await dispatch(fetchPassengerProfile()).unwrap();
+    } catch {
+      // fallback
+    }
+  }, [dispatch]);
+
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchUserProfile());
-    }, [dispatch]),
+      loadProfile();
+    }, [loadProfile]),
   );
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadProfile();
+    setRefreshing(false);
+  };
 
   const togglePref = key => {
     setPreferences(prev => ({...prev, [key]: !prev[key]}));
@@ -177,6 +192,14 @@ export default function ProfileScreen({navigation}) {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colors.primary}
+            colors={[colors.primary]}
+          />
+        }
         contentContainerStyle={[
           styles.scroll,
           {paddingBottom: Math.max(insets.bottom, 16) + 90},

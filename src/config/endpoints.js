@@ -16,6 +16,12 @@ export const AUTH_ENDPOINTS = {
 
 export const PASSENGER_ENDPOINTS = {
   PROFILE: '/api/v1/passenger/profile',
+  ADDRESSES: '/api/v1/passenger/addresses',
+};
+
+export const WALLET_ENDPOINTS = {
+  BALANCE: '/api/v1/wallet/balance',
+  ADD_MONEY: '/api/v1/wallet/add-money',
 };
 
 export const USER_ENDPOINTS = {

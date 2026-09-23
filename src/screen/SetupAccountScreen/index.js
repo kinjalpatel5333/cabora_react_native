@@ -62,6 +62,8 @@ export default function SetupAccountScreen({ navigation, route }) {
     const roleEnum = selected === 'driver' ? 'DRIVER' : 'PASSENGER';
     let rawUserData = route?.params?.user || null;
 
+    let activeToken = route?.params?.token || null;
+
     try {
       if (userId) {
         const response = await selectRoleApi({
@@ -76,6 +78,7 @@ export default function SetupAccountScreen({ navigation, route }) {
           response?.token;
 
         if (token) {
+          activeToken = token;
           setAuthToken(token);
         }
 
@@ -100,6 +103,7 @@ export default function SetupAccountScreen({ navigation, route }) {
             dob: profile.dob,
             photo: profile.photo,
             gender: profile.gender,
+            token: activeToken,
           }),
         ).unwrap();
       } catch (err) {
@@ -116,6 +120,7 @@ export default function SetupAccountScreen({ navigation, route }) {
       role: selected,
       userId,
       user: profile,
+      token: activeToken,
     });
   };
 

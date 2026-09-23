@@ -149,8 +149,24 @@ export function signupApi(payload) {
 
 /**
  * User logout
+ * @param {Object} [payload]
+ * @param {string} [payload.deviceId='device_123']
  * @returns {Promise<any>}
  */
-export function logoutApi() {
-  return apiPost(AUTH_ENDPOINTS.LOGOUT);
+export async function logoutApi(payload = { deviceId: 'device_123' }) {
+  const body = payload || { deviceId: 'device_123' };
+
+  console.log('\n==========================================');
+  console.log(`📤 [API REQUEST] POST ${AUTH_ENDPOINTS.LOGOUT}`);
+  console.log(`📍 Payload:`, body);
+  console.log('==========================================');
+
+  const response = await apiPost(AUTH_ENDPOINTS.LOGOUT, body);
+
+  console.log('\n==========================================');
+  console.log('📥 [API RESPONSE] Logout Success:');
+  console.log(JSON.stringify(response, null, 2));
+  console.log('==========================================\n');
+
+  return response;
 }

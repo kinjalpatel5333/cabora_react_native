@@ -14,8 +14,8 @@ import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {addMoneyToWalletApi} from '../../services/walletApi';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const QUICK = PASSENGER_ADD_MONEY_QUICK;
 const MIN = PASSENGER_ADD_MONEY_MIN;
@@ -35,6 +35,7 @@ export default function AddMoneyScreen() {
 
   const [amount, setAmount] = useState('500');
   const [method, setMethod] = useState('upi');
+  const [submitting, setSubmitting] = useState(false);
 
   const amountNum = useMemo(() => {
     const n = parseInt(String(amount).replace(/[^0-9]/g, ''), 10);
@@ -53,7 +54,35 @@ export default function AddMoneyScreen() {
     setAmount(String(value));
   };
 
-  const canSubmit = amountNum >= MIN && amountNum <= MAX;
+  const canSubmit = amountNum >= MIN && amountNum <= MAX && !submitting;
+
+  const onAddMoney = async () => {
+    if (!canSubmit) {
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const paymentMethod = method === 'card' ? 'CARD' : method === 'upi' ? 'UPI' : 'CASH';
+      await addMoneyToWalletApi({
+        amount: amountNum,
+        paymentMethod,
+      });
+
+      showToast({
+        type: 'success',
+        message: `₹${formatAmount(amountNum)} added to wallet`,
+      });
+      navigation.goBack();
+    } catch (err) {
+      console.warn('Failed to add money:', err);
+      showToast({
+        type: 'error',
+        message: err?.message || 'Failed to add money to wallet',
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -179,13 +208,8 @@ export default function AddMoneyScreen() {
         <Button
           title={`Add ₹${formatAmount(amountNum || 0)} to wallet`}
           disabled={!canSubmit}
-          onPress={() => {
-            showToast({
-              type: 'success',
-              message: `₹${formatAmount(amountNum)} added to wallet`,
-            });
-            navigation.goBack();
-          }}
+          loading={submitting}
+          onPress={onAddMoney}
           accessibilityLabel={`Add ₹${formatAmount(amountNum)} to wallet`}
         />
       </View>

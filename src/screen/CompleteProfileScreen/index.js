@@ -216,6 +216,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           dob: finalDob,
           photo: finalPhoto,
           gender: updatedUser?.gender || gender || '',
+          token: route?.params?.token,
         }),
       ).unwrap();
     } catch (err) {

@@ -69,6 +69,12 @@ export default function createStyles(colors) {
       fontWeight: '700',
       letterSpacing: 1.2,
     },
+    balanceLoader: {
+      paddingVertical: 10,
+      alignItems: 'flex-start',
+      marginBottom: 6,
+      zIndex: 1,
+    },
     balanceValue: {
       color: colors.white,
       fontSize: 36,

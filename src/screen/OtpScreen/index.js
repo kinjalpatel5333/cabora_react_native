@@ -163,6 +163,7 @@ export default function OtpScreen({navigation, route}) {
   }, [paused]);
 
   const [verifiedUser, setVerifiedUser] = useState(null);
+  const [verifiedToken, setVerifiedToken] = useState(null);
 
   useEffect(() => {
     if (!verified) {
@@ -177,10 +178,11 @@ export default function OtpScreen({navigation, route}) {
           verifiedUser?._id ||
           verifiedUser?.userId,
         user: verifiedUser,
+        token: verifiedToken,
       });
     }, VERIFY_REDIRECT_MS);
     return () => clearTimeout(timeout);
-  }, [navigation, phone, countryCode, verified, verifiedUser]);
+  }, [navigation, phone, countryCode, verified, verifiedUser, verifiedToken]);
 
   useEffect(() => {
     if (pauseIn > 0 || attemptsLeft > 0) {
@@ -242,6 +244,7 @@ export default function OtpScreen({navigation, route}) {
           response?.accessToken;
         if (token) {
           setAuthToken(token);
+          setVerifiedToken(token);
         }
 
         const userData = response?.data?.user || response?.user || response?.data;

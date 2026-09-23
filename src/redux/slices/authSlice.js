@@ -6,7 +6,9 @@ import {
   storageRemoveMultiple,
 } from '../../utils/storage';
 import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
-import {getMeApi} from '../../services/authApi';
+import {setAuthToken, getAuthToken} from '../../config/apicall';
+import {getMeApi, logoutApi} from '../../services/authApi';
+import {getPassengerProfileApi} from '../../services/userApi';
 import {extractUserProfile} from '../../utils/user';
 
 const initialState = {
@@ -20,11 +22,17 @@ const initialState = {
 
 export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
   try {
-    const [token, userRaw, registeredRaw] = await Promise.all([
+    let [token, userRaw, registeredRaw] = await Promise.all([
       storageGetItem(STORAGE_KEYS.token),
       storageGetItem(STORAGE_KEYS.user),
       storageGetItem(STORAGE_KEYS.registeredUsers),
     ]);
+    if (token && String(token).startsWith('local-token-')) {
+      token = null;
+    }
+    if (token) {
+      setAuthToken(token);
+    }
     const user = userRaw ? JSON.parse(userRaw) : null;
     let registeredUsers = [];
     if (registeredRaw) {
@@ -45,10 +53,14 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
 });
 
 async function persistSession(token, user) {
-  await storageSetMultiple([
-    [STORAGE_KEYS.token, token],
-    [STORAGE_KEYS.user, JSON.stringify(user)],
-  ]);
+  if (token && !String(token).startsWith('local-token-')) {
+    await storageSetMultiple([
+      [STORAGE_KEYS.token, token],
+      [STORAGE_KEYS.user, JSON.stringify(user)],
+    ]);
+  } else {
+    await storageSetItem(STORAGE_KEYS.user, JSON.stringify(user));
+  }
   return {token, user};
 }
 
@@ -154,8 +166,27 @@ export const loginUser = createAsyncThunk(
 
 export const loginWithPhone = createAsyncThunk(
   'auth/loginPhone',
-  async ({phone, role, name, email, dob, photo, gender}, {rejectWithValue}) => {
+  async (
+    {phone, role, name, email, dob, photo, gender, token: passedToken},
+    {getState, rejectWithValue},
+  ) => {
     try {
+      const state = getState();
+      const storedToken = await storageGetItem(STORAGE_KEYS.token);
+      const memoryToken = getAuthToken();
+      const stateToken = state.auth?.token;
+
+      let validToken =
+        passedToken ||
+        (memoryToken && !String(memoryToken).startsWith('local-token-') ? memoryToken : null) ||
+        (storedToken && !String(storedToken).startsWith('local-token-') ? storedToken : null) ||
+        (stateToken && !String(stateToken).startsWith('local-token-') ? stateToken : null) ||
+        null;
+
+      if (validToken) {
+        setAuthToken(validToken);
+      }
+
       const sessionUser = {
         id: `phone-${phone}`,
         name: name || (role === 'driver' ? 'Driver' : 'User'),
@@ -168,9 +199,14 @@ export const loginWithPhone = createAsyncThunk(
         kycComplete: role !== 'driver',
         kycDocuments: {},
       };
-      const token = `local-token-${Date.now()}`;
-      await persistSession(token, sessionUser);
-      return {token, user: sessionUser};
+
+      if (validToken) {
+        await persistSession(validToken, sessionUser);
+      } else {
+        await storageSetItem(STORAGE_KEYS.user, JSON.stringify(sessionUser));
+      }
+
+      return {token: validToken, user: sessionUser};
     } catch (err) {
       return rejectWithValue(err?.message || 'Verification failed');
     }
@@ -251,9 +287,46 @@ export const fetchUserProfile = createAsyncThunk(
   },
 );
 
-export const logoutUser = createAsyncThunk('auth/logout', async () => {
-  await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
-});
+export const fetchPassengerProfile = createAsyncThunk(
+  'auth/fetchPassengerProfile',
+  async (_, {getState, rejectWithValue}) => {
+    try {
+      const res = await getPassengerProfileApi();
+      const currentUser = getState().auth.user || {};
+      const profile = extractUserProfile(res, currentUser.phone || currentUser.mobile);
+
+      if (profile && (profile.id || profile.name || profile.email || profile.mobile)) {
+        const mergedUser = {
+          ...currentUser,
+          ...profile,
+        };
+        const token = getState().auth.token;
+        if (token) {
+          await persistSession(token, mergedUser);
+        }
+        return mergedUser;
+      }
+      return res?.data || res;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Failed to fetch passenger profile');
+    }
+  },
+);
+
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async (payload = { deviceId: 'device_123' }) => {
+    try {
+      await logoutApi(payload || { deviceId: 'device_123' });
+    } catch (err) {
+      console.warn('Backend logout warning (proceeding with local session cleanup):', err);
+    } finally {
+      await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
+      setAuthToken(null);
+    }
+    return null;
+  },
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -288,6 +361,11 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.user = action.payload;
+        }
+      })
+      .addCase(fetchPassengerProfile.fulfilled, (state, action) => {
         if (action.payload) {
           state.user = action.payload;
         }
