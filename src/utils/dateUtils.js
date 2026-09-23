@@ -131,4 +131,34 @@ export function formatDateToUi(dateObj) {
   return `${dayStr} ${monthName} ${year}`;
 }
 
+/**
+ * Formats a Date object or date string to API format "YYYY-MM-DD"
+ */
+export function formatDateToApi(dateInput) {
+  if (!dateInput) return '';
+  const d = typeof dateInput === 'string' ? parseDateString(dateInput) : dateInput;
+  if (!d || isNaN(d.getTime())) return String(dateInput);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Calculates age in full years from a date string or Date object.
+ */
+export function calculateAge(dateInput) {
+  if (!dateInput) return 0;
+  const birthDate = typeof dateInput === 'string' ? parseDateString(dateInput) : dateInput;
+  if (!birthDate || isNaN(birthDate.getTime())) return 0;
+
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
 export { MONTH_SHORT_NAMES, MONTH_FULL_NAMES };

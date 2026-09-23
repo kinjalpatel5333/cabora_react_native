@@ -16,11 +16,9 @@ import {
 } from '../../utils/dateUtils';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
+import Button from '../Button';
 
 const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-// Generate years from 1940 to 2035
-const YEARS = Array.from({ length: 96 }, (_, i) => 1940 + i);
 
 export default function DatePickerModal({
   visible,
@@ -28,28 +26,42 @@ export default function DatePickerModal({
   onSelectDate,
   value,
   title = 'Select Date',
+  minYear = 1940,
+  maxYear = 2035,
 }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const yearScrollRef = useRef(null);
 
+  const yearsList = useMemo(() => {
+    const list = [];
+    for (let y = minYear; y <= maxYear; y++) {
+      list.push(y);
+    }
+    return list;
+  }, [minYear, maxYear]);
+
   const initialParsed = useMemo(() => parseDateString(value), [value]);
 
-  const [year, setYear] = useState(initialParsed.getFullYear());
+  const [year, setYear] = useState(() => {
+    const y = initialParsed.getFullYear();
+    return Math.min(Math.max(y, minYear), maxYear);
+  });
   const [monthIndex, setMonthIndex] = useState(initialParsed.getMonth());
   const [selectedDay, setSelectedDay] = useState(initialParsed.getDate());
 
   useEffect(() => {
     if (visible) {
       const parsed = parseDateString(value);
-      setYear(parsed.getFullYear());
+      const clampedYear = Math.min(Math.max(parsed.getFullYear(), minYear), maxYear);
+      setYear(clampedYear);
       setMonthIndex(parsed.getMonth());
       setSelectedDay(parsed.getDate());
 
       // Auto-scroll year bar to selected year
       requestAnimationFrame(() => {
-        const yearIdx = YEARS.indexOf(parsed.getFullYear());
+        const yearIdx = yearsList.indexOf(clampedYear);
         if (yearIdx !== -1 && yearScrollRef.current) {
           yearScrollRef.current.scrollTo({
             x: Math.max(0, (yearIdx - 2) * 60),
@@ -58,7 +70,7 @@ export default function DatePickerModal({
         }
       });
     }
-  }, [visible, value]);
+  }, [visible, value, minYear, maxYear, yearsList]);
 
   // Calculate days in current month
   const daysInMonth = useMemo(() => {
@@ -159,7 +171,7 @@ export default function DatePickerModal({
             showsHorizontalScrollIndicator={false}
             style={styles.yearScroll}
             contentContainerStyle={styles.yearScrollContent}>
-            {YEARS.map(y => {
+            {yearsList.map(y => {
               const active = y === year;
               return (
                 <TouchableOpacity
@@ -224,12 +236,18 @@ export default function DatePickerModal({
           </View>
 
           {/* Confirm Button */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.7}
             style={styles.confirmBtn}
             onPress={handleConfirm}>
             <Text style={styles.confirmBtnText}>Confirm Date</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button
+            title={"Confirm Date"}
+            onPress={handleConfirm}>
+
+          </Button>
+
         </View>
       </View>
     </Modal>

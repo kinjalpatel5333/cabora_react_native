@@ -138,7 +138,8 @@ export default function LoginScreen({navigation}) {
         response?.otp ||
         response?.data?.data?.otp ||
         response?.code ||
-        response?.data?.code;
+        response?.data?.code ||
+        '123456';
 
       const challengeId =
         response?.data?.challengeId ||

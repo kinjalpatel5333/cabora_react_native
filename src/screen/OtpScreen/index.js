@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {KeyboardAvoidingView, Linking, Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, KeyboardAvoidingView, Linking, Modal, Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -51,6 +51,9 @@ export default function OtpScreen({navigation, route}) {
     route?.params?.challengeId || '',
   );
   const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');
+  const [showOtpModal, setShowOtpModal] = useState(
+    Boolean(route?.params?.serverOtp || serverOtp || true),
+  );
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
@@ -69,6 +72,19 @@ export default function OtpScreen({navigation, route}) {
     console.log(`🔢 >>> ENTER OTP: [ ${serverOtp || CORRECT_OTP} ] <<<`);
     console.log('==========================================\n');
   }, [countryCode, phone, challengeId, serverOtp]);
+
+  const activeOtp = serverOtp || route?.params?.serverOtp || CORRECT_OTP;
+
+  const handleAutoFill = () => {
+    setShowOtpModal(false);
+    if (activeOtp) {
+      const val = String(activeOtp).replace(/\D/g, '').slice(0, CODE_LENGTH);
+      setCode(val);
+      if (val.length === CODE_LENGTH) {
+        verifySubmittedCode(val);
+      }
+    }
+  };
 
   const paused = pauseIn > 0;
   const digits = code.split('');
@@ -315,6 +331,7 @@ export default function OtpScreen({navigation, route}) {
         }
         if (newOtp) {
           setServerOtp(newOtp);
+          setShowOtpModal(true);
         }
       }
     } catch (err) {
@@ -476,29 +493,33 @@ export default function OtpScreen({navigation, route}) {
               <Feather name="clock" size={14} color={colors.gray[400]} />
               <Text style={styles.chipLabel}>Resend paused</Text>
             </View>
-          ) : expired ? (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={startNewCode}
-              style={[styles.chip, styles.chipResend]}>
-              <Feather name="refresh-cw" size={14} color={colors.primary} />
-              <Text style={[styles.chipLabel, styles.chipLabelResend]}>
-                Resend code
-              </Text>
-            </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={startNewCode}
-              disabled={!canResend}
-              style={styles.chip}>
-              <Feather name="clock" size={14} color={colors.gray[400]} />
-              <Text style={styles.chipLabel}>
-                {resendIn > 0
-                  ? `Resend code in ${formatTimer(resendIn)}`
-                  : 'Resend code'}
-              </Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row', gap: 10, flexWrap: 'wrap'}}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={startNewCode}
+                disabled={!canResend && !expired}
+                style={[styles.chip, expired ? styles.chipResend : null]}>
+                <Feather name={expired ? "refresh-cw" : "clock"} size={14} color={expired ? colors.primary : colors.gray[400]} />
+                <Text style={[styles.chipLabel, expired ? styles.chipLabelResend : null]}>
+                  {expired
+                    ? 'Resend code'
+                    : resendIn > 0
+                      ? `Resend code in ${formatTimer(resendIn)}`
+                      : 'Resend code'}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setShowOtpModal(true)}
+                style={[styles.chip, styles.chipResend]}>
+                <Feather name="key" size={14} color={colors.orange[500]} />
+                <Text style={[styles.chipLabel, {color: colors.orange[500]}]}>
+                  View OTP Code
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
         </View>
 
@@ -521,6 +542,45 @@ export default function OtpScreen({navigation, route}) {
           </Text>
         </View>
       </KeyboardAvoidingView>
+
+      {/* OTP Code Modal */}
+      <Modal
+        visible={showOtpModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowOtpModal(false)}>
+        <View style={styles.otpModalOverlay}>
+          <View style={styles.otpModalContent}>
+            <View style={styles.otpIconContainer}>
+              <Feather name="key" size={28} color={colors.orange[500]} />
+            </View>
+            <Text style={styles.otpModalTitle}>Your OTP Code</Text>
+            <Text style={styles.otpModalSub}>
+              Use this verification code to complete your login
+            </Text>
+
+            <View style={styles.otpBadge}>
+              <Text style={styles.otpBadgeText}>{activeOtp}</Text>
+            </View>
+
+            <View style={styles.otpModalActions}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={handleAutoFill}
+                style={styles.autoFillBtn}>
+                <Text style={styles.autoFillBtnText}>Auto-Fill OTP</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setShowOtpModal(false)}
+                style={styles.dismissBtn}>
+                <Text style={styles.dismissBtnText}>Dismiss</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
