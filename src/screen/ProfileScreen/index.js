@@ -215,9 +215,7 @@ export default function ProfileScreen({navigation}) {
 
           <TouchableOpacity activeOpacity={0.7}
             style={styles.rowItem}
-            onPress={() =>
-              showToast({type: 'info', message: 'Payment methods'})
-            }
+            onPress={() => navigation.navigate('PaymentMethods')}
             accessibilityRole="button"
             accessibilityLabel="Payment methods">
             <View style={styles.rowIconBox}>
@@ -249,23 +247,22 @@ export default function ProfileScreen({navigation}) {
             />
           </View>
 
-          <View style={[styles.rowItem, styles.rowBorder]}>
+          <TouchableOpacity activeOpacity={0.7}
+            style={[styles.rowItem, styles.rowBorder]}
+            onPress={() => navigation.navigate('OffersCoupons')}
+            accessibilityRole="button"
+            accessibilityLabel="Offers & promotions">
             <View style={styles.rowIconBox}>
               <Feather name="percent" size={18} color={colors.primary} />
             </View>
             <View style={styles.rowBody}>
               <Text style={styles.rowTitle}>Offers & promotions</Text>
               <Text style={styles.rowSub}>
-                Occasional deals and referral nudges
+                Occasional deals and coupons
               </Text>
             </View>
-            <CustomToggle
-              value={preferences.offers}
-              onToggle={() => togglePref('offers')}
-              label="Offers & promotions"
-              styles={styles}
-            />
-          </View>
+            <Feather name="chevron-right" size={18} color={colors.textMuted} />
+          </TouchableOpacity>
 
           <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>

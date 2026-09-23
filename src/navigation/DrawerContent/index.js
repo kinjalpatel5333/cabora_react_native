@@ -1,11 +1,11 @@
 import React from 'react';
-import {Image, ScrollView, Switch, Text, View, TouchableOpacity} from 'react-native';
+import {Image, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {images} from '../../assets';
-import {Button} from '../../components';
+import {Button, Toggle} from '../../components';
 import {useSidebar} from '../../context/SidebarContext';
 import {useAuth} from '../../hooks/useAuth';
 import {useAppDispatch} from '../../redux/hooks';
@@ -144,14 +144,9 @@ export default function DrawerContent() {
               </Text>
             </View>
           </View>
-          <Switch
+          <Toggle
             value={isDark}
             onValueChange={toggleTheme}
-            trackColor={{
-              false: colors.isDark ? colors.navy[700] : colors.gray[300],
-              true: colors.primary,
-            }}
-            thumbColor={colors.white}
           />
         </View>
 

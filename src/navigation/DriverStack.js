@@ -28,6 +28,10 @@ import DriverIncentiveTrackerScreen from '../screen/DriverIncentiveTrackerScreen
 import PersonalDetailsScreen from '../screen/PersonalDetailsScreen';
 import DriverRegistrationScreen from '../screen/DriverRegistrationScreen';
 import DriverVerificationStatusScreen from '../screen/DriverVerificationStatusScreen';
+import PaymentMethodsScreen from '../screen/PaymentMethodsScreen';
+import AddCardScreen from '../screen/AddCardScreen';
+import OffersCouponsScreen from '../screen/OffersCouponsScreen';
+import ReferEarnScreen from '../screen/ReferEarnScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -200,6 +204,34 @@ export default function DriverStack() {
           <Stack.Screen
             name="PersonalDetails"
             component={PersonalDetailsScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="PaymentMethods"
+            component={PaymentMethodsScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="AddCard"
+            component={AddCardScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="OffersCoupons"
+            component={OffersCouponsScreen}
+            options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="ReferEarn"
+            component={ReferEarnScreen}
             options={{
               animation: 'slide_from_right',
             }}

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://tire-copying-accounting-moral.trycloudflare.com';
+export const BASE_URL = 'https://poking-flashy-tattoo.ngrok-free.dev/';
 
 export const API_TIMEOUT = 20000;
 

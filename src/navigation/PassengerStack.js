@@ -27,6 +27,10 @@ import HelpScreen from '../screen/HelpScreen';
 import ReportIssueScreen from '../screen/ReportIssueScreen';
 import NotificationsScreen from '../screen/NotificationsScreen';
 import PersonalDetailsScreen from '../screen/PersonalDetailsScreen';
+import PaymentMethodsScreen from '../screen/PaymentMethodsScreen';
+import AddCardScreen from '../screen/AddCardScreen';
+import OffersCouponsScreen from '../screen/OffersCouponsScreen';
+import ReferEarnScreen from '../screen/ReferEarnScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -149,6 +153,26 @@ export default function PassengerStack() {
           <Stack.Screen
             name="PersonalDetails"
             component={PersonalDetailsScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="PaymentMethods"
+            component={PaymentMethodsScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="AddCard"
+            component={AddCardScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="OffersCoupons"
+            component={OffersCouponsScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="ReferEarn"
+            component={ReferEarnScreen}
             options={{ animation: 'slide_from_right' }}
           />
         </Stack.Navigator>
