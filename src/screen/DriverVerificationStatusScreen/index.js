@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Linking,
@@ -20,6 +20,7 @@ import {
   DRIVER_REJECTION_ITEMS as REJECTION_ITEMS,
 } from '../../config/staticData';
 import { Button } from '../../components';
+import { getOnboardingStatusApi } from '../../services/driverApi';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 
@@ -31,6 +32,79 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
 
   // Mode: 'in_progress' | 'rejected'
   const [statusMode, setStatusMode] = useState(route?.params?.mode || 'in_progress');
+  const [onboardingData, setOnboardingData] = useState(null);
+  const [timelineItems, setTimelineItems] = useState(TIMELINE);
+  const [checkingList, setCheckingList] = useState(CHECKING_ITEMS);
+  const [rejectionList, setRejectionList] = useState(REJECTION_ITEMS);
+  const [submittedDateStr, setSubmittedDateStr] = useState('Submitted 19 Sep 2026, 2:14 pm');
+
+  const FIFTEEN_MINUTES_SEC = 15 * 60; // 15 minutes = 900 seconds
+  const [redirectSeconds, setRedirectSeconds] = useState(FIFTEEN_MINUTES_SEC);
+
+  useEffect(() => {
+    async function fetchStatus() {
+      try {
+        const res = await getOnboardingStatusApi();
+        const payload = res?.data || res;
+        if (payload) {
+          setOnboardingData(payload);
+          const rawStatus = (payload.status || payload.onboardingStatus || '').toLowerCase();
+          if (rawStatus === 'rejected') {
+            setStatusMode('rejected');
+          } else if (rawStatus === 'approved') {
+            navigation.navigate('DriverTabs');
+          } else if (rawStatus === 'under_review' || rawStatus === 'in_progress' || rawStatus === 'pending') {
+            setStatusMode('in_progress');
+          }
+
+          if (payload.submittedAt) {
+            setSubmittedDateStr(`Submitted ${payload.submittedAt}`);
+          }
+          if (Array.isArray(payload.timeline) && payload.timeline.length > 0) {
+            setTimelineItems(payload.timeline);
+          }
+          if (Array.isArray(payload.checkingItems) && payload.checkingItems.length > 0) {
+            setCheckingList(payload.checkingItems);
+          }
+          if (Array.isArray(payload.rejectionItems) && payload.rejectionItems.length > 0) {
+            setRejectionList(payload.rejectionItems);
+          }
+        }
+      } catch (err) {
+        console.log('Onboarding status fetch offline:', err);
+      }
+    }
+    fetchStatus();
+  }, [navigation]);
+
+  // 15-Minute Countdown Timer to auto-redirect to Driver Home (DriverTabs)
+  useEffect(() => {
+    if (statusMode !== 'in_progress') {
+      return undefined;
+    }
+
+    const timer = setInterval(() => {
+      setRedirectSeconds(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'DriverTabs' }],
+          });
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [statusMode, navigation]);
+
+  const formatCountdown = seconds => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs < 10 ? '0' : ''}${secs}s`;
+  };
 
   const handleBack = () => {
     if (navigation.canGoBack()) {
@@ -68,7 +142,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.statusTitleProgress}>Verification in progress</Text>
-            <Text style={styles.statusSubtextProgress}>Submitted 19 Sep 2026, 2:14 pm</Text>
+            <Text style={styles.statusSubtextProgress}>{submittedDateStr}</Text>
           </View>
         </View>
 
@@ -78,26 +152,68 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
           <View style={styles.pillCol}>
             <Text style={styles.pillLabel}>KYC status</Text>
             <View style={styles.pillValueReview}>
-              <Text style={styles.pillValueReviewText}>Under review</Text>
+              <Text style={styles.pillValueReviewText}>
+                {onboardingData?.kycStatus || 'Under review'}
+              </Text>
             </View>
           </View>
           <View style={styles.pillCol}>
             <Text style={styles.pillLabel}>Account status</Text>
             <View style={styles.pillValueGray}>
-              <Text style={styles.pillValueGrayText}>Pending activation</Text>
+              <Text style={styles.pillValueGrayText}>
+                {onboardingData?.accountStatus || 'Pending activation'}
+              </Text>
             </View>
           </View>
         </View>
+      </View>
+
+      {/* 15-Minute Auto-Redirect Banner */}
+      <View style={{
+        backgroundColor: colors.isDark ? colors.alpha.orange18 : '#FFF7ED',
+        borderColor: colors.orange[400],
+        borderWidth: 1,
+        borderRadius: 16,
+        padding: 14,
+        marginBottom: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1}}>
+          <Feather name="clock" size={20} color={colors.orange[500]} />
+          <View style={{flex: 1}}>
+            <Text style={{fontFamily: colors.fonts.sora.bold, fontSize: 13, color: colors.text}}>
+              Auto-redirect in {formatCountdown(redirectSeconds)}
+            </Text>
+            <Text style={{fontFamily: colors.fonts.sora.regular, fontSize: 12, color: colors.muted}}>
+              Directing to Driver Home screen
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.reset({ index: 0, routes: [{ name: 'DriverTabs' }] })}
+          style={{
+            backgroundColor: colors.orange[500],
+            paddingHorizontal: 12,
+            paddingVertical: 8,
+            borderRadius: 12,
+          }}>
+          <Text style={{fontFamily: colors.fonts.sora.bold, fontSize: 12, color: '#FFFFFF'}}>
+            Skip Now →
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Verification Timeline */}
       <View style={styles.sectionCard}>
         <Text style={styles.sectionHeader}>VERIFICATION TIMELINE</Text>
         <View style={styles.timelineContainer}>
-          {TIMELINE.map((item, idx) => {
+          {timelineItems.map((item, idx) => {
             const isDone = item.status === 'done';
             const isActive = item.status === 'active';
-            const isLast = idx === TIMELINE.length - 1;
+            const isLast = idx === timelineItems.length - 1;
 
             return (
               <View key={item.id} style={styles.timelineRow}>
@@ -149,7 +265,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
       {/* What We Are Checking */}
       <View style={styles.sectionCard}>
         <Text style={styles.sectionHeader}>WHAT WE ARE CHECKING</Text>
-        {CHECKING_ITEMS.map(item => {
+        {checkingList.map(item => {
           const isVerified = item.status === 'verified';
           const isChecking = item.status === 'checking' || item.status === 'transfer';
 
@@ -197,7 +313,9 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.statusTitleRejected}>Verification rejected</Text>
-            <Text style={styles.statusSubtextRejected}>Reviewed by Admin · 19 Sep, 6:40 pm</Text>
+            <Text style={styles.statusSubtextRejected}>
+              {onboardingData?.reviewedAt ? `Reviewed by Admin · ${onboardingData.reviewedAt}` : 'Reviewed by Admin · 19 Sep, 6:40 pm'}
+            </Text>
           </View>
         </View>
 
@@ -221,8 +339,8 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
 
       {/* Items Need Fixing */}
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeaderRed}>2 ITEMS NEED FIXING</Text>
-        {REJECTION_ITEMS.map(item => (
+        <Text style={styles.sectionHeaderRed}>{`${rejectionList.length} ITEMS NEED FIXING`}</Text>
+        {rejectionList.map(item => (
           <View key={item.id} style={styles.fixItemCard}>
             <View style={styles.fixItemIconWrap}>
               <AntDesign name="exclamation-circle" size={18} color="#DC2626" />

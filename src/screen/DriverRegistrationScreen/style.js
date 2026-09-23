@@ -114,7 +114,7 @@ export default function createStyles(colors) {
     avatarWrap: {
       width: 56,
       height: 56,
-      borderRadius: 28,
+      borderRadius: 999,
       backgroundColor: colors.gray[100],
       alignItems: 'center',
       justifyContent: 'center',

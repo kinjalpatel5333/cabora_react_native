@@ -23,10 +23,30 @@ export const USER_ENDPOINTS = {
   UPDATE_PROFILE: '/api/v1/passenger/profile',
 };
 
+export const DRIVER_ONBOARDING_ENDPOINTS = {
+  PERSONAL: '/api/v1/driver/onboarding/personal',
+  LICENSE: '/api/v1/driver/onboarding/license',
+  VEHICLE: '/api/v1/driver/onboarding/vehicle',
+  INSURANCE: '/api/v1/driver/onboarding/insurance',
+  BANK: '/api/v1/driver/onboarding/bank',
+  STATUS: '/api/v1/driver/onboarding/status',
+  SUBMIT: '/api/v1/driver/onboarding/submit',
+};
+
+export const DRIVER_ENDPOINTS = {
+  REGISTRATION: '/api/v1/driver/registration',
+  PROFILE: '/api/v1/driver/profile',
+  STATUS: '/api/v1/driver/status',
+  DOCUMENTS: '/api/v1/driver/documents',
+  EARNINGS: '/api/v1/driver/earnings',
+  ONBOARDING: DRIVER_ONBOARDING_ENDPOINTS,
+};
+
 export const ENDPOINTS = {
   AUTH: AUTH_ENDPOINTS,
   PASSENGER: PASSENGER_ENDPOINTS,
   USER: USER_ENDPOINTS,
+  DRIVER: DRIVER_ENDPOINTS,
 };
 
 // Flattened endpoints map for backwards compatibility
@@ -36,6 +56,7 @@ export const endpoints = {
   login: AUTH_ENDPOINTS.LOGIN,
   signup: AUTH_ENDPOINTS.REGISTER,
   passengerProfile: PASSENGER_ENDPOINTS.PROFILE,
+  driverRegistration: DRIVER_ENDPOINTS.REGISTRATION,
   ...AUTH_ENDPOINTS,
 };
 

@@ -67,7 +67,7 @@ export default function createStyles(colors) {
     },
     disabledFill: {
       backgroundColor: colors.disabledBg || colors.gray[100],
-      borderWidth: 0,
+      borderWidth: 1,
     },
     disabledOutline: {
       backgroundColor: colors.surface,
