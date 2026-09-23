@@ -1,13 +1,24 @@
-import NetInfo from '@react-native-community/netinfo';
+import { NativeModules } from 'react-native';
+
+let NetInfo = null;
+if (NativeModules.RNCNetInfo) {
+  try {
+    NetInfo = require('@react-native-community/netinfo').default;
+  } catch {
+    NetInfo = null;
+  }
+}
 
 export async function checkInternet(timeoutMs = 3000) {
-  try {
-    const state = await NetInfo.fetch();
-    if (state.isConnected !== null && state.isConnected !== undefined) {
-      return state.isConnected;
+  if (NetInfo) {
+    try {
+      const state = await NetInfo.fetch();
+      if (state.isConnected !== null && state.isConnected !== undefined) {
+        return state.isConnected;
+      }
+    } catch {
+      // fallback if NetInfo fails
     }
-  } catch {
-    // fallback if NetInfo fails
   }
 
   const controller = new AbortController();

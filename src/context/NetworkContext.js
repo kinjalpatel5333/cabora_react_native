@@ -1,25 +1,36 @@
-import React, {createContext, useCallback, useContext, useEffect, useState} from 'react';
-import NetInfo from '@react-native-community/netinfo';
-import {checkInternet} from '../utils/network';
-import {AppStatusModal} from '../components';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { NativeModules } from 'react-native';
+import { checkInternet } from '../utils/network';
+import { AppStatusModal } from '../components';
+
+let NetInfo = null;
+if (NativeModules.RNCNetInfo) {
+  try {
+    NetInfo = require('@react-native-community/netinfo').default;
+  } catch {
+    NetInfo = null;
+  }
+}
 
 const NetworkContext = createContext({
   isConnected: true,
   checkConnection: async () => true,
 });
 
-export function NetworkProvider({children, enableGlobalModal = true}) {
+export function NetworkProvider({ children, enableGlobalModal = true }) {
   const [isConnected, setIsConnected] = useState(true);
 
   const checkConnection = useCallback(async () => {
-    try {
-      const state = await NetInfo.fetch();
-      if (state.isConnected !== null && state.isConnected !== undefined) {
-        setIsConnected(state.isConnected);
-        return state.isConnected;
+    if (NetInfo) {
+      try {
+        const state = await NetInfo.fetch();
+        if (state.isConnected !== null && state.isConnected !== undefined) {
+          setIsConnected(state.isConnected);
+          return state.isConnected;
+        }
+      } catch {
+        // fallback
       }
-    } catch {
-      // fallback
     }
     const reachable = await checkInternet(3000);
     setIsConnected(reachable);
@@ -27,6 +38,10 @@ export function NetworkProvider({children, enableGlobalModal = true}) {
   }, []);
 
   useEffect(() => {
+    if (!NetInfo) {
+      return undefined;
+    }
+
     // Initial fetch to sync state
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null && state.isConnected !== undefined) {
@@ -45,7 +60,7 @@ export function NetworkProvider({children, enableGlobalModal = true}) {
   }, []);
 
   return (
-    <NetworkContext.Provider value={{isConnected, checkConnection}}>
+    <NetworkContext.Provider value={{ isConnected, checkConnection }}>
       {children}
       {enableGlobalModal && (
         <AppStatusModal

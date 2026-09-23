@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -8,7 +8,6 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
 import { useSidebar } from '../../context/SidebarContext';
 
 import { DRIVER_PRO_BENEFITS as PRO_BENEFITS } from '../../config/staticData';

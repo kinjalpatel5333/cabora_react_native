@@ -17,6 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function AuthStack() {
   return (
     <Stack.Navigator
+      // initialRouteName="DriverRegistration"
       initialRouteName="Login"
       screenOptions={{
         headerShadowVisible: false,
