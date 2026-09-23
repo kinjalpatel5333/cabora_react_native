@@ -10,6 +10,7 @@ export const palette = {
   white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
+  // lightgray: '#EBF0F5',
 
   orange: {
     25: '#FFFDFB',
@@ -122,6 +123,7 @@ export const palette = {
     gray100: '#F3F4F6',
     gray50: '#F9FAFB',
     whiteOff: '#FAFCFD',
+    lightgray: '#E6EAF0',
   },
 
   green: {

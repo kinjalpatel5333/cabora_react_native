@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.background,
+      backgroundColor: colors.surface,
     },
     body: {
       flex: 1,
@@ -17,7 +17,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 20,
-      backgroundColor: colors.surface,
+      backgroundColor: colors.gray[100],
       borderWidth: colors.isDark ? 1 : 0,
       borderColor: colors.border,
       alignItems: 'center',
@@ -76,9 +76,8 @@ export default function createStyles(colors) {
     },
     box: {
       flex: 1,
-      aspectRatio: 1,
-      maxHeight: 56,
-      borderRadius: 18,
+      height: 60,
+      borderRadius: 16,
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: colors.surface,
@@ -233,7 +232,7 @@ export default function createStyles(colors) {
       borderWidth: 1,
       borderColor: colors.border,
       shadowColor: '#000',
-      shadowOffset: {width: 0, height: 10},
+      shadowOffset: { width: 0, height: 10 },
       shadowOpacity: 0.25,
       shadowRadius: 20,
       elevation: 10,
