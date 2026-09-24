@@ -259,5 +259,131 @@ export default function createStyles(colors) {
       lineHeight: 18,
       fontWeight: '500',
     },
+
+    // Modal Styles
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(15, 23, 42, 0.65)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    modalContent: {
+      backgroundColor: colors.card || '#FFFFFF',
+      borderRadius: 24,
+      padding: 24,
+      width: '100%',
+      maxWidth: 380,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 10 },
+      shadowOpacity: 0.25,
+      shadowRadius: 20,
+      elevation: 10,
+    },
+    statusIconContainer: {
+      width: 64,
+      height: 64,
+      borderRadius: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 16,
+    },
+    iconApproved: {
+      backgroundColor: '#E4F7EC',
+    },
+    iconRejected: {
+      backgroundColor: '#FEE2E2',
+    },
+    iconPending: {
+      backgroundColor: '#FEF3C7',
+    },
+    modalTitle: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 20,
+      fontWeight: '800',
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+    modalSub: {
+      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontSize: 13.5,
+      color: colors.gray[500] || '#64748B',
+      textAlign: 'center',
+      lineHeight: 20,
+      marginBottom: 18,
+    },
+    modalBadge: {
+      paddingHorizontal: 14,
+      paddingVertical: 6,
+      borderRadius: 20,
+      marginBottom: 20,
+    },
+    modalBadgeApproved: {
+      backgroundColor: '#DCFCE7',
+    },
+    modalBadgeRejected: {
+      backgroundColor: '#FEE2E2',
+    },
+    modalBadgePending: {
+      backgroundColor: '#FEF3C7',
+    },
+    modalBadgeTextApproved: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 12,
+      fontWeight: '800',
+      color: '#15803D',
+    },
+    modalBadgeTextRejected: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 12,
+      fontWeight: '800',
+      color: '#DC2626',
+    },
+    modalBadgeTextPending: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 12,
+      fontWeight: '800',
+      color: '#D97706',
+    },
+    modalBtn: {
+      backgroundColor: colors.primary || '#FF7A00',
+      width: '100%',
+      paddingVertical: 14,
+      borderRadius: 16,
+      alignItems: 'center',
+    },
+    modalBtnText: {
+      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontSize: 15,
+      fontWeight: '700',
+      color: '#FFFFFF',
+    },
+
+    // Image Preview Modal
+    previewOverlay: {
+      flex: 1,
+      backgroundColor: '#000000',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    previewCloseBtn: {
+      position: 'absolute',
+      top: 50,
+      right: 20,
+      zIndex: 10,
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    previewImage: {
+      width: '90%',
+      height: '75%',
+      resizeMode: 'contain',
+    },
   });
 }

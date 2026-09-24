@@ -109,6 +109,8 @@ export default function SetupAccountScreen({ navigation, route }) {
             photo: profile.photo,
             gender: profile.gender,
             token: activeToken,
+            user: rawUserData,
+            isOnBoarding,
           }),
         ).unwrap();
       } catch (err) {

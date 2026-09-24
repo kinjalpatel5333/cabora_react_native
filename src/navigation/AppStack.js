@@ -5,7 +5,8 @@ import DriverStack from './DriverStack';
 
 export default function AppStack() {
   const {user} = useAuth();
-  if (user?.role === 'driver') {
+  const role = (user?.currentRole || user?.role || '').toLowerCase();
+  if (role === 'driver') {
     return <DriverStack />;
   }
   return <PassengerStack />;

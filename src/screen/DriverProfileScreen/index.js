@@ -1,5 +1,5 @@
-import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect } from 'react';
+import {ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -10,6 +10,9 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
+import { useAppDispatch } from '../../redux/hooks';
+import { useAuth } from '../../hooks/useAuth';
+import { fetchDriverProfile } from '../../redux/slices/authSlice';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -20,6 +23,18 @@ export default function DriverProfileScreen() {
   const styles = useThemedStyles(createStyles);
   const { openDrawer } = useSidebar();
   const { showToast } = useToast();
+  const dispatch = useAppDispatch();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    dispatch(fetchDriverProfile());
+  }, [dispatch]);
+
+  const driverName = user?.name || user?.fullName || 'Rajesh Kumar';
+  const driverMobile = user?.mobile || user?.phone || '+91 98450 21188';
+  const driverEmail = user?.email || 'rajesh.k@gmail.com';
+  const driverPhoto = user?.photo || user?.profilePhoto || null;
+  const driverInitials = (driverName.trim().split(/\s+/).map(p => p[0]).join('') || 'RK').slice(0, 2).toUpperCase();
 
   const handleEditProfile = () => {
     const parent = navigation.getParent();
@@ -82,12 +97,16 @@ export default function DriverProfileScreen() {
 
           <View style={styles.profileRow}>
             <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>RK</Text>
+              {driverPhoto ? (
+                <Image source={{ uri: driverPhoto }} style={{ width: 56, height: 56, borderRadius: 28 }} />
+              ) : (
+                <Text style={styles.avatarText}>{driverInitials}</Text>
+              )}
             </View>
 
             <View style={styles.profileInfo}>
               <View style={styles.nameRow}>
-                <Text style={styles.nameText}>Rajesh Kumar</Text>
+                <Text style={styles.nameText}>{driverName}</Text>
                 <MaterialDesignIcons
                   name="check-decagram"
                   size={18}
@@ -95,10 +114,10 @@ export default function DriverProfileScreen() {
                 />
               </View>
               <Text style={styles.statsText}>
-                4.92 ★ · 2,140 trips · driving since Mar 2024
+                {user?.rating ? `${user.rating} ★` : '4.92 ★'} · {user?.totalTrips ? `${user.totalTrips} trips` : '2,140 trips'} · driving active
               </Text>
               <Text style={styles.contactText}>
-                +91 98450 21188 · rajesh.k@gmail.com
+                {driverMobile} · {driverEmail}
               </Text>
             </View>
 

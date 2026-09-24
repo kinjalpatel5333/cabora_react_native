@@ -20,6 +20,8 @@ import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { sendOtpApi, verifyOtpApi, setAuthToken } from '../../config';
 import { formatIndianMobile } from '../../utils/validators';
+import { useAppDispatch } from '../../redux/hooks';
+import { loginWithPhone } from '../../redux/slices/authSlice';
 import createStyles from './style';
 
 const CODE_LENGTH = 6;
@@ -54,6 +56,7 @@ export default function OtpScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
+  const dispatch = useAppDispatch();
   const inputRef = useRef(null);
   const phone = route?.params?.mobile || '';
   const countryCode = route?.params?.countryCode || '+91';
@@ -188,7 +191,48 @@ export default function OtpScreen({ navigation, route }) {
     if (!verified) {
       return undefined;
     }
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
+      const role = (
+        verifiedUser?.currentRole ||
+        verifiedUser?.role ||
+        verifiedResponseData?.currentRole ||
+        ''
+      ).toLowerCase();
+
+      const isOnBoarding =
+        verifiedResponseData?.isOnBoarding ??
+        verifiedUser?.isOnBoarding ??
+        verifiedResponseData?.user?.isOnBoarding;
+
+      const isNewUser =
+        verifiedResponseData?.isNewUser ??
+        verifiedUser?.isNewUser ??
+        verifiedResponseData?.user?.isNewUser;
+
+      const token =
+        verifiedToken ||
+        verifiedResponseData?.accessToken ||
+        verifiedResponseData?.token;
+
+      // If token and role (DRIVER/PASSENGER) exist, log user in via Redux directly
+      if (token && (role === 'driver' || role === 'passenger')) {
+        try {
+          await dispatch(
+            loginWithPhone({
+              phone: verifiedUser?.mobile || verifiedUser?.phone || phone,
+              role,
+              token,
+              user: verifiedUser,
+              isOnBoarding: isOnBoarding === true || isNewUser === true,
+            }),
+          ).unwrap();
+          return;
+        } catch (err) {
+          console.warn('Auto-login error after OTP verification:', err);
+        }
+      }
+
+      // Fallback: If no role or setup required, navigate to SetupAccount
       navigation.replace('SetupAccount', {
         mobile: phone,
         countryCode,
@@ -198,14 +242,20 @@ export default function OtpScreen({ navigation, route }) {
           verifiedUser?.userId,
         user: verifiedUser,
         token: verifiedToken,
-        isOnBoarding:
-          verifiedResponseData?.isOnBoarding ??
-          verifiedUser?.isOnBoarding ??
-          verifiedResponseData?.user?.isOnBoarding,
+        isOnBoarding,
       });
     }, VERIFY_REDIRECT_MS);
     return () => clearTimeout(timeout);
-  }, [navigation, phone, countryCode, verified, verifiedUser, verifiedToken, verifiedResponseData]);
+  }, [
+    navigation,
+    phone,
+    countryCode,
+    verified,
+    verifiedUser,
+    verifiedToken,
+    verifiedResponseData,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (pauseIn > 0 || attemptsLeft > 0) {

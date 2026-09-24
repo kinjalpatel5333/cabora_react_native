@@ -51,11 +51,24 @@ apiClient.interceptors.request.use(async config => {
   config.headers.Pragma = 'no-cache';
   config.headers.Expires = '0';
 
+  console.log(`\n==========================================`);
+  console.log(`🚀 [API REQUEST] ${config.method?.toUpperCase()} ${config.baseURL || ''}${config.url}`);
+  if (config.params) console.log(`📋 Params:`, config.params);
+  if (config.data) console.log(`📦 Body:`, config.data);
+  console.log(`==========================================\n`);
+
   return config;
 });
 
 apiClient.interceptors.response.use(
-  response => response,
+  response => {
+    console.log(`\n==========================================`);
+    console.log(`📥 [API RESPONSE] ${response.config?.method?.toUpperCase()} ${response.config?.baseURL || ''}${response.config?.url}`);
+    console.log(`Status: ${response.status}`);
+    console.log(`Response Data:`, response.data);
+    console.log(`==========================================\n`);
+    return response;
+  },
   error => {
     const errorData = error?.response?.data;
     let message = 'Something went wrong';
@@ -77,6 +90,12 @@ apiClient.interceptors.response.use(
         message = 'Something went wrong';
       }
     }
+
+    console.log(`\n==========================================`);
+    console.error(`❌ [API ERROR] ${error?.config?.method?.toUpperCase()} ${error?.config?.baseURL || ''}${error?.config?.url}`);
+    console.error(`Status: ${error?.response?.status}`);
+    console.error(`Error Data:`, errorData || error?.message);
+    console.log(`==========================================\n`);
 
     return Promise.reject({
       status: error?.response?.status,

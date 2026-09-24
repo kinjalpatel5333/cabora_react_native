@@ -50,3 +50,7 @@ export function uploadDriverDocumentsApi(payload) {
 export function getDriverEarningsApi() {
   return apiGet(DRIVER_ENDPOINTS.EARNINGS);
 }
+
+export function getDriverKycStatusApi() {
+  return apiGet(DRIVER_ENDPOINTS.KYC_STATUS);
+}
