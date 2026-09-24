@@ -172,11 +172,6 @@ export default function LoginScreen({ navigation }) {
         response?.data?.code ||
         '123456';
 
-      const challengeId =
-        response?.data?.challengeId ||
-        response?.challengeId ||
-        response?.data?.data?.challengeId;
-
       const nextCount = sendCount + 1;
       setSendCount(nextCount);
       if (nextCount >= MAX_SEND_ATTEMPTS) {
@@ -186,7 +181,6 @@ export default function LoginScreen({ navigation }) {
           mobile: digits,
           countryCode: country.dialCode,
           serverOtp: receivedOtp,
-          challengeId,
         });
       }
     } catch (err) {

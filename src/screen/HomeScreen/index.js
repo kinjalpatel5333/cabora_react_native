@@ -18,7 +18,11 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import ChooseRideModal from '../ChooseRideScreen';
 import FindingRideModal from '../FindingRideScreen';
 import SetRouteModal from '../SetRouteScreen';
-import {getNearbyDriversApi} from '../../services/userApi';
+import {
+  getNearbyDriversApi,
+  getPassengerCurrentLocationApi,
+  updatePassengerCurrentLocationApi,
+} from '../../services/userApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -243,15 +247,56 @@ export default function HomeScreen() {
     setFindingTrip(null);
   };
 
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: 21.1702,
+    long: 72.8311,
+    address: 'Varachha, Surat, Gujarat',
+  });
   const [nearbyDrivers, setNearbyDrivers] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let isMounted = true;
-    const fetchNearby = async () => {
+    const syncLocationAndDrivers = async () => {
+      let activeCoords = {
+        lat: 21.1702,
+        long: 72.8311,
+        address: 'Varachha, Surat, Gujarat',
+      };
+
+      // 1. Fetch saved passenger current location from backend
+      try {
+        const locRes = await getPassengerCurrentLocationApi();
+        const serverLoc = locRes?.data || locRes?.location || locRes;
+        if (serverLoc?.lat && (serverLoc?.long || serverLoc?.lng)) {
+          activeCoords = {
+            lat: Number(serverLoc.lat) || 21.1702,
+            long: Number(serverLoc.long || serverLoc.lng) || 72.8311,
+            address: serverLoc.address || 'Varachha, Surat, Gujarat',
+          };
+          if (isMounted) {
+            setCurrentLocation(activeCoords);
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to get saved current location:', err);
+      }
+
+      // 2. Sync / update backend with latest current location
+      try {
+        await updatePassengerCurrentLocationApi({
+          lat: activeCoords.lat,
+          long: activeCoords.long,
+          address: activeCoords.address,
+        });
+      } catch (err) {
+        console.warn('Failed to update passenger current location:', err);
+      }
+
+      // 3. Fetch nearby drivers for this location
       try {
         const res = await getNearbyDriversApi({
-          latitude: 21.1702,
-          longitude: 72.8311,
+          latitude: activeCoords.lat,
+          longitude: activeCoords.long,
         });
         const driversList =
           res?.data?.drivers ||
@@ -267,7 +312,7 @@ export default function HomeScreen() {
       }
     };
 
-    fetchNearby();
+    syncLocationAndDrivers();
     return () => {
       isMounted = false;
     };

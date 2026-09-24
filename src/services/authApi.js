@@ -43,32 +43,26 @@ export async function sendOtpApi({ mobile, countryCode = '+91' }) {
 /**
  * Verify submitted OTP
  * @param {Object} params
- * @param {string} params.challengeId
- * @param {string} params.otp
- * @param {string} [params.mobile]
- * @param {string} [params.countryCode]
+ * @param {string} params.mobile - 10-digit Mobile number
+ * @param {string} [params.countryCode='+91'] - Country dial code with leading +
+ * @param {string} params.otp - 6-digit OTP string
  * @returns {Promise<any>}
  */
-export async function verifyOtpApi({ challengeId, otp, mobile, countryCode }) {
+export async function verifyOtpApi({ mobile, countryCode = '+91', otp }) {
+  const formattedMobile = String(mobile || '').trim();
+  const formattedCountryCode = String(countryCode || '+91').trim();
   const formattedOtp = String(otp || '').trim();
-  const formattedChallengeId = String(challengeId || '').trim();
+
+  const payload = {
+    mobile: formattedMobile,
+    countryCode: formattedCountryCode,
+    otp: formattedOtp,
+  };
 
   console.log('\n==========================================');
   console.log(`📤 [API REQUEST] POST ${AUTH_ENDPOINTS.VERIFY_OTP}`);
-  console.log(`🔑 challengeId: ${formattedChallengeId}`);
-  console.log(`🔢 OTP: ${formattedOtp}`);
+  console.log('📍 Payload:', payload);
   console.log('==========================================');
-
-  const payload = {
-    // challengeId: formattedChallengeId,
-    otp: formattedOtp,
-  };
-  if (mobile) {
-    payload.mobile = String(mobile).trim();
-  }
-  if (countryCode) {
-    payload.countryCode = String(countryCode).trim();
-  }
 
   const response = await apiPost(AUTH_ENDPOINTS.VERIFY_OTP, payload);
 

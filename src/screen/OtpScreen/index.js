@@ -61,9 +61,6 @@ export default function OtpScreen({ navigation, route }) {
   const phone = route?.params?.mobile || '';
   const countryCode = route?.params?.countryCode || '+91';
 
-  const [challengeId, setChallengeId] = useState(
-    route?.params?.challengeId || '',
-  );
   const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');
   const [showOtpModal, setShowOtpModal] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -83,20 +80,16 @@ export default function OtpScreen({ navigation, route }) {
   useEffect(() => {
     console.log('\n==========================================');
     console.log(`📱 [OTP SCREEN] Verification for: ${countryCode} ${phone}`);
-    console.log(`🔑 challengeId: ${challengeId || 'N/A'}`);
     console.log(`🔢 >>> ENTER OTP: [ ${serverOtp || CORRECT_OTP} ] <<<`);
     console.log('==========================================\n');
-  }, [countryCode, phone, challengeId, serverOtp]);
+  }, [countryCode, phone, serverOtp]);
 
   useEffect(() => {
     if (route?.params?.serverOtp) {
       setServerOtp(route.params.serverOtp);
     }
-    if (route?.params?.challengeId) {
-      setChallengeId(route.params.challengeId);
-    }
     setShowOtpModal(true);
-  }, [route?.params?.serverOtp, route?.params?.challengeId]);
+  }, [route?.params?.serverOtp]);
 
   const activeOtp = serverOtp || route?.params?.serverOtp || CORRECT_OTP;
 
@@ -301,48 +294,36 @@ export default function OtpScreen({ navigation, route }) {
     setError('');
 
     try {
-      if (challengeId) {
-        // Call live backend verify OTP API
-        const response = await verifyOtpApi({
-          challengeId,
-          otp: value,
-          mobile: phone,
-          countryCode,
-        });
+      // Call live backend verify OTP API
+      const response = await verifyOtpApi({
+        mobile: phone,
+        countryCode,
+        otp: value,
+      });
 
-        const token =
-          response?.data?.token ||
-          response?.data?.accessToken ||
-          response?.token ||
-          response?.accessToken;
-        if (token) {
-          setAuthToken(token);
-          setVerifiedToken(token);
-        }
-
-        if (response?.data) {
-          setVerifiedResponseData(response.data);
-        }
-
-        const userData = response?.data?.user || response?.user || response?.data;
-        if (userData) {
-          setVerifiedUser(userData);
-        }
-
-        setError('');
-        setExpired(false);
-        setVerified(true);
-      } else {
-        // Fallback check against serverOtp or CORRECT_OTP
-        const expectedOtp = serverOtp || CORRECT_OTP;
-        if (value === expectedOtp || value === CORRECT_OTP) {
-          setError('');
-          setExpired(false);
-          setVerified(true);
-        } else {
-          throw new Error("That code isn't right. Please try again.");
-        }
+      const token =
+        response?.data?.token ||
+        response?.data?.accessToken ||
+        response?.token ||
+        response?.accessToken;
+      if (token) {
+        setAuthToken(token);
+        setVerifiedToken(token);
       }
+
+      if (response?.data) {
+        setVerifiedResponseData(response.data);
+      }
+
+      const userData =
+        response?.data?.user || response?.user || response?.data;
+      if (userData) {
+        setVerifiedUser(userData);
+      }
+
+      setError('');
+      setExpired(false);
+      setVerified(true);
     } catch (err) {
       console.warn('verifyOtpApi error:', err);
       const rawMsg = err?.message || err?.error || err;
@@ -396,19 +377,12 @@ export default function OtpScreen({ navigation, route }) {
     try {
       if (phone) {
         const res = await sendOtpApi({ mobile: phone, countryCode });
-        const newChallengeId =
-          res?.data?.challengeId ||
-          res?.challengeId ||
-          res?.data?.data?.challengeId;
         const newOtp =
           res?.data?.otp ||
           res?.otp ||
           res?.data?.data?.otp ||
           res?.code;
 
-        if (newChallengeId) {
-          setChallengeId(newChallengeId);
-        }
         if (newOtp) {
           setServerOtp(newOtp);
           setShowOtpModal(true);

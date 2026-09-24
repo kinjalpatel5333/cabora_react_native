@@ -19,6 +19,7 @@ export const PASSENGER_ENDPOINTS = {
   ADDRESSES: '/api/v1/passenger/addresses',
   EMERGENCY_CONTACTS: '/api/v1/passenger/emergency-contacts',
   NEARBY_DRIVERS: '/api/v1/passenger/nearby-drivers',
+  CURRENT_LOCATION: '/api/v1/passenger/current-location',
 };
 
 export const WALLET_ENDPOINTS = {

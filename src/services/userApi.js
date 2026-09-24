@@ -1,4 +1,4 @@
-import {apiDelete, apiGet, apiPost} from '../config/apicall';
+import {apiDelete, apiGet, apiPost, apiPut} from '../config/apicall';
 import {apiPutFormData} from '../config/apicallFormData';
 import {PASSENGER_ENDPOINTS, USER_ENDPOINTS} from '../config/endpoints';
 
@@ -149,6 +149,43 @@ export async function getNearbyDriversApi(params = {}) {
 
   console.log('\n==========================================');
   console.log('📥 [API RESPONSE] Get Nearby Drivers:');
+  console.log(JSON.stringify(response, null, 2));
+  console.log('==========================================\n');
+
+  return response;
+}
+
+export async function getPassengerCurrentLocationApi() {
+  console.log('\n==========================================');
+  console.log(`📤 [API REQUEST] GET ${PASSENGER_ENDPOINTS.CURRENT_LOCATION}`);
+  console.log('==========================================');
+
+  const response = await apiGet(PASSENGER_ENDPOINTS.CURRENT_LOCATION);
+
+  console.log('\n==========================================');
+  console.log('📥 [API RESPONSE] Get Current Location:');
+  console.log(JSON.stringify(response, null, 2));
+  console.log('==========================================\n');
+
+  return response;
+}
+
+export async function updatePassengerCurrentLocationApi({ lat, long, address }) {
+  const payload = {
+    lat: Number(lat) || 21.1702,
+    long: Number(long) || 72.8311,
+    address: address || 'Varachha, Surat, Gujarat',
+  };
+
+  console.log('\n==========================================');
+  console.log(`📤 [API REQUEST] PUT ${PASSENGER_ENDPOINTS.CURRENT_LOCATION}`);
+  console.log('📍 Payload:', payload);
+  console.log('==========================================');
+
+  const response = await apiPut(PASSENGER_ENDPOINTS.CURRENT_LOCATION, payload);
+
+  console.log('\n==========================================');
+  console.log('📥 [API RESPONSE] Update Current Location:');
   console.log(JSON.stringify(response, null, 2));
   console.log('==========================================\n');
 
