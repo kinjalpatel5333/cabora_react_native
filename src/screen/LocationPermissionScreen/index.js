@@ -106,6 +106,7 @@ export default function LocationPermissionScreen({navigation, route}) {
 
         const profile = extractUserProfile(userRaw, phone);
 
+        const token = route?.params?.token;
         if (profile.isProfileComplete) {
           // Returning user who already has profile data filled / verified
           await dispatch(
@@ -117,6 +118,7 @@ export default function LocationPermissionScreen({navigation, route}) {
               dob: profile.dob,
               photo: profile.photo,
               gender: profile.gender,
+              token,
             }),
           ).unwrap();
         } else {
@@ -126,6 +128,7 @@ export default function LocationPermissionScreen({navigation, route}) {
             role,
             userId,
             user: profile,
+            token,
           });
         }
       } else if (role === 'driver' && navigation?.replace) {

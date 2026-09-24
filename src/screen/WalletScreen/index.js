@@ -1,7 +1,7 @@
 import { PASSENGER_WALLET_TABS, PASSENGER_WALLET_TXNS } from '../../config/staticData';
-import React, {useMemo, useState} from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, {useCallback, useMemo, useState} from 'react';
+import {ActivityIndicator, RefreshControl, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -11,8 +11,8 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
+import {getWalletBalanceApi} from '../../services/walletApi';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const TABS = PASSENGER_WALLET_TABS;
 
@@ -43,6 +43,52 @@ export default function WalletScreen() {
   const {showToast} = useToast();
   const tabInset = getHomeTabBarInset(insets);
   const [tab, setTab] = useState('all');
+
+  const [balance, setBalance] = useState(0);
+  const [currency, setCurrency] = useState('₹');
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchWallet = useCallback(async (isPull = false) => {
+    try {
+      if (isPull) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      const res = await getWalletBalanceApi();
+      const data = res?.data || res;
+      const rawBalance =
+        data?.balance ??
+        data?.wallet?.balance ??
+        data?.amount ??
+        (typeof data === 'number' ? data : 0);
+
+      setBalance(Number(rawBalance) || 0);
+
+      const rawCurrency = data?.currency || data?.symbol || '₹';
+      setCurrency(rawCurrency === 'INR' ? '₹' : rawCurrency);
+    } catch (err) {
+      console.warn('getWalletBalanceApi error:', err);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchWallet();
+    }, [fetchWallet]),
+  );
+
+  const formattedBalance = useMemo(() => {
+    const symbol = currency || '₹';
+    return `${symbol}${Number(balance || 0).toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }, [balance, currency]);
 
   const txns = useMemo(() => {
     if (tab === 'credits') {
@@ -77,6 +123,14 @@ export default function WalletScreen() {
     <View style={styles.root}>
       <ScrollView
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchWallet(true)}
+            colors={[colors.primary]}
+            tintColor={colors.primary}
+          />
+        }
         contentContainerStyle={[
           styles.scroll,
           {
@@ -116,7 +170,13 @@ export default function WalletScreen() {
               color={colors.orange[500]}
             />
           </View>
-          <Text style={styles.balanceValue}>₹1,240.00</Text>
+          {loading && !refreshing ? (
+            <View style={styles.balanceLoader}>
+              <ActivityIndicator size="small" color={colors.white} />
+            </View>
+          ) : (
+            <Text style={styles.balanceValue}>{formattedBalance}</Text>
+          )}
           <Text style={styles.balanceMeta}>
             Updated just now · Auto top-up on
           </Text>

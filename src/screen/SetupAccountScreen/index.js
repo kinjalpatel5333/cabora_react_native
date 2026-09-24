@@ -3,7 +3,6 @@ import React, { useMemo, useState } from 'react';
 import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
-import { Ionicons } from '@react-native-vector-icons/ionicons/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -63,6 +62,8 @@ export default function SetupAccountScreen({ navigation, route }) {
     const roleEnum = selected === 'driver' ? 'DRIVER' : 'PASSENGER';
     let rawUserData = route?.params?.user || null;
 
+    let activeToken = route?.params?.token || null;
+
     try {
       if (userId) {
         const response = await selectRoleApi({
@@ -77,6 +78,7 @@ export default function SetupAccountScreen({ navigation, route }) {
           response?.token;
 
         if (token) {
+          activeToken = token;
           setAuthToken(token);
         }
 
@@ -96,26 +98,23 @@ export default function SetupAccountScreen({ navigation, route }) {
       rawUserData?.data?.isOnBoarding;
 
     if (selected === 'driver') {
-      // If isOnBoarding === false, driver has completed onboarding -> redirect to Driver Home Screen (DriverTabs)
-      if (isOnBoarding === false) {
-        try {
-          await dispatch(
-            loginWithPhone({
-              phone: profile.mobile || phone,
-              role: selected,
-              name: profile.name,
-              email: profile.email,
-              dob: profile.dob,
-              photo: profile.photo,
-              gender: profile.gender,
-            }),
-          ).unwrap();
-        } catch (err) {
-          console.warn('loginWithPhone driver error:', err);
-        } finally {
-          setLoading(false);
-        }
-        return;
+      try {
+        await dispatch(
+          loginWithPhone({
+            phone: profile.mobile || phone,
+            role: selected,
+            name: profile.name,
+            email: profile.email,
+            dob: profile.dob,
+            photo: profile.photo,
+            gender: profile.gender,
+            token: activeToken,
+          }),
+        ).unwrap();
+      } catch (err) {
+        console.warn('loginWithPhone driver error:', err);
+      } finally {
+        setLoading(false);
       }
 
       // If isOnBoarding === true (or not completed), redirect to Driver Registration Flow
@@ -134,6 +133,7 @@ export default function SetupAccountScreen({ navigation, route }) {
       role: selected,
       userId,
       user: profile,
+      token: activeToken,
     });
   };
 
@@ -205,7 +205,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         })}
 
         <View style={styles.note}>
-          <Ionicons name="shield-checkmark-outline" size={18} color={colors.navy[700]} />
+          <MaterialDesignIcons name="shield-check-outline" size={18} color={colors.navy[700]} />
           <Text style={styles.noteText}>
             {SETUP_ACCOUNT_STRINGS.DRIVER_NOTE}
           </Text>

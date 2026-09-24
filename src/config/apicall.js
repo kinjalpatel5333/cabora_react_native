@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {BASE_URL, API_TIMEOUT} from './setting';
+import {BASE_URL, API_TIMEOUT, STORAGE_KEYS} from './setting';
+import {storageGetItem, storageSetItem, storageRemoveItem} from '../utils/storage';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -7,6 +8,9 @@ const apiClient = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    Pragma: 'no-cache',
+    Expires: '0',
   },
 });
 
@@ -14,10 +18,12 @@ let authToken = null;
 
 export function setAuthToken(token) {
   authToken = token || null;
-  if (token) {
+  if (token && !String(token).startsWith('local-token-')) {
     apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
-  } else {
+    storageSetItem(STORAGE_KEYS.token, token).catch(() => {});
+  } else if (!token) {
     delete apiClient.defaults.headers.common.Authorization;
+    storageRemoveItem(STORAGE_KEYS.token).catch(() => {});
   }
 }
 
@@ -25,10 +31,26 @@ export function getAuthToken() {
   return authToken;
 }
 
-apiClient.interceptors.request.use(config => {
-  if (authToken && !config.headers.Authorization) {
-    config.headers.Authorization = `Bearer ${authToken}`;
+apiClient.interceptors.request.use(async config => {
+  let token = authToken;
+  if (!token || String(token).startsWith('local-token-')) {
+    try {
+      const stored = await storageGetItem(STORAGE_KEYS.token);
+      if (stored && !String(stored).startsWith('local-token-')) {
+        token = stored;
+        authToken = stored;
+      }
+    } catch (_) {}
   }
+  if (token && !String(token).startsWith('local-token-') && !config.headers.Authorization) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  // Ensure no cached 304 response is returned
+  config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+  config.headers.Pragma = 'no-cache';
+  config.headers.Expires = '0';
+
   return config;
 });
 
@@ -65,7 +87,13 @@ apiClient.interceptors.response.use(
 );
 
 export async function apiGet(url, params, config) {
-  const res = await apiClient.get(url, {...config, params});
+  const res = await apiClient.get(url, {
+    ...config,
+    params: {
+      _t: Date.now(),
+      ...params,
+    },
+  });
   return res.data;
 }
 
