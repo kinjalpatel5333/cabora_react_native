@@ -14,7 +14,8 @@ import { useSidebar } from '../../context/SidebarContext';
 import { useAuth } from '../../hooks/useAuth';
 import { getHomeTabBarInset } from '../../navigation/homeTabBarMetrics';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setDriverOnline, setDriverRestricted } from '../../redux/slices/driverSlice';
+import { setDriverOnline, setDriverRestricted, fetchDriverKycStatus, updateDriverAvailability } from '../../redux/slices/driverSlice';
+import { fetchDriverProfile } from '../../redux/slices/authSlice';
 import { getDriverKycStatusApi } from '../../services/driverApi';
 import createStyles from './style';
 import DriverMapBackdrop from '../../components/DriverMapBackdrop';
@@ -42,9 +43,9 @@ function formatInr(value) {
 }
 
 function driverDisplayName(user) {
-  const name = (user?.name || '').trim();
-  if (!name || name === 'Driver') {
-    return 'Rajesh Kumar';
+  const name = (user?.name || user?.fullName || '').trim();
+  if (!name) {
+    return 'Driver';
   }
   return name;
 }
@@ -77,16 +78,17 @@ export default function DriverHomeScreen() {
 
   useEffect(() => {
     let isMounted = true;
+    dispatch(fetchDriverProfile());
+
     const fetchKycStatus = async () => {
       try {
-        const response = await getDriverKycStatusApi();
+        const actionRes = await dispatch(fetchDriverKycStatus()).unwrap();
         if (!isMounted) return;
 
-        const data = response?.data || response;
-        const statusStr = String(data?.status || data?.kycStatus || '').toUpperCase();
+        const data = actionRes?.data || actionRes;
+        const statusStr = String(data?.status || data?.platform?.kycStatus || '').toUpperCase();
         const isApproved =
-          data?.isKycApproved ??
-          data?.isApproved ??
+          data?.platform?.eligibleForRides ??
           (statusStr === 'APPROVED' || statusStr === 'VERIFIED');
 
         const isFailed =
@@ -99,9 +101,9 @@ export default function DriverHomeScreen() {
           setKycFailState(true);
           dispatch(setDriverRestricted(true));
           const reasonMsg =
+            data?.platform?.rejectionReason ||
             data?.reason ||
             data?.message ||
-            data?.rejectionReason ||
             'Insurance expired — re-upload to unblock';
           setKycReason(reasonMsg);
         } else {
@@ -109,7 +111,7 @@ export default function DriverHomeScreen() {
           dispatch(setDriverRestricted(false));
         }
       } catch (err) {
-        console.warn('getDriverKycStatusApi error:', err);
+        console.warn('fetchDriverKycStatus error:', err);
       }
     };
 
@@ -353,9 +355,8 @@ export default function DriverHomeScreen() {
                   tone="success"
                   size="lg"
                   onValueChange={next => {
-                    if (!next) {
-                      dispatch(setDriverOnline(false));
-                    }
+                    dispatch(setDriverOnline(false));
+                    dispatch(updateDriverAvailability({ online: false, latitude: 22.7000, longitude: 72.8700 }));
                   }}
                 />
               </View>
@@ -375,9 +376,8 @@ export default function DriverHomeScreen() {
                   tone="success"
                   size="lg"
                   onValueChange={next => {
-                    if (next) {
-                      dispatch(setDriverOnline(true));
-                    }
+                    dispatch(setDriverOnline(true));
+                    dispatch(updateDriverAvailability({ online: true, latitude: 22.7000, longitude: 72.8700 }));
                   }}
                 />
               </View>

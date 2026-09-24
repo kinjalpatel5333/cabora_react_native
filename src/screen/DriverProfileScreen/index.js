@@ -10,11 +10,13 @@ import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useAuth } from '../../hooks/useAuth';
 import { fetchDriverProfile } from '../../redux/slices/authSlice';
+import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
+import { images } from '../../assets';
+import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
-import colors from '../../config/color';
 
 export default function DriverProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -25,16 +27,41 @@ export default function DriverProfileScreen() {
   const { showToast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAuth();
+  const kycData = useAppSelector(state => state.driver.kycData);
 
   useEffect(() => {
     dispatch(fetchDriverProfile());
+    dispatch(fetchDriverKycStatus());
   }, [dispatch]);
 
-  const driverName = user?.name || user?.fullName || 'Rajesh Kumar';
-  const driverMobile = user?.mobile || user?.phone || '+91 98450 21188';
-  const driverEmail = user?.email || 'rajesh.k@gmail.com';
-  const driverPhoto = user?.photo || user?.profilePhoto || null;
-  const driverInitials = (driverName.trim().split(/\s+/).map(p => p[0]).join('') || 'RK').slice(0, 2).toUpperCase();
+  const driverName = kycData?.personal?.fullName || user?.name || user?.fullName || 'Driver';
+  const driverMobile = kycData?.personal?.mobile || user?.mobile || user?.phone || '';
+  const driverEmail = kycData?.personal?.email || user?.email || '';
+  const rawPhoto = kycData?.personal?.profilePhoto || user?.photo || user?.profilePhoto;
+  const driverPhoto = formatImageUrl(rawPhoto);
+  const driverInitials = (driverName.trim().split(/\s+/).map(p => p[0]).join('') || 'DR').slice(0, 2).toUpperCase();
+
+  // Vehicle data
+  const vehicleObj = kycData?.vehicle || user?.vehicle || {};
+  const vehicleType = (vehicleObj?.vehicleType || 'BIKE').toUpperCase();
+  const registrationNumber = vehicleObj?.registrationNumber || vehicleObj?.numberPlate || 'GJ01GB1234';
+  const vehicleTitle = vehicleObj?.vehicleName || vehicleObj?.modelName || (vehicleType === 'BIKE' ? 'Motorcycle / Bike' : vehicleType);
+  const vehicleSub = vehicleObj?.vehicleCategory || (vehicleType === 'BIKE' ? 'Two Wheeler' : 'Commercial Vehicle');
+  const isBike = vehicleType.includes('BIKE') || vehicleType.includes('SCOOTER') || vehicleType.includes('TWO');
+  const vehicleIcon = isBike ? 'motorbike' : 'car-hatchback';
+
+  // KYC status
+  const kycStatus = (kycData?.platform?.kycStatus || 'APPROVED').toUpperCase();
+  const isApproved = kycStatus === 'APPROVED';
+  const isPending = kycStatus === 'PENDING' || kycStatus === 'SUBMITTED' || kycStatus === 'IN_REVIEW';
+
+  const completedDocsCount = [
+    kycData?.personal?.isCompleted,
+    kycData?.drivingLicence?.isCompleted,
+    kycData?.vehicle?.isCompleted,
+    kycData?.insurance?.isCompleted,
+    kycData?.payout?.isCompleted,
+  ].filter(Boolean).length;
 
   const handleEditProfile = () => {
     const parent = navigation.getParent();
@@ -72,7 +99,6 @@ export default function DriverProfileScreen() {
 
   return (
     <View style={styles.root}>
-
       <ScrollView
         contentContainerStyle={[
           styles.scrollContent,
@@ -85,7 +111,11 @@ export default function DriverProfileScreen() {
             styles.navyHero,
             { paddingTop: insets.top > 0 ? insets.top : 12 },
           ]}>
-          <View style={styles.heroDeco} />
+          <Image
+            source={images.loginGlow}
+            style={styles.glow}
+            resizeMode="cover"
+          />
 
           <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
@@ -110,15 +140,17 @@ export default function DriverProfileScreen() {
                 <MaterialDesignIcons
                   name="check-decagram"
                   size={18}
-                  color={colors.green[550]}
+                  color={isApproved ? colors.green[550] : colors.amber[500]}
                 />
               </View>
               <Text style={styles.statsText}>
                 {user?.rating ? `${user.rating} ★` : '4.92 ★'} · {user?.totalTrips ? `${user.totalTrips} trips` : '2,140 trips'} · driving active
               </Text>
-              <Text style={styles.contactText}>
-                {driverMobile} · {driverEmail}
-              </Text>
+              {(driverMobile || driverEmail) ? (
+                <Text style={styles.contactText}>
+                  {[driverMobile, driverEmail].filter(Boolean).join(' · ')}
+                </Text>
+              ) : null}
             </View>
 
             <TouchableOpacity activeOpacity={0.7}
@@ -131,9 +163,13 @@ export default function DriverProfileScreen() {
           </View>
 
           <View style={styles.kycBanner}>
-            <AntDesign name="check-circle" size={14} color={colors.green[350] || colors.green[400]} />
+            <AntDesign
+              name={isApproved ? "check-circle" : isPending ? "clockcircleo" : "exclamationcircleo"}
+              size={14}
+              color={isApproved ? (colors.green[350] || colors.green[400]) : isPending ? colors.amber[400] : colors.red[400]}
+            />
             <Text style={styles.kycText}>
-              KYC approved · 1 document expiring soon
+              {isApproved ? 'KYC approved · Account active' : isPending ? 'KYC under review' : 'KYC action required'}
             </Text>
           </View>
         </View>
@@ -145,18 +181,18 @@ export default function DriverProfileScreen() {
             <View style={styles.vehicleLeft}>
               <View style={styles.vehicleIconBox}>
                 <MaterialDesignIcons
-                  name="car-hatchback"
+                  name={vehicleIcon}
                   size={24}
                   color={colors.text}
                 />
               </View>
               <View>
-                <Text style={styles.vehicleTitle}>Swift Dzire</Text>
-                <Text style={styles.vehicleSub}>Sedan · 2022</Text>
+                <Text style={styles.vehicleTitle}>{vehicleTitle}</Text>
+                <Text style={styles.vehicleSub}>{vehicleSub}</Text>
               </View>
             </View>
             <View style={styles.platePill}>
-              <Text style={styles.plateText}>KA 05 MJ 4821</Text>
+              <Text style={styles.plateText}>{registrationNumber}</Text>
             </View>
           </View>
 
@@ -192,7 +228,7 @@ export default function DriverProfileScreen() {
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>Documents</Text>
                 <Text style={styles.listSub}>
-                  1 expiring in 7 days · 1 expired
+                  {completedDocsCount > 0 ? `${completedDocsCount} of 5 documents verified` : 'Upload required documents'}
                 </Text>
               </View>
             </View>
@@ -210,7 +246,7 @@ export default function DriverProfileScreen() {
               <View style={styles.listInfo}>
                 <Text style={styles.listTitle}>Police verification</Text>
                 <Text style={styles.listSub}>
-                  Submitted 9 Sep · in review
+                  {kycData?.drivingLicence?.isCompleted ? 'Verified & In compliance' : 'Submitted · in review'}
                 </Text>
               </View>
             </View>
@@ -259,3 +295,4 @@ export default function DriverProfileScreen() {
     </View>
   );
 }
+

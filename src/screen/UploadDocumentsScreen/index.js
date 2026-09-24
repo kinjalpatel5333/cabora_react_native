@@ -13,8 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
+import { useAppSelector } from '../../redux/hooks';
 import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
 
@@ -25,15 +24,12 @@ export default function UploadDocumentsScreen({ navigation }) {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
-  const dispatch = useAppDispatch();
   const kycData = useAppSelector(state => state.driver.kycData);
 
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
 
-  useEffect(() => {
-    dispatch(fetchDriverKycStatus());
-  }, [dispatch]);
+
 
   // Open status modal on initial fetch if kycData exists
   useEffect(() => {

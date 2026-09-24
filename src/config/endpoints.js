@@ -54,9 +54,11 @@ export const DRIVER_ENDPOINTS = {
   REGISTRATION: '/api/v1/driver/registration',
   PROFILE: '/api/v1/driver/profile',
   STATUS: '/api/v1/driver/status',
+  AVAILABILITY: '/api/v1/driver/availability',
   KYC_STATUS: '/api/v1/driver/kyc/status',
   DOCUMENTS: '/api/v1/driver/documents',
   EARNINGS: '/api/v1/driver/earnings',
+  INCENTIVES: '/api/v1/driver/incentives',
   ONBOARDING: DRIVER_ONBOARDING_ENDPOINTS,
 };
 

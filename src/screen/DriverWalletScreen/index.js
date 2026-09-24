@@ -166,9 +166,18 @@ export default function DriverWalletScreen() {
         <View style={styles.historyCard}>
           {PAYOUT_HISTORY.map((item, idx) => {
             const isLast = idx === PAYOUT_HISTORY.length - 1;
-            const isPaid = item.status === 'paid';
-            const isProcessing = item.status === 'processing';
-            const isRefunded = item.status === 'refunded';
+            const statusStr = String(item.status || '').toLowerCase();
+            const isPaid =
+              statusStr === 'paid' ||
+              statusStr === 'successful' ||
+              statusStr === 'completed';
+            const isProcessing =
+              statusStr === 'processing' || statusStr === 'pending';
+            const isRefunded =
+              statusStr === 'refunded' || statusStr === 'failed';
+            const label =
+              item.statusLabel ||
+              (isPaid ? 'Paid' : isProcessing ? 'Processing' : 'Refunded');
 
             return (
               <View
@@ -186,20 +195,20 @@ export default function DriverWalletScreen() {
                       isRefunded && styles.historyIconRefunded,
                     ]}>
                     {isPaid && (
-                      <AntDesign
+                      <Feather
                         name="check-circle"
-                        size={18}
-                        color={colors.green[600]}
+                        size={20}
+                        color="#00A86B"
                       />
                     )}
                     {isProcessing && (
-                      <Feather name="loader" size={18} color={colors.blue[550]} />
+                      <Feather name="loader" size={20} color="#2972FA" />
                     )}
                     {isRefunded && (
                       <Feather
                         name="alert-circle"
-                        size={18}
-                        color={colors.red[600]}
+                        size={20}
+                        color="#EF4444"
                       />
                     )}
                   </View>
@@ -207,6 +216,7 @@ export default function DriverWalletScreen() {
                     <Text style={styles.historyTitle}>{item.title}</Text>
                     <Text
                       style={[
+                        styles.historySub,
                         isPaid && styles.historySubPaid,
                         isProcessing && styles.historySubProcessing,
                         isRefunded && styles.historySubRefunded,
@@ -235,11 +245,12 @@ export default function DriverWalletScreen() {
                     />
                     <Text
                       style={[
+                        styles.statusText,
                         isPaid && styles.statusTextPaid,
                         isProcessing && styles.statusTextProcessing,
                         isRefunded && styles.statusTextRefunded,
                       ]}>
-                      {item.statusLabel}
+                      {label}
                     </Text>
                   </View>
                 </View>

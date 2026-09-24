@@ -21,14 +21,12 @@ export default function createStyles(colors) {
       position: 'relative',
       overflow: 'hidden',
     },
-    heroDeco: {
+    glow: {
       position: 'absolute',
-      right: -50,
-      top: -20,
-      width: 220,
-      height: 220,
-      borderRadius: 110,
-      backgroundColor: colors.alpha.white05,
+      top: -30,
+      right: -30,
+      width: 300,
+      height: 300,
     },
     menuBtn: {
       width: 44,
@@ -332,8 +330,14 @@ export default function createStyles(colors) {
     // Sticky Share Button Container
     shareBtnWrap: {
       position: 'absolute',
-      left: 16,
-      right: 16,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.background,
+      paddingHorizontal: 16,
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: colors.borderLight,
       zIndex: 50,
     },
     shareBtn: {
