@@ -47,10 +47,18 @@ export function uploadDriverDocumentsApi(payload) {
   return apiPost(DRIVER_ENDPOINTS.DOCUMENTS, payload);
 }
 
-export function getDriverEarningsApi() {
-  return apiGet(DRIVER_ENDPOINTS.EARNINGS);
+export function getDriverEarningsApi(params) {
+  return apiGet(DRIVER_ENDPOINTS.EARNINGS, params);
+}
+
+export function getDriverIncentivesApi(params) {
+  return apiGet(DRIVER_ENDPOINTS.INCENTIVES, params);
 }
 
 export function getDriverKycStatusApi() {
   return apiGet(DRIVER_ENDPOINTS.KYC_STATUS);
+}
+
+export function setDriverAvailabilityApi(payload) {
+  return apiPut(DRIVER_ENDPOINTS.AVAILABILITY, payload);
 }

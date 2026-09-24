@@ -37,7 +37,7 @@ export default function createStyles(colors) {
     },
 
     scrollContent: {
-      paddingBottom: 110,
+      paddingBottom: 150,
     },
 
     // Available to Withdraw Card (Navy)
@@ -52,12 +52,12 @@ export default function createStyles(colors) {
     },
     navyDecoration: {
       position: 'absolute',
-      right: -35,
-      top: -15,
-      width: 170,
-      height: 170,
-      borderRadius: 85,
-      backgroundColor: colors.alpha.white08,
+      right: -40,
+      top: -40,
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: 'rgba(255, 112, 6, 0.18)',
     },
     navyKicker: {
       fontFamily: colors.fonts.sora.bold,
@@ -260,7 +260,7 @@ export default function createStyles(colors) {
     // Payout History Section
     sectionTitle: {
       fontFamily: colors.fonts.sora.bold,
-      fontSize: 11.5,
+      fontSize: 12,
       fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
@@ -274,11 +274,14 @@ export default function createStyles(colors) {
       borderRadius: 24,
       marginHorizontal: 16,
       paddingHorizontal: 16,
+      paddingVertical: 4,
       shadowColor: colors.black,
       shadowOpacity: 0.04,
       shadowRadius: 6,
       shadowOffset: { width: 0, height: 2 },
       elevation: 2,
+      borderWidth: 1,
+      borderColor: colors.borderLight,
     },
     historyItem: {
       flexDirection: 'row',
@@ -288,86 +291,83 @@ export default function createStyles(colors) {
     },
     historyItemBorder: {
       borderBottomWidth: 1,
-      borderBottomColor: colors.slate[100],
+      borderBottomColor: colors.borderLight,
     },
     historyLeft: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
       flex: 1,
+      marginRight: 10,
     },
     historyIcon: {
-      width: 38,
-      height: 38,
-      borderRadius: 19,
+      width: 44,
+      height: 44,
+      borderRadius: 14,
       alignItems: 'center',
       justifyContent: 'center',
     },
     historyIconPaid: {
-      backgroundColor: colors.green[200],
+      backgroundColor: 'rgba(0, 168, 107, 0.12)',
     },
     historyIconProcessing: {
-      backgroundColor: colors.blue[50],
+      backgroundColor: 'rgba(41, 114, 250, 0.12)',
     },
     historyIconRefunded: {
-      backgroundColor: colors.red[200],
+      backgroundColor: 'rgba(239, 68, 68, 0.12)',
     },
     historyTextCol: {
       flex: 1,
     },
     historyTitle: {
-      fontFamily: colors.fonts.sora.extraBold,
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '800',
+      fontWeight: '700',
       color: colors.text,
+      lineHeight: 19,
+    },
+    historySub: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      fontWeight: '500',
+      marginTop: 3,
     },
     historySubPaid: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.textMuted,
-      marginTop: 2,
+      color: '#00A86B',
     },
     historySubProcessing: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.blue[550],
-      marginTop: 2,
+      color: '#2972FA',
     },
     historySubRefunded: {
-      fontFamily: colors.fonts.sora.medium,
-      fontSize: 12.5,
-      fontWeight: '500',
-      color: colors.red[600],
-      marginTop: 2,
+      color: '#EF4444',
     },
     historyRight: {
       alignItems: 'flex-end',
-      gap: 4,
+      justifyContent: 'center',
+      gap: 6,
     },
     historyAmount: {
       fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 15,
+      fontSize: 15.5,
       fontWeight: '800',
       color: colors.text,
     },
     statusBadge: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 4,
-      paddingHorizontal: 8,
-      paddingVertical: 3,
-      borderRadius: 12,
+      gap: 5,
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 20,
     },
     statusBadgePaid: {
-      backgroundColor: colors.green[200],
+      backgroundColor: 'rgba(0, 168, 107, 0.12)',
     },
     statusBadgeProcessing: {
-      backgroundColor: colors.blue[50],
+      backgroundColor: 'rgba(41, 114, 250, 0.12)',
     },
     statusBadgeRefunded: {
-      backgroundColor: colors.red[200],
+      backgroundColor: 'rgba(239, 68, 68, 0.12)',
     },
     statusDot: {
       width: 6,
@@ -375,31 +375,27 @@ export default function createStyles(colors) {
       borderRadius: 3,
     },
     statusDotPaid: {
-      backgroundColor: colors.green[600],
+      backgroundColor: '#00A86B',
     },
     statusDotProcessing: {
-      backgroundColor: colors.blue[550],
+      backgroundColor: '#2972FA',
     },
     statusDotRefunded: {
-      backgroundColor: colors.red[600],
+      backgroundColor: '#EF4444',
+    },
+    statusText: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 12,
+      fontWeight: '700',
     },
     statusTextPaid: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.green[700],
+      color: '#00A86B',
     },
     statusTextProcessing: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.blue[550],
+      color: '#2972FA',
     },
     statusTextRefunded: {
-      fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 11.5,
-      fontWeight: '800',
-      color: colors.red[600],
+      color: '#EF4444',
     },
   });
 }

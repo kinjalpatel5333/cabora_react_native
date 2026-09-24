@@ -21,14 +21,12 @@ export default function createStyles(colors) {
       position: 'relative',
       overflow: 'hidden',
     },
-    heroDeco: {
+    glow: {
       position: 'absolute',
-      right: -40,
-      top: -20,
-      width: 200,
-      height: 200,
-      borderRadius: 100,
-      backgroundColor: colors.alpha.white04,
+      top: -30,
+      right: -30,
+      width: 300,
+      height: 300,
     },
     menuBtn: {
       width: 44,

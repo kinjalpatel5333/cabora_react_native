@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDriverEarnings } from '../../redux/slices/driverSlice';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
@@ -13,13 +15,20 @@ import colors from '../../config/color';
 import { DRIVER_EARNINGS_PERIOD_TABS as PERIOD_TABS, DRIVER_EARNINGS_CHART_DATA as CHART_DATA, DRIVER_EARNINGS_RIDE_HISTORY as RIDE_HISTORY } from '../../config/staticData';
 
 export default function DriverEarningsScreen() {
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const { colors } = useApp();
   const { openDrawer } = useSidebar();
   const { showToast } = useToast();
+  const { earningsData, earningsLoading } = useSelector(state => state.driver);
 
   const [activeTab, setActiveTab] = useState('Week');
+  const [selectedBarIdx, setSelectedBarIdx] = useState(4); // Default Fri
+
+  useEffect(() => {
+    dispatch(fetchDriverEarnings({ period: activeTab.toLowerCase() }));
+  }, [dispatch, activeTab]);
 
   const handleDownloadStatement = () => {
     showToast({
@@ -109,37 +118,53 @@ export default function DriverEarningsScreen() {
             <View style={styles.chartBaseLine} />
 
             <View style={styles.barsRow}>
-              {CHART_DATA.map((item, idx) => (
-                <View key={idx} style={styles.barCol}>
-                  {item.active && (
-                    <View style={styles.tooltipBadge}>
-                      <Text style={styles.tooltipText} numberOfLines={1}>
-                        {item.amount}
-                      </Text>
-                    </View>
-                  )}
-                  <View
-                    style={[
-                      styles.bar,
-                      { height: item.height },
-                      item.active && styles.barActive,
-                    ]}
-                  />
-                </View>
-              ))}
+              {CHART_DATA.map((item, idx) => {
+                const isSelected = idx === selectedBarIdx;
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    key={idx}
+                    style={styles.barCol}
+                    onPress={() => setSelectedBarIdx(idx)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.day} earnings ${item.amount}`}>
+                    {isSelected && (
+                      <View style={styles.tooltipBadge}>
+                        <Text style={styles.tooltipText} numberOfLines={1}>
+                          {item.amount}
+                        </Text>
+                      </View>
+                    )}
+                    <View
+                      style={[
+                        styles.bar,
+                        { height: item.height },
+                        isSelected && styles.barActive,
+                      ]}
+                    />
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
             <View style={styles.dayLabelsRow}>
-              {CHART_DATA.map((item, idx) => (
-                <Text
-                  key={idx}
-                  style={[
-                    styles.dayLabel,
-                    item.active && styles.dayLabelActive,
-                  ]}>
-                  {item.day}
-                </Text>
-              ))}
+              {CHART_DATA.map((item, idx) => {
+                const isSelected = idx === selectedBarIdx;
+                return (
+                  <TouchableOpacity
+                    key={idx}
+                    onPress={() => setSelectedBarIdx(idx)}
+                    activeOpacity={0.7}>
+                    <Text
+                      style={[
+                        styles.dayLabel,
+                        isSelected && styles.dayLabelActive,
+                      ]}>
+                      {item.day}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </View>
         </View>

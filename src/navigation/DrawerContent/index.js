@@ -14,6 +14,7 @@ import {bottomSafePad} from '../../utils/safeArea';
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
+import {formatImageUrl} from '../../utils/user';
 
 import { PASSENGER_SIDEBAR_LINKS as PASSENGER_LINKS, DRIVER_SIDEBAR_LINKS as DRIVER_LINKS } from '../../config/staticData';
 
@@ -34,11 +35,14 @@ function DrawerGlyph({kind, active}) {
   if (kind === 'history') {
     return <Lucide name="history" size={size} color={color} />;
   }
-  if (kind === 'crown') {
+  if (kind === 'crown' || kind === 'award') {
     return <MaterialDesignIcons name="crown" size={size} color={color} />;
   }
   if (kind === 'shield') {
     return <Lucide name="shield-check" size={size} color={color} />;
+  }
+  if (kind === 'fileText') {
+    return <Feather name="file-text" size={size} color={color} />;
   }
   if (kind === 'target') {
     return <Lucide name="target" size={size} color={color} />;
@@ -66,6 +70,18 @@ function DrawerGlyph({kind, active}) {
   if (kind === 'clock') {
     return <Feather name="clock" size={size} color={color} />;
   }
+  if (kind === 'bell') {
+    return <Feather name="bell" size={size} color={color} />;
+  }
+  if (kind === 'settings') {
+    return <Feather name="settings" size={size} color={color} />;
+  }
+  if (kind === 'help') {
+    return <Feather name="help-circle" size={size} color={color} />;
+  }
+  if (kind === 'plane') {
+    return <Feather name="send" size={size} color={color} />;
+  }
   return <Feather name="user" size={size} color={color} />;
 }
 
@@ -76,12 +92,18 @@ export default function DrawerContent() {
   const {colors, isDark, toggleTheme} = useApp();
   const styles = useThemedStyles(createStyles);
   const {activeTab, goTo, closeDrawer} = useSidebar();
-  const links = user?.role === 'driver' ? DRIVER_LINKS : PASSENGER_LINKS;
+  
+  const role = (user?.currentRole || user?.role || '').toLowerCase();
+  const isDriver = role === 'driver';
+  const links = isDriver ? DRIVER_LINKS : PASSENGER_LINKS;
 
   const handleLogout = () => {
     closeDrawer();
     dispatch(logoutUser());
   };
+
+  const photoPath = user?.photo || user?.profilePhoto;
+  const avatarUri = formatImageUrl(photoPath);
 
   return (
     <View
@@ -91,11 +113,11 @@ export default function DrawerContent() {
       ]}>
       <View style={styles.profile}>
         <Image
-          source={user?.photo ? {uri: user.photo} : images.avatar}
+          source={avatarUri ? {uri: avatarUri} : images.avatar}
           style={styles.avatar}
         />
-        <Text style={styles.name}>{user?.name || (user?.role === 'driver' ? 'Driver' : 'Passenger')}</Text>
-        <Text style={styles.email}>{user?.email || (user?.role === 'driver' ? 'driver@cabora.app' : 'user@cabora.app')}</Text>
+        <Text style={styles.name}>{user?.name || (isDriver ? 'Driver' : 'Passenger')}</Text>
+        <Text style={styles.email}>{user?.email || (isDriver ? 'driver@cabora.app' : 'user@cabora.app')}</Text>
       </View>
 
       <ScrollView

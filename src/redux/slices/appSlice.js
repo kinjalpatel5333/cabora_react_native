@@ -18,7 +18,7 @@ export const bootstrapApp = createAsyncThunk('app/bootstrap', async () => {
       storageGetItem(STORAGE_KEYS.locationResolved),
     ]);
     return {
-      walkthroughSeen: false,
+      walkthroughSeen: walkthrough === '1' || Boolean(walkthrough),
       notifications: notifications !== '0',
       locationResolved: Boolean(locationResolved),
       locationMode: locationResolved || null,

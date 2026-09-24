@@ -151,13 +151,13 @@ export const DRIVER_SAFETY_IN_CAR_ITEMS = [
 export const DRIVER_EARNINGS_PERIOD_TABS = ['Today', 'Week', 'Month', 'Custom'];
 
 export const DRIVER_EARNINGS_CHART_DATA = [
-  { day: 'Mon', height: 38, active: false },
-  { day: 'Tue', height: 30, active: false },
-  { day: 'Wed', height: 48, active: false },
-  { day: 'Thu', height: 58, active: false },
-  { day: 'Fri', height: 82, active: true },
-  { day: 'Sat', height: 70, active: false },
-  { day: 'Sun', height: 42, active: false },
+  { day: 'Mon', height: 38, active: false, amount: '₹1,240' },
+  { day: 'Tue', height: 30, active: false, amount: '₹980' },
+  { day: 'Wed', height: 48, active: false, amount: '₹1,560' },
+  { day: 'Thu', height: 58, active: false, amount: '₹1,890' },
+  { day: 'Fri', height: 82, active: true, amount: '₹2,410' },
+  { day: 'Sat', height: 70, active: false, amount: '₹2,150' },
+  { day: 'Sun', height: 42, active: false, amount: '₹1,610' },
 ];
 
 export const DRIVER_EARNINGS_RIDE_HISTORY = [
@@ -313,21 +313,32 @@ export const DRIVER_WALLET_PAYOUT_HISTORY = [
     title: 'Withdrawal · 8 Sep, 6:40 pm',
     sub: 'Credited to HDFC •••• 6621',
     amount: '₹4,200.00',
-    status: 'SUCCESSFUL',
+    status: 'paid',
+    statusLabel: 'Paid',
   },
   {
     id: '2',
-    title: 'Weekly Payout · 1 Sep, 6:00 pm',
-    sub: 'Auto payout credited to HDFC •••• 6621',
-    amount: '₹12,450.00',
-    status: 'SUCCESSFUL',
+    title: 'Withdrawal · 9 Sep, 11:02 am',
+    sub: 'Usually lands within 24 hours',
+    amount: '₹1,800.00',
+    status: 'processing',
+    statusLabel: 'Processing',
   },
   {
     id: '3',
+    title: 'Weekly Payout · 1 Sep, 6:00 pm',
+    sub: 'Auto payout credited to HDFC •••• 6621',
+    amount: '₹12,450.00',
+    status: 'paid',
+    statusLabel: 'Paid',
+  },
+  {
+    id: '4',
     title: 'Withdrawal · 28 Aug, 4:15 pm',
-    sub: 'Credited to HDFC •••• 6621',
+    sub: 'Failed · returned to wallet',
     amount: '₹3,000.00',
-    status: 'SUCCESSFUL',
+    status: 'refunded',
+    statusLabel: 'Refunded',
   },
 ];
 
@@ -439,6 +450,7 @@ export const PASSENGER_SIDEBAR_LINKS = [
 
 export const DRIVER_SIDEBAR_LINKS = [
   { label: 'Dashboard', screen: 'Dashboard', iconKind: 'home' },
+  { label: 'Documents & KYC', screen: 'UploadDocuments', iconKind: 'fileText' },
   { label: 'Trip History', screen: 'DriverTripHistory', iconKind: 'history' },
   { label: 'Earnings', screen: 'Earnings', iconKind: 'rupee' },
   { label: 'Wallet', screen: 'Wallet', iconKind: 'wallet' },
