@@ -1,8 +1,11 @@
-import React from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect } from 'react';
+import {ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDriverIncentives } from '../../redux/slices/driverSlice';
+import { images } from '../../assets';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -13,11 +16,17 @@ import colors from '../../config/color';
 import { DRIVER_REFERRALS as REFERRALS } from '../../config/staticData';
 
 export default function DriverIncentivesScreen() {
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { openDrawer } = useSidebar();
   const { showToast } = useToast();
+  const { incentivesData, incentivesLoading } = useSelector(state => state.driver);
+
+  useEffect(() => {
+    dispatch(fetchDriverIncentives());
+  }, [dispatch]);
 
   const referralCode = 'CAB-RK4821';
   const totalSegments = 5;
@@ -64,7 +73,11 @@ export default function DriverIncentivesScreen() {
             styles.navyHero,
             { paddingTop: insets.top > 0 ? insets.top : 12 },
           ]}>
-          <View style={styles.heroDeco} />
+          <Image
+            source={images.loginGlow}
+            style={styles.glow}
+            resizeMode="cover"
+          />
 
           <TouchableOpacity activeOpacity={0.7}
             accessibilityRole="button"
@@ -200,7 +213,7 @@ export default function DriverIncentivesScreen() {
       <View
         style={[
           styles.shareBtnWrap,
-          { bottom: Math.max(insets.bottom, 10) + 74 },
+          { paddingBottom: Math.max(insets.bottom, 10) + 74 },
         ]}>
         <TouchableOpacity activeOpacity={0.7}
           accessibilityRole="button"

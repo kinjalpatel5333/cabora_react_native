@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDriverIncentives } from '../../redux/slices/driverSlice';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -15,16 +17,19 @@ import { Header } from '../../components';
 import { DRIVER_COMPLETED_INCENTIVES as COMPLETED_INCENTIVES } from '../../config/staticData';
 
 export default function DriverIncentiveTrackerScreen() {
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
   const { setActiveTab } = useSidebar();
+  const { incentivesData, incentivesLoading } = useSelector(state => state.driver);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setActiveTab('DriverIncentiveTracker');
-  }, [setActiveTab]);
+    dispatch(fetchDriverIncentives());
+  }, [setActiveTab, dispatch]);
 
   const handleHelp = () => {
     showToast({
