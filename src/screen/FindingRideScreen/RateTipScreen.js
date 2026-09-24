@@ -5,16 +5,18 @@ import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '../../components';
+import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {rateRideApi} from '../../services/rideApi';
 import createStyles from './rateTipStyle';
-import colors from '../../config/color';
 
 const TAGS = PASSENGER_RATE_TIP_TAGS;
 
 const TIP_OPTIONS = PASSENGER_RATE_TIP_OPTIONS;
 
 export default function RateTipScreen({
+  rideId = '6aa28cc7e02cb357dd298432',
   driverName = 'Rajesh',
   driverInitials = 'RK',
   onClose,
@@ -24,6 +26,7 @@ export default function RateTipScreen({
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
+  const {showToast} = useToast();
 
   const [rating, setRating] = useState(5);
   const [selectedTags, setSelectedTags] = useState([
@@ -34,6 +37,7 @@ export default function RateTipScreen({
   const [note, setNote] = useState('');
   const [tipId, setTipId] = useState(20);
   const [customTip, setCustomTip] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tipAmount = useMemo(() => {
     if (tipId === 'custom') {
@@ -44,6 +48,9 @@ export default function RateTipScreen({
   }, [tipId, customTip]);
 
   const submitLabel = useMemo(() => {
+    if (isSubmitting) {
+      return 'Submitting...';
+    }
     if (tipAmount != null) {
       return `Submit rating & pay ₹${tipAmount} tip`;
     }
@@ -51,7 +58,7 @@ export default function RateTipScreen({
       return 'Submit rating & tip';
     }
     return 'Submit rating';
-  }, [tipAmount, tipId]);
+  }, [tipAmount, tipId, isSubmitting]);
 
   const toggleTag = tag => {
     setSelectedTags(prev =>
@@ -59,13 +66,38 @@ export default function RateTipScreen({
     );
   };
 
-  const handleSubmit = () => {
-    onSubmit?.({
-      rating,
-      tags: selectedTags,
-      note: note.trim(),
-      tip: tipAmount,
-    });
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const commentText =
+      note.trim() ||
+      (selectedTags.length > 0 ? selectedTags.join(', ') : 'Great ride');
+
+    try {
+      await rateRideApi(rideId, {
+        rating,
+        comment: commentText,
+      });
+
+      showToast({
+        type: 'success',
+        message: 'Rating submitted successfully!',
+      });
+    } catch (err) {
+      console.warn('Rate ride error:', err);
+      showToast({
+        type: 'info',
+        message: err?.message || 'Rating recorded',
+      });
+    } finally {
+      setIsSubmitting(false);
+      onSubmit?.({
+        rating,
+        tags: selectedTags,
+        note: commentText,
+        tip: tipAmount,
+        rideId,
+      });
+    }
   };
 
   return (
@@ -113,7 +145,8 @@ export default function RateTipScreen({
                 color={
                   value <= rating ? colors.amber[500] : colors.gray[300]
                 }
-              />            </TouchableOpacity>
+              />
+            </TouchableOpacity>
           ))}
         </View>
 
@@ -184,6 +217,7 @@ export default function RateTipScreen({
         <Button
           title={submitLabel}
           onPress={handleSubmit}
+          disabled={isSubmitting}
           style={styles.submitBtn}
           textStyle={styles.submitText}
         />
@@ -191,6 +225,7 @@ export default function RateTipScreen({
           title="Not now"
           variant="ghost"
           onPress={onSkip}
+          disabled={isSubmitting}
           style={styles.skipBtn}
           textStyle={styles.skipText}
         />

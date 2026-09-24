@@ -119,6 +119,38 @@ export default function createStyles(colors) {
       color: colors.textMuted || '#64748B',
       marginTop: 6,
     },
+    genderRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+    },
+    genderChip: {
+      flex: 1,
+      height: 48,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: '#E2E8F0',
+      backgroundColor: colors.white || '#FFFFFF',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 8,
+    },
+    genderChipLast: {
+      marginRight: 0,
+    },
+    genderChipActive: {
+      borderColor: colors.orange?.[500] || '#FF6600',
+      backgroundColor: '#FFF7ED',
+    },
+    genderChipText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.navy?.[900] || '#1E293B',
+    },
+    genderChipTextActive: {
+      color: colors.orange?.[600] || '#FF5500',
+      fontWeight: '700',
+    },
     verifiedCard: {
       backgroundColor: colors.white || '#FFFFFF',
       borderWidth: 1,

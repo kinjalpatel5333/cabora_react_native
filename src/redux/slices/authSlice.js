@@ -34,7 +34,7 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
     if (token) {
       setAuthToken(token);
     }
-    const user = userRaw ? JSON.parse(userRaw) : null;
+    let user = userRaw ? JSON.parse(userRaw) : null;
     let registeredUsers = [];
     if (registeredRaw) {
       try {
@@ -46,6 +46,29 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
         console.warn('Failed to parse registered users:', err);
       }
     }
+
+    if (token) {
+      try {
+        const meRes = await getMeApi();
+        const profile = extractUserProfile(meRes, user?.phone || user?.mobile);
+        if (profile && (profile.id || profile.name || profile.email || profile.mobile)) {
+          user = {
+            ...(user || {}),
+            ...profile,
+          };
+          await storageSetItem(STORAGE_KEYS.user, JSON.stringify(user));
+        }
+      } catch (meErr) {
+        console.warn('bootstrapAuth getMeApi error:', meErr);
+        if (meErr?.status === 401) {
+          token = null;
+          user = null;
+          setAuthToken(null);
+          await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
+        }
+      }
+    }
+
     return {token: token || null, user, registeredUsers};
   } catch (err) {
     console.error('bootstrapAuth error:', err);
@@ -288,7 +311,7 @@ export const fetchUserProfile = createAsyncThunk(
       const currentUser = getState().auth.user || {};
       const profile = extractUserProfile(res, currentUser.phone || currentUser.mobile);
 
-      if (profile && profile.id) {
+      if (profile && (profile.id || profile.name || profile.email || profile.mobile)) {
         const mergedUser = {
           ...currentUser,
           ...profile,

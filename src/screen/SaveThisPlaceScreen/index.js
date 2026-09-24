@@ -8,7 +8,7 @@ import {Button} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
-import {addSavedAddressApi} from '../../services/userApi';
+import {addSavedAddressApi, deleteSavedAddressApi} from '../../services/userApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -48,6 +48,7 @@ export default function SaveThisPlaceScreen() {
   const [landmark, setLandmark] = useState('');
   const [note, setNote] = useState('');
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (place) {
@@ -71,6 +72,31 @@ export default function SaveThisPlaceScreen() {
 
   const address = place?.address || DEFAULT_ADDRESS;
   const canSave = placeName.trim().length > 0;
+
+  const onDelete = async () => {
+    const targetId = place?.raw?._id || place?.raw?.id || place?.id;
+    if (!targetId || deleting) {
+      return;
+    }
+    setDeleting(true);
+    try {
+      await deleteSavedAddressApi(targetId);
+      showToast({type: 'success', message: 'Place removed successfully'});
+      navigation.navigate({
+        name: 'SavedPlaces',
+        params: {placeAction: {type: 'delete', placeId: targetId}},
+        merge: true,
+      });
+    } catch (err) {
+      console.warn('deleteSavedAddressApi error:', err);
+      showToast({
+        type: 'error',
+        message: err?.message || 'Failed to remove place',
+      });
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const onSave = async () => {
     if (!canSave || saving) {
@@ -233,13 +259,28 @@ export default function SaveThisPlaceScreen() {
             </View>
           </ScrollView>
 
-          <Button
-            title="Save place"
-            disabled={!canSave}
-            loading={saving}
-            onPress={onSave}
-            accessibilityLabel="Save place"
-          />
+          <View style={{flexDirection: 'row', gap: 10, marginTop: 4}}>
+            {isEdit ? (
+              <Button
+                title={deleting ? 'Removing...' : 'Delete'}
+                variant="outline"
+                disabled={deleting || saving}
+                loading={deleting}
+                onPress={onDelete}
+                style={{flex: 1, borderColor: colors.red[300]}}
+                textStyle={{color: colors.red[600]}}
+                accessibilityLabel="Delete place"
+              />
+            ) : null}
+            <Button
+              title={isEdit ? 'Update place' : 'Save place'}
+              disabled={!canSave || deleting}
+              loading={saving}
+              onPress={onSave}
+              style={{flex: isEdit ? 2 : 1}}
+              accessibilityLabel="Save place"
+            />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -11,12 +11,78 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Feather} from '@react-native-vector-icons/feather/static';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {DatePickerModal} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {setUser} from '../../redux/slices/authSlice';
+import {fetchPassengerProfile, fetchUserProfile, setUser} from '../../redux/slices/authSlice';
+import {updatePassengerProfileApi} from '../../services/userApi';
+import {extractUserProfile} from '../../utils/user';
 import createStyles from './style';
+
+function formatDob(text) {
+  const digits = text.replace(/\D/g, '').slice(0, 8);
+  if (digits.length <= 2) {
+    return digits;
+  }
+  if (digits.length <= 4) {
+    return `${digits.slice(0, 2)} / ${digits.slice(2)}`;
+  }
+  return `${digits.slice(0, 2)} / ${digits.slice(2, 4)} / ${digits.slice(4, 8)}`;
+}
+
+function convertDobToApi(dobString) {
+  if (!dobString) {
+    return '';
+  }
+  const str = String(dobString).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    return str;
+  }
+  if (str.includes('T') && /^\d{4}-\d{2}-\d{2}/.test(str)) {
+    return str.split('T')[0];
+  }
+  const slashParts = str.replace(/\s+/g, '').split(/[\/\-]/);
+  if (slashParts.length === 3) {
+    if (slashParts[0].length === 2 && slashParts[1].length === 2 && slashParts[2].length === 4) {
+      const [day, month, year] = slashParts;
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    if (slashParts[0].length === 4 && slashParts[1].length === 2 && slashParts[2].length === 2) {
+      const [year, month, day] = slashParts;
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+  }
+  const parsed = new Date(str);
+  if (!isNaN(parsed.getTime())) {
+    const yyyy = parsed.getFullYear();
+    const mm = String(parsed.getMonth() + 1).padStart(2, '0');
+    const dd = String(parsed.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  return str;
+}
+
+function convertDobToUi(dobString) {
+  if (!dobString) {
+    return '';
+  }
+  const str = String(dobString).trim();
+  if (str.includes('T')) {
+    const parts = str.split('T')[0].split('-');
+    if (parts.length === 3) {
+      const [year, month, day] = parts;
+      return `${day} / ${month} / ${year}`;
+    }
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    const [year, month, day] = str.split('-');
+    return `${day} / ${month} / ${year}`;
+  }
+  return str;
+}
 
 export default function PersonalDetailsScreen({navigation}) {
   const insets = useSafeAreaInsets();
@@ -27,20 +93,68 @@ export default function PersonalDetailsScreen({navigation}) {
   const currentUser = useAppSelector(state => state.auth.user);
 
   const [name, setName] = useState(
-    currentUser?.name || currentUser?.fullName || 'Ananya Shah',
+    currentUser?.name || currentUser?.fullName || '',
   );
-  const [dob, setDob] = useState(currentUser?.dob || '08 Jun 1996');
+  const [dob, setDob] = useState(
+    currentUser?.dob ? convertDobToUi(currentUser.dob) : '',
+  );
+  const [dobPickerVisible, setDobPickerVisible] = useState(false);
+  const [gender, setGender] = useState(
+    (currentUser?.gender || '').toLowerCase(),
+  );
   const [phone, setPhone] = useState(
-    currentUser?.phone || currentUser?.mobile || '+91 98795 22140',
+    currentUser?.phone || currentUser?.mobile || '',
   );
   const [email, setEmail] = useState(
-    currentUser?.email || 'ananya.shah@example.com',
+    currentUser?.email || '',
   );
   const [photo, setPhoto] = useState(
     currentUser?.photo || currentUser?.profilePhoto || currentUser?.avatar || null,
   );
+  const [photoAsset, setPhotoAsset] = useState(null);
   const [emailVerified, setEmailVerified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.name || currentUser.fullName) {
+        setName(currentUser.name || currentUser.fullName);
+      }
+      if (currentUser.dob) {
+        setDob(convertDobToUi(currentUser.dob));
+      }
+      if (currentUser.gender) {
+        setGender((currentUser.gender || '').toLowerCase());
+      }
+      if (currentUser.email) {
+        setEmail(currentUser.email);
+      }
+      if (currentUser.phone || currentUser.mobile) {
+        setPhone(currentUser.phone || currentUser.mobile);
+      }
+      if (currentUser.photo || currentUser.profilePhoto || currentUser.avatar) {
+        setPhoto(currentUser.photo || currentUser.profilePhoto || currentUser.avatar);
+      }
+    }
+  }, [currentUser]);
+
+  const handleChangePhoto = async () => {
+    try {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 0.8,
+        selectionLimit: 1,
+      });
+
+      if (result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        setPhotoAsset(asset);
+        setPhoto(asset.uri);
+      }
+    } catch (err) {
+      console.warn('Image picker error:', err);
+    }
+  };
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -49,33 +163,64 @@ export default function PersonalDetailsScreen({navigation}) {
     }
     setIsSaving(true);
     try {
-      dispatch(
-        setUser({
-          name: name.trim(),
-          dob: dob.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          photo: photo,
-        }),
-      );
+      const formData = new FormData();
+      formData.append('name', name.trim());
+      formData.append('gender', gender || '');
+
+      const apiDob = convertDobToApi(dob.trim());
+      if (apiDob) {
+        formData.append('dob', apiDob);
+      }
+      if (email.trim()) {
+        formData.append('email', email.trim());
+      }
+
+      if (photoAsset?.uri) {
+        const fileUri =
+          Platform.OS === 'ios'
+            ? photoAsset.uri.replace('file://', '')
+            : photoAsset.uri;
+        formData.append('profilePhoto', {
+          uri: fileUri,
+          type: photoAsset.type || 'image/jpeg',
+          name: photoAsset.fileName || `photo_${Date.now()}.jpg`,
+        });
+      }
+
+      const res = await updatePassengerProfileApi(formData);
+      const profile = extractUserProfile(res, phone);
+
+      const updatedUser = {
+        name: profile?.name || name.trim(),
+        dob: profile?.dob || apiDob,
+        gender: profile?.gender || gender || '',
+        email: profile?.email || email.trim(),
+        photo: profile?.photo || photo,
+        phone: profile?.phone || phone,
+      };
+
+      dispatch(setUser(updatedUser));
+      dispatch(fetchPassengerProfile());
+      dispatch(fetchUserProfile());
+
       showToast({
         type: 'success',
         message: 'Personal details updated successfully',
       });
       navigation.goBack();
-    } catch {
-      showToast({type: 'error', message: 'Failed to update details'});
+    } catch (err) {
+      console.error('Failed to update passenger profile:', err);
+      showToast({
+        type: 'error',
+        message: err?.message || 'Failed to update details',
+      });
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleChangePhoto = () => {
-    showToast({type: 'info', message: 'Select photo from gallery or camera'});
-  };
-
   const handleChangePhone = () => {
-    showToast({type: 'info', message: 'Change phone number'});
+    showToast({type: 'info', message: 'Phone number cannot be changed here'});
   };
 
   const handleVerifyEmail = () => {
@@ -166,10 +311,43 @@ export default function PersonalDetailsScreen({navigation}) {
             </Text>
           </View>
 
+          {/* Gender Selection */}
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Gender</Text>
+            <View style={styles.genderRow}>
+              {['male', 'female', 'other'].map((g, idx) => {
+                const isSelected = gender === g;
+                const isLast = idx === 2;
+                return (
+                  <TouchableOpacity
+                    key={g}
+                    activeOpacity={0.7}
+                    style={[
+                      styles.genderChip,
+                      isLast && styles.genderChipLast,
+                      isSelected && styles.genderChipActive,
+                    ]}
+                    onPress={() => setGender(g)}>
+                    <Text
+                      style={[
+                        styles.genderChipText,
+                        isSelected && styles.genderChipTextActive,
+                      ]}>
+                      {g.charAt(0).toUpperCase() + g.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
           {/* Date of Birth */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Date of birth *</Text>
-            <View style={styles.inputBox}>
+            <Text style={styles.label}>Date of birth</Text>
+            <TouchableOpacity
+              activeOpacity={0.85}
+              style={styles.inputBox}
+              onPress={() => setDobPickerVisible(true)}>
               <Feather
                 name="calendar"
                 size={18}
@@ -179,11 +357,12 @@ export default function PersonalDetailsScreen({navigation}) {
               <TextInput
                 style={styles.inputText}
                 value={dob}
-                onChangeText={setDob}
-                placeholder="DD MMM YYYY"
+                onChangeText={text => setDob(formatDob(text))}
+                placeholder="DD / MM / YYYY"
                 placeholderTextColor={colors.textMuted || '#94A3B8'}
+                keyboardType="numeric"
               />
-            </View>
+            </TouchableOpacity>
             <Text style={styles.helperText}>
               Never shown to drivers — used for age-restricted offers
             </Text>
@@ -194,7 +373,9 @@ export default function PersonalDetailsScreen({navigation}) {
             <View style={styles.verifiedCard}>
               <View style={styles.verifiedCardLeft}>
                 <Text style={styles.verifiedCardLabel}>Mobile number</Text>
-                <Text style={styles.verifiedCardValue}>{phone}</Text>
+                <Text style={styles.verifiedCardValue}>
+                  {phone ? (phone.startsWith('+') ? phone : `+91 ${phone}`) : '+91 98795 22140'}
+                </Text>
                 <View style={styles.verifiedStatusRow}>
                   <Feather name="check-circle" size={14} color="#10B981" />
                   <Text style={styles.verifiedStatusText}>
@@ -256,6 +437,18 @@ export default function PersonalDetailsScreen({navigation}) {
         </ScrollView>
       </KeyboardAvoidingView>
 
+      {/* Date Picker Modal */}
+      <DatePickerModal
+        visible={dobPickerVisible}
+        onClose={() => setDobPickerVisible(false)}
+        initialDate={dob}
+        onSelectDate={selectedDate => {
+          if (selectedDate) {
+            setDob(convertDobToUi(selectedDate));
+          }
+        }}
+      />
+
       {/* Bottom Bar */}
       <View
         style={[
@@ -286,3 +479,4 @@ export default function PersonalDetailsScreen({navigation}) {
     </View>
   );
 }
+
