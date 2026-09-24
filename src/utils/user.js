@@ -12,6 +12,28 @@
  * }
  */
 
+import { BASE_URL } from '../config/setting';
+
+export function formatImageUrl(path) {
+  if (!path || typeof path !== 'string') return '';
+  const str = path.trim();
+  if (!str) return '';
+  if (
+    str.startsWith('http://') ||
+    str.startsWith('https://') ||
+    str.startsWith('file://') ||
+    str.startsWith('content://') ||
+    str.startsWith('data:')
+  ) {
+    return str;
+  }
+  const cleanBase = (BASE_URL || '').endsWith('/')
+    ? BASE_URL.slice(0, -1)
+    : BASE_URL;
+  const cleanPath = str.startsWith('/') ? str : `/${str}`;
+  return `${cleanBase}${cleanPath}`;
+}
+
 export function extractUserProfile(apiResponse, fallbackPhone = '') {
   if (!apiResponse) {
     return {
@@ -25,6 +47,7 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
       photo: '',
       profilePhoto: '',
       gender: '',
+      cityCode: '',
       role: 'passenger',
       isProfileComplete: false,
     };
@@ -69,7 +92,7 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     fallbackPhone ||
     '';
 
-  const photo =
+  const rawPhoto =
     passenger.profilePhoto ||
     passenger.photo ||
     passenger.avatar ||
@@ -83,6 +106,8 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     root.photo ||
     '';
 
+  const photo = formatImageUrl(rawPhoto);
+
   const gender =
     passenger.gender ||
     driver.gender ||
@@ -90,16 +115,24 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     root.gender ||
     '';
 
+  const cityCode =
+    passenger.cityCode ||
+    driver.cityCode ||
+    user.cityCode ||
+    root.cityCode ||
+    '';
+
   const isProfileComplete = Boolean(
     (root.isNewUser === false && name.length > 0) ||
     passenger.profileCompleted === true ||
+    driver.profileCompleted === true ||
     root.profileCompleted === true ||
     name.length > 0 ||
     dob.length > 0
   );
 
   return {
-    id: user.id || user._id || root.userId || root.id || '',
+    id: user.id || user._id || root.userId || root.id || root._id || '',
     name,
     fullName: name,
     dob,
@@ -109,7 +142,8 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     photo,
     profilePhoto: photo,
     gender,
-    role: (root.currentRole || user.currentRole || 'passenger').toLowerCase(),
+    cityCode,
+    role: (root.currentRole || user.currentRole || root.role || 'passenger').toLowerCase(),
     isProfileComplete,
   };
 }

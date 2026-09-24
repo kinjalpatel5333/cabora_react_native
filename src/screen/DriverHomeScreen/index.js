@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import {Dimensions, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import {Dimensions, ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -15,6 +15,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { getHomeTabBarInset } from '../../navigation/homeTabBarMetrics';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setDriverOnline, setDriverRestricted } from '../../redux/slices/driverSlice';
+import { getDriverKycStatusApi } from '../../services/driverApi';
 import createStyles from './style';
 import DriverMapBackdrop from '../../components/DriverMapBackdrop';
 
@@ -71,7 +72,54 @@ export default function DriverHomeScreen() {
   const dispatch = useAppDispatch();
   const driver = useAppSelector(state => state.driver);
 
-  const restricted = Boolean(driver.restricted);
+  const [kycReason, setKycReason] = useState('Insurance expired — re-upload to unblock');
+  const [kycFailState, setKycFailState] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchKycStatus = async () => {
+      try {
+        const response = await getDriverKycStatusApi();
+        if (!isMounted) return;
+
+        const data = response?.data || response;
+        const statusStr = String(data?.status || data?.kycStatus || '').toUpperCase();
+        const isApproved =
+          data?.isKycApproved ??
+          data?.isApproved ??
+          (statusStr === 'APPROVED' || statusStr === 'VERIFIED');
+
+        const isFailed =
+          isApproved === false ||
+          statusStr === 'FAILED' ||
+          statusStr === 'REJECTED' ||
+          statusStr === 'EXPIRED';
+
+        if (isFailed) {
+          setKycFailState(true);
+          dispatch(setDriverRestricted(true));
+          const reasonMsg =
+            data?.reason ||
+            data?.message ||
+            data?.rejectionReason ||
+            'Insurance expired — re-upload to unblock';
+          setKycReason(reasonMsg);
+        } else {
+          setKycFailState(false);
+          dispatch(setDriverRestricted(false));
+        }
+      } catch (err) {
+        console.warn('getDriverKycStatusApi error:', err);
+      }
+    };
+
+    fetchKycStatus();
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch]);
+
+  const restricted = Boolean(driver.restricted) || kycFailState;
   const online = Boolean(driver.online) && !restricted;
   const displayName = driverDisplayName(user);
   const greeting = useMemo(
@@ -162,7 +210,11 @@ export default function DriverHomeScreen() {
             style={styles.avatar}
             onPress={() => navigation.navigate('Profile')}
             accessibilityRole="button">
-            <Text style={styles.avatarText}>{initials(displayName)}</Text>
+            {user?.photo || user?.profilePhoto ? (
+              <Image source={{ uri: user?.photo || user?.profilePhoto }} style={{ width: 44, height: 44, borderRadius: 22 }} />
+            ) : (
+              <Text style={styles.avatarText}>{initials(displayName)}</Text>
+            )}
           </TouchableOpacity>
           <View style={styles.bellWrap}>
             <TouchableOpacity activeOpacity={0.7}
@@ -269,57 +321,63 @@ export default function DriverHomeScreen() {
             contentContainerStyle={styles.sheetScroll}
             bounces={true}>
             {restricted ? (
-              <View style={styles.offlineCard}>
-                <View style={styles.statusIconWarn}>
-                  <Lucide name="lock" size={18} color={colors.red[600]} />
+              <View style={styles.restrictedCard}>
+                <View style={styles.restrictedIcon}>
+                  <Feather name="lock" size={20} color={colors.isDark ? colors.red[400] : '#DC2626'} />
                 </View>
                 <View style={styles.statusCopy}>
-                  <Text style={styles.offlineTitle}>You can't go online</Text>
-                  <Text style={styles.offlineSub}>
-                    Insurance expired — re-upload to unblock
+                  <Text style={styles.restrictedTitle}>You can't go online</Text>
+                  <Text style={styles.restrictedSub}>
+                    {kycReason}
                   </Text>
                 </View>
                 <Toggle value={false} locked size="lg" />
               </View>
-            ) : (
-              <View style={[styles.onlineCard, !online && styles.awayCard]}>
-                <View
-                  style={[styles.statusIcon, !online && styles.statusIconAway]}>
-                  {online ? (
-                    <AntDesign
-                      name="check-circle"
-                      size={22}
-                      color={colors.white}
-                    />
-                  ) : (
-                    <Feather name="pause" size={18} color={colors.navy[600]} />
-                  )}
+            ) : online ? (
+              <View style={styles.onlineCard}>
+                <View style={styles.onlineIcon}>
+                  <AntDesign
+                    name="check-circle"
+                    size={22}
+                    color={colors.white}
+                  />
                 </View>
                 <View style={styles.statusCopy}>
-                  <Text
-                    style={[
-                      styles.onlineTitle,
-                      !online && styles.awayTitle,
-                    ]}>
-                    {online ? "You're online" : "You're offline"}
-                  </Text>
-                  <Text
-                    style={[styles.onlineSub, !online && styles.awaySub]}>
-                    {online
-                      ? `Accepting requests · ${driver.zones}`
-                      : `Go online to accept requests · ${driver.zones}`}
+                  <Text style={styles.onlineTitle}>You're online</Text>
+                  <Text style={styles.onlineSub}>
+                    Accepting requests · {driver.zones}
                   </Text>
                 </View>
                 <Toggle
-                  value={online}
+                  value={true}
+                  tone="success"
+                  size="lg"
+                  onValueChange={next => {
+                    if (!next) {
+                      dispatch(setDriverOnline(false));
+                    }
+                  }}
+                />
+              </View>
+            ) : (
+              <View style={styles.offlineCard}>
+                <View style={styles.offlineIcon}>
+                  <Feather name="moon" size={20} color={colors.isDark ? colors.white : '#64748B'} />
+                </View>
+                <View style={styles.statusCopy}>
+                  <Text style={styles.offlineTitle}>You're offline</Text>
+                  <Text style={styles.offlineSub}>
+                    Go online to start receiving ride requests
+                  </Text>
+                </View>
+                <Toggle
+                  value={false}
                   tone="success"
                   size="lg"
                   onValueChange={next => {
                     if (next) {
                       dispatch(setDriverOnline(true));
-                      return;
                     }
-                    dispatch(setDriverRestricted(true));
                   }}
                 />
               </View>

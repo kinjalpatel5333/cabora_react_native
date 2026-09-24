@@ -1,5 +1,5 @@
-import {apiGet, apiPost} from '../config/apicall';
-import {AUTH_ENDPOINTS} from '../config/endpoints';
+import { apiGet, apiPost } from '../config/apicall';
+import { AUTH_ENDPOINTS } from '../config/endpoints';
 
 /**
  * Request an OTP for a mobile number
@@ -8,7 +8,7 @@ import {AUTH_ENDPOINTS} from '../config/endpoints';
  * @param {string} [params.countryCode='+91'] - Country dial code with leading +
  * @returns {Promise<any>}
  */
-export async function sendOtpApi({mobile, countryCode = '+91'}) {
+export async function sendOtpApi({ mobile, countryCode = '+91' }) {
   const formattedMobile = String(mobile).trim();
   const formattedCountryCode = String(countryCode).trim();
 
@@ -49,7 +49,7 @@ export async function sendOtpApi({mobile, countryCode = '+91'}) {
  * @param {string} [params.countryCode]
  * @returns {Promise<any>}
  */
-export async function verifyOtpApi({challengeId, otp, mobile, countryCode}) {
+export async function verifyOtpApi({ challengeId, otp, mobile, countryCode }) {
   const formattedOtp = String(otp || '').trim();
   const formattedChallengeId = String(challengeId || '').trim();
 
@@ -60,7 +60,7 @@ export async function verifyOtpApi({challengeId, otp, mobile, countryCode}) {
   console.log('==========================================');
 
   const payload = {
-    challengeId: formattedChallengeId,
+    // challengeId: formattedChallengeId,
     otp: formattedOtp,
   };
   if (mobile) {
@@ -87,7 +87,7 @@ export async function verifyOtpApi({challengeId, otp, mobile, countryCode}) {
  * @param {'PASSENGER'|'DRIVER'} params.role
  * @returns {Promise<any>}
  */
-export async function selectRoleApi({userId, role}) {
+export async function selectRoleApi({ userId, role }) {
   const formattedRole = String(role || '').toUpperCase().trim();
   const formattedUserId = String(userId || '').trim();
 

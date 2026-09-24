@@ -9,6 +9,7 @@ import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
 import {setAuthToken, getAuthToken} from '../../config/apicall';
 import {getMeApi, logoutApi} from '../../services/authApi';
 import {getPassengerProfileApi} from '../../services/userApi';
+import {getDriverProfileApi} from '../../services/driverApi';
 import {extractUserProfile} from '../../utils/user';
 
 const initialState = {
@@ -167,7 +168,7 @@ export const loginUser = createAsyncThunk(
 export const loginWithPhone = createAsyncThunk(
   'auth/loginPhone',
   async (
-    {phone, role, name, email, dob, photo, gender, token: passedToken},
+    {phone, role, name, email, dob, photo, gender, token: passedToken, user: rawUser, isOnBoarding},
     {getState, rejectWithValue},
   ) => {
     try {
@@ -187,17 +188,35 @@ export const loginWithPhone = createAsyncThunk(
         setAuthToken(validToken);
       }
 
+      const roleStr = (
+        rawUser?.currentRole ||
+        rawUser?.role ||
+        role ||
+        'passenger'
+      ).toLowerCase();
+
+      const isDriver = roleStr === 'driver';
+      const onboardingFinished =
+        isOnBoarding === false ||
+        rawUser?.isOnBoarding === false ||
+        rawUser?.status === 'ACTIVE';
+
       const sessionUser = {
-        id: `phone-${phone}`,
-        name: name || (role === 'driver' ? 'Driver' : 'User'),
-        email: email || `${phone}@cabora.local`,
-        phone,
-        role: role || 'passenger',
-        dob: dob || null,
-        photo: photo || null,
-        gender: gender || null,
-        kycComplete: role !== 'driver',
-        kycDocuments: {},
+        ...(rawUser || {}),
+        id: rawUser?._id || rawUser?.id || `phone-${phone}`,
+        _id: rawUser?._id || rawUser?.id,
+        name: rawUser?.name || rawUser?.fullName || name || (isDriver ? 'Driver' : 'User'),
+        email: rawUser?.email || email || `${phone}@cabora.local`,
+        phone: rawUser?.mobile || rawUser?.phone || phone,
+        mobile: rawUser?.mobile || rawUser?.phone || phone,
+        role: roleStr,
+        currentRole: rawUser?.currentRole || roleStr.toUpperCase(),
+        roles: rawUser?.roles || [roleStr.toUpperCase()],
+        dob: rawUser?.dob || dob || null,
+        photo: rawUser?.photo || rawUser?.profilePhoto || photo || null,
+        gender: rawUser?.gender || gender || null,
+        kycComplete: onboardingFinished || !isDriver,
+        kycDocuments: rawUser?.kycDocuments || {},
       };
 
       if (validToken) {
@@ -313,6 +332,35 @@ export const fetchPassengerProfile = createAsyncThunk(
   },
 );
 
+export const fetchDriverProfile = createAsyncThunk(
+  'auth/fetchDriverProfile',
+  async (_, {getState, rejectWithValue}) => {
+    try {
+      const res = await getDriverProfileApi();
+      const currentUser = getState().auth.user || {};
+      const profile = extractUserProfile(res, currentUser.phone || currentUser.mobile);
+      const rootData = res?.data || res;
+
+      if (profile) {
+        const mergedUser = {
+          ...currentUser,
+          ...profile,
+          ...(rootData?.driver || {}),
+          ...(rootData?.user || {}),
+        };
+        const token = getState().auth.token;
+        if (token) {
+          await persistSession(token, mergedUser);
+        }
+        return mergedUser;
+      }
+      return rootData;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Failed to fetch driver profile');
+    }
+  },
+);
+
 export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (payload = { deviceId: 'device_123' }) => {
@@ -366,6 +414,11 @@ const authSlice = createSlice({
         }
       })
       .addCase(fetchPassengerProfile.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.user = action.payload;
+        }
+      })
+      .addCase(fetchDriverProfile.fulfilled, (state, action) => {
         if (action.payload) {
           state.user = action.payload;
         }

@@ -1,9 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {logoutUser} from './authSlice';
+import {getDriverKycStatusApi} from '../../services/driverApi';
 
 const initialState = {
   online: true,
   restricted: false,
+  kycData: null,
   rating: 4.92,
   zones: 'Whitefield & Marathahalli',
   wallet: 6420,
@@ -38,6 +40,18 @@ const initialState = {
   ],
 };
 
+export const fetchDriverKycStatus = createAsyncThunk(
+  'driver/fetchKycStatus',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await getDriverKycStatusApi();
+      return res?.data || res;
+    } catch (err) {
+      return rejectWithValue(err?.message || 'Failed to fetch KYC status');
+    }
+  },
+);
+
 const driverSlice = createSlice({
   name: 'driver',
   initialState,
@@ -55,11 +69,36 @@ const driverSlice = createSlice({
         state.online = false;
       }
     },
+    setKycData(state, action) {
+      state.kycData = action.payload;
+    },
   },
   extraReducers: builder => {
-    builder.addCase(logoutUser.fulfilled, () => initialState);
+    builder
+      .addCase(logoutUser.fulfilled, () => initialState)
+      .addCase(fetchDriverKycStatus.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.kycData = action.payload;
+          const platformStatus = String(
+            action.payload?.platform?.kycStatus ||
+            action.payload?.platform?.onboardingStatus ||
+            action.payload?.status ||
+            '',
+          ).toUpperCase();
+
+          const isFailed =
+            platformStatus === 'REJECTED' ||
+            platformStatus === 'FAILED' ||
+            platformStatus === 'EXPIRED';
+
+          if (isFailed) {
+            state.restricted = true;
+            state.online = false;
+          }
+        }
+      });
   },
 });
 
-export const {setDriverOnline, setDriverRestricted} = driverSlice.actions;
+export const {setDriverOnline, setDriverRestricted, setKycData} = driverSlice.actions;
 export default driverSlice.reducer;

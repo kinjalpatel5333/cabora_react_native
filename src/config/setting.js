@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://delivered-demand-came-techniques.trycloudflare.com';
+export const BASE_URL = 'https://cabora-backend.vercel.app/';
 
 export const API_TIMEOUT = 20000;
 
