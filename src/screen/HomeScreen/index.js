@@ -1,5 +1,5 @@
 import { PASSENGER_HOME_EXPLORE } from '../../config/staticData';
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Animated, Dimensions, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
@@ -18,6 +18,11 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import ChooseRideModal from '../ChooseRideScreen';
 import FindingRideModal from '../FindingRideScreen';
 import SetRouteModal from '../SetRouteScreen';
+import {
+  getNearbyDriversApi,
+  getPassengerCurrentLocationApi,
+  updatePassengerCurrentLocationApi,
+} from '../../services/userApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -242,6 +247,77 @@ export default function HomeScreen() {
     setFindingTrip(null);
   };
 
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: 21.1702,
+    long: 72.8311,
+    address: 'Varachha, Surat, Gujarat',
+  });
+  const [nearbyDrivers, setNearbyDrivers] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const syncLocationAndDrivers = async () => {
+      let activeCoords = {
+        lat: 21.1702,
+        long: 72.8311,
+        address: 'Varachha, Surat, Gujarat',
+      };
+
+      // 1. Fetch saved passenger current location from backend
+      try {
+        const locRes = await getPassengerCurrentLocationApi();
+        const serverLoc = locRes?.data || locRes?.location || locRes;
+        if (serverLoc?.lat && (serverLoc?.long || serverLoc?.lng)) {
+          activeCoords = {
+            lat: Number(serverLoc.lat) || 21.1702,
+            long: Number(serverLoc.long || serverLoc.lng) || 72.8311,
+            address: serverLoc.address || 'Varachha, Surat, Gujarat',
+          };
+          if (isMounted) {
+            setCurrentLocation(activeCoords);
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to get saved current location:', err);
+      }
+
+      // 2. Sync / update backend with latest current location
+      try {
+        await updatePassengerCurrentLocationApi({
+          lat: activeCoords.lat,
+          long: activeCoords.long,
+          address: activeCoords.address,
+        });
+      } catch (err) {
+        console.warn('Failed to update passenger current location:', err);
+      }
+
+      // 3. Fetch nearby drivers for this location
+      try {
+        const res = await getNearbyDriversApi({
+          latitude: activeCoords.lat,
+          longitude: activeCoords.long,
+        });
+        const driversList =
+          res?.data?.drivers ||
+          res?.data?.nearbyDrivers ||
+          res?.data ||
+          res?.drivers ||
+          (Array.isArray(res) ? res : []);
+        if (isMounted) {
+          setNearbyDrivers(Array.isArray(driversList) ? driversList : []);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch nearby drivers:', err);
+      }
+    };
+
+    syncLocationAndDrivers();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const onExplorePress = item => {
     if (item.more) {
       navigation.navigate('Services');
@@ -253,7 +329,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.root}>
-      <MapBackdrop />
+      <MapBackdrop drivers={nearbyDrivers} />
 
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
@@ -565,6 +641,7 @@ export default function HomeScreen() {
         drop={findingTrip?.drop || 'Kempegowda Intl. Airport, T2'}
         areaHint="Brigade Road"
         fare={findingTrip?.total || 198}
+        rideId={findingTrip?.rideId || findingTrip?.id || '6aa28cc7e02cb357dd298432'}
       />
 
       <ConfirmDialog

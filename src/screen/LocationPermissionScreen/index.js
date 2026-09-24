@@ -11,6 +11,7 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {completeLocationPrompt} from '../../redux/slices/appSlice';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import {getMeApi} from '../../services/authApi';
+import {updatePassengerCurrentLocationApi} from '../../services/userApi';
 import {extractUserProfile} from '../../utils/user';
 import {
   openLocationSettings,
@@ -145,6 +146,15 @@ export default function LocationPermissionScreen({navigation, route}) {
     setLoading(true);
     const result = await requestLocationPermission();
     if (result === 'granted') {
+      try {
+        await updatePassengerCurrentLocationApi({
+          lat: 21.1702,
+          long: 72.8311,
+          address: 'Varachha, Surat, Gujarat',
+        });
+      } catch (e) {
+        console.warn('Failed to update passenger location on permission allow:', e);
+      }
       await finish('granted');
       return;
     }
@@ -155,6 +165,16 @@ export default function LocationPermissionScreen({navigation, route}) {
   const onManualEntry = () => setMode('manual');
 
   const onSetPickupManually = async () => {
+    try {
+      const selected = places.find(p => p.id === selectedPlace);
+      await updatePassengerCurrentLocationApi({
+        lat: 21.1702,
+        long: 72.8311,
+        address: selected?.subtitle || selected?.title || 'Varachha, Surat, Gujarat',
+      });
+    } catch (e) {
+      console.warn('Failed to update passenger location on manual select:', e);
+    }
     await finish(selectedPlace ? `manual:${selectedPlace}` : 'manual');
   };
 

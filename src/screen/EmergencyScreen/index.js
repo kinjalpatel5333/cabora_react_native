@@ -1,6 +1,7 @@
 import { PASSENGER_EMERGENCY_CONTACTS, PASSENGER_EMERGENCY_QUICK } from '../../config/staticData';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Linking, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
@@ -9,6 +10,8 @@ import {useToast} from '../../components/Toast';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {getEmergencyContactsApi} from '../../services/userApi';
+import {triggerRideSosApi} from '../../services/rideApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -36,17 +39,24 @@ function formatClock(date) {
 export default function EmergencyScreen({
   visible,
   onClose,
+  rideId = '6aa15a09aa3588cc94a5c3c4',
+  latitude = 23.03,
+  longitude = 72.52,
+  message = 'Need assistance',
   locationLine = 'Hosur Road, near Silk Board flyover',
   locationMeta = 'Accurate to 8 m · KA 05 MJ 4821 · Rajesh Kumar',
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
+  const navigation = useNavigation();
   const {colors} = useApp();
   const {showToast} = useToast();
   const [phase, setPhase] = useState('idle'); // idle | alerted
   const [holding, setHolding] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [cancelAlertOpen, setCancelAlertOpen] = useState(false);
+  const [contacts, setContacts] = useState([]);
+  const [loadingContacts, setLoadingContacts] = useState(false);
   const [alertTimes, setAlertTimes] = useState({
     location: '',
     contact: '',
@@ -54,6 +64,63 @@ export default function EmergencyScreen({
   const holdTimer = useRef(null);
   const holdStart = useRef(0);
   const tickRef = useRef(null);
+
+  const fetchContacts = useCallback(async () => {
+    try {
+      setLoadingContacts(true);
+      const res = await getEmergencyContactsApi();
+      const rawList =
+        res?.data?.emergencyContacts ||
+        res?.data?.contacts ||
+        res?.data ||
+        res?.emergencyContacts ||
+        res?.contacts ||
+        (Array.isArray(res) ? res : []);
+
+      if (Array.isArray(rawList)) {
+        const formatted = rawList.map((item, index) => {
+          const name = item.name || item.fullName || 'Emergency Contact';
+          const phone = item.phone || item.mobile || item.phoneNumber || '';
+          const relation = item.relation || item.relationship || 'Emergency Contact';
+          const initials = name
+            .trim()
+            .split(/\s+/)
+            .map(part => part[0])
+            .join('')
+            .slice(0, 2)
+            .toUpperCase() || 'EC';
+          const meta = phone ? `${phone} · ${relation}` : relation;
+          return {
+            id: item._id || item.id || `contact-${index}`,
+            name,
+            phone,
+            relation,
+            initials,
+            meta,
+            avatarBg: item.avatarBg || '#1E3A8A',
+            avatarFg: item.avatarFg || '#93C5FD',
+            autoShare: item.autoShare ?? true,
+            alertSos: item.alertSos ?? true,
+            ...item,
+          };
+        });
+        setContacts(formatted);
+      } else {
+        setContacts([]);
+      }
+    } catch (err) {
+      console.warn('Failed to load emergency contacts in EmergencyScreen:', err);
+      setContacts([]);
+    } finally {
+      setLoadingContacts(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (visible) {
+      fetchContacts();
+    }
+  }, [visible, fetchContacts]);
 
   useEffect(() => {
     if (!visible) {
@@ -93,13 +160,31 @@ export default function EmergencyScreen({
     setHolding(false);
   };
 
-  const triggerAlert = () => {
+  const triggerAlert = async () => {
     const now = new Date();
     const t1 = formatClock(now);
     const t2 = formatClock(new Date(now.getTime() + 2000));
     setAlertTimes({location: t1, contact: t2});
     setPhase('alerted');
     clearHold();
+
+    try {
+      await triggerRideSosApi(rideId, {
+        latitude,
+        longitude,
+        message,
+      });
+      showToast({
+        type: 'success',
+        message: 'SOS alert sent! Safety team and emergency contacts alerted.',
+      });
+    } catch (err) {
+      console.warn('Failed to send SOS API request:', err);
+      showToast({
+        type: 'info',
+        message: err?.message || 'SOS alert triggered',
+      });
+    }
   };
 
   const startHold = () => {
@@ -210,32 +295,62 @@ export default function EmergencyScreen({
                 <View style={styles.contactsHead}>
                   <Text style={styles.contactsLabel}>EMERGENCY CONTACTS</Text>
                   <TouchableOpacity activeOpacity={0.7}
-                    onPress={() =>
-                      showToast({type: 'info', message: 'Manage contacts'})
-                    }
+                    onPress={() => {
+                      if (navigation?.navigate) {
+                        onClose?.();
+                        navigation.navigate('TrustedContacts');
+                      } else {
+                        showToast({type: 'info', message: 'Manage contacts'});
+                      }
+                    }}
                     hitSlop={8}>
                     <Text style={styles.manageText}>Manage</Text>
                   </TouchableOpacity>
                 </View>
-                {CONTACTS.map((contact, index) => (
-                  <View
-                    key={contact.id}
-                    style={[
-                      styles.contactRow,
-                      index < CONTACTS.length - 1 && styles.contactRowBorder,
-                    ]}>
-                    <View style={styles.avatar}>
-                      <Text style={styles.avatarText}>{contact.initials}</Text>
-                    </View>
-                    <View style={styles.contactCopy}>
-                      <Text style={styles.contactName}>{contact.name}</Text>
-                      <Text style={styles.contactMeta}>{contact.meta}</Text>
-                    </View>
-                    <View style={styles.checkWrap}>
-                      <Feather name="check" size={12} color={colors.white} />
-                    </View>
+                {loadingContacts ? (
+                  <ActivityIndicator size="small" color={colors.orange[500]} style={{paddingVertical: 14}} />
+                ) : contacts.length === 0 ? (
+                  <View style={{paddingVertical: 14, alignItems: 'center', justifyContent: 'center'}}>
+                    <Feather name="users" size={24} color={colors.navy[400]} style={{marginBottom: 6}} />
+                    <Text style={{color: colors.white, fontSize: 13.5, fontWeight: '600', textAlign: 'center'}}>
+                      No emergency contacts added
+                    </Text>
+                    <Text style={{color: colors.navy[300], fontSize: 12, textAlign: 'center', marginTop: 3, paddingHorizontal: 12}}>
+                      Add trusted contacts so they are notified during an SOS.
+                    </Text>
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      style={{marginTop: 10, paddingVertical: 6, paddingHorizontal: 14, borderRadius: 12, backgroundColor: colors.orange[500]}}
+                      onPress={() => {
+                        if (navigation?.navigate) {
+                          onClose?.();
+                          navigation.navigate('TrustedContacts');
+                        }
+                      }}>
+                      <Text style={{color: colors.white, fontSize: 13, fontWeight: '700'}}>+ Add Contact</Text>
+                    </TouchableOpacity>
                   </View>
-                ))}
+                ) : (
+                  contacts.map((contact, index) => (
+                    <View
+                      key={contact.id || index}
+                      style={[
+                        styles.contactRow,
+                        index < contacts.length - 1 && styles.contactRowBorder,
+                      ]}>
+                      <View style={styles.avatar}>
+                        <Text style={styles.avatarText}>{contact.initials}</Text>
+                      </View>
+                      <View style={styles.contactCopy}>
+                        <Text style={styles.contactName}>{contact.name}</Text>
+                        <Text style={styles.contactMeta}>{contact.meta}</Text>
+                      </View>
+                      <View style={styles.checkWrap}>
+                        <Feather name="check" size={12} color={colors.white} />
+                      </View>
+                    </View>
+                  ))
+                )}
               </View>
             </>
           ) : (
@@ -279,7 +394,7 @@ export default function EmergencyScreen({
                   </View>
                   <View style={styles.statusCopy}>
                     <Text style={styles.statusTitle}>
-                      Priya Menon notified by SMS and call
+                      {`${contacts[0]?.name || 'Emergency contact'} notified by SMS and call`}
                     </Text>
                     <Text style={styles.statusMeta}>
                       {alertTimes.contact || '—'}

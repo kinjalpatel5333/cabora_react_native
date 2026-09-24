@@ -78,6 +78,7 @@ export default function FindingRideModal({
   drop = 'Kempegowda Intl. Airport, T2',
   areaHint = 'Brigade Road',
   fare = 198,
+  rideId = '6aa28cc7e02cb357dd298432',
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
@@ -296,6 +297,7 @@ export default function FindingRideModal({
         />
       ) : phase === 'rateTip' ? (
         <RateTipScreen
+          rideId={rideId}
           onClose={() => setPhase('completed')}
           onSkip={stepBack}
           onSubmit={result => {
@@ -653,6 +655,7 @@ export default function FindingRideModal({
       <EmergencyScreen
         visible={emergencyOpen}
         onClose={() => setEmergencyOpen(false)}
+        rideId={rideId || '6aa15a09aa3588cc94a5c3c4'}
       />
       <ShareLiveTripScreen
         visible={shareOpen}

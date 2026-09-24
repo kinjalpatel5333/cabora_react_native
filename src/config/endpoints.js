@@ -17,11 +17,23 @@ export const AUTH_ENDPOINTS = {
 export const PASSENGER_ENDPOINTS = {
   PROFILE: '/api/v1/passenger/profile',
   ADDRESSES: '/api/v1/passenger/addresses',
+  EMERGENCY_CONTACTS: '/api/v1/passenger/emergency-contacts',
+  NEARBY_DRIVERS: '/api/v1/passenger/nearby-drivers',
+  CURRENT_LOCATION: '/api/v1/passenger/current-location',
 };
 
 export const WALLET_ENDPOINTS = {
   BALANCE: '/api/v1/wallet/balance',
   ADD_MONEY: '/api/v1/wallet/add-money',
+};
+
+export const RIDE_ENDPOINTS = {
+  RATE: rideId => `/api/v1/rides/${rideId}/rate`,
+  SOS: rideId => `/api/v1/rides/${rideId}/sos`,
+  ESTIMATE: '/api/v1/rides/estimate',
+  BOOK: '/api/v1/rides/book',
+  CANCEL: '/api/v1/rides/cancel',
+  TRACK: '/api/v1/rides/track',
 };
 
 export const USER_ENDPOINTS = {

@@ -93,19 +93,27 @@ export default function SavedPlacesScreen() {
 
   useEffect(() => {
     const action = route.params?.placeAction;
-    if (!action?.place) {
+    if (!action) {
       return;
     }
 
-    setPlaces(prev => {
-      const idx = prev.findIndex(p => p.id === action.place.id);
-      if (idx >= 0) {
-        const next = [...prev];
-        next[idx] = {...next[idx], ...action.place};
-        return next;
-      }
-      return [action.place, ...prev];
-    });
+    if (action.type === 'delete' && action.placeId) {
+      setPlaces(prev =>
+        prev.filter(
+          p => p.id !== action.placeId && p.raw?._id !== action.placeId,
+        ),
+      );
+    } else if (action.place) {
+      setPlaces(prev => {
+        const idx = prev.findIndex(p => p.id === action.place.id);
+        if (idx >= 0) {
+          const next = [...prev];
+          next[idx] = {...next[idx], ...action.place};
+          return next;
+        }
+        return [action.place, ...prev];
+      });
+    }
 
     navigation.setParams({placeAction: undefined});
   }, [navigation, route.params?.placeAction]);
@@ -127,15 +135,17 @@ export default function SavedPlacesScreen() {
   const other = filtered.filter(p => p.section === 'other');
 
   const onDelete = async place => {
-    const targetId = place?.raw?._id || place?.id;
+    const targetId = place?.raw?._id || place?.raw?.id || place?.id;
     if (!targetId || deletingId) {
       return;
     }
     try {
       setDeletingId(place.id);
       await deleteSavedAddressApi(targetId);
-      setPlaces(prev => prev.filter(p => p.id !== place.id && p.raw?._id !== targetId));
-      showToast({type: 'success', message: 'Place removed'});
+      setPlaces(prev =>
+        prev.filter(p => p.id !== place.id && p.raw?._id !== targetId),
+      );
+      showToast({type: 'success', message: 'Place removed successfully'});
     } catch (err) {
       console.warn('Failed to delete address:', err);
       showToast({
