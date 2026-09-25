@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export default function createStyles(theme) {
-  const { colors, isDark } = theme;
+export default function createStyles(colors) {
+  const isDark = Boolean(colors?.isDark);
+
 
   return StyleSheet.create({
     root: {
@@ -24,8 +25,8 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
       textAlign: 'center',
     },
@@ -77,22 +78,22 @@ export default function createStyles(theme) {
       zIndex: 1,
     },
     cardLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 9,
-      fontWeight: '700',
       letterSpacing: 0.8,
       color: '#8A9DB5',
       marginBottom: 3,
       textTransform: 'uppercase',
     },
     cardHolderName: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: '#FFFFFF',
       letterSpacing: 0.5,
     },
     cardExpiry: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: '#FFFFFF',
       textAlign: 'right',
     },
@@ -117,8 +118,8 @@ export default function createStyles(theme) {
       zIndex: 1,
     },
     cardNumberText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: '#FFFFFF',
       letterSpacing: 2,
     },
@@ -129,8 +130,8 @@ export default function createStyles(theme) {
       borderRadius: 4,
     },
     networkText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 10,
-      fontWeight: '800',
       color: '#1E293B',
       letterSpacing: 0.5,
     },
@@ -140,12 +141,13 @@ export default function createStyles(theme) {
       marginBottom: 14,
     },
     inputLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: isDark ? colors.navy[200] : '#475569',
       marginBottom: 6,
     },
     input: {
+      fontFamily: colors.fonts.sora.medium,
       backgroundColor: isDark ? colors.navy[800] : '#FFFFFF',
       borderWidth: 1.2,
       borderColor: isDark ? colors.navy[700] : '#E2E8F0',
@@ -154,7 +156,6 @@ export default function createStyles(theme) {
       paddingVertical: 14,
       fontSize: 15,
       color: isDark ? colors.white : '#111827',
-      fontWeight: '500',
     },
     inputFocused: {
       borderColor: '#FF7A00',
@@ -188,11 +189,12 @@ export default function createStyles(theme) {
       paddingRight: 10,
     },
     saveCardTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     saveCardSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 2,
@@ -210,6 +212,7 @@ export default function createStyles(theme) {
       marginBottom: 20,
     },
     securityText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 12,
       color: isDark ? colors.green[300] : '#047857',
@@ -239,8 +242,8 @@ export default function createStyles(theme) {
       marginRight: 12,
     },
     cancelBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     addBtn: {
@@ -257,8 +260,8 @@ export default function createStyles(theme) {
       elevation: 3,
     },
     addBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
   });

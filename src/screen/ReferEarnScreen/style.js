@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export default function createStyles(theme) {
-  const { colors, isDark } = theme;
+export default function createStyles(colors) {
+  const isDark = Boolean(colors?.isDark);
+
 
   return StyleSheet.create({
     root: {
@@ -24,8 +25,8 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
       textAlign: 'center',
     },
@@ -74,12 +75,13 @@ export default function createStyles(theme) {
       zIndex: 1,
     },
     heroHeading: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
-      fontWeight: '800',
       color: '#FFFFFF',
       letterSpacing: 0.3,
     },
     heroSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       color: '#94A3B8',
       lineHeight: 18,
@@ -102,8 +104,8 @@ export default function createStyles(theme) {
       zIndex: 1,
     },
     earnedBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: '#111827',
       marginLeft: 8,
     },
@@ -125,8 +127,8 @@ export default function createStyles(theme) {
 
     // Your Code Card
     codeCardLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 0.8,
       color: isDark ? colors.navy[300] : '#8A94A6',
       textTransform: 'uppercase',
@@ -138,8 +140,8 @@ export default function createStyles(theme) {
       justifyContent: 'space-between',
     },
     codeValueText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
-      fontWeight: '800',
       color: isDark ? colors.white : '#111827',
       letterSpacing: 1,
     },
@@ -150,11 +152,12 @@ export default function createStyles(theme) {
       borderRadius: 14,
     },
     copyBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: isDark ? colors.navy[200] : '#475569',
     },
     codeCardSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[400] : '#8E9CAE',
       marginTop: 8,
@@ -170,11 +173,12 @@ export default function createStyles(theme) {
       flex: 1,
     },
     statValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '800',
       color: isDark ? colors.white : '#111827',
     },
     statLabel: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 2,
@@ -185,14 +189,15 @@ export default function createStyles(theme) {
       marginVertical: 12,
     },
     statUnlockText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[300] : '#8E9CAE',
     },
 
     // How It Works Card
     stepsHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 0.8,
       color: isDark ? colors.navy[300] : '#8A94A6',
       textTransform: 'uppercase',
@@ -219,11 +224,12 @@ export default function createStyles(theme) {
       flex: 1,
     },
     stepTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     stepSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 2,
@@ -236,12 +242,13 @@ export default function createStyles(theme) {
       paddingHorizontal: 2,
     },
     termsText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[400] : '#8E9CAE',
     },
     termsLink: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: '#FF7A00',
       marginTop: 4,
     },
@@ -267,8 +274,8 @@ export default function createStyles(theme) {
       elevation: 4,
     },
     shareBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
   });

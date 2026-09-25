@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     content: {
       flex: 1,
@@ -63,15 +63,15 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     heroTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 17,
-      fontWeight: '700',
       marginBottom: 3,
     },
     heroSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.white80,
       fontSize: 12,
-      fontWeight: '400',
       lineHeight: 16,
       maxWidth: '92%',
     },
@@ -79,9 +79,9 @@ export default function createStyles(colors) {
       marginTop: 0,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginTop: 0,
       marginBottom: 6,
@@ -111,15 +111,15 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     toolTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     toolSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       lineHeight: 14.5,
     },
     insuranceCard: {
@@ -144,15 +144,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     insuranceTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     insuranceSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11.5,
-      fontWeight: '400',
       lineHeight: 15,
     },
     insuranceFooter: {
@@ -162,14 +162,14 @@ export default function createStyles(colors) {
       paddingTop: 2,
     },
     policyLink: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 13,
-      fontWeight: '700',
     },
     policyId: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textSub,
       fontSize: 11.5,
-      fontWeight: '500',
     },
     footer: {
       paddingHorizontal: 16,
@@ -186,9 +186,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     sosText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

@@ -31,12 +31,13 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       marginBottom: 8,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 14,
       lineHeight: 20,
@@ -62,20 +63,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     penaltyTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.red[400] : colors.red[500],
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 4,
     },
     penaltyMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.isDark ? colors.red[300] : colors.red[700],
       fontSize: 12,
       lineHeight: 17,
     },
     reasonLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 0.7,
       marginBottom: 10,
     },
@@ -119,15 +121,15 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     reasonText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '500',
       lineHeight: 20,
     },
     reasonTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     actions: {
       flexDirection: 'row',
@@ -144,9 +146,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.navy[850] : colors.surface,
     },
     keepText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     cancelBtn: {
       flex: 1,
@@ -157,9 +159,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.red[500],
     },
     cancelText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '800',
     },
   });
 }

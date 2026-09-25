@@ -28,11 +28,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: H_PAD,
@@ -42,9 +42,9 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -78,21 +78,21 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     packageHours: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       paddingRight: 20,
     },
     packageKm: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       marginTop: 1,
     },
     packagePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 18,
-      fontWeight: '800',
       marginTop: 8,
       letterSpacing: -0.3,
     },
@@ -100,9 +100,9 @@ export default function createStyles(colors) {
       color: colors.primary,
     },
     packageAfter: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       marginTop: 1,
     },
     card: {
@@ -131,14 +131,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     whereTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     whereMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     divider: {
@@ -156,9 +156,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 4,
     },
     editText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     vehicleScroll: {
       paddingRight: 8,
@@ -177,24 +177,24 @@ export default function createStyles(colors) {
       borderColor: colors.primary,
     },
     vehicleName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 6,
     },
     vehiclePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
       marginTop: 1,
     },
     vehiclePriceActive: {
       color: colors.primary,
     },
     vehicleMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 10,
-      fontWeight: '400',
       marginTop: 1,
     },
     infoBanner: {
@@ -209,10 +209,10 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     infoText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 18,
     },
     footer: {
@@ -230,21 +230,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       marginTop: 2,
       letterSpacing: -0.4,
     },
     fareNote: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       marginTop: 2,
     },
     bookBtn: {
@@ -256,9 +256,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

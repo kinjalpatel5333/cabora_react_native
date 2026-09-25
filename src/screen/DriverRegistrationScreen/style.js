@@ -24,8 +24,8 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
 
@@ -45,27 +45,28 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     stepKicker: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: colors.orange[500],
       letterSpacing: 0.8,
       textTransform: 'uppercase',
       marginBottom: 4,
     },
     percentText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: colors.gray[500],
       textAlign: 'right',
       marginTop: 6,
     },
     stepTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
-      fontWeight: '800',
       color: colors.text,
       marginBottom: 4,
     },
     stepSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       color: colors.gray[500],
       lineHeight: 18,
@@ -125,11 +126,12 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     avatarTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     avatarSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginTop: 2,
@@ -141,8 +143,8 @@ export default function createStyles(colors) {
       borderRadius: 20,
     },
     uploadPillText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: colors.orange[600],
     },
 
@@ -157,8 +159,8 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     fieldLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 6,
     },
@@ -179,13 +181,14 @@ export default function createStyles(colors) {
       borderColor: colors.green[500],
     },
     textInput: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 15,
-      fontWeight: '600',
       color: colors.text,
       paddingVertical: 0,
     },
     fieldSubtext: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginTop: 6,
@@ -215,11 +218,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     mobileNumber: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     mobileSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginTop: 2,
@@ -231,8 +235,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     verifiedPillText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.green[700],
     },
 
@@ -254,9 +258,8 @@ export default function createStyles(colors) {
       gap: 6,
     },
     countryDialCode: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
     },
     prefixDividerLine: {
@@ -267,7 +270,7 @@ export default function createStyles(colors) {
     },
     mobileTextInputField: {
       flex: 1,
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 15,
       color: colors.text,
       paddingVertical: 0,
@@ -279,9 +282,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     verifyActionBtnText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.white,
     },
 
@@ -382,8 +384,8 @@ export default function createStyles(colors) {
       backgroundColor: 'rgba(255, 255, 255, 0.45)',
     },
     docTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 8,
     },
@@ -401,8 +403,8 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
     },
     statusPillVerifiedText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: '#16A34A',
     },
     statusPillBlurred: {
@@ -413,8 +415,8 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
     },
     statusPillBlurredText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: '#EF4444',
     },
     btnPillGray: {
@@ -424,8 +426,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     btnPillGrayText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: '#475569',
     },
     btnPillRed: {
@@ -435,18 +437,18 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     btnPillRedText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: '#DC2626',
     },
     docBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.gray[600],
     },
     docBtnTextRed: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.danger,
     },
 
@@ -465,9 +467,9 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     warningBannerText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 12.5,
-      fontWeight: '500',
       color: '#991B1B',
       lineHeight: 18,
     },
@@ -482,8 +484,8 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     checklistHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: '#64748B',
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -498,8 +500,8 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     checkText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
-      fontWeight: '500',
       color: colors.text,
       flex: 1,
     },
@@ -537,11 +539,12 @@ export default function createStyles(colors) {
       backgroundColor: colors.white,
     },
     vehicleName: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
     },
     vehicleMeta: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: colors.gray[500],
       marginTop: 2,
@@ -604,25 +607,27 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     plateIllustrationText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11,
-      fontWeight: '800',
       color: '#1E293B',
     },
     docRowCopy: {
       flex: 1,
     },
     docRowTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 2,
     },
     docRowMeta: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginBottom: 2,
     },
     docRowMetaSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11.5,
       color: colors.gray[400],
       marginBottom: 4,
@@ -635,8 +640,8 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
     },
     statusPillRequiredText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11,
-      fontWeight: '600',
       color: '#64748B',
     },
     docRowFooter: {
@@ -651,17 +656,6 @@ export default function createStyles(colors) {
       alignItems: 'center',
       gap: 8,
     },
-    btnPillGray: {
-      backgroundColor: '#F1F5F9',
-      paddingHorizontal: 14,
-      paddingVertical: 6,
-      borderRadius: 12,
-    },
-    btnPillGrayText: {
-      fontSize: 12,
-      fontWeight: '600',
-      color: '#475569',
-    },
     btnPillOrange: {
       backgroundColor: '#FFF7ED',
       paddingHorizontal: 14,
@@ -669,8 +663,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     btnPillOrangeText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: '#EA580C',
     },
     docRowAction: {
@@ -685,8 +679,8 @@ export default function createStyles(colors) {
       gap: 6,
     },
     successSubtext: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: '#15803D',
     },
 
@@ -705,12 +699,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     amberNoticeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13.5,
-      fontWeight: '700',
       color: '#78350F',
       marginBottom: 2,
     },
     amberNoticeText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
       color: '#92400E',
       lineHeight: 17,
@@ -737,18 +732,19 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     bankBranchTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
-      fontWeight: '800',
       color: colors.text,
     },
     bankBranchSub: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[600],
       marginTop: 2,
     },
     bankBranchVerified: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.green[700],
       marginTop: 2,
     },
@@ -777,11 +773,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     reviewTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     reviewMeta: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginTop: 2,
@@ -791,8 +788,8 @@ export default function createStyles(colors) {
       gap: 6,
     },
     reviewCountText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.green[700],
     },
     editPillBtn: {
@@ -802,8 +799,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     editPillText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.gray[700],
     },
     confirmCheckboxCard: {
@@ -834,15 +831,15 @@ export default function createStyles(colors) {
       borderColor: colors.orange[500],
     },
     confirmText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.text,
       lineHeight: 18,
     },
     termsLinkText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12.5,
-      fontWeight: '700',
       color: colors.orange[600],
       marginTop: 8,
       marginLeft: 34,
@@ -858,12 +855,12 @@ export default function createStyles(colors) {
       borderColor: colors.amber[200],
     },
     verifyInfoText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 12.5,
       color: colors.amber[900],
       marginLeft: 10,
       lineHeight: 17,
-      fontWeight: '500',
     },
 
     // Info Card
@@ -878,6 +875,7 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     infoCardText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 12,
       color: colors.gray[600],
@@ -902,8 +900,8 @@ export default function createStyles(colors) {
       height: 52,
     },
     btnBackText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     btnNext: {
@@ -915,8 +913,8 @@ export default function createStyles(colors) {
       height: 52,
     },
     btnNextText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.white,
     },
   });

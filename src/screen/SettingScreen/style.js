@@ -3,17 +3,17 @@ import {StyleSheet} from 'react-native';
 export default function createStyles(colors) {
   return StyleSheet.create({
     kicker: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 12,
-      fontWeight: '800',
       letterSpacing: 1.4,
       marginTop: 8,
       marginBottom: 8,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       marginBottom: 18,
     },
     card: {
@@ -40,11 +40,12 @@ export default function createStyles(colors) {
       paddingRight: 12,
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     hint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
       marginTop: 4,

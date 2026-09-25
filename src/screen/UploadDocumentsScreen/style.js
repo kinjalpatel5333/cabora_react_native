@@ -26,9 +26,8 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
 
@@ -53,19 +52,17 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     progressCardTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: colors.text,
     },
     progressPctText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
-      fontWeight: '800',
       color: colors.primary,
     },
     progressCardSub: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       color: colors.gray[500],
       marginBottom: 14,
@@ -84,9 +81,8 @@ export default function createStyles(colors) {
 
     // Section Header
     sectionTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: '#64748B',
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -142,14 +138,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     docTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 2,
     },
     docSub: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
       color: colors.gray[500],
       marginBottom: 8,
@@ -192,9 +187,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.gray[600],
     },
     statusPillText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
     },
     pillTextApproved: {
       color: colors.green[700],
@@ -221,9 +215,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     reuploadBtnText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: colors.white,
     },
     uploadBtn: {
@@ -233,9 +226,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     uploadBtnText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: colors.white,
     },
 
@@ -253,11 +245,10 @@ export default function createStyles(colors) {
     },
     amberNoticeText: {
       flex: 1,
-      fontFamily: colors.fonts?.sora?.medium || 'System',
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
       color: '#92400E',
       lineHeight: 18,
-      fontWeight: '500',
     },
 
     // Modal Styles
@@ -299,15 +290,14 @@ export default function createStyles(colors) {
       backgroundColor: '#FEF3C7',
     },
     modalTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '800',
       color: colors.text,
       textAlign: 'center',
       marginBottom: 8,
     },
     modalSub: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13.5,
       color: colors.gray[500] || '#64748B',
       textAlign: 'center',
@@ -330,21 +320,18 @@ export default function createStyles(colors) {
       backgroundColor: '#FEF3C7',
     },
     modalBadgeTextApproved: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: '#15803D',
     },
     modalBadgeTextRejected: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: '#DC2626',
     },
     modalBadgeTextPending: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: '#D97706',
     },
     modalBtn: {
@@ -355,9 +342,8 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     modalBtnText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
 

@@ -463,12 +463,7 @@ export const dark = {
   disabledText: palette.navy[500],
   focus: palette.orange[400],
   overlay: palette.alpha.navy72,
-  inputBg: palette.navy[850],
-  iconBg: palette.navy[800],
-  disabledBg: palette.navy[800],
-  disabledText: palette.navy[500],
-  focus: palette.orange[400],
-  overlay: palette.alpha.navy72,
+
   map: {
     land: '#071C31',
     road: '#0F2840',

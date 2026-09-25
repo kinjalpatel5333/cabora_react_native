@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -58,15 +58,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     alertTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.red[350] : colors.red.primary,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     alertSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.isDark ? colors.red.lightText : colors.red.primary,
       fontSize: 11.5,
-      fontWeight: '400',
       lineHeight: 15,
     },
     callBtn: {
@@ -78,14 +78,14 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     callBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12.5,
-      fontWeight: '700',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 8,
     },
@@ -108,20 +108,20 @@ export default function createStyles(colors) {
       flex: 1,
     },
     rideTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
     },
     rideSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
     },
     changeRideLink: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 8,
     },
     categoriesGrid: {
@@ -152,14 +152,14 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     categoryText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '500',
       flex: 1,
       lineHeight: 16,
     },
     categoryTextSelected: {
-      fontWeight: '700',
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
     },
     textAreaCard: {
@@ -173,6 +173,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     textInput: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.text,
       fontSize: 12.5,
       lineHeight: 18,
@@ -181,6 +182,7 @@ export default function createStyles(colors) {
       textAlignVertical: 'top',
     },
     charCount: {
+      fontFamily: colors.fonts.sora.regular,
       alignSelf: 'flex-end',
       color: colors.textMuted,
       fontSize: 11,
@@ -200,9 +202,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     photoBtnText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '600',
     },
     anonymousCard: {
       flexDirection: 'row',
@@ -220,15 +222,15 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     anonymousTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     anonymousSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11.5,
-      fontWeight: '400',
     },
     toggleTrack: {
       width: 44,

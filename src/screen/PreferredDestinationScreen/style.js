@@ -24,11 +24,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -52,11 +52,12 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     cardTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     cardSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textSecondary,
       fontSize: 13,
       lineHeight: 18,
@@ -80,9 +81,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.green[500],
     },
     onBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 12,
-      fontWeight: '700',
     },
     mapPreview: {
       height: 140,
@@ -106,19 +107,20 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     destTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     destMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textSecondary,
       fontSize: 12,
       marginTop: 2,
     },
     changeLink: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
       fontSize: 14,
-      fontWeight: '800',
     },
     usesTop: {
       flexDirection: 'row',
@@ -127,9 +129,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     usesCount: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     usesTrack: {
       height: 8,
@@ -144,6 +146,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[600],
     },
     usesHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textSecondary,
       fontSize: 12,
       lineHeight: 17,
@@ -155,6 +158,7 @@ export default function createStyles(colors) {
       gap: 6,
     },
     infoText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.textSecondary,
       fontSize: 12,
@@ -170,11 +174,11 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     ruleText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.textSecondary,
       fontSize: 13,
       lineHeight: 18,
-      fontWeight: '500',
     },
     footer: {
       position: 'absolute',
@@ -188,6 +192,7 @@ export default function createStyles(colors) {
       borderTopColor: colors.border,
     },
     footerHint: {
+      fontFamily: colors.fonts.sora.regular,
       textAlign: 'center',
       color: colors.textMuted,
       fontSize: 12,

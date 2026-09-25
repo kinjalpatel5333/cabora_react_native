@@ -32,7 +32,6 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      fontWeight: '900',
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
 
@@ -63,7 +62,6 @@ export default function createStyles(colors) {
       flex: 1,
       fontSize: 14,
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
-      fontWeight: '500',
       paddingVertical: 0,
     },
 
@@ -96,13 +94,11 @@ export default function createStyles(colors) {
     periodTabText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     periodTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
-      fontWeight: '800',
     },
 
     // Status Filter Row (Completed, Cancelled, All)
@@ -132,13 +128,11 @@ export default function createStyles(colors) {
     statusFilterTabText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     statusFilterTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
-      fontWeight: '800',
     },
 
     // Navy Stats Summary Card
@@ -165,7 +159,6 @@ export default function createStyles(colors) {
     statLabel: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -174,13 +167,11 @@ export default function createStyles(colors) {
     statValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '900',
       color: colors.white,
     },
     statValueGreen: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '900',
       color: colors.green[550],
     },
 
@@ -206,7 +197,6 @@ export default function createStyles(colors) {
     tripTime: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     statusPill: {
@@ -237,13 +227,11 @@ export default function createStyles(colors) {
     statusTextCompleted: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: colors.green[700],
     },
     statusTextCancelled: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: colors.red[600],
     },
 
@@ -284,7 +272,6 @@ export default function createStyles(colors) {
     addressKicker: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 10.5,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.5,
       textTransform: 'uppercase',
@@ -293,7 +280,6 @@ export default function createStyles(colors) {
     addressTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
 
@@ -316,7 +302,6 @@ export default function createStyles(colors) {
     footerMeta: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
-      fontWeight: '600',
       color: colors.isDark ? colors.navy[300] : colors.slate[500],
     },
     footerRight: {
@@ -327,7 +312,6 @@ export default function createStyles(colors) {
     footerFare: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
-      fontWeight: '900',
       color: colors.isDark ? colors.navy[25] : colors.slate[900],
     },
   });

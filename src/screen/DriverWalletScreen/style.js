@@ -32,7 +32,6 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      fontWeight: '900',
       color: colors.text,
     },
 
@@ -62,7 +61,6 @@ export default function createStyles(colors) {
     navyKicker: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 1.0,
       textTransform: 'uppercase',
@@ -70,7 +68,6 @@ export default function createStyles(colors) {
     navyAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 42,
-      fontWeight: '900',
       color: colors.white,
       marginTop: 8,
       marginBottom: 8,
@@ -79,7 +76,6 @@ export default function createStyles(colors) {
     navySub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
-      fontWeight: '500',
       color: colors.navy[350],
       letterSpacing: 0.1,
     },
@@ -100,7 +96,6 @@ export default function createStyles(colors) {
     cardKicker: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -128,7 +123,6 @@ export default function createStyles(colors) {
     currencySymbol: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 24,
-      fontWeight: '900',
       color: colors.text,
       marginRight: 2,
     },
@@ -136,7 +130,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       fontSize: 24,
-      fontWeight: '900',
       color: colors.text,
       paddingVertical: 0,
       paddingHorizontal: 0,
@@ -146,7 +139,6 @@ export default function createStyles(colors) {
     minLabel: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
-      fontWeight: '600',
       color: colors.textMuted,
     },
 
@@ -174,13 +166,11 @@ export default function createStyles(colors) {
     pillText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 13.5,
-      fontWeight: '700',
       color: colors.textSecondary,
     },
     pillTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
-      fontWeight: '800',
     },
 
     // Bank Row
@@ -215,13 +205,11 @@ export default function createStyles(colors) {
     bankName: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.text,
     },
     bankVerified: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: colors.green[600],
       marginTop: 2,
     },
@@ -232,7 +220,6 @@ export default function createStyles(colors) {
     changeText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13.5,
-      fontWeight: '800',
       color: colors.primary,
     },
 
@@ -254,14 +241,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15.5,
-      fontWeight: '800',
     },
 
     // Payout History Section
     sectionTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -322,14 +307,12 @@ export default function createStyles(colors) {
     historyTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
       lineHeight: 19,
     },
     historySub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       marginTop: 3,
     },
     historySubPaid: {
@@ -349,7 +332,6 @@ export default function createStyles(colors) {
     historyAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15.5,
-      fontWeight: '800',
       color: colors.text,
     },
     statusBadge: {
@@ -386,7 +368,6 @@ export default function createStyles(colors) {
     statusText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
     },
     statusTextPaid: {
       color: '#00A86B',

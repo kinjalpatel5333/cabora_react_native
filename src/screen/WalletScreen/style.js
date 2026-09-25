@@ -31,11 +31,11 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       textAlign: 'left',
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     balanceCard: {
@@ -64,9 +64,9 @@ export default function createStyles(colors) {
       zIndex: 1,
     },
     balanceLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.blue.slate,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.2,
     },
     balanceLoader: {
@@ -76,17 +76,17 @@ export default function createStyles(colors) {
       zIndex: 1,
     },
     balanceValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 36,
-      fontWeight: '800',
       letterSpacing: -0.8,
       marginBottom: 6,
       zIndex: 1,
     },
     balanceMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.blue.slate,
       fontSize: 13,
-      fontWeight: '500',
       marginBottom: 20,
       zIndex: 1,
     },
@@ -108,9 +108,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
     },
     addMoneyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
     },
     historyBtn: {
       flexDirection: 'row',
@@ -125,9 +125,9 @@ export default function createStyles(colors) {
       borderColor: colors.alpha.white22,
     },
     historyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
     },
     tabs: {
       flexDirection: 'row',
@@ -154,13 +154,13 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     tabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '600',
     },
     tabTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     txnList: {
       gap: 10,
@@ -188,32 +188,32 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     txnTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
     },
     txnMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
     },
     txnRight: {
       alignItems: 'flex-end',
     },
     txnAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
       marginBottom: 3,
     },
     txnAmountCredit: {
       color: colors.green[500],
     },
     txnStatus: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '500',
     },
   });
 }

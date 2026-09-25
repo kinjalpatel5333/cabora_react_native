@@ -31,11 +31,11 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     headerActions: {
@@ -56,10 +56,10 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     searchInput: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '400',
       padding: 0,
       margin: 0,
     },
@@ -88,18 +88,18 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     tabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '600',
     },
     tabTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     monthLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -120,9 +120,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     rideWhen: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '500',
     },
     statusPill: {
       flexDirection: 'row',
@@ -138,8 +138,8 @@ export default function createStyles(colors) {
       borderRadius: 3,
     },
     statusText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
     },
     routeBlock: {
       flexDirection: 'row',
@@ -176,16 +176,16 @@ export default function createStyles(colors) {
       gap: 14,
     },
     stopLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 2,
     },
     stopAddress: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       lineHeight: 19,
     },
     rideFooter: {
@@ -197,15 +197,15 @@ export default function createStyles(colors) {
       paddingTop: 12,
     },
     rideMeta: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '500',
     },
     rideFare: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     emptyWrap: {
       alignItems: 'center',
@@ -223,16 +223,16 @@ export default function createStyles(colors) {
       marginBottom: 22,
     },
     emptyTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       textAlign: 'center',
       letterSpacing: -0.3,
     },
     emptyBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 15,
-      fontWeight: '400',
       textAlign: 'center',
       lineHeight: 22,
       marginTop: 10,
@@ -248,9 +248,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     bookText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

@@ -43,13 +43,14 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     cardTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white || '#FFFFFF',
       fontSize: 20,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 10,
     },
     cardBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha?.slateAlpha88 || 'rgba(226, 232, 240, 0.85)',
       fontSize: 14,
       lineHeight: 21,

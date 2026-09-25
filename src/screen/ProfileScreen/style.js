@@ -62,9 +62,9 @@ export default function createStyles(colors) {
       borderRadius: 31,
     },
     avatarInitials: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 20,
-      fontWeight: '700',
     },
     userInfo: {
       flex: 1,
@@ -76,20 +76,20 @@ export default function createStyles(colors) {
       gap: 6,
     },
     userName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 19,
-      fontWeight: '700',
     },
     userSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.white78,
       fontSize: 12.5,
-      fontWeight: '400',
       marginTop: 3,
     },
     userEmail: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.white65,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     editBtn: {
@@ -127,13 +127,13 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     roleText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.blue.gray,
       fontSize: 15,
-      fontWeight: '600',
     },
     roleTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy.darkBg3,
-      fontWeight: '700',
     },
     approvedBadge: {
       backgroundColor: colors.green[600],
@@ -143,9 +143,9 @@ export default function createStyles(colors) {
       marginLeft: 4,
     },
     approvedText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 10,
-      fontWeight: '800',
       letterSpacing: 0.5,
     },
     scroll: {
@@ -153,9 +153,9 @@ export default function createStyles(colors) {
       paddingTop: 14,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
@@ -191,15 +191,15 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     rowTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       marginBottom: 2,
     },
     rowSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13.5,
-      fontWeight: '400',
       lineHeight: 18,
     },
     toggleTrack: {
@@ -267,16 +267,16 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     modalTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 20,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 8,
     },
     modalSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '400',
       textAlign: 'center',
       lineHeight: 20,
       marginBottom: 18,
@@ -296,10 +296,10 @@ export default function createStyles(colors) {
       gap: 12,
     },
     modalInfoText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 18,
     },
     modalDeleteBtn: {
@@ -312,9 +312,9 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     modalDeleteBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '700',
     },
     modalKeepBtn: {
       paddingVertical: 10,
@@ -322,9 +322,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     modalKeepBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 15,
-      fontWeight: '700',
     },
   });
 }

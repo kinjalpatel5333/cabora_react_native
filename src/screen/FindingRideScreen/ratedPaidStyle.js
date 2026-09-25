@@ -32,17 +32,17 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.green[400] : colors.green[800],
       fontSize: 30,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 10,
       letterSpacing: -0.3,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.green.bright : colors.green[700],
       fontSize: 15,
-      fontWeight: '500',
       textAlign: 'center',
       lineHeight: 22,
       paddingHorizontal: 8,
@@ -87,15 +87,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     receiptTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 3,
     },
     receiptSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     divider: {
       height: StyleSheet.hairlineWidth,
@@ -109,14 +109,14 @@ export default function createStyles(colors) {
       paddingVertical: 8,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 14,
-      fontWeight: '500',
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
     },
     totalRow: {
       flexDirection: 'row',
@@ -126,14 +126,14 @@ export default function createStyles(colors) {
       paddingBottom: 6,
     },
     totalLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     totalValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     actionRow: {
       flexDirection: 'row',
@@ -152,9 +152,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 6,
     },
     actionText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '700',
     },
     footer: {
       paddingHorizontal: 20,
@@ -170,18 +170,18 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     homeText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
     rebookBtn: {
       alignItems: 'center',
       paddingVertical: 6,
     },
     rebookText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 15,
-      fontWeight: '700',
     },
   });
 }

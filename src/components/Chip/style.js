@@ -32,7 +32,6 @@ export default function createStyles(colors) {
     label: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
     },
     labelIdle: {
       color: colors.text,

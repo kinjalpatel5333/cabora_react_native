@@ -8,6 +8,7 @@ import {images} from '../../assets';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {useSidebar} from '../../context/SidebarContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {fetchPassengerProfile, fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
 import createStyles from './style';
@@ -37,7 +38,9 @@ function CustomToggle({value, onToggle, label, styles}) {
 export default function ProfileScreen({navigation}) {
   const insets = useSafeAreaInsets();
   const {isDark, toggleTheme, colors} = useApp();
+  const {openDrawer} = useSidebar();
   const styles = useThemedStyles(createStyles);
+
   const {showToast} = useToast();
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.auth.user);
@@ -101,9 +104,15 @@ export default function ProfileScreen({navigation}) {
           resizeMode="cover"
         />
 
-        <View style={styles.menuBtn}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Open menu"
+          onPress={openDrawer}
+          style={styles.menuBtn}>
           <Feather name="menu" size={22} color={colors.white} />
-        </View>
+        </TouchableOpacity>
+
 
         <View style={styles.userRow}>
           <View style={styles.avatarRing}>

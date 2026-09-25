@@ -27,7 +27,6 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
-      fontWeight: '800',
       color: colors.text,
     },
 
@@ -74,12 +73,10 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[700],
       fontSize: 13,
-      fontWeight: '800',
     },
     priceText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 44,
-      fontWeight: '900',
       color: colors.white,
       marginTop: 14,
       letterSpacing: -0.5,
@@ -87,7 +84,6 @@ export default function createStyles(colors) {
     subText: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
-      fontWeight: '500',
       color: colors.navy[450],
       marginTop: 4,
     },
@@ -106,7 +102,6 @@ export default function createStyles(colors) {
     metaLabel: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.navy[550],
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -115,7 +110,6 @@ export default function createStyles(colors) {
     metaValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
-      fontWeight: '800',
       color: colors.white,
     },
 
@@ -140,20 +134,17 @@ export default function createStyles(colors) {
     thresholdTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     thresholdSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
     thresholdCount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
-      fontWeight: '900',
       color: colors.text,
     },
     progressTrack: {
@@ -181,7 +172,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       lineHeight: 17,
     },
@@ -202,7 +192,6 @@ export default function createStyles(colors) {
     benefitsTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
-      fontWeight: '800',
       color: colors.text,
       marginBottom: 16,
     },
@@ -217,7 +206,6 @@ export default function createStyles(colors) {
     benefitText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.textSecondary,
     },
 
@@ -249,20 +237,17 @@ export default function createStyles(colors) {
     bankName: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     bankSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
     changeText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
-      fontWeight: '800',
       color: colors.primary,
     },
 
@@ -291,7 +276,6 @@ export default function createStyles(colors) {
     changePlanText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     cancelBtn: {
@@ -303,7 +287,6 @@ export default function createStyles(colors) {
     cancelText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14.5,
-      fontWeight: '700',
       color: colors.red[600],
     },
   });

@@ -56,7 +56,6 @@ export default function createStyles(colors) {
     heroTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 32,
-      fontWeight: '900',
       color: colors.white,
       lineHeight: 38,
       letterSpacing: -0.5,
@@ -64,7 +63,6 @@ export default function createStyles(colors) {
     heroSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
-      fontWeight: '500',
       color: colors.navy[350],
       lineHeight: 19,
       marginTop: 8,
@@ -95,7 +93,6 @@ export default function createStyles(colors) {
     codeLabel: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -104,7 +101,6 @@ export default function createStyles(colors) {
     codeValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '900',
       color: colors.text,
       letterSpacing: 0.5,
     },
@@ -120,7 +116,6 @@ export default function createStyles(colors) {
     copyText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13.5,
-      fontWeight: '800',
       color: colors.primary,
     },
 
@@ -151,7 +146,6 @@ export default function createStyles(colors) {
     milestoneTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.text,
     },
     inProgressBadge: {
@@ -172,7 +166,6 @@ export default function createStyles(colors) {
     inProgressText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
-      fontWeight: '800',
       color: colors.orange[700],
     },
     milestoneStats: {
@@ -183,13 +176,11 @@ export default function createStyles(colors) {
     milestoneDrivers: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
-      fontWeight: '900',
       color: colors.text,
     },
     milestoneReward: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '900',
       color: colors.primary,
     },
     trackRow: {
@@ -209,7 +200,6 @@ export default function createStyles(colors) {
     milestoneSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
     },
 
@@ -217,7 +207,6 @@ export default function createStyles(colors) {
     sectionTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -262,7 +251,6 @@ export default function createStyles(colors) {
     avatarText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13,
-      fontWeight: '800',
     },
     referralInfo: {
       flex: 1,
@@ -270,13 +258,11 @@ export default function createStyles(colors) {
     referralName: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.text,
     },
     referralSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
@@ -287,7 +273,6 @@ export default function createStyles(colors) {
     referralAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.green[700],
     },
     statusBadge: {
@@ -319,13 +304,11 @@ export default function createStyles(colors) {
     statusTextPaid: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
-      fontWeight: '800',
       color: colors.green[700],
     },
     statusTextProgress: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11.5,
-      fontWeight: '800',
       color: colors.blue[550],
     },
 
@@ -358,7 +341,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

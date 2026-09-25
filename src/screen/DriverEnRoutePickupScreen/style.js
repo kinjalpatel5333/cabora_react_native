@@ -51,14 +51,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
       lineHeight: 20,
     },
     navSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white55,
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 16,
       marginTop: 3,
     },
@@ -70,14 +68,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.orange[450],
       fontSize: 15,
-      fontWeight: '600',
       lineHeight: 20,
     },
     navDist: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white55,
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 16,
       marginTop: 3,
     },
@@ -180,7 +176,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.green[600],
       fontSize: 13,
-      fontWeight: '700',
     },
     riderRow: {
       flexDirection: 'row',
@@ -200,7 +195,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '800',
     },
     riderCopy: {
       flex: 1,
@@ -210,7 +204,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     riderMeta: {
       fontFamily: colors.fonts.sora.regular,
@@ -236,7 +229,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     pickupNote: {
       fontFamily: colors.fonts.sora.regular,
@@ -265,7 +257,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     cancelActionBtn: {
       backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
@@ -283,7 +274,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.red[700],
       fontSize: 13,
-      fontWeight: '700',
     },
     arriveBtn: {
       // minHeight: 56,
@@ -306,7 +296,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
     footerHint: {
       fontFamily: colors.fonts.sora.regular,

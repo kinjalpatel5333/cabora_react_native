@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -58,21 +58,21 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     tripTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '600',
     },
     tripTabTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     section: {
       marginBottom: 20,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -102,14 +102,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     airportName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     airportMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     divider: {
@@ -136,13 +136,13 @@ export default function createStyles(colors) {
       borderColor: colors.primary,
     },
     terminalText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
     },
     terminalTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     detailRow: {
       flexDirection: 'row',
@@ -157,21 +157,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     detailTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     detailMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       marginTop: 3,
       lineHeight: 18,
     },
     detailNote: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 12,
       lineHeight: 17,
     },
@@ -194,9 +194,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 4,
     },
     editText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     surchargeCard: {
       backgroundColor: colors.isDark ? colors.navy.cardBg4 : colors.orange[50],
@@ -212,9 +212,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     surchargeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     surchargeRow: {
       flexDirection: 'row',
@@ -224,21 +224,21 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     surchargeLabel: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 18,
     },
     surchargeValue: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 13,
-      fontWeight: '700',
     },
     surchargeFooter: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.primary,
       fontSize: 12,
-      fontWeight: '500',
       marginTop: 4,
     },
     footer: {
@@ -256,21 +256,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       marginTop: 2,
       letterSpacing: -0.4,
     },
     fareNote: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       marginTop: 2,
     },
     bookBtn: {
@@ -282,9 +282,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

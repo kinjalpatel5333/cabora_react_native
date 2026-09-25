@@ -22,10 +22,10 @@ export default function createStyles(colors) {
       alignItems: 'flex-start',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       fontSize: 17,
-      fontWeight: '700',
       color: colors.text,
       marginRight: 40, // balance out back button
     },
@@ -38,20 +38,21 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     overline: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 12,
-      fontWeight: '800',
       color: colors.orange.brand,
       letterSpacing: 0.8,
       marginBottom: 6,
       textTransform: 'uppercase',
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 24,
-      fontWeight: '800',
       color: colors.text,
       marginBottom: 8,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
       lineHeight: 20,
       color: colors.slate[500],
@@ -94,12 +95,13 @@ export default function createStyles(colors) {
       elevation: 3,
     },
     addPhotoText: {
+      fontFamily: colors.fonts.sora.bold,
       marginTop: 10,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.orange.brand,
     },
     photoHintText: {
+      fontFamily: colors.fonts.sora.regular,
       marginTop: 4,
       fontSize: 13,
       color: colors.slate[500],
@@ -111,16 +113,17 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     label: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 8,
     },
     requiredStar: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.danger,
-      fontWeight: '700',
     },
     input: {
+      fontFamily: colors.fonts.sora.regular,
       height: 52,
       backgroundColor: colors.white,
       borderRadius: 12,
@@ -144,12 +147,14 @@ export default function createStyles(colors) {
       paddingHorizontal: 16,
     },
     inputWithIcon: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 15,
       color: colors.text,
       paddingVertical: 0,
     },
     caption: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
       color: colors.slate[500],
       marginTop: 6,
@@ -171,8 +176,8 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     verifiedPhoneText: {
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13.5,
-      fontWeight: '500',
       color: colors.slate[600],
     },
     footer: {
@@ -195,8 +200,8 @@ export default function createStyles(colors) {
       elevation: 4,
     },
     startBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 17,
-      fontWeight: '700',
       color: colors.white,
     },
   });

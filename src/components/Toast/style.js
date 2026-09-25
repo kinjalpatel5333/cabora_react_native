@@ -29,7 +29,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '700',
     },
     host: {
       position: 'absolute',

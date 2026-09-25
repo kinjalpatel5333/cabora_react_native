@@ -43,14 +43,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[400],
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 0.8,
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 32,
-      fontWeight: '800',
       lineHeight: 38,
       letterSpacing: -0.4,
     },
@@ -111,7 +109,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     dialDivider: {
       width: 1,
@@ -146,7 +143,6 @@ export default function createStyles(colors) {
     bannerTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 4,
     },
     bannerTitleBlocked: {
@@ -159,7 +155,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       lineHeight: 20,
-      fontWeight: '400',
     },
     bannerBodyBlocked: {
       color: colors.isDark ? colors.red[350] : colors.red[500],
@@ -178,7 +173,6 @@ export default function createStyles(colors) {
       marginTop: 10,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     actions: {
       paddingTop: 20,
@@ -190,7 +184,6 @@ export default function createStyles(colors) {
       color: colors.muted,
       fontSize: 12,
       lineHeight: 18,
-      fontWeight: '400',
       letterSpacing: 0,
       textAlign: 'center',
     },
@@ -198,13 +191,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '600',
     },
     termsLink: {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.orange[500],
       fontSize: 12,
-      fontWeight: '600',
     },
   });
 }

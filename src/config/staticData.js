@@ -441,12 +441,18 @@ export const DRIVER_DEMAND_ZONES = [
 export const PASSENGER_SIDEBAR_LINKS = [
   { label: 'Home', screen: 'Home', iconKind: 'home' },
   { label: 'Services', screen: 'Services', iconKind: 'grid' },
-  { label: 'Activity', screen: 'Activity', iconKind: 'clock' },
-  { label: 'Wallet', screen: 'Wallet', iconKind: 'wallet' },
+  { label: 'My Rides', screen: 'Activity', iconKind: 'clock' },
+  { label: 'Wallet & Top-up', screen: 'Wallet', iconKind: 'wallet' },
+  { label: 'Payment Methods', screen: 'PaymentMethods', iconKind: 'creditCard' },
+  { label: 'Saved Places', screen: 'SavedPlaces', iconKind: 'mapPin' },
+  { label: 'Safety & Emergency', screen: 'Safety', iconKind: 'shield' },
+  { label: 'Offers & Discounts', screen: 'OffersCoupons', iconKind: 'tag' },
+  { label: 'Refer & Earn', screen: 'ReferEarn', iconKind: 'gift' },
   { label: 'Notifications', screen: 'Notifications', iconKind: 'bell' },
   { label: 'Settings', screen: 'Setting', iconKind: 'settings' },
-  { label: 'Help', screen: 'Help', iconKind: 'help' },
+  { label: 'Help & Support', screen: 'Help', iconKind: 'help' },
 ];
+
 
 export const DRIVER_SIDEBAR_LINKS = [
   { label: 'Dashboard', screen: 'Dashboard', iconKind: 'home' },

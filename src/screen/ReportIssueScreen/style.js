@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     headerSpacer: {
       width: 40,
@@ -53,15 +53,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     ticketTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[450] : colors.amber[800],
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     ticketSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.amber[300] : colors.amber[700],
       fontSize: 11.5,
-      fontWeight: '500',
     },
     ticketStatus: {
       flexDirection: 'row',
@@ -75,14 +75,14 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.orange[450] : colors.amber[800],
     },
     statusText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[450] : colors.amber[800],
       fontSize: 12,
-      fontWeight: '700',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 8,
     },
@@ -93,9 +93,9 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     charCount: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '500',
     },
     tripCard: {
       flexDirection: 'row',
@@ -121,15 +121,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     tripTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     tripSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11.5,
-      fontWeight: '400',
     },
     categoryDropdown: {
       flexDirection: 'row',
@@ -144,9 +144,9 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     categoryText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '500',
     },
     subCategoriesWrap: {
       flexDirection: 'row',
@@ -168,13 +168,13 @@ export default function createStyles(colors) {
       borderWidth: 1.5,
     },
     subPillText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '500',
     },
     subPillTextSelected: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     textCard: {
       backgroundColor: colors.card,
@@ -186,6 +186,7 @@ export default function createStyles(colors) {
       minHeight: 90,
     },
     textInput: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.text,
       fontSize: 12.5,
       lineHeight: 18,
@@ -219,9 +220,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     addText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 10.5,
-      fontWeight: '600',
       marginTop: 2,
     },
     footer: {
@@ -239,11 +240,12 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     submitText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
     replyHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
       textAlign: 'center',
