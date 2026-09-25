@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import {ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import { ScrollView, Text, View, TouchableOpacity, Image, StatusBar, Platform } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,6 +24,16 @@ export default function DriverIncentivesScreen() {
   const { openDrawer } = useSidebar();
   const { showToast } = useToast();
   const { incentivesData, incentivesLoading } = useSelector(state => state.driver);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, []),
+  );
 
   useEffect(() => {
     dispatch(fetchDriverIncentives());
@@ -60,8 +71,9 @@ export default function DriverIncentivesScreen() {
 
   return (
     <View style={styles.root}>
-
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <ScrollView
+        stickyHeaderIndices={[0]}
         contentContainerStyle={[
           styles.scrollContent,
           { paddingBottom: insets.bottom + 140 },
@@ -77,6 +89,7 @@ export default function DriverIncentivesScreen() {
             source={images.loginGlow}
             style={styles.glow}
             resizeMode="cover"
+            pointerEvents="none"
           />
 
           <TouchableOpacity activeOpacity={0.7}

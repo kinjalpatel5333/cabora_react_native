@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   ScrollView,
   Share,
   Text,
   TouchableOpacity,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
@@ -24,6 +26,16 @@ export default function ReferEarnScreen() {
   const { colors, isDark } = useApp();
   const navigation = useNavigation();
   const { showToast } = useToast();
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, []),
+  );
 
   const handleCopyCode = () => {
     showToast({
@@ -54,6 +66,7 @@ export default function ReferEarnScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 6 }]}>
         <TouchableOpacity

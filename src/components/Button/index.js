@@ -59,7 +59,7 @@ export default function Button({
   } else if (isInverse) {
     row.push(styles.inverse);
   } else {
-    row.push(styles.primary);
+    row.push([styles.primary, style]);
   }
   if (style) {
     row.push(style);

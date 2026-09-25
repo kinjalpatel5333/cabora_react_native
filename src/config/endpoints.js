@@ -60,6 +60,9 @@ export const DRIVER_ENDPOINTS = {
   DOCUMENTS: '/api/v1/driver/documents',
   EARNINGS: '/api/v1/driver/earnings',
   INCENTIVES: '/api/v1/driver/incentives',
+  INCOMING_REQUESTS: '/api/v1/driver/requests/incoming',
+  ACCEPT_REQUEST: id => (id ? `/api/v1/driver/requests/${id}/accept` : '/api/v1/driver/requests/accept'),
+  REJECT_REQUEST: id => (id ? `/api/v1/driver/requests/${id}/reject` : '/api/v1/driver/requests/reject'),
   ONBOARDING: DRIVER_ONBOARDING_ENDPOINTS,
 };
 

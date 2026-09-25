@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -107,7 +107,7 @@ export default function createStyles(colors) {
       height: 6,
       borderRadius: 3,
       backgroundColor: colors.orange[600],
-      transform: [{rotate: '-18deg'}],
+      transform: [{ rotate: '-18deg' }],
     },
     carMarker: {
       position: 'absolute',
@@ -141,7 +141,7 @@ export default function createStyles(colors) {
       shadowColor: colors.navy[900],
       shadowOpacity: 0.14,
       shadowRadius: 8,
-      shadowOffset: {width: 0, height: 3},
+      shadowOffset: { width: 0, height: 3 },
       elevation: 4,
     },
     sheet: {
@@ -158,7 +158,7 @@ export default function createStyles(colors) {
       shadowColor: colors.navy[900],
       shadowOpacity: 0.14,
       shadowRadius: 16,
-      shadowOffset: {width: 0, height: -4},
+      shadowOffset: { width: 0, height: -4 },
       elevation: 14,
     },
     statusBanner: {
@@ -276,19 +276,19 @@ export default function createStyles(colors) {
       fontSize: 13,
     },
     arriveBtn: {
-      minHeight: 56,
-      borderRadius: 16,
-      backgroundColor: colors.orange[450],
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 10,
+      // minHeight: 56,
+      // borderRadius: 16,
+      // backgroundColor: colors.orange[450],
+      // flexDirection: 'row',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // gap: 10,
       borderWidth: 2,
       borderColor: colors.green[500],
       shadowColor: colors.green[500],
       shadowOpacity: 0.35,
       shadowRadius: 10,
-      shadowOffset: {width: 0, height: 4},
+      shadowOffset: { width: 0, height: 4 },
       elevation: 6,
       marginBottom: 10,
     },

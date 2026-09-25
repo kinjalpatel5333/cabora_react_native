@@ -1,13 +1,14 @@
 import React from 'react';
-import {Dimensions, Image, Text, View, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {FontAwesome6} from '@react-native-vector-icons/fontawesome6/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../../assets';
+import { Dimensions, Image, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { images } from '../../assets';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -18,12 +19,11 @@ const ROUTE_H = 180;
 export default function DriverEnRoutePickupScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
   const navigation = useNavigation();
 
   return (
     <View style={styles.root}>
-
       <Image
         source={images.mapBackdrop}
         style={styles.mapImage}
@@ -31,7 +31,7 @@ export default function DriverEnRoutePickupScreen() {
       />
 
       <View
-        style={[styles.navBanner, {top: insets.top + 8}]}
+        style={[styles.navBanner, { top: insets.top + 8 }]}
         pointerEvents="none">
         <View style={styles.navLeft}>
           <View style={styles.turnIcon}>
@@ -55,9 +55,9 @@ export default function DriverEnRoutePickupScreen() {
       </View>
 
       <View
-        style={[styles.mapRoute, {top: insets.top + 78}]}
+        style={[styles.mapRoute, { top: insets.top + 78 }]}
         pointerEvents="none">
-        <View style={[styles.routeStage, {width: ROUTE_W, height: ROUTE_H}]}>
+        <View style={[styles.routeStage, { width: ROUTE_W, height: ROUTE_H }]}>
           <View style={styles.pickupZone} />
           <View style={styles.routeLine} />
           <Image
@@ -73,7 +73,7 @@ export default function DriverEnRoutePickupScreen() {
         </View>
       </View>
 
-      <View style={[styles.fabs, {top: insets.top + 200}]}>
+      <View style={[styles.fabs, { top: insets.top + 200 }]}>
         <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.fab}>
           <FontAwesome6
             name="location-crosshairs"
@@ -90,7 +90,7 @@ export default function DriverEnRoutePickupScreen() {
       <View
         style={[
           styles.sheet,
-          {paddingBottom: Math.max(insets.bottom, 12) + 8},
+          { paddingBottom: Math.max(insets.bottom, 12) + 8 },
         ]}>
         <View style={styles.statusBanner}>
           <Lucide name="circle-check" size={18} color={colors.green[600]} />
@@ -122,32 +122,38 @@ export default function DriverEnRoutePickupScreen() {
         </View>
 
         <View style={styles.actionRow}>
-          <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.actionBtn}>
+          <Button
+            variant="outline"
+            fullWidth={false}
+            style={styles.actionBtn}>
             <Feather name="phone" size={16} color={colors.text} />
             <Text style={styles.actionText}>Call</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7} accessibilityRole="button" style={styles.actionBtn}>
+          </Button>
+          <Button
+            variant="outline"
+            fullWidth={false}
+            style={styles.actionBtn}>
             <Feather name="message-circle" size={16} color={colors.text} />
             <Text style={styles.actionText}>Chat</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7}
-            accessibilityRole="button"
+          </Button>
+          <Button
+            variant="outline"
+            fullWidth={false}
             onPress={() => navigation.navigate('CancelRideReason')}
             style={[styles.actionBtn, styles.cancelActionBtn]}>
             <View style={styles.cancelIcon}>
               <Feather name="x" size={10} color={colors.red[700]} />
             </View>
             <Text style={styles.cancelActionText}>Cancel</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
 
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          style={styles.arriveBtn}
-          onPress={() => navigation.navigate('DriverStartTrip')}>
+        <Button
+          onPress={() => navigation.navigate('DriverStartTrip')}
+          style={styles.arriveBtn}>
           <Lucide name="circle-check" size={22} color={colors.white} />
           <Text style={styles.arriveText}>I've arrived at pickup</Text>
-        </TouchableOpacity>
+        </Button>
 
         <Text style={styles.footerHint}>
           Unlocked because you're inside the pickup zone. Outside 100 m this

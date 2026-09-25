@@ -13,20 +13,22 @@ export default function createStyles(colors) {
 
     // Top Dark Navy Hero
     navyHero: {
-      backgroundColor: colors.navy[850],
+      backgroundColor: colors.navy[950],
       borderBottomLeftRadius: 32,
       borderBottomRightRadius: 32,
       paddingHorizontal: 16,
       paddingBottom: 24,
       position: 'relative',
       overflow: 'hidden',
+      zIndex: 10,
     },
     glow: {
       position: 'absolute',
-      top: -30,
-      right: -30,
-      width: 300,
-      height: 300,
+      top: -120,
+      right: -60,
+      width: 440,
+      height: 440,
+      opacity: 0.9,
     },
     menuBtn: {
       width: 44,
