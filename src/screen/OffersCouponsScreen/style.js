@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export default function createStyles(theme) {
-  const { colors, isDark } = theme;
+export default function createStyles(colors) {
+  const isDark = Boolean(colors?.isDark);
+
 
   return StyleSheet.create({
     root: {
@@ -24,8 +25,8 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
       textAlign: 'center',
     },
@@ -55,9 +56,9 @@ export default function createStyles(theme) {
       marginRight: 10,
     },
     couponInput: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 14,
-      fontWeight: '500',
       color: isDark ? colors.white : '#111827',
       paddingVertical: 4,
     },
@@ -68,15 +69,15 @@ export default function createStyles(theme) {
       borderRadius: 14,
     },
     topApplyBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: '#FF7A00',
     },
 
     // Section Header
     sectionHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       color: isDark ? colors.navy[300] : '#8A94A6',
       marginTop: 18,
@@ -100,11 +101,12 @@ export default function createStyles(theme) {
       elevation: 1,
     },
     offerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     offerSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 3,
@@ -130,12 +132,13 @@ export default function createStyles(theme) {
       borderRadius: 8,
     },
     codeTagText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
       letterSpacing: 0.5,
     },
     expiryText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginLeft: 8,
@@ -159,8 +162,8 @@ export default function createStyles(theme) {
       elevation: 0,
     },
     cardApplyBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
     cardApplyBtnTextApplied: {
@@ -179,11 +182,12 @@ export default function createStyles(theme) {
       borderLeftColor: isDark ? colors.navy[600] : '#CBD5E1',
     },
     expiredTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 15,
-      fontWeight: '600',
       color: isDark ? colors.navy[200] : '#64748B',
     },
     expiredSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[400] : '#94A3B8',
       marginTop: 3,
@@ -197,8 +201,8 @@ export default function createStyles(theme) {
       borderRadius: 10,
     },
     usedTagText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11,
-      fontWeight: '600',
       color: isDark ? colors.navy[300] : '#64748B',
     },
   });

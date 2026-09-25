@@ -23,9 +23,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 17,
-      fontWeight: '800',
     },
     scroll: {
       flex: 1,
@@ -60,20 +60,20 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     toggleTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 3,
     },
     toggleSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.orange[300] : colors.orange[600],
       fontSize: 13,
-      fontWeight: '500',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '700',
       letterSpacing: 0.9,
       marginBottom: 10,
     },
@@ -101,29 +101,29 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.white : colors.navy[800],
       fontSize: 15,
-      fontWeight: '800',
     },
     riderCopy: {
       flex: 1,
       minWidth: 0,
     },
     riderName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
       marginBottom: 2,
     },
     riderPhone: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
     },
     changeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     riderFooter: {
       flexDirection: 'row',
@@ -134,9 +134,9 @@ export default function createStyles(colors) {
       paddingTop: 12,
     },
     riderFooterText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     routeRow: {
       flexDirection: 'row',
@@ -173,15 +173,15 @@ export default function createStyles(colors) {
       gap: 14,
     },
     routeTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 2,
     },
     routeSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     editBtn: {
       width: 36,
@@ -192,9 +192,9 @@ export default function createStyles(colors) {
       marginLeft: 4,
     },
     receivesTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
       marginBottom: 12,
     },
     receiveRow: {
@@ -204,10 +204,10 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     receiveText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.isDark ? colors.white : colors.gray[600],
       fontSize: 14,
-      fontWeight: '500',
       lineHeight: 20,
     },
     paymentRow: {
@@ -228,15 +228,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     paymentTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 2,
     },
     paymentSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     footer: {
       flexDirection: 'row',
@@ -253,21 +253,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '600',
       marginBottom: 2,
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
       marginBottom: 2,
     },
     fareNote: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '500',
     },
     bookBtn: {
       backgroundColor: colors.primary,
@@ -279,9 +279,9 @@ export default function createStyles(colors) {
       minWidth: 110,
     },
     bookText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

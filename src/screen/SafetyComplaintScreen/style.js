@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -53,15 +53,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     rideTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     rideSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
     },
     driverRow: {
       flexDirection: 'row',
@@ -80,14 +80,14 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     driverAvatarText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[850],
       fontSize: 11.5,
-      fontWeight: '700',
     },
     driverName: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 12.5,
-      fontWeight: '500',
     },
     seriousCard: {
       backgroundColor: colors.card,
@@ -98,9 +98,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     seriousTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 12,
     },
     seriousRow: {
@@ -125,18 +125,18 @@ export default function createStyles(colors) {
       borderWidth: 1.5,
     },
     seriousChipText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 12.5,
-      fontWeight: '500',
     },
     seriousChipTextSelected: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 8,
     },
@@ -168,13 +168,13 @@ export default function createStyles(colors) {
       marginRight: 8,
     },
     categoryText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 12.5,
-      fontWeight: '500',
       flex: 1,
     },
     categoryTextSelected: {
-      fontWeight: '700',
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
     },
     textCard: {
@@ -187,6 +187,7 @@ export default function createStyles(colors) {
       minHeight: 80,
     },
     textInput: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.text,
       fontSize: 12.5,
       lineHeight: 18,
@@ -208,9 +209,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     attachBtnText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '600',
     },
     whatNextCard: {
       backgroundColor: colors.card,
@@ -221,9 +222,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     whatNextTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 10,
     },
     whatNextRow: {
@@ -236,10 +237,10 @@ export default function createStyles(colors) {
       marginBottom: 0,
     },
     whatNextText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '400',
     },
     footer: {
       paddingHorizontal: 16,
@@ -256,9 +257,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     submitText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

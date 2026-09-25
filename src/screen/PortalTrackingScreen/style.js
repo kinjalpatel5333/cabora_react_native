@@ -89,20 +89,20 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     statusText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 12,
-      fontWeight: '700',
     },
     etaTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     orderMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '400',
       marginTop: 4,
       marginBottom: 18,
     },
@@ -151,22 +151,22 @@ export default function createStyles(colors) {
       paddingBottom: 12,
     },
     timelineTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     timelineTitlePending: {
       color: colors.muted,
     },
     timelineTime: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
     },
     timelineTimeActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     timelineTimePending: {
       color: colors.muted,
@@ -189,22 +189,22 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     codeLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1,
       marginBottom: 4,
     },
     codeValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       letterSpacing: 6,
     },
     codeHint: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 12,
-      fontWeight: '600',
       maxWidth: 110,
       textAlign: 'right',
       lineHeight: 17,
@@ -232,23 +232,23 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 15,
-      fontWeight: '800',
     },
     riderCopy: {
       flex: 1,
       minWidth: 0,
     },
     riderName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     riderMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     actionRow: {
@@ -267,9 +267,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 6,
     },
     actionText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '600',
     },
     footer: {
       flexDirection: 'row',
@@ -282,14 +282,14 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     footerPaid: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     cancelText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.red[500],
       fontSize: 14,
-      fontWeight: '700',
     },
   });
 }

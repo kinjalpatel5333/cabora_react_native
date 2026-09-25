@@ -45,7 +45,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     meta: {
@@ -64,7 +63,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     boxes: {
       flexDirection: 'row',
@@ -104,7 +102,6 @@ export default function createStyles(colors) {
     boxDigit: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 22,
-      fontWeight: '700',
       color: colors.text,
     },
     boxDigitError: {
@@ -155,7 +152,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.red[600],
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 4,
     },
     bannerBody: {
@@ -169,7 +165,6 @@ export default function createStyles(colors) {
       marginTop: 8,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     chip: {
       alignSelf: 'flex-start',
@@ -189,7 +184,6 @@ export default function createStyles(colors) {
     chipLabel: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.muted,
     },
     chipLabelResend: {
@@ -209,7 +203,6 @@ export default function createStyles(colors) {
     helpLink: {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.gray[600],
-      fontWeight: '600',
     },
     verifyButton: {
       minHeight: 56,
@@ -249,7 +242,6 @@ export default function createStyles(colors) {
     otpModalTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 20,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 8,
       textAlign: 'center',
@@ -276,9 +268,8 @@ export default function createStyles(colors) {
       width: '100%',
     },
     otpBadgeText: {
-      fontFamily: colors.fonts.sora.bold,
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      fontWeight: '800',
       color: colors.orange[500],
       letterSpacing: 6,
     },
@@ -296,7 +287,6 @@ export default function createStyles(colors) {
     autoFillBtnText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
     dismissBtn: {
@@ -311,7 +301,6 @@ export default function createStyles(colors) {
     dismissBtnText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.text,
     },
   });

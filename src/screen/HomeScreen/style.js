@@ -47,16 +47,16 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     greetingKicker: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 1,
       textAlign: 'center',
     },
     greetingName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginTop: 1,
       textAlign: 'center',
     },
@@ -85,10 +85,10 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     offlineText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.amber[750],
       fontSize: 13,
-      fontWeight: '600',
       lineHeight: 18,
     },
     iconCircle: {
@@ -116,9 +116,9 @@ export default function createStyles(colors) {
       borderColor: colors.card,
     },
     badgeText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 10,
-      fontWeight: '800',
     },
     avatar: {
       width: 44,
@@ -131,9 +131,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '800',
     },
     locateFab: {
       position: 'absolute',
@@ -217,11 +217,12 @@ export default function createStyles(colors) {
       paddingHorizontal: 12,
     },
     searchTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 20,
-      fontWeight: '800',
     },
     searchSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
       marginTop: 3,
@@ -238,9 +239,9 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     nowText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[600],
       fontSize: 13,
-      fontWeight: '700',
     },
     shortcuts: {
       flexDirection: 'row',
@@ -262,9 +263,9 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     shortcutText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     sectionHead: {
       flexDirection: 'row',
@@ -273,15 +274,15 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     sectionTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.navy[300] : colors.navy[600],
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 1.2,
     },
     sectionLink: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 13,
-      fontWeight: '700',
     },
     exploreRow: {
       flexDirection: 'row',
@@ -304,27 +305,27 @@ export default function createStyles(colors) {
       borderColor: colors.orange[500],
     },
     exploreLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 4,
     },
     exploreLabelMore: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 4,
     },
     explorePrice: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '500',
       marginTop: 1,
     },
     explorePriceMore: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.orange[500],
       fontSize: 11,
-      fontWeight: '600',
       marginTop: 1,
     },
     recentRow: {
@@ -350,15 +351,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     recentTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 2,
     },
     recentSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
     },
     promo: {
       flexDirection: 'row',
@@ -383,11 +384,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     promoTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     promoSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
       marginTop: 2,

@@ -34,9 +34,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 4,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       marginBottom: 6,
     },
     metaRow: {
@@ -50,9 +50,9 @@ export default function createStyles(colors) {
       gap: 4,
     },
     metaText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '600',
     },
     closeBtn: {
       width: 36,
@@ -63,9 +63,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
       paddingHorizontal: 4,
@@ -110,9 +110,9 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     rideName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       marginBottom: 2,
     },
     rideMeta: {
@@ -121,14 +121,14 @@ export default function createStyles(colors) {
       gap: 4,
     },
     rideMetaText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     ridePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
       marginLeft: 8,
     },
     bookAnyCard: {
@@ -149,15 +149,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     bookAnyName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 2,
     },
     bookAnyRange: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     pills: {
       flexDirection: 'row',
@@ -181,9 +181,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[100],
     },
     pillText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '600',
     },
     pillTextOn: {
       color: colors.orange[500],
@@ -209,15 +209,15 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     payText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     changeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 14,
-      fontWeight: '700',
     },
     promoRow: {
       flexDirection: 'row',
@@ -234,15 +234,15 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     promoText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.green[600],
       fontSize: 14,
-      fontWeight: '600',
     },
     promoAmount: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[600],
       fontSize: 14,
-      fontWeight: '700',
     },
     bookRow: {
       flexDirection: 'row',
@@ -253,15 +253,15 @@ export default function createStyles(colors) {
       minWidth: 88,
     },
     totalLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.6,
     },
     totalValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 18,
-      fontWeight: '800',
       marginTop: 2,
     },
     bookBtn: {
@@ -273,9 +273,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '800',
     },
   });
 }

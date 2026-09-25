@@ -48,7 +48,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.navy[900],
       fontSize: 22,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 10,
     },
@@ -56,7 +55,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       color: colors.gray[500],
       fontSize: 14,
-      fontWeight: '500',
       lineHeight: 21,
       textAlign: 'center',
       marginBottom: 22,
@@ -79,7 +77,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
     secondaryBtn: {
       paddingVertical: 6,
@@ -89,7 +86,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.orange[600],
       fontSize: 15,
-      fontWeight: '700',
     },
   });
 }

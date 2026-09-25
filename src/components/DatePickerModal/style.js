@@ -35,9 +35,8 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     title: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
     closeButton: {
@@ -56,9 +55,8 @@ export default function createStyles(colors) {
       paddingHorizontal: 4,
     },
     monthTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: colors.text,
     },
     navBtn: {
@@ -90,14 +88,13 @@ export default function createStyles(colors) {
       borderColor: colors.orange?.[600] || '#EA580C',
     },
     yearChipText: {
-      fontFamily: colors.fonts?.sora?.medium || 'System',
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.text,
     },
     yearChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: '#FFFFFF',
-      fontWeight: '700',
     },
     weekHeaderRow: {
       flexDirection: 'row',
@@ -108,9 +105,8 @@ export default function createStyles(colors) {
     weekDayText: {
       width: '14.28%',
       textAlign: 'center',
-      fontFamily: colors.fonts?.sora?.semiBold || 'System',
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: colors.muted || '#6B7280',
     },
     daysGrid: {
@@ -136,15 +132,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange?.[500] || '#FF5500',
     },
     dayText: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
-      fontWeight: '500',
       color: colors.text,
     },
     dayTextSelected: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
     confirmBtn: {
@@ -156,9 +150,8 @@ export default function createStyles(colors) {
       marginTop: 8,
     },
     confirmBtnText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: '#FFFFFF',
     },
   });

@@ -88,9 +88,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     dragText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.white,
       fontSize: 12,
-      fontWeight: '600',
     },
     backBtn: {
       position: 'absolute',
@@ -131,9 +131,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
       letterSpacing: -0.3,
       marginBottom: 14,
     },
@@ -148,19 +148,19 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     addressText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
       lineHeight: 20,
     },
     form: {
       paddingBottom: 12,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -186,9 +186,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     labelChipText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     labelChipTextActive: {
       color: colors.orange[500],
@@ -197,9 +197,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     fieldLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
       marginBottom: 8,
     },
     fieldBox: {
@@ -211,9 +211,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     fieldInput: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '600',
       padding: 0,
       margin: 0,
     },
@@ -229,9 +229,9 @@ export default function createStyles(colors) {
       opacity: 0.45,
     },
     saveText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

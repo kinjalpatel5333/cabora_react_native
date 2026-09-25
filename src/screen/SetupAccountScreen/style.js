@@ -26,7 +26,6 @@ export default function createStyles(colors) {
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -36,7 +35,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       letterSpacing: -0.4,
       marginBottom: 8,
     },
@@ -81,7 +79,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
       marginBottom: 4,
     },
     cardBody: {
@@ -122,13 +119,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.muted,
     },
     hintSuccess: {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.green[600],
-      fontWeight: '600',
     },
     note: {
       flexDirection: 'row',
@@ -168,7 +163,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 20,
-      fontWeight: '800',
       marginTop: 2,
     },
     continue: {

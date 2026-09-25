@@ -20,11 +20,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     progressWrap: {
       paddingHorizontal: 20,
@@ -46,9 +46,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     stepText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -102,23 +102,23 @@ export default function createStyles(colors) {
       gap: 10,
     },
     routeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
     },
     routeMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
     },
     section: {
       marginBottom: 18,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -155,14 +155,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     riderTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     riderMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     riderBadge: {
@@ -189,17 +189,17 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[500],
     },
     riderBadgeText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 11,
-      fontWeight: '600',
     },
     riderBadgeTextAlt: {
       color: colors.isDark ? colors.blue[300] : colors.blue[600],
     },
     riderPrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     riderPriceActive: {
       color: colors.primary,
@@ -223,15 +223,15 @@ export default function createStyles(colors) {
       marginBottom: 0,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '400',
     },
     fareAmount: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     payCard: {
       flexDirection: 'row',
@@ -257,20 +257,20 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     payTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     payMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     changeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     footer: {
       flexDirection: 'row',
@@ -287,21 +287,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     footerLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     footerPrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       marginTop: 2,
       letterSpacing: -0.4,
     },
     footerNote: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.green[500],
       fontSize: 11,
-      fontWeight: '600',
       marginTop: 2,
     },
     confirmBtn: {
@@ -313,9 +313,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     confirmText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

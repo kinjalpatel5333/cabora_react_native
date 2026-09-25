@@ -9,7 +9,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
       marginBottom: 8,
     },
     labelDisabled: {

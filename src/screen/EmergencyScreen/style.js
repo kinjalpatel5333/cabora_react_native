@@ -24,9 +24,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 22,
-      fontWeight: '800',
       letterSpacing: -0.3,
     },
     sosBlock: {
@@ -55,30 +55,30 @@ export default function createStyles(colors) {
       shadowOpacity: 0.65,
     },
     sosTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[500],
       fontSize: 34,
-      fontWeight: '900',
       letterSpacing: 1,
       marginTop: 6,
     },
     sosHoldHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.gray[400],
       fontSize: 13,
-      fontWeight: '500',
       marginTop: 2,
     },
     sosHeadline: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 20,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 8,
       letterSpacing: -0.2,
     },
     sosBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.navy[300],
       fontSize: 14,
-      fontWeight: '400',
       textAlign: 'center',
       lineHeight: 20,
       paddingHorizontal: 10,
@@ -108,22 +108,22 @@ export default function createStyles(colors) {
       ],
     },
     sosTitleAlerted: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 34,
-      fontWeight: '900',
       letterSpacing: 1,
       marginTop: 6,
     },
     sosHoldHintAlerted: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white85,
       fontSize: 13,
-      fontWeight: '500',
       marginTop: 2,
     },
     sosBodyAlerted: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.orange.gold,
       fontSize: 14,
-      fontWeight: '400',
       textAlign: 'center',
       lineHeight: 20,
       paddingHorizontal: 10,
@@ -170,16 +170,16 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     statusTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
       lineHeight: 19,
     },
     statusMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.orangeBrand28,
       fontSize: 12,
-      fontWeight: '500',
     },
     contactsCard: {
       backgroundColor: colors.alpha.white06,
@@ -198,15 +198,15 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     contactsLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.navy[400],
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
     },
     manageText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 14,
-      fontWeight: '700',
     },
     contactRow: {
       flexDirection: 'row',
@@ -227,24 +227,24 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
     },
     contactCopy: {
       flex: 1,
       minWidth: 0,
     },
     contactName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '700',
       marginBottom: 2,
     },
     contactMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.navy[300],
       fontSize: 12,
-      fontWeight: '500',
     },
     checkWrap: {
       width: 22,
@@ -277,15 +277,15 @@ export default function createStyles(colors) {
       borderColor: colors.alpha.white35,
     },
     quickLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 4,
     },
     quickSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.navy[300],
       fontSize: 12,
-      fontWeight: '500',
     },
     locationCard: {
       flexDirection: 'row',
@@ -309,15 +309,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     locationTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
     },
     locationMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.navy[300],
       fontSize: 12,
-      fontWeight: '500',
     },
     shareBtn: {
       borderWidth: 1.5,
@@ -329,9 +329,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.alpha.white04,
     },
     shareText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

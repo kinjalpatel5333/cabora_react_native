@@ -44,17 +44,17 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.green[400] : colors.green[800],
       fontSize: 30,
-      fontWeight: '800',
       marginBottom: 10,
       textAlign: 'center',
       letterSpacing: -0.3,
     },
     meta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.green.bright : colors.green[650],
       fontSize: 14,
-      fontWeight: '500',
       textAlign: 'center',
       lineHeight: 21,
     },
@@ -101,16 +101,16 @@ export default function createStyles(colors) {
     },
     tripBlock: {},
     tripLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 4,
     },
     tripAddress: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       lineHeight: 21,
     },
     fareCard: {
@@ -124,9 +124,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     fareTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 8,
     },
@@ -137,20 +137,20 @@ export default function createStyles(colors) {
       paddingVertical: 8,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 14,
-      fontWeight: '500',
       flex: 1,
       paddingRight: 12,
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
     },
     fareLabelPromo: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[600],
-      fontWeight: '700',
     },
     fareValuePromo: {
       color: colors.green[600],
@@ -170,15 +170,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     paidTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.green[600],
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 2,
     },
     paidSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.text : colors.green[500],
       fontSize: 12,
-      fontWeight: '500',
     },
     footer: {
       paddingHorizontal: 20,
@@ -194,14 +194,14 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     totalLabel: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 18,
-      fontWeight: '800',
     },
     totalValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
     },
     rateBtn: {
       backgroundColor: colors.orange[500],
@@ -211,9 +211,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     rateText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

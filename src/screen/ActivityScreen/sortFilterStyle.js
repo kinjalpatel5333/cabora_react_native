@@ -45,15 +45,15 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 20,
-      fontWeight: '800',
       letterSpacing: -0.3,
     },
     resetText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     scroll: {
       flexGrow: 0,
@@ -63,16 +63,16 @@ export default function createStyles(colors) {
       paddingBottom: 4,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.alpha.white85 : colors.gray[400],
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 8,
     },
     sectionLabelFare: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.alpha.white85 : colors.gray[400],
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
     },
     sortList: {
@@ -85,13 +85,13 @@ export default function createStyles(colors) {
       paddingVertical: 9,
     },
     sortLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.white : colors.navy[800],
       fontSize: 15,
-      fontWeight: '500',
     },
     sortLabelActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.white : colors.navy[900],
-      fontWeight: '700',
     },
     radioOuter: {
       width: 22,
@@ -155,13 +155,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     chipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.isDark ? colors.white : colors.navy[800],
       fontSize: 12,
-      fontWeight: '600',
     },
     chipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     fareHeader: {
       flexDirection: 'row',
@@ -170,9 +170,9 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 14,
-      fontWeight: '800',
     },
     sliderBlock: {
       marginBottom: 4,
@@ -215,9 +215,9 @@ export default function createStyles(colors) {
       marginTop: 6,
     },
     sliderLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.white : colors.gray[400],
       fontSize: 12,
-      fontWeight: '500',
     },
     footer: {
       flexDirection: 'row',
@@ -235,9 +235,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     clearText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.white : colors.navy[900],
       fontSize: 15,
-      fontWeight: '700',
     },
     applyBtn: {
       flex: 1.15,
@@ -248,9 +248,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     applyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '700',
     },
   });
 }

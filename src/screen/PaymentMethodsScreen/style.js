@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export default function createStyles(theme) {
-  const { colors, isDark } = theme;
+export default function createStyles(colors) {
+  const isDark = Boolean(colors?.isDark);
+
 
   return StyleSheet.create({
     root: {
@@ -24,8 +25,8 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
       textAlign: 'center',
     },
@@ -34,8 +35,8 @@ export default function createStyles(theme) {
       paddingTop: 8,
     },
     sectionHeader: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       color: isDark ? colors.navy[300] : '#8A94A6',
       marginBottom: 10,
@@ -73,8 +74,8 @@ export default function createStyles(theme) {
       elevation: 2,
     },
     defaultCurrencySymbol: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 22,
-      fontWeight: '700',
       color: '#FF7A00',
     },
     defaultContent: {
@@ -83,18 +84,19 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     defaultTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     defaultSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 3,
     },
     defaultBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: '#FF7A00',
       marginTop: 4,
     },
@@ -140,8 +142,8 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     methodCurrencySymbol: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 20,
-      fontWeight: '700',
       color: isDark ? colors.navy[200] : '#475569',
     },
     methodContent: {
@@ -150,11 +152,12 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     methodTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: isDark ? colors.white : '#111827',
     },
     methodSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 3,
@@ -175,8 +178,8 @@ export default function createStyles(theme) {
       marginLeft: 10,
     },
     activeBadgeText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: '#10B981',
     },
 
@@ -202,9 +205,9 @@ export default function createStyles(theme) {
       justifyContent: 'center',
     },
     addCardTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 14,
-      fontWeight: '600',
       color: '#FF7A00',
       marginLeft: 12,
     },
@@ -233,11 +236,12 @@ export default function createStyles(theme) {
       paddingRight: 12,
     },
     prefTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: isDark ? colors.white : '#111827',
     },
     prefSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[300] : '#8E9CAE',
       marginTop: 2,
@@ -250,6 +254,7 @@ export default function createStyles(theme) {
 
     // Footer note
     footerNote: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: isDark ? colors.navy[400] : '#8E9CAE',
       marginTop: 14,

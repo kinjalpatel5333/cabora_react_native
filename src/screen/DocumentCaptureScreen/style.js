@@ -26,9 +26,8 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
 
@@ -38,14 +37,13 @@ export default function createStyles(colors) {
 
     // Sub-header Copy
     title: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 4,
     },
     hint: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13.5,
       color: colors.gray[500],
       lineHeight: 19,
@@ -129,9 +127,8 @@ export default function createStyles(colors) {
       borderRadius: 20,
     },
     edgesPillText: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.white,
     },
 
@@ -158,9 +155,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange.subtleBg,
     },
     sourceLabel: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
     },
     sourceLabelOn: {
@@ -195,13 +191,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     fileName: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
     },
     fileMeta: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.gray[500],
       marginTop: 2,
@@ -213,9 +208,8 @@ export default function createStyles(colors) {
       position: 'absolute',
       top: 36,
       right: 16,
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13,
-      fontWeight: '800',
       color: colors.primary,
     },
     track: {
@@ -240,9 +234,8 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     checkLabel: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: '#64748B',
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -255,9 +248,8 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     checkText: {
-      fontFamily: colors.fonts?.sora?.medium || 'System',
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.text,
       flex: 1,
     },

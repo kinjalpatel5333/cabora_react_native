@@ -38,9 +38,9 @@ export default function createStyles(colors) {
       paddingBottom: 6,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
       marginBottom: 16,
     },
     list: {
@@ -82,15 +82,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     methodTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
       marginBottom: 2,
     },
     methodSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
     },
     check: {
       marginLeft: 8,
@@ -116,10 +116,10 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     offerCode: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     appliedBtn: {
       backgroundColor: colors.orange[500],
@@ -128,9 +128,9 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     appliedText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
     },
     saveBtn: {
       backgroundColor: colors.orange[500],
@@ -140,9 +140,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     saveText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

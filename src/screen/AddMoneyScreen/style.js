@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -44,17 +44,17 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     amountLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.2,
       marginBottom: 12,
       textAlign: 'center',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -65,16 +65,16 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     currency: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 32,
-      fontWeight: '800',
       marginRight: 2,
       marginTop: 4,
     },
     amountInput: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 42,
-      fontWeight: '800',
       padding: 0,
       margin: 0,
       letterSpacing: -0.8,
@@ -82,9 +82,9 @@ export default function createStyles(colors) {
       textAlign: 'left',
     },
     amountHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
       textAlign: 'center',
       lineHeight: 18,
     },
@@ -108,9 +108,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange[50],
     },
     quickText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
     },
     quickTextActive: {
       color: colors.orange[500],
@@ -150,15 +150,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     methodTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       marginBottom: 2,
     },
     methodSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
     },
     methodCheck: {
       width: 24,
@@ -179,10 +179,10 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
     },
     infoText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.isDark ? colors.blue[300] : colors.navy[800],
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 19,
     },
     footer: {
@@ -207,9 +207,9 @@ export default function createStyles(colors) {
       opacity: 0.45,
     },
     submitText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

@@ -57,7 +57,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 20,
-      fontWeight: '900',
     },
     profileInfo: {
       flex: 1,
@@ -72,20 +71,17 @@ export default function createStyles(colors) {
     nameText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 20,
-      fontWeight: '900',
       color: colors.white,
     },
     statsText: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.navy[350],
       marginBottom: 3,
     },
     contactText: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
-      fontWeight: '500',
       color: colors.textMuted,
     },
     editBtn: {
@@ -110,7 +106,6 @@ export default function createStyles(colors) {
     kycText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.green[350] || colors.green[400],
     },
 
@@ -118,7 +113,6 @@ export default function createStyles(colors) {
     sectionTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -163,13 +157,11 @@ export default function createStyles(colors) {
     vehicleTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
-      fontWeight: '800',
       color: colors.text,
     },
     vehicleSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
@@ -183,7 +175,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '900',
       letterSpacing: 0.8,
     },
     warnBox: {
@@ -201,7 +192,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.amber[800],
       lineHeight: 17,
     },
@@ -219,7 +209,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14.5,
-      fontWeight: '800',
     },
 
     // List Items Card
@@ -267,13 +256,11 @@ export default function createStyles(colors) {
     listTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     listSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },

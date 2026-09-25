@@ -23,9 +23,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.green[500],
     },
     matchBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.green[600],
       fontSize: 12,
-      fontWeight: '700',
     },
     liveBadge: {
       flexDirection: 'row',
@@ -37,16 +37,16 @@ export default function createStyles(colors) {
       borderRadius: 14,
     },
     headline: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       marginBottom: 4,
     },
     headlineOnWay: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       marginRight: 8,
     },
     headlineRow: {
@@ -56,9 +56,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     subline: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 14,
-      fontWeight: '500',
       marginBottom: 14,
     },
     driverCard: {
@@ -96,8 +96,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.blue20_59 : colors.blue[100],
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
     },
     avatarTextOrange: {
       color: colors.orange[500],
@@ -120,19 +120,19 @@ export default function createStyles(colors) {
       flexWrap: 'wrap',
     },
     driverName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     ratingText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     driverMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     ratingRow: {
       flexDirection: 'row',
@@ -153,14 +153,14 @@ export default function createStyles(colors) {
       paddingVertical: 9,
     },
     plateText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 11,
-      fontWeight: '800',
     },
     plateTextLight: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 11,
-      fontWeight: '800',
     },
     otpInline: {
       flexDirection: 'row',
@@ -172,14 +172,14 @@ export default function createStyles(colors) {
       borderTopColor: colors.border,
     },
     otpInlineText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
@@ -204,19 +204,19 @@ export default function createStyles(colors) {
       marginLeft: 10,
     },
     poolName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
     },
     poolRoute: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
       marginTop: 2,
     },
     poolStatus: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       marginLeft: 8,
       maxWidth: 88,
       textAlign: 'right',
@@ -238,10 +238,10 @@ export default function createStyles(colors) {
       marginTop: 8,
     },
     infoBannerText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.isDark ? colors.text : colors.navy[700],
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 19,
     },
     otpBox: {
@@ -259,9 +259,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     otpHeadText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[500],
       fontSize: 12,
-      fontWeight: '800',
       letterSpacing: 0.7,
     },
     otpDigits: {
@@ -281,14 +281,14 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     otpDigitText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
     },
     otpHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.orange[500],
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
     },
     actionsRow: {
@@ -309,9 +309,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
     },
     actionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 11,
-      fontWeight: '700',
     },
     actionLabelSos: {
       color: colors.red[500],
@@ -339,15 +339,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     safetyTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '800',
       marginBottom: 2,
     },
     safetyBody: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
     },
     cancelLink: {
@@ -360,9 +360,9 @@ export default function createStyles(colors) {
       marginTop: 14,
     },
     cancelLinkText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 15,
-      fontWeight: '700',
     },
     onTripHead: {
       flexDirection: 'row',
@@ -386,16 +386,16 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     onTripBadgeText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[500],
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 0.4,
     },
     onTripDrop: {
+      fontFamily: colors.fonts.sora.extraBold,
       flex: 1,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
     },
     onTripTrack: {
       height: 5,
@@ -422,16 +422,16 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     metricLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 0.5,
       marginBottom: 4,
     },
     metricValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     onTripDriver: {
       flexDirection: 'row',
@@ -439,9 +439,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     onTripDriverName: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
       marginBottom: 2,
     },
     miniAction: {
@@ -463,9 +463,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     shareLiveText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
   });
 }

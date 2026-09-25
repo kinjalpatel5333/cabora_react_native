@@ -31,7 +31,6 @@ export default function createStyles(colors) {
       position: 'absolute',
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.2,
     },
     water: {
@@ -71,7 +70,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
       lineHeight: 18,
     },
     sheet: {
@@ -103,7 +101,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       letterSpacing: -0.4,
       marginBottom: 8,
     },
@@ -133,7 +130,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '500',
       lineHeight: 20,
     },
     actions: {
@@ -148,7 +144,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 15,
-      fontWeight: '700',
     },
     searchWrap: {
       marginBottom: 8,
@@ -176,7 +171,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       marginBottom: 2,
     },
     placeSub: {
@@ -189,7 +183,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.light,
       color: colors.gray[400],
       fontSize: 22,
-      fontWeight: '300',
     },
   });
 }

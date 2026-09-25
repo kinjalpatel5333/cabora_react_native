@@ -44,7 +44,6 @@ export default function createStyles(colors) {
     heroTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      fontWeight: '800',
       color: colors.green[900],
       marginBottom: 8,
       textAlign: 'center',
@@ -53,7 +52,6 @@ export default function createStyles(colors) {
     heroSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
-      fontWeight: '500',
       color: colors.green[750],
       textAlign: 'center',
       lineHeight: 20,
@@ -77,7 +75,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       fontSize: 13,
-      fontWeight: '600',
       color: colors.textSecondary,
     },
 
@@ -94,7 +91,6 @@ export default function createStyles(colors) {
     cardHeader: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -109,25 +105,21 @@ export default function createStyles(colors) {
     cardRowLabel: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
-      fontWeight: '500',
       color: colors.textSecondary,
     },
     cardRowValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     promoLabel: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.green[600],
     },
     promoValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.green[600],
     },
     cardDivider: {
@@ -138,13 +130,11 @@ export default function createStyles(colors) {
     totalLabel: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     totalValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
-      fontWeight: '800',
       color: colors.text,
     },
 
@@ -159,7 +149,6 @@ export default function createStyles(colors) {
     earningHeader: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -168,25 +157,21 @@ export default function createStyles(colors) {
     earningLabel: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 14,
-      fontWeight: '500',
       color: colors.alpha.white75,
     },
     earningValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.white,
     },
     commissionValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.orange[425],
     },
     walletValue: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.green[400],
     },
     earningDivider: {
@@ -197,13 +182,11 @@ export default function createStyles(colors) {
     keepLabel: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 16,
-      fontWeight: '800',
       color: colors.white,
     },
     keepValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
-      fontWeight: '800',
       color: colors.green[350] || colors.green[400],
     },
 
@@ -237,7 +220,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16.5,
-      fontWeight: '800',
     },
     reportLink: {
       alignItems: 'center',
@@ -249,7 +231,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '600',
     },
   });
 }

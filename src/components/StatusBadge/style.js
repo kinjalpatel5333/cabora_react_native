@@ -20,7 +20,6 @@ export default function createStyles(colors) {
     label: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
     },
     neutral: {
       backgroundColor: colors.gray[100],

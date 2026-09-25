@@ -28,7 +28,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
       textAlign: 'center',
     },
     subtitle: {
