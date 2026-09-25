@@ -76,10 +76,11 @@ export default function Header({
           accessibilityLabel="Open menu"
           onPress={handleMenu}
           style={styles.iconBtn}>
-          <Image source={images.iconMenu} style={styles.menuIcon} />
+          <Feather name="menu" size={22} color={colors.text} />
         </TouchableOpacity>
       );
     }
+
     return <View style={styles.iconPlaceholder} />;
   };
 

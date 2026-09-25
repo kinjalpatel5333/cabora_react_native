@@ -30,9 +30,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       letterSpacing: -0.5,
     },
     markAllBtn: {
@@ -40,9 +40,9 @@ export default function createStyles(colors) {
       paddingHorizontal: 8,
     },
     markAllText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     pillsScroll: {
       paddingHorizontal: 18,
@@ -65,9 +65,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
     },
     pillText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '700',
     },
     pillTextActive: {
       color: colors.primary,
@@ -78,9 +78,9 @@ export default function createStyles(colors) {
       paddingBottom: 40,
     },
     sectionTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11.5,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
       marginTop: 6,
@@ -130,21 +130,21 @@ export default function createStyles(colors) {
       marginBottom: 3,
     },
     itemTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.text,
       fontSize: 14.5,
-      fontWeight: '700',
       marginRight: 6,
     },
     itemTime: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textSub,
       fontSize: 12,
-      fontWeight: '400',
     },
     itemSubtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 18,
     },
     emptyBox: {
@@ -153,9 +153,9 @@ export default function createStyles(colors) {
       paddingVertical: 60,
     },
     emptyText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.subtext,
       fontSize: 14,
-      fontWeight: '500',
       marginTop: 10,
     },
   });

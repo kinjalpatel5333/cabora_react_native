@@ -1,6 +1,4 @@
-import { fonts } from '../../config/typography';
 import { StyleSheet } from 'react-native';
-import colors from '../../config/color';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -9,31 +7,100 @@ export default function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     profile: {
-      paddingHorizontal: 20,
-      paddingBottom: 20,
+      paddingHorizontal: 16,
+      paddingTop: 8,
+      paddingBottom: 16,
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
+      backgroundColor: colors.isDark ? colors.navy[850] : colors.orange[50],
+      marginHorizontal: 12,
+      borderRadius: 18,
+      marginBottom: 6,
+    },
+    profileRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatarContainer: {
+      position: 'relative',
+      marginRight: 12,
     },
     avatar: {
-      width: 60,
-      height: 60,
-      borderRadius: 30,
-      marginBottom: 10,
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      borderWidth: 2,
+      borderColor: colors.primary,
+    },
+    avatarFallback: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 2,
+      borderColor: colors.isDark ? colors.orange[400] : colors.orange[200],
+    },
+    avatarInitial: {
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.white,
+      fontSize: 18,
+    },
+    roleBadgeDot: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      width: 14,
+      height: 14,
+      borderRadius: 7,
+      borderWidth: 2,
+      borderColor: colors.surface,
+    },
+    roleBadgeDotDriver: {
+      backgroundColor: colors.green[500],
+    },
+    roleBadgeDotPassenger: {
+      backgroundColor: colors.primary,
+    },
+    profileInfo: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    nameRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     name: {
-      fontFamily: fonts.sora.extraBold,
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 18,
-      fontWeight: '800',
+      fontSize: 17,
+    },
+    roleTag: {
+      alignSelf: 'flex-start',
+      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[150],
+      paddingHorizontal: 8,
+      paddingVertical: 3,
+      borderRadius: 6,
+      marginTop: 4,
+      marginBottom: 3,
+    },
+    roleTagText: {
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.primary,
+      fontSize: 10,
+      letterSpacing: 0.5,
     },
     email: {
-      fontFamily: fonts.sora.regular,
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
-      fontSize: 13,
-      marginTop: 2,
+      fontSize: 12,
+    },
+    profileChevron: {
+      marginLeft: 6,
     },
     scrollItems: {
-      paddingTop: 10,
+      paddingTop: 8,
       paddingHorizontal: 12,
       paddingBottom: 16,
     },
@@ -44,9 +111,10 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       borderRadius: 14,
-      paddingVertical: 10,
-      paddingHorizontal: 10,
+      paddingVertical: 11,
+      paddingHorizontal: 12,
       marginBottom: 4,
+      position: 'relative',
     },
     itemActive: {
       backgroundColor: colors.isDark ? colors.alpha.orange22 : colors.orange[175],
@@ -63,16 +131,22 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange30 : colors.orange[250],
     },
     itemLabel: {
-      fontFamily: fonts.sora.bold,
+      fontFamily: colors.fonts.sora.bold,
       marginLeft: 12,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
+      flex: 1,
     },
     itemLabelActive: {
-      fontFamily: fonts.sora.extraBold,
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
-      fontWeight: '800',
+    },
+    activePillIndicator: {
+      width: 4,
+      height: 20,
+      borderRadius: 2,
+      backgroundColor: colors.primary,
+      marginLeft: 6,
     },
     footer: {
       paddingHorizontal: 16,
@@ -87,7 +161,7 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       paddingVertical: 8,
       paddingHorizontal: 2,
-      marginBottom: 10,
+      marginBottom: 8,
     },
     themeLeft: {
       flexDirection: 'row',
@@ -105,13 +179,12 @@ export default function createStyles(colors) {
       marginLeft: 12,
     },
     themeLabel: {
-      fontFamily: fonts.sora.bold,
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontSize: 14,
-      fontWeight: '700',
+      fontSize: 15,
     },
     themeSub: {
-      fontFamily: fonts.sora.regular,
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
       marginTop: 1,
@@ -134,10 +207,10 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     logoutText: {
-      fontFamily: fonts.sora.bold,
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.red[400] : colors.red[600],
       fontSize: 15,
-      fontWeight: '700',
     },
+
   });
 }

@@ -17,19 +17,21 @@ export default function createStyles(colors) {
       gap: 12,
     },
     headerCopy: {
+
+
       flex: 1,
       paddingRight: 8,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '400',
       marginTop: 4,
       lineHeight: 20,
     },
@@ -63,9 +65,9 @@ export default function createStyles(colors) {
       borderColor: colors.isDark ? colors.surface : colors.white,
     },
     badgeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 10,
-      fontWeight: '700',
     },
     searchBox: {
       flexDirection: 'row',
@@ -80,10 +82,10 @@ export default function createStyles(colors) {
       marginBottom: 22,
     },
     searchInput: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '400',
       padding: 0,
       margin: 0,
     },
@@ -91,9 +93,9 @@ export default function createStyles(colors) {
       marginBottom: 22,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.2,
       marginBottom: 10,
     },
@@ -124,14 +126,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     rideTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     rideMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 1,
     },
     rideBadge: {
@@ -150,9 +152,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     rideBadgeText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.orange[600],
       fontSize: 11,
-      fontWeight: '600',
     },
     planGrid: {
       flexDirection: 'row',
@@ -181,16 +183,16 @@ export default function createStyles(colors) {
       flexShrink: 0,
     },
     planKicker: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '400',
       lineHeight: 14,
     },
     planTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginTop: 10,
       lineHeight: 18,
     },
@@ -224,9 +226,9 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     portalTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     newBadge: {
       flexDirection: 'row',
@@ -244,20 +246,20 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[500],
     },
     newBadgeText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.blue[500],
       fontSize: 11,
-      fontWeight: '600',
     },
     portalBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 18,
     },
     empty: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '400',
       textAlign: 'center',
       marginTop: 24,
     },

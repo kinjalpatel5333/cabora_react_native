@@ -23,8 +23,8 @@ export default function createStyles(colors) {
       alignItems: 'flex-start',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.navy?.[900] || '#0F1E36',
       textAlign: 'center',
     },
@@ -72,12 +72,13 @@ export default function createStyles(colors) {
       marginBottom: 4,
     },
     changePhotoText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange?.[600] || '#FF5500',
       fontSize: 15,
-      fontWeight: '700',
       textAlign: 'center',
     },
     changePhotoSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted || '#64748B',
       fontSize: 12.5,
       textAlign: 'center',
@@ -86,8 +87,8 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     label: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.navy?.[900] || '#1E293B',
       marginBottom: 8,
     },
@@ -108,13 +109,14 @@ export default function createStyles(colors) {
       marginRight: 10,
     },
     inputText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       fontSize: 15,
-      fontWeight: '500',
       color: colors.navy?.[900] || '#0F1E36',
       paddingVertical: 0,
     },
     helperText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.textMuted || '#64748B',
       marginTop: 6,
@@ -143,13 +145,13 @@ export default function createStyles(colors) {
       backgroundColor: '#FFF7ED',
     },
     genderChipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.navy?.[900] || '#1E293B',
     },
     genderChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange?.[600] || '#FF5500',
-      fontWeight: '700',
     },
     verifiedCard: {
       backgroundColor: colors.white || '#FFFFFF',
@@ -166,13 +168,14 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     verifiedCardLabel: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.textMuted || '#64748B',
       marginBottom: 2,
     },
     verifiedCardValue: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15.5,
-      fontWeight: '700',
       color: colors.navy?.[900] || '#0F1E36',
       marginBottom: 4,
     },
@@ -181,6 +184,7 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     verifiedStatusText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.textMuted || '#64748B',
       marginLeft: 4,
@@ -192,9 +196,9 @@ export default function createStyles(colors) {
       borderRadius: 14,
     },
     chipButtonText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange?.[600] || '#FF5500',
       fontSize: 13,
-      fontWeight: '700',
     },
     securityBanner: {
       flexDirection: 'row',
@@ -209,6 +213,7 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     securityText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 12,
       color: colors.textMuted || '#64748B',
@@ -244,8 +249,8 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     cancelButtonText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: colors.navy?.[900] || '#0F1E36',
     },
     saveButton: {
@@ -257,8 +262,8 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     saveButtonText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
       color: colors.white || '#FFFFFF',
     },
   });

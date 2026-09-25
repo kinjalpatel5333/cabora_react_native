@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -51,21 +51,21 @@ export default function createStyles(colors) {
       flex: 1,
     },
     statusTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14.5,
-      fontWeight: '700',
       marginBottom: 3,
     },
     statusSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       lineHeight: 16,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textSub,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
@@ -93,22 +93,22 @@ export default function createStyles(colors) {
       marginRight: 12,
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
     },
     contactInfo: {
       flex: 1,
     },
     contactName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     contactMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 11.5,
-      fontWeight: '400',
     },
     menuBtn: {
       width: 32,
@@ -130,9 +130,9 @@ export default function createStyles(colors) {
       gap: 8,
     },
     toggleText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 11.5,
-      fontWeight: '500',
     },
     toggleTrack: {
       width: 44,
@@ -179,9 +179,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     addText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     privacyCard: {
       backgroundColor: colors.card,
@@ -192,9 +192,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     privacyTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 10,
     },
     privacyRow: {
@@ -207,10 +207,10 @@ export default function createStyles(colors) {
       marginBottom: 0,
     },
     privacyText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '400',
       lineHeight: 16,
     },
     privacyTextMuted: {
@@ -231,9 +231,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     saveText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

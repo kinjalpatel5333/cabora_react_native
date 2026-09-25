@@ -27,7 +27,6 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18,
-      fontWeight: '800',
       color: colors.text,
     },
 
@@ -57,7 +56,6 @@ export default function createStyles(colors) {
     earningLabel: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -67,7 +65,6 @@ export default function createStyles(colors) {
     earningAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 36,
-      fontWeight: '900',
       color: colors.white,
       marginBottom: 6,
       zIndex: 2,
@@ -75,7 +72,6 @@ export default function createStyles(colors) {
     earningSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.slate[300],
       zIndex: 2,
     },
@@ -108,13 +104,11 @@ export default function createStyles(colors) {
     routeTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14.5,
-      fontWeight: '800',
       color: colors.text,
     },
     routeSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
@@ -131,7 +125,6 @@ export default function createStyles(colors) {
     completedText: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      fontWeight: '500',
       color: colors.textMuted,
     },
     paidOnlineBadge: {
@@ -152,7 +145,6 @@ export default function createStyles(colors) {
     paidText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.green[700],
     },
 
@@ -160,7 +152,6 @@ export default function createStyles(colors) {
     sectionHeader: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -192,19 +183,16 @@ export default function createStyles(colors) {
     chargeName: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
     },
     chargeValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.text,
     },
     chargeSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },
@@ -228,20 +216,17 @@ export default function createStyles(colors) {
     addedTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
-      fontWeight: '800',
       color: colors.orange[850],
     },
     addedSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.orange[950],
       marginTop: 2,
     },
     addedAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 22,
-      fontWeight: '900',
       color: colors.orange[850],
     },
 
@@ -261,7 +246,6 @@ export default function createStyles(colors) {
     tipText: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
       flex: 1,
       lineHeight: 17,
@@ -296,7 +280,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

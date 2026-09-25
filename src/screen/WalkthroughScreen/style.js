@@ -54,7 +54,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.navy[900],
       fontSize: 14,
-      fontWeight: '700',
     },
     hero: {
       flex: 1,
@@ -117,13 +116,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[400],
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 1.1,
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     body: {

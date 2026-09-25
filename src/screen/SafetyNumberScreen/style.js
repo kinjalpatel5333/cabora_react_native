@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -51,21 +51,21 @@ export default function createStyles(colors) {
       flex: 1,
     },
     infoTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
     },
     infoSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       lineHeight: 16,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 8,
     },
@@ -81,9 +81,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     inputLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
       marginBottom: 6,
     },
     textInputBox: {
@@ -97,15 +97,16 @@ export default function createStyles(colors) {
       backgroundColor: colors.inputBg || colors.background,
     },
     textInputField: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 14.5,
       paddingVertical: 0,
     },
     phonePrefix: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 14.5,
-      fontWeight: '600',
       marginRight: 8,
     },
     chipRow: {
@@ -127,13 +128,13 @@ export default function createStyles(colors) {
       borderColor: colors.primary,
     },
     relationChipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12.5,
-      fontWeight: '600',
       color: colors.textMuted,
     },
     relationChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     numberCard: {
       backgroundColor: colors.card,
@@ -156,9 +157,9 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     toggleTitle: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '500',
       flex: 1,
       marginRight: 10,
     },
@@ -213,15 +214,15 @@ export default function createStyles(colors) {
       flex: 1,
     },
     liveLocationTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[450] : colors.orange[850],
       fontSize: 13.5,
-      fontWeight: '700',
       marginBottom: 2,
     },
     liveLocationSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.isDark ? colors.navy[300] : colors.amber[900],
       fontSize: 11.5,
-      fontWeight: '400',
       lineHeight: 15,
     },
     shareNowBtn: {
@@ -233,9 +234,9 @@ export default function createStyles(colors) {
       marginTop: 12,
     },
     shareNowText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 14.5,
-      fontWeight: '700',
     },
     footer: {
       flexDirection: 'row',
@@ -258,9 +259,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     removeBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     saveBtn: {
       flex: 1,
@@ -271,9 +272,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     saveBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '700',
     },
   });
 }

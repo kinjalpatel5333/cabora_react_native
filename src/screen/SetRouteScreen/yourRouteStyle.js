@@ -73,9 +73,9 @@ export default function createStyles(colors) {
       borderColor: colors.white,
     },
     routePinText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 12,
-      fontWeight: '800',
     },
     sheet: {
       backgroundColor: colors.card,
@@ -114,11 +114,12 @@ export default function createStyles(colors) {
       flex: 1,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 13,
       marginTop: 4,
@@ -139,9 +140,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.blue[500],
     },
     fareBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.blue[600],
       fontSize: 12,
-      fontWeight: '700',
     },
     list: {
       flexGrow: 0,
@@ -184,14 +185,14 @@ export default function createStyles(colors) {
       flex: 1,
     },
     stopLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '600',
     },
     stopAddress: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginTop: 2,
     },
     xSpacer: {
@@ -210,11 +211,12 @@ export default function createStyles(colors) {
       marginTop: 2,
     },
     addStopText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 14,
-      fontWeight: '700',
     },
     maxStopsHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
       textAlign: 'center',
@@ -232,17 +234,18 @@ export default function createStyles(colors) {
       flex: 1,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '600',
     },
     fareValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 28,
-      fontWeight: '800',
       marginTop: 2,
     },
     fareHint: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 11,
       marginTop: 2,
@@ -257,9 +260,9 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     confirmText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

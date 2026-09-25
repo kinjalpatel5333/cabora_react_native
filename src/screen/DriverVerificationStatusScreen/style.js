@@ -24,8 +24,8 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
 
@@ -56,12 +56,12 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     toggleTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: colors.gray[600],
     },
     toggleTabTextActive: {
-      fontWeight: '800',
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
     },
 
@@ -106,21 +106,23 @@ export default function createStyles(colors) {
       marginRight: 14,
     },
     statusTitleProgress: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
-      fontWeight: '800',
       color: colors.amber[900],
     },
     statusTitleRejected: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 17,
-      fontWeight: '800',
       color: '#991B1B',
     },
     statusSubtextProgress: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.amber[800],
       marginTop: 2,
     },
     statusSubtextRejected: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: '#9F1239',
       marginTop: 2,
@@ -143,8 +145,8 @@ export default function createStyles(colors) {
       flex: 1,
     },
     pillLabel: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.gray[500],
       marginBottom: 4,
     },
@@ -156,8 +158,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     pillValueReviewText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.amber[800],
     },
     pillValueRejected: {
@@ -168,8 +170,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     pillValueRejectedText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.danger,
     },
     pillValueGray: {
@@ -180,8 +182,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     pillValueGrayText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.gray[700],
     },
 
@@ -195,18 +197,16 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     sectionHeader: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: '#64748B',
       letterSpacing: 0.8,
       textTransform: 'uppercase',
       marginBottom: 18,
     },
     sectionHeaderRed: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.danger,
       letterSpacing: 0.8,
       textTransform: 'uppercase',
@@ -283,30 +283,27 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
     },
     timelineTitle: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     timelineTitlePending: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.medium,
       fontSize: 15,
-      fontWeight: '500',
       color: '#64748B',
     },
     timelineTime: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13.5,
       color: '#64748B',
     },
     timelineTimeActive: {
-      fontFamily: colors.fonts?.sora?.bold || 'System',
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13.5,
-      fontWeight: '700',
       color: '#EA580C',
     },
     timelineTimePending: {
-      fontFamily: colors.fonts?.sora?.regular || 'System',
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13.5,
       color: '#94A3B8',
     },
@@ -326,8 +323,8 @@ export default function createStyles(colors) {
       marginLeft: 10,
     },
     checkItemTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,
-      fontWeight: '600',
       color: colors.text,
       marginLeft: 10,
     },
@@ -340,8 +337,8 @@ export default function createStyles(colors) {
       borderRadius: 10,
     },
     pillGreenText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.green[700],
     },
     pillOrange: {
@@ -351,8 +348,8 @@ export default function createStyles(colors) {
       borderRadius: 10,
     },
     pillOrangeText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      fontWeight: '700',
       color: colors.amber[800],
     },
 
@@ -381,12 +378,13 @@ export default function createStyles(colors) {
       flex: 1,
     },
     fixItemTitle: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 14,
-      fontWeight: '700',
       color: colors.text,
       marginBottom: 2,
     },
     fixItemReason: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
       color: colors.gray[600],
       lineHeight: 17,
@@ -400,8 +398,8 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     fixBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      fontWeight: '700',
       color: colors.orange[700],
     },
 
@@ -417,12 +415,13 @@ export default function createStyles(colors) {
       borderColor: colors.green[200],
     },
     everythingElseTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13,
-      fontWeight: '800',
       color: colors.green[900],
       marginBottom: 2,
     },
     everythingElseText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
       color: colors.green[800],
       lineHeight: 16,
@@ -438,6 +437,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     nextStepText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       color: colors.gray[700],
     },
@@ -455,12 +455,13 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     appealText: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 13,
       color: colors.gray[600],
     },
     appealBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      fontWeight: '700',
       color: colors.orange[600],
     },
 
@@ -477,11 +478,11 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     infoCardText: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       fontSize: 13.5,
       color: colors.gray[600],
       lineHeight: 19,
-      fontWeight: '400',
     },
 
     // Bottom Navigation Bar
@@ -502,8 +503,8 @@ export default function createStyles(colors) {
       height: 52,
     },
     btnBackText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     btnSupportOutline: {
@@ -517,8 +518,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     btnSupportText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.text,
     },
     btnFixSubmit: {
@@ -526,8 +527,8 @@ export default function createStyles(colors) {
       height: 52,
     },
     btnFixSubmitText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 15,
-      fontWeight: '700',
       color: colors.white,
     },
   });

@@ -1,3 +1,4 @@
+import { fonts } from '../../config/typography';
 import {StyleSheet} from 'react-native';
 import colors from '../../config/color';
 
@@ -28,8 +29,8 @@ export default StyleSheet.create({
     tintColor: colors.text || colors.white,
   },
   headerTitle: {
+      fontFamily: fonts.sora.bold,
     fontSize: 18,
-    fontWeight: '700',
     color: colors.text || colors.white,
   },
   searchBar: {
@@ -43,10 +44,12 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
   },
   searchIcon: {
+      fontFamily: fonts.sora.regular,
     fontSize: 16,
     marginRight: 8,
   },
   searchInput: {
+      fontFamily: fonts.sora.regular,
     flex: 1,
     color: colors.text || colors.white,
     fontSize: 15,
@@ -56,13 +59,13 @@ export default StyleSheet.create({
     padding: 4,
   },
   clearText: {
+      fontFamily: fonts.sora.bold,
     color: colors.textMuted || colors.gray.gray400,
     fontSize: 13,
-    fontWeight: '700',
   },
   countText: {
+      fontFamily: fonts.sora.semiBold,
     fontSize: 12,
-    fontWeight: '600',
     color: colors.textMuted || colors.gray.gray400,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -91,6 +94,7 @@ export default StyleSheet.create({
     marginRight: 12,
   },
   itemIconText: {
+      fontFamily: fonts.sora.regular,
     fontSize: 20,
   },
   itemContent: {
@@ -98,12 +102,13 @@ export default StyleSheet.create({
     marginRight: 8,
   },
   itemTitle: {
+      fontFamily: fonts.sora.semiBold,
     fontSize: 15,
-    fontWeight: '600',
     color: colors.text || colors.white,
     marginBottom: 3,
   },
   itemSubtitle: {
+      fontFamily: fonts.sora.regular,
     fontSize: 12.5,
     color: colors.textMuted || colors.gray.gray400,
   },
@@ -115,11 +120,12 @@ export default StyleSheet.create({
     marginRight: 8,
   },
   itemBadgeText: {
+      fontFamily: fonts.sora.semiBold,
     fontSize: 11,
-    fontWeight: '600',
     color: colors.primary || colors.purple.hotPink,
   },
   arrow: {
+      fontFamily: fonts.sora.regular,
     fontSize: 18,
     color: colors.textMuted || colors.gray.gray500,
   },
@@ -129,16 +135,18 @@ export default StyleSheet.create({
     paddingTop: 60,
   },
   emptyIcon: {
+      fontFamily: fonts.sora.regular,
     fontSize: 36,
     marginBottom: 8,
   },
   emptyTitle: {
+      fontFamily: fonts.sora.semiBold,
     fontSize: 16,
-    fontWeight: '600',
     color: colors.text || colors.white,
     marginBottom: 4,
   },
   emptyText: {
+      fontFamily: fonts.sora.regular,
     fontSize: 13,
     color: colors.textMuted || colors.gray.gray400,
   },

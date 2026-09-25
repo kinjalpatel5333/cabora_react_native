@@ -47,9 +47,9 @@ export default function createStyles(colors) {
       maxWidth: '72%',
     },
     routeSummaryText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       flexShrink: 1,
     },
     locateFab: {
@@ -135,9 +135,9 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
     },
     scheduleBtn: {
       flexDirection: 'row',
@@ -149,9 +149,9 @@ export default function createStyles(colors) {
       borderRadius: 12,
     },
     scheduleText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
     },
     list: {
       flexGrow: 0,
@@ -200,9 +200,9 @@ export default function createStyles(colors) {
       marginBottom: 2,
     },
     rideTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     badge: {
       paddingHorizontal: 8,
@@ -211,28 +211,28 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.light,
     },
     badgeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 11,
-      fontWeight: '700',
     },
     rideMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     ridePriceCol: {
       alignItems: 'flex-end',
       marginLeft: 8,
     },
     ridePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 17,
-      fontWeight: '800',
     },
     rideEta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '500',
       marginTop: 2,
     },
     metaRow: {
@@ -259,22 +259,22 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     metaText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     metaTextPromo: {
       color: colors.isDark ? colors.green[400] : colors.green[600],
     },
     changeText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
       fontSize: 14,
-      fontWeight: '700',
     },
     promoAmount: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 14,
-      fontWeight: '700',
     },
     footer: {
       flexDirection: 'row',
@@ -288,15 +288,15 @@ export default function createStyles(colors) {
       minWidth: 72,
     },
     totalLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.6,
     },
     totalValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 22,
-      fontWeight: '800',
       marginTop: 2,
     },
     bookBtn: {
@@ -308,9 +308,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
   });
 }

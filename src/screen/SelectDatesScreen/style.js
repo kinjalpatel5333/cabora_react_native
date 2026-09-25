@@ -23,16 +23,16 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     resetText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 15,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -57,13 +57,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     chipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
     },
     chipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     card: {
       backgroundColor: colors.card,
@@ -80,9 +80,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     monthTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     monthNav: {
       flexDirection: 'row',
@@ -99,11 +99,11 @@ export default function createStyles(colors) {
       marginBottom: 6,
     },
     weekLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       textAlign: 'center',
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '600',
     },
     daysGrid: {
       width: '100%',
@@ -140,20 +140,20 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     dayText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '500',
     },
     dayTextMuted: {
       color: colors.isDark ? colors.navy[700] : colors.gray[300],
     },
     dayTextSelected: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
-      fontWeight: '700',
     },
     dayTextInRange: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
-      fontWeight: '600',
     },
     rangeTop: {
       flexDirection: 'row',
@@ -162,15 +162,15 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     rangeLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
     },
     rangeDays: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '500',
     },
     rangeDates: {
       flexDirection: 'row',
@@ -186,15 +186,15 @@ export default function createStyles(colors) {
       alignItems: 'flex-end',
     },
     rangeHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
       marginBottom: 4,
     },
     rangeValue: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
       letterSpacing: -0.2,
     },
     summaryCard: {
@@ -222,14 +222,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     summaryTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     summaryMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       marginTop: 3,
       lineHeight: 18,
     },
@@ -251,14 +251,14 @@ export default function createStyles(colors) {
       paddingRight: 4,
     },
     toggleTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     toggleMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       marginTop: 3,
       lineHeight: 18,
     },
@@ -301,9 +301,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     applyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

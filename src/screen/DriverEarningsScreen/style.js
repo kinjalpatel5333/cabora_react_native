@@ -37,7 +37,6 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      fontWeight: '900',
       color: colors.text,
     },
     statementBtn: {
@@ -87,13 +86,11 @@ export default function createStyles(colors) {
     periodTabText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13.5,
-      fontWeight: '600',
       color: colors.textMuted,
     },
     periodTabTextActive: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontWeight: '800',
     },
 
     // Main Chart Card (Navy)
@@ -112,7 +109,6 @@ export default function createStyles(colors) {
     chartLabel: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.navy[350],
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -120,13 +116,11 @@ export default function createStyles(colors) {
     chartTrend: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12.5,
-      fontWeight: '700',
       color: colors.green[550],
     },
     netAmount: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 38,
-      fontWeight: '900',
       color: colors.white,
       marginTop: 10,
       marginBottom: 16,
@@ -192,7 +186,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 11,
-      fontWeight: '800',
       textAlign: 'center',
       includeFontPadding: false,
     },
@@ -214,7 +207,6 @@ export default function createStyles(colors) {
     dayLabel: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11.5,
-      fontWeight: '600',
       color: colors.textMuted,
       width: 32,
       textAlign: 'center',
@@ -222,7 +214,6 @@ export default function createStyles(colors) {
     dayLabelActive: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.navy[350],
-      fontWeight: '700',
     },
 
     // 2x2 Metric Grid
@@ -253,7 +244,6 @@ export default function createStyles(colors) {
     metricTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 10.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.5,
       textTransform: 'uppercase',
@@ -261,28 +251,24 @@ export default function createStyles(colors) {
     metricValue: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
-      fontWeight: '900',
       color: colors.text,
       marginBottom: 4,
     },
     metricValueRed: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
-      fontWeight: '900',
       color: colors.red[600],
       marginBottom: 4,
     },
     metricValueGreen: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 18.5,
-      fontWeight: '900',
       color: colors.green[600],
       marginBottom: 4,
     },
     metricSub: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12.5,
-      fontWeight: '500',
       color: colors.textMuted,
     },
 
@@ -290,7 +276,6 @@ export default function createStyles(colors) {
     sectionTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11.5,
-      fontWeight: '700',
       color: colors.textMuted,
       letterSpacing: 0.6,
       textTransform: 'uppercase',
@@ -328,14 +313,12 @@ export default function createStyles(colors) {
     rideTime: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 12,
-      fontWeight: '600',
       color: colors.textMuted,
       marginBottom: 3,
     },
     rideRoute: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
-      fontWeight: '800',
       color: colors.text,
     },
     rideRight: {
@@ -344,13 +327,11 @@ export default function createStyles(colors) {
     rideEarning: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 15,
-      fontWeight: '800',
       color: colors.green[700],
     },
     rideFare: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 12,
-      fontWeight: '500',
       color: colors.textMuted,
       marginTop: 2,
     },

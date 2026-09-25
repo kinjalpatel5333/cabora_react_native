@@ -131,15 +131,15 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     findingTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 20,
-      fontWeight: '800',
       marginBottom: 4,
     },
     findingSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 14,
-      fontWeight: '500',
       lineHeight: 20,
     },
     progressTrack: {
@@ -190,16 +190,16 @@ export default function createStyles(colors) {
     },
     tripBlock: {},
     tripLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 4,
     },
     tripAddress: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     infoBox: {
       flexDirection: 'row',
@@ -212,10 +212,10 @@ export default function createStyles(colors) {
       marginBottom: 16,
     },
     infoText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 19,
     },
     cancelBtn: {
@@ -228,9 +228,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     cancelText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[500],
       fontSize: 16,
-      fontWeight: '800',
     },
     unavailableScroll: {
       paddingBottom: 4,
@@ -246,9 +246,9 @@ export default function createStyles(colors) {
       marginTop: 2,
     },
     altLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.9,
       marginBottom: 10,
     },
@@ -270,15 +270,15 @@ export default function createStyles(colors) {
       gap: 8,
     },
     altName: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     altPrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[500],
       fontSize: 15,
-      fontWeight: '800',
     },
     searchAgainBtn: {
       backgroundColor: colors.orange[500],
@@ -289,18 +289,18 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     searchAgainText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
     cancelLink: {
       alignItems: 'center',
       paddingVertical: 6,
     },
     cancelLinkText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 15,
-      fontWeight: '700',
     },
     arrivalPill: {
       position: 'absolute',
@@ -321,9 +321,9 @@ export default function createStyles(colors) {
       elevation: 5,
     },
     arrivalPillText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '700',
       flexShrink: 1,
     },
     locateFab: {
@@ -415,14 +415,14 @@ export default function createStyles(colors) {
       flexShrink: 1,
     },
     navTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '800',
     },
     navSub: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.muted : colors.navy[300],
       fontSize: 11,
-      fontWeight: '500',
       marginTop: 2,
     },
     sosPill: {
@@ -440,9 +440,9 @@ export default function createStyles(colors) {
       borderRadius: 20,
     },
     sosPillText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[500],
       fontSize: 13,
-      fontWeight: '800',
     },
   });
 }

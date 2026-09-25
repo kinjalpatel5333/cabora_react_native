@@ -35,24 +35,24 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 22,
-      fontWeight: '800',
       letterSpacing: 0.5,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       textAlign: 'center',
       lineHeight: 34,
       marginBottom: 10,
       paddingHorizontal: 8,
     },
     subtitle: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 14,
-      fontWeight: '500',
       textAlign: 'center',
       lineHeight: 20,
       marginBottom: 22,
@@ -69,9 +69,9 @@ export default function createStyles(colors) {
       padding: 2,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '700',
       letterSpacing: 0.9,
       marginBottom: 12,
     },
@@ -94,15 +94,16 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.navy.cardBg : colors.white,
     },
     tagText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     tagTextSelected: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.orange[500],
-      fontWeight: '700',
     },
     noteInput: {
+      fontFamily: colors.fonts.sora.medium,
       minHeight: 88,
       borderRadius: 14,
       backgroundColor: colors.surface,
@@ -110,7 +111,6 @@ export default function createStyles(colors) {
       paddingTop: 14,
       paddingBottom: 14,
       fontSize: 15,
-      fontWeight: '500',
       color: colors.text,
       textAlignVertical: 'top',
       marginBottom: 24,
@@ -135,14 +135,15 @@ export default function createStyles(colors) {
       borderWidth: 2,
     },
     tipText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     tipTextSelected: {
       color: colors.orange[500],
     },
     customInput: {
+      fontFamily: colors.fonts.sora.semiBold,
       marginTop: 12,
       height: 48,
       borderRadius: 12,
@@ -150,7 +151,6 @@ export default function createStyles(colors) {
       borderColor: colors.orange[500],
       paddingHorizontal: 14,
       fontSize: 15,
-      fontWeight: '600',
       color: colors.text,
       backgroundColor: colors.card,
     },
@@ -168,18 +168,18 @@ export default function createStyles(colors) {
       marginBottom: 14,
     },
     submitText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '800',
     },
     skipBtn: {
       alignItems: 'center',
       paddingVertical: 6,
     },
     skipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 15,
-      fontWeight: '600',
     },
   });
 }

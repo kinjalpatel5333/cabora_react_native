@@ -51,14 +51,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 15,
-      fontWeight: '800',
       lineHeight: 19,
     },
     navSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.alpha.white65,
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 16,
       marginTop: 2,
     },
@@ -83,7 +81,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[600],
       fontSize: 14,
-      fontWeight: '800',
     },
 
     // Floating Map Actions
@@ -223,7 +220,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[700],
       fontSize: 12,
-      fontWeight: '800',
       letterSpacing: 0.5,
     },
     destTitle: {
@@ -231,7 +227,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.text,
       fontSize: 15.5,
-      fontWeight: '800',
     },
 
     // Progress Bar
@@ -275,7 +270,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.5,
       textTransform: 'uppercase',
       marginBottom: 4,
@@ -284,13 +278,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 18,
-      fontWeight: '800',
     },
     statValueOrange: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.primary,
       fontSize: 19,
-      fontWeight: '800',
     },
 
     // Rider Row & Action Icons
@@ -319,7 +311,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '800',
     },
     riderDetails: {
       flex: 1,
@@ -329,13 +320,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     riderSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12.5,
-      fontWeight: '500',
       marginTop: 2,
       lineHeight: 16,
     },
@@ -369,7 +358,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.green[700],
       fontSize: 13.5,
-      fontWeight: '700',
     },
 
     // End Trip Button (with vibrant orange background & green border outline matching design)
@@ -394,7 +382,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 16.5,
-      fontWeight: '800',
     },
 
     homeIndicator: {

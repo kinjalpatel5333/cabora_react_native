@@ -333,9 +333,15 @@ export default function HomeScreen() {
 
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
-          <View style={styles.menuBtn}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Open menu"
+            onPress={openDrawer}
+            style={styles.menuBtn}>
             <Feather name="menu" size={22} color={colors.text} />
-          </View>
+          </TouchableOpacity>
+
 
           <TouchableOpacity activeOpacity={0.7}
             style={styles.greetingPill}

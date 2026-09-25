@@ -103,7 +103,6 @@ export default function createStyles(colors) {
     instructionTitle: {
       fontSize: 22,
       fontFamily: colors.fonts.sora.extraBold,
-      fontWeight: '800',
       color: colors.text,
       textAlign: 'center',
       marginBottom: 8,
@@ -155,7 +154,6 @@ export default function createStyles(colors) {
     otpDigit: {
       fontSize: 26,
       fontFamily: colors.fonts.sora.extraBold,
-      fontWeight: '800',
       color: colors.text,
     },
     otpDigitError: {

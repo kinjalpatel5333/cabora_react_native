@@ -20,11 +20,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     progressWrap: {
       paddingHorizontal: 20,
@@ -46,9 +46,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     stepText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -78,14 +78,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     heroTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     heroBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 13,
-      fontWeight: '400',
       marginTop: 3,
       lineHeight: 18,
     },
@@ -93,9 +93,9 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -123,21 +123,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     placeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     placeMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
       lineHeight: 17,
     },
     placeInput: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       padding: 0,
       margin: 0,
     },
@@ -167,20 +167,20 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     suggestTitle: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '600',
     },
     suggestMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     suggestEmpty: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '400',
       paddingVertical: 12,
     },
     divider: {
@@ -194,21 +194,21 @@ export default function createStyles(colors) {
       gap: 10,
     },
     contactCopy: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       minWidth: 0,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '500',
     },
     youTag: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     editText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 14,
-      fontWeight: '700',
     },
     noteCard: {
       backgroundColor: colors.card,
@@ -219,15 +219,15 @@ export default function createStyles(colors) {
       marginBottom: 18,
     },
     noteTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 6,
     },
     noteInput: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 19,
       padding: 0,
       margin: 0,
@@ -251,13 +251,13 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     savedChipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '600',
     },
     savedChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     footer: {
       flexDirection: 'row',
@@ -274,14 +274,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     footerLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     footerValue: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
       marginTop: 2,
     },
     continueBtn: {
@@ -293,9 +293,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     continueText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -58,21 +58,21 @@ export default function createStyles(colors) {
       elevation: 2,
     },
     tripTabText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.textMuted,
       fontSize: 14,
-      fontWeight: '600',
     },
     tripTabTextActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     section: {
       marginBottom: 18,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -118,14 +118,14 @@ export default function createStyles(colors) {
       gap: 14,
     },
     routeCity: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     routeMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     swapBtn: {
@@ -151,22 +151,22 @@ export default function createStyles(colors) {
       backgroundColor: colors.border,
     },
     dateLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 1,
       marginBottom: 6,
     },
     dateValue: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       lineHeight: 18,
     },
     editText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 8,
     },
     vehicleScroll: {
@@ -186,24 +186,24 @@ export default function createStyles(colors) {
       borderColor: colors.primary,
     },
     vehicleName: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
       marginTop: 6,
     },
     vehiclePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
       marginTop: 1,
     },
     vehiclePriceActive: {
       color: colors.primary,
     },
     vehicleMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
       fontSize: 10,
-      fontWeight: '400',
       marginTop: 1,
     },
     fareCard: {
@@ -224,16 +224,16 @@ export default function createStyles(colors) {
       marginBottom: 0,
     },
     fareLabel: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.textMuted,
       fontSize: 13,
-      fontWeight: '400',
       lineHeight: 18,
     },
     fareAmount: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     footer: {
       flexDirection: 'row',
@@ -250,21 +250,21 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     footerTrip: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
     },
     footerPrice: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 26,
-      fontWeight: '800',
       marginTop: 2,
       letterSpacing: -0.4,
     },
     footerNote: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.isDark ? colors.green[400] : colors.green[600],
       fontSize: 11,
-      fontWeight: '600',
       marginTop: 2,
     },
     bookBtn: {
@@ -276,9 +276,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     bookText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

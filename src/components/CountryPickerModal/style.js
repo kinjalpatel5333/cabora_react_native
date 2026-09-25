@@ -38,7 +38,6 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
-      fontWeight: '700',
       color: colors.text,
     },
     closeButton: {
@@ -84,6 +83,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orangeBrand12 : colors.alpha.orangeBrand08,
     },
     flagEmoji: {
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 24,
       marginRight: 12,
     },
@@ -95,17 +95,16 @@ export default function createStyles(colors) {
     },
     countryName: {
       flex: 1,
-      fontFamily: colors.fonts.sora.medium,
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 15,
       color: colors.text,
     },
     countryNameSelected: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
     },
     dialCode: {
-      fontFamily: colors.fonts.sora.semiBold,
+      fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
       color: colors.muted,
       marginLeft: 8,

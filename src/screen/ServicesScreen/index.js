@@ -10,6 +10,7 @@ import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
+
 import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
 import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import createStyles from './style';
@@ -49,6 +50,7 @@ export default function ServicesScreen() {
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
   const navigation = useNavigation();
+
   const {showToast} = useToast();
   const [query, setQuery] = useState('');
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -58,6 +60,7 @@ export default function ServicesScreen() {
     label: 'HDFC ....4821',
   });
   const tabInset = getHomeTabBarInset(insets);
+
 
   const rideItems = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -140,6 +143,8 @@ export default function ServicesScreen() {
               Everything Cabora can do in your city
             </Text>
           </View>
+
+
           <View>
             <TouchableOpacity activeOpacity={0.7}
               style={styles.bellBtn}

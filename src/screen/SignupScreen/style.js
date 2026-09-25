@@ -16,7 +16,6 @@ export default StyleSheet.create({
       fontFamily: fonts.sora.extraBold,
     color: colors.primary,
     fontSize: 12,
-    fontWeight: '800',
     letterSpacing: 1.4,
     marginBottom: 8,
   },
@@ -24,7 +23,6 @@ export default StyleSheet.create({
       fontFamily: fonts.sora.extraBold,
     color: colors.text,
     fontSize: 32,
-    fontWeight: '800',
   },
   subtitle: {
       fontFamily: fonts.sora.regular,
@@ -47,6 +45,5 @@ export default StyleSheet.create({
       fontFamily: fonts.sora.bold,
     color: colors.primary,
     fontSize: 14,
-    fontWeight: '700',
   },
 });

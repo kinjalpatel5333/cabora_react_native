@@ -23,11 +23,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 18,
-      fontWeight: '700',
     },
     headerSpacer: {
       width: 40,
@@ -49,6 +49,7 @@ export default function createStyles(colors) {
       gap: 10,
     },
     searchInput: {
+      fontFamily: colors.fonts.sora.regular,
       flex: 1,
       color: colors.text,
       fontSize: 14,
@@ -78,20 +79,20 @@ export default function createStyles(colors) {
       flex: 1,
     },
     lastTripTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '700',
       marginBottom: 3,
     },
     lastTripSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.white72,
       fontSize: 12,
-      fontWeight: '400',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 0.8,
       marginBottom: 10,
     },
@@ -121,14 +122,14 @@ export default function createStyles(colors) {
       marginBottom: 10,
     },
     currencyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '700',
     },
     topicTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13.5,
-      fontWeight: '700',
     },
     faqCard: {
       backgroundColor: colors.card,
@@ -150,9 +151,9 @@ export default function createStyles(colors) {
       borderBottomColor: colors.border,
     },
     faqText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '500',
       flex: 1,
       marginRight: 10,
     },
@@ -171,9 +172,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     chatBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

@@ -21,11 +21,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     scroll: {
       paddingHorizontal: 16,
@@ -113,14 +113,14 @@ export default function createStyles(colors) {
       elevation: 3,
     },
     etaText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 12,
     },
@@ -151,9 +151,9 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     avatarText: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '800',
     },
     avatarTextMuted: {
       color: colors.muted,
@@ -171,19 +171,19 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
     },
     contactName: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 12,
-      fontWeight: '600',
     },
     contactNameMuted: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '600',
     },
     orLabel: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 13,
-      fontWeight: '500',
       marginBottom: 8,
     },
     phoneRow: {
@@ -198,10 +198,10 @@ export default function createStyles(colors) {
       gap: 8,
     },
     phoneInput: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '600',
       padding: 0,
       margin: 0,
     },
@@ -212,9 +212,9 @@ export default function createStyles(colors) {
       paddingVertical: 10,
     },
     sendText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 14,
-      fontWeight: '700',
     },
     linkCard: {
       backgroundColor: colors.surface,
@@ -223,9 +223,9 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     linkLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -235,10 +235,10 @@ export default function createStyles(colors) {
       gap: 10,
     },
     linkText: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     copyBtn: {
       flexDirection: 'row',
@@ -252,9 +252,9 @@ export default function createStyles(colors) {
       paddingVertical: 8,
     },
     copyText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '700',
     },
     infoBanner: {
       flexDirection: 'row',
@@ -266,10 +266,10 @@ export default function createStyles(colors) {
       paddingHorizontal: 14,
     },
     infoText: {
+      fontFamily: colors.fonts.sora.medium,
       flex: 1,
       color: colors.isDark ? colors.text : colors.navy[800],
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 19,
     },
     footer: {
@@ -289,9 +289,9 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     shareText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

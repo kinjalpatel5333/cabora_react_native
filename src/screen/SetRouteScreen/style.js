@@ -63,9 +63,9 @@ export default function createStyles(colors) {
       paddingBottom: 6,
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 24,
-      fontWeight: '800',
       marginBottom: 14,
     },
     routeCard: {
@@ -113,16 +113,16 @@ export default function createStyles(colors) {
       gap: 8,
     },
     fieldValue: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '600',
     },
     fieldInput: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '600',
       paddingVertical: 0,
     },
     fieldDivider: {
@@ -143,10 +143,10 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     sameErrorText: {
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.red[500],
       fontSize: 13,
-      fontWeight: '600',
     },
     outOfAreaCard: {
       backgroundColor: colors.isDark ? colors.alpha.red18 : colors.red[100],
@@ -168,13 +168,14 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     outOfAreaTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[500],
       fontSize: 17,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 8,
     },
     outOfAreaBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.isDark ? colors.text : colors.red[500],
       fontSize: 13,
       lineHeight: 19,
@@ -191,9 +192,9 @@ export default function createStyles(colors) {
       alignItems: 'center',
     },
     notifyBtnText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '700',
     },
     actionChip: {
       flexDirection: 'row',
@@ -207,9 +208,9 @@ export default function createStyles(colors) {
       borderColor: colors.border,
     },
     actionChipText: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.text,
       fontSize: 13,
-      fontWeight: '600',
     },
     actionChipDisabled: {
       opacity: 0.55,
@@ -220,9 +221,9 @@ export default function createStyles(colors) {
       color: colors.muted,
     },
     sectionTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '800',
       letterSpacing: 1.2,
       marginBottom: 6,
     },
@@ -244,16 +245,18 @@ export default function createStyles(colors) {
       flex: 1,
     },
     placeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     placeSub: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 13,
       marginTop: 2,
     },
     emptyText: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 14,
       paddingVertical: 16,
@@ -272,8 +275,8 @@ export default function createStyles(colors) {
       backgroundColor: colors.orange[500],
     },
     confirmText: {
+      fontFamily: colors.fonts.sora.bold,
       fontSize: 16,
-      fontWeight: '700',
     },
     confirmTextDisabled: {
       color: colors.isDark ? colors.muted : colors.white,

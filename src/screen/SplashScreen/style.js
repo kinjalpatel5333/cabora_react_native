@@ -52,12 +52,13 @@ export default function createStyles(colors) {
       overflow: 'hidden',
     },
     title: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 36,
-      fontWeight: '800',
       letterSpacing: -0.4,
     },
     tagline: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.slateAlpha90,
       fontSize: 16,
       marginTop: 8,
@@ -84,6 +85,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     finding: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.navyAlpha95,
       fontSize: 13,
       marginTop: 12,
@@ -109,13 +111,14 @@ export default function createStyles(colors) {
       marginBottom: 12,
     },
     cardTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 20,
-      fontWeight: '800',
       textAlign: 'center',
       marginBottom: 12,
     },
     cardBody: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.slateAlpha88,
       fontSize: 14,
       lineHeight: 21,
@@ -137,6 +140,7 @@ export default function createStyles(colors) {
       borderColor: colors.alpha.white22,
     },
     version: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.alpha.white32,
       fontSize: 12,
       textAlign: 'center',

@@ -31,8 +31,10 @@ import PaymentMethodsScreen from '../screen/PaymentMethodsScreen';
 import AddCardScreen from '../screen/AddCardScreen';
 import OffersCouponsScreen from '../screen/OffersCouponsScreen';
 import ReferEarnScreen from '../screen/ReferEarnScreen';
+import SettingScreen from '../screen/SettingScreen';
 
 const Stack = createNativeStackNavigator();
+
 
 export default function PassengerStack() {
   const locationResolved = useAppSelector(state => state.app.locationResolved);
@@ -175,7 +177,13 @@ export default function PassengerStack() {
             component={ReferEarnScreen}
             options={{ animation: 'slide_from_right' }}
           />
+          <Stack.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
         </Stack.Navigator>
+
         <Sidebar />
       </View>
     </SidebarProvider>

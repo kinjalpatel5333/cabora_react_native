@@ -22,11 +22,11 @@ export default function createStyles(colors) {
       justifyContent: 'center',
     },
     headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
       flex: 1,
       textAlign: 'center',
       color: colors.text,
       fontSize: 17,
-      fontWeight: '700',
     },
     progressWrap: {
       paddingHorizontal: 20,
@@ -48,9 +48,9 @@ export default function createStyles(colors) {
       backgroundColor: colors.primary,
     },
     stepText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     scroll: {
       paddingHorizontal: 20,
@@ -60,9 +60,9 @@ export default function createStyles(colors) {
       marginBottom: 20,
     },
     sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.muted,
       fontSize: 11,
-      fontWeight: '700',
       letterSpacing: 1.1,
       marginBottom: 10,
     },
@@ -90,14 +90,14 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[50],
     },
     typeLabel: {
+      fontFamily: colors.fonts.sora.semiBold,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '600',
       textAlign: 'center',
     },
     typeLabelActive: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
-      fontWeight: '700',
     },
     sizeList: {
       gap: 10,
@@ -140,20 +140,20 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     sizeTitle: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     sizeMeta: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       marginTop: 2,
     },
     sizeHint: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     valueCard: {
       flexDirection: 'row',
@@ -168,19 +168,19 @@ export default function createStyles(colors) {
       marginBottom: 8,
     },
     valueLabel: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '700',
     },
     valueAmount: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     valueNote: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '400',
       lineHeight: 17,
       marginBottom: 14,
     },
@@ -215,14 +215,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     confirmText: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.orange[300] : colors.orange[700],
       fontSize: 13,
-      fontWeight: '500',
       lineHeight: 19,
     },
     confirmLink: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.primary,
-      fontWeight: '700',
       textDecorationLine: 'underline',
     },
     footer: {
@@ -240,14 +240,14 @@ export default function createStyles(colors) {
       minWidth: 0,
     },
     footerMeta: {
+      fontFamily: colors.fonts.sora.medium,
       color: colors.muted,
       fontSize: 12,
-      fontWeight: '500',
     },
     footerTitle: {
+      fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 16,
-      fontWeight: '800',
       marginTop: 2,
     },
     pricesBtn: {
@@ -262,9 +262,9 @@ export default function createStyles(colors) {
       opacity: 0.45,
     },
     pricesText: {
+      fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 16,
-      fontWeight: '700',
     },
   });
 }

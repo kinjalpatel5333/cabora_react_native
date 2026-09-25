@@ -83,14 +83,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.textMuted,
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 1,
     },
     greetingName: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
       marginTop: 1,
     },
     headerActions: {
@@ -133,7 +131,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 11,
-      fontWeight: '800',
       lineHeight: 12,
       includeFontPadding: false,
       textAlign: 'center',
@@ -152,7 +149,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.white,
       fontSize: 13,
-      fontWeight: '800',
     },
     statusChip: {
       position: 'absolute',
@@ -185,7 +181,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12,
-      fontWeight: '700',
       flexShrink: 1,
     },
     statusChipTextWarn: {
@@ -213,7 +208,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 12,
-      fontWeight: '700',
     },
     locateFab: {
       position: 'absolute',
@@ -292,13 +286,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.green[400] : '#15803D',
       fontSize: 16,
-      fontWeight: '800',
     },
     onlineSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.green[300] : '#16A34A',
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
       marginTop: 2,
     },
@@ -326,13 +318,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.white : '#1E293B',
       fontSize: 16,
-      fontWeight: '800',
     },
     offlineSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.navy[300] : '#64748B',
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
       marginTop: 2,
     },
@@ -364,13 +354,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.red[400] : '#991B1B',
       fontSize: 16,
-      fontWeight: '800',
     },
     restrictedSub: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.red[300] : '#DC2626',
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
       marginTop: 2,
     },
@@ -396,7 +384,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 15,
-      fontWeight: '800',
     },
     statValueMuted: {
       color: colors.textMuted,
@@ -405,7 +392,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.navy[300] : colors.navy[600],
       fontSize: 10,
-      fontWeight: '700',
       letterSpacing: 0.6,
     },
     streakCard: {
@@ -426,7 +412,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.text,
       fontSize: 14,
-      fontWeight: '800',
     },
     progressPill: {
       flexDirection: 'row',
@@ -447,7 +432,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.orange[400] : colors.orange[600],
       fontSize: 11,
-      fontWeight: '700',
     },
     streakMeta: {
       flexDirection: 'row',
@@ -459,13 +443,11 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
       fontSize: 20,
-      fontWeight: '800',
     },
     streakReward: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.orange[600],
       fontSize: 20,
-      fontWeight: '800',
     },
     segmentTrack: {
       flexDirection: 'row',
@@ -496,7 +478,6 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
       fontSize: 12,
-      fontWeight: '500',
       lineHeight: 17,
     },
     requireCard: {
@@ -517,7 +498,6 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.red[600],
       fontSize: 14,
-      fontWeight: '800',
       lineHeight: 19,
     },
     requireRow: {
@@ -541,20 +521,17 @@ export default function createStyles(colors) {
       flex: 1,
       color: colors.red[600],
       fontSize: 13,
-      fontWeight: '600',
       lineHeight: 18,
     },
     requireLink: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.red[600],
       fontSize: 13,
-      fontWeight: '800',
     },
     requireMuted: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.red[600],
       fontSize: 13,
-      fontWeight: '700',
     },
     requireReview: {
       color: colors.amber[600],
