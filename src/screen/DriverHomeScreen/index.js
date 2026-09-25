@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {Dimensions, ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { Dimensions, ScrollView, Text, View, TouchableOpacity, Image, StatusBar, Platform } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6/static';
@@ -75,6 +75,16 @@ export default function DriverHomeScreen() {
 
   const [kycReason, setKycReason] = useState('Insurance expired — re-upload to unblock');
   const [kycFailState, setKycFailState] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, []),
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -182,6 +192,7 @@ export default function DriverHomeScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <DriverMapBackdrop showUserDot={false} showDemand={online} />
 
       <View pointerEvents="none" style={styles.mapMarkers}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Keyboard,
@@ -7,6 +7,7 @@ import {
   Modal,
   Platform,
   ScrollView,
+  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import {
 } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
+import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -60,6 +62,16 @@ export default function OtpScreen({ navigation, route }) {
   const inputRef = useRef(null);
   const phone = route?.params?.mobile || '';
   const countryCode = route?.params?.countryCode || '+91';
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [])
+  );
 
   const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');
   const [showOtpModal, setShowOtpModal] = useState(true);
@@ -410,6 +422,7 @@ export default function OtpScreen({ navigation, route }) {
 
   return (
     <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <KeyboardAvoidingView
         style={styles.body}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>

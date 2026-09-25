@@ -62,3 +62,22 @@ export function getDriverKycStatusApi() {
 export function setDriverAvailabilityApi(payload) {
   return apiPut(DRIVER_ENDPOINTS.AVAILABILITY, payload);
 }
+
+export function getIncomingRequestsApi() {
+  return apiGet(DRIVER_ENDPOINTS.INCOMING_REQUESTS);
+}
+
+export function acceptRideRequestApi(requestId) {
+  const url = typeof DRIVER_ENDPOINTS.ACCEPT_REQUEST === 'function'
+    ? DRIVER_ENDPOINTS.ACCEPT_REQUEST(requestId)
+    : DRIVER_ENDPOINTS.ACCEPT_REQUEST;
+  return apiPost(url, { requestId });
+}
+
+export function rejectRideRequestApi(requestId) {
+  const url = typeof DRIVER_ENDPOINTS.REJECT_REQUEST === 'function'
+    ? DRIVER_ENDPOINTS.REJECT_REQUEST(requestId)
+    : DRIVER_ENDPOINTS.REJECT_REQUEST;
+  return apiPost(url, { requestId });
+}
+

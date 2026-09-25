@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import {ScrollView, Text, View, TouchableOpacity, Image} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useCallback } from 'react';
+import { ScrollView, Text, View, TouchableOpacity, Image, StatusBar, Platform } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -28,6 +28,16 @@ export default function DriverProfileScreen() {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
   const kycData = useAppSelector(state => state.driver.kycData);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [])
+  );
 
   useEffect(() => {
     dispatch(fetchDriverProfile());
@@ -99,7 +109,9 @@ export default function DriverProfileScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <ScrollView
+        stickyHeaderIndices={[0]}
         contentContainerStyle={[
           styles.scrollContent,
           { paddingBottom: insets.bottom + 110 },
@@ -115,6 +127,7 @@ export default function DriverProfileScreen() {
             source={images.loginGlow}
             style={styles.glow}
             resizeMode="cover"
+            pointerEvents="none"
           />
 
           <TouchableOpacity activeOpacity={0.7}

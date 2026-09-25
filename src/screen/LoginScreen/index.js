@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
+import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
 import { Button, CountryPickerModal, Input } from '../../components';
@@ -14,7 +15,6 @@ import {
   isValidIndianMobile,
 } from '../../utils/validators';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const TEST_BLOCKED_NUMBER = '0000000000';
 const TEST_COOLDOWN_NUMBER = '1234567890';
@@ -58,8 +58,19 @@ function parseCooldownSeconds(errMsg, errData) {
 
 export default function LoginScreen({ navigation }) {
   const insets = useSafeAreaInsets();
-  const { colors } = useApp();
+  const { colors, isDark } = useApp();
   const styles = useThemedStyles(createStyles);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [])
+  );
+
   const [country, setCountry] = useState(DEFAULT_COUNTRY);
   const [countryPickerVisible, setCountryPickerVisible] = useState(false);
   const [mobile, setMobile] = useState('');
@@ -206,6 +217,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.root}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <View style={[styles.hero, { paddingTop: insets.top + 16 }]}>
         <Image
           source={images.loginGlow}

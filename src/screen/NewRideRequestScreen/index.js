@@ -1,14 +1,30 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, Dimensions, Easing, Image, Text, View, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  Platform,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
+import {Button} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
+import {
+  getIncomingRequestsApi,
+  acceptRideRequestApi,
+  rejectRideRequestApi,
+} from '../../services/driverApi';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const COUNTDOWN_SECONDS = 12;
 const SCREEN_W = Dimensions.get('window').width;
@@ -17,8 +33,6 @@ const SCREEN_H = Dimensions.get('window').height;
 const ROUTE_W = SCREEN_W * 0.92;
 const ROUTE_H = Math.min(SCREEN_H * 0.38, 320);
 
-/** Street-like waypoints (normalized) — pickup → car → drop
- *  Kept high enough that the orange pickup pin stays above the sheet. */
 import { DRIVER_ROUTE_WAYPOINTS as ROUTE_WAYPOINTS } from '../../config/staticData';
 
 const PICKUP_POINT = ROUTE_WAYPOINTS[0];
@@ -26,7 +40,7 @@ const CAR_POINT = ROUTE_WAYPOINTS[5];
 const DROP_POINT = ROUTE_WAYPOINTS[ROUTE_WAYPOINTS.length - 1];
 
 function formatInr(value) {
-  return `₹${Number(value).toLocaleString('en-IN')}`;
+  return `₹${Number(value || 0).toLocaleString('en-IN')}`;
 }
 
 function formatMissedTime(date) {
@@ -134,17 +148,137 @@ function RouteLine({width, height, color, outlineColor}) {
   );
 }
 
+const DEMO_REQUEST = {
+  id: 'req_demo_001',
+  rideType: 'Cab Sedan',
+  paymentMode: 'Cash',
+  fare: 184,
+  distance: '13.5 km',
+  pickupAddress: 'Prestige Tech Park, Gate 3',
+  pickupDistance: '2.1 KM AWAY',
+  pickupEta: 'about 5 min from you',
+  dropAddress: 'Kempegowda Intl. Airport, T2',
+  dropDistance: '11.4 KM TRIP',
+  dropEta: 'about 29 min drive',
+  passengerName: 'Ananya S.',
+  passengerRating: '4.8 ★',
+  passengerTrips: '128 trips',
+  passengerInitials: 'AS',
+};
+
 export default function NewRideRequestScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
   const navigation = useNavigation();
+
+  // State management for API & finding section
+  const [loading, setLoading] = useState(true);
+  const [finding, setFinding] = useState(true);
+  const [requestData, setRequestData] = useState(null);
+  const [accepting, setAccepting] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, []),
+  );
+
+  // Timer state
   const [seconds, setSeconds] = useState(COUNTDOWN_SECONDS);
   const [missedAt, setMissedAt] = useState('');
   const progressAnim = useRef(new Animated.Value(0)).current;
+  const spinAnim = useRef(new Animated.Value(0)).current;
   const expired = seconds <= 0;
 
+  // Spin animation for loader
   useEffect(() => {
+    const loop = Animated.loop(
+      Animated.timing(spinAnim, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [spinAnim]);
+
+  const spinDeg = spinAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  // Fetch incoming request from API
+  const fetchIncomingRequest = useCallback(async () => {
+    setLoading(true);
+    setFinding(true);
+    setRequestData(null);
+    try {
+      const res = await getIncomingRequestsApi();
+      const payload = res?.data ?? res;
+      let activeReq = null;
+
+      if (Array.isArray(payload) && payload.length > 0) {
+        activeReq = payload[0];
+      } else if (payload && typeof payload === 'object' && !Array.isArray(payload) && (payload.id || payload._id)) {
+        activeReq = payload;
+      }
+
+      if (activeReq) {
+        const pName = activeReq.passenger?.name || activeReq.passengerName || activeReq.user?.name || 'Ananya S.';
+        const pInitials = pName
+          .trim()
+          .split(/\s+/)
+          .map(n => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2) || 'AS';
+
+        setRequestData({
+          id: activeReq._id || activeReq.id || 'req_live',
+          rideType: activeReq.vehicleType || activeReq.rideType || activeReq.category || 'Cab Sedan',
+          paymentMode: activeReq.paymentMethod || activeReq.paymentMode || 'Cash',
+          fare: activeReq.fare || activeReq.driverEarnings || activeReq.estimatedFare || 184,
+          distance: activeReq.distance || activeReq.tripDistance || '13.5 km',
+          pickupAddress: activeReq.pickupLocation?.address || activeReq.pickup?.address || activeReq.pickupAddress || 'Prestige Tech Park, Gate 3',
+          pickupDistance: activeReq.pickupDistance || '2.1 KM AWAY',
+          pickupEta: activeReq.pickupEta || 'about 5 min from you',
+          dropAddress: activeReq.dropLocation?.address || activeReq.drop?.address || activeReq.dropAddress || 'Kempegowda Intl. Airport, T2',
+          dropDistance: activeReq.dropDistance || '11.4 KM TRIP',
+          dropEta: activeReq.dropEta || 'about 29 min drive',
+          passengerName: pName,
+          passengerRating: `${activeReq.passenger?.rating || activeReq.passengerRating || '4.8'} ★`,
+          passengerTrips: `${activeReq.passenger?.totalTrips || activeReq.passengerTrips || '128'} trips`,
+          passengerInitials: pInitials,
+        });
+        setSeconds(COUNTDOWN_SECONDS);
+        startTimer();
+      } else {
+        // No request returned by API
+        setRequestData(null);
+      }
+    } catch (err) {
+      console.warn('Error fetching incoming ride request:', err);
+      setRequestData(null);
+    } finally {
+      setLoading(false);
+      setFinding(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchIncomingRequest();
+  }, [fetchIncomingRequest]);
+
+  const startTimer = useCallback(() => {
+    progressAnim.setValue(0);
     Animated.timing(progressAnim, {
       toValue: 1,
       duration: COUNTDOWN_SECONDS * 1000,
@@ -152,6 +286,7 @@ export default function NewRideRequestScreen() {
       useNativeDriver: false,
     }).start();
 
+    setSeconds(COUNTDOWN_SECONDS);
     const tick = setInterval(() => {
       setSeconds(prev => {
         if (prev <= 1) {
@@ -166,10 +301,46 @@ export default function NewRideRequestScreen() {
   }, [progressAnim]);
 
   useEffect(() => {
-    if (expired) {
+    if (expired && requestData) {
       setMissedAt(formatMissedTime(new Date()));
     }
-  }, [expired]);
+  }, [expired, requestData]);
+
+  const handleAccept = async () => {
+    if (accepting) return;
+    setAccepting(true);
+    try {
+      if (requestData?.id) {
+        await acceptRideRequestApi(requestData.id);
+      }
+    } catch (err) {
+      console.warn('acceptRideRequestApi error:', err);
+    } finally {
+      setAccepting(false);
+      navigation.replace('DriverEnRoutePickup');
+    }
+  };
+
+  const handleReject = async () => {
+    if (rejecting) return;
+    setRejecting(true);
+    try {
+      if (requestData?.id) {
+        await rejectRideRequestApi(requestData.id);
+      }
+    } catch (err) {
+      console.warn('rejectRideRequestApi error:', err);
+    } finally {
+      setRejecting(false);
+      navigation.navigate('CancelRideReason');
+    }
+  };
+
+  const loadDemoRequest = () => {
+    setRequestData(DEMO_REQUEST);
+    setFinding(false);
+    startTimer();
+  };
 
   const progressWidth = progressAnim.interpolate({
     inputRange: [0, 1],
@@ -180,7 +351,7 @@ export default function NewRideRequestScreen() {
 
   return (
     <View style={styles.root}>
-
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <Image
         source={images.mapBackdrop}
         style={styles.mapImage}
@@ -240,10 +411,10 @@ export default function NewRideRequestScreen() {
         </View>
       </View>
 
-      {/* Figma # Scrim — sits above map + route */}
+      {/* Scrim — sits above map + route */}
       <View style={styles.scrim} pointerEvents="none" />
 
-      {!expired ? (
+      {requestData && !expired ? (
         <View style={styles.topProgressTrack}>
           <Animated.View
             style={[styles.topProgressFill, {width: progressWidth}]}
@@ -252,14 +423,21 @@ export default function NewRideRequestScreen() {
       ) : null}
 
       <View style={[styles.topBanner, {top: insets.top + 12}]}>
-        {expired ? (
+        {finding || loading ? (
+          <View style={styles.autoRejectChip}>
+            <ActivityIndicator size="small" color={colors.white} />
+            <Text style={styles.autoRejectText}>
+              Finding incoming requests...
+            </Text>
+          </View>
+        ) : expired ? (
           <View style={styles.missedChip}>
             <Feather name="clock" size={15} color={colors.white} />
             <Text style={styles.missedChipText}>
               Missed at {missedAt} · you stayed online
             </Text>
           </View>
-        ) : (
+        ) : requestData ? (
           <View style={styles.autoRejectChip}>
             <MaterialDesignIcons
               name="alarm-light"
@@ -268,6 +446,13 @@ export default function NewRideRequestScreen() {
             />
             <Text style={styles.autoRejectText}>
               Auto-rejects in {seconds}s · keep both hands free
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.missedChip}>
+            <Feather name="search" size={15} color={colors.white} />
+            <Text style={styles.missedChipText}>
+              Searching for ride requests
             </Text>
           </View>
         )}
@@ -281,132 +466,208 @@ export default function NewRideRequestScreen() {
             paddingBottom: 16,
           },
         ]}>
-        <View style={styles.sheetHead}>
-          <View
-            style={[styles.timerCircle, expired && styles.timerCircleExpired]}>
-            <Text
-              style={[styles.timerText, expired && styles.timerTextExpired]}>
-              {seconds}
-            </Text>
+        {finding || loading ? (
+          /* Finding Loader Section */
+          <View style={styles.findingBox}>
+            <View style={styles.findingRow}>
+              <View style={styles.spinnerWrap}>
+                <Animated.View
+                  style={[
+                    styles.spinnerRing,
+                    {transform: [{rotate: spinDeg}]},
+                  ]}
+                />
+              </View>
+              <View style={styles.findingCopy}>
+                <Text style={styles.findingTitle}>
+                  Finding incoming ride requests...
+                </Text>
+                <Text style={styles.findingSub}>
+                  Connecting to server and checking active requests
+                </Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.headCopy}>
+        ) : !requestData ? (
+          /* No Request Found State */
+          <View style={styles.findingBox}>
+            <View style={styles.findingRow}>
+              <View style={styles.spinnerWrap}>
+                <Feather name="info" size={24} color={colors.orange[600]} />
+              </View>
+              <View style={styles.findingCopy}>
+                <Text style={styles.findingTitle}>No Incoming Requests</Text>
+                <Text style={styles.findingSub}>
+                  There are no active ride requests in your area right now.
+                </Text>
+              </View>
+            </View>
+            <Button
+              title="Search Again"
+              onPress={fetchIncomingRequest}
+              style={styles.searchAgainBtn}
+              textStyle={styles.searchAgainBtnText}
+            />
+            <Button
+              title="Preview Demo Request"
+              variant="outline"
+              onPress={loadDemoRequest}
+              style={styles.demoBtn}
+              textStyle={styles.demoBtnText}
+            />
+          </View>
+        ) : (
+          /* Request Details Card */
+          <>
+            <View style={styles.sheetHead}>
+              <View
+                style={[styles.timerCircle, expired && styles.timerCircleExpired]}>
+                <Text
+                  style={[styles.timerText, expired && styles.timerTextExpired]}>
+                  {seconds}
+                </Text>
+              </View>
+              <View style={styles.headCopy}>
+                {expired ? (
+                  <>
+                    <Text style={styles.expiredKicker}>REQUEST EXPIRED</Text>
+                    <Text style={styles.expiredTitle}>Passed to another driver</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.requestKicker}>NEW RIDE REQUEST</Text>
+                    <Text style={styles.requestTitle}>
+                      {requestData.rideType} · {requestData.paymentMode}
+                    </Text>
+                  </>
+                )}
+              </View>
+              <View style={styles.earnWrap}>
+                <Text style={styles.earnLabel}>YOU EARN</Text>
+                <Text
+                  style={[
+                    styles.earnValue,
+                    expired && styles.earnValueExpired,
+                  ]}>
+                  {formatInr(requestData.fare)}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.divider} />
+
+            <View style={styles.tripBlock}>
+              <View style={styles.tripRow}>
+                <View style={styles.tripIconCol}>
+                  <View
+                    style={[styles.pickupDot, expired && styles.pickupDotExpired]}
+                  />
+                  <View style={styles.tripRail} />
+                  <View
+                    style={[styles.dropSquare, expired && styles.dropSquareExpired]}
+                  />
+                </View>
+                <View style={styles.tripCopyCol}>
+                  <View style={styles.tripCopy}>
+                    <Text style={styles.tripLabel}>
+                      PICKUP · {requestData.pickupDistance}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tripTitle,
+                        expired && styles.tripTitleExpired,
+                      ]}>
+                      {requestData.pickupAddress}
+                    </Text>
+                    <Text style={styles.tripMeta}>{requestData.pickupEta}</Text>
+                  </View>
+                  <View style={[styles.tripCopy, styles.tripCopyDrop]}>
+                    <Text style={styles.tripLabel}>
+                      DROP · {requestData.dropDistance}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tripTitle,
+                        expired && styles.tripTitleExpired,
+                      ]}>
+                      {requestData.dropAddress}
+                    </Text>
+                    <Text style={styles.tripMeta}>{requestData.dropEta}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.riderRow}>
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>{requestData.passengerInitials}</Text>
+              </View>
+              <Text
+                style={[styles.riderText, expired && styles.riderTextExpired]}
+                numberOfLines={1}>
+                {requestData.passengerName} · {requestData.passengerRating} · {requestData.passengerTrips}
+              </Text>
+              <View style={styles.payWrap}>
+                <MaterialDesignIcons
+                  name="currency-inr"
+                  size={14}
+                  color={
+                    colors.isDark
+                      ? colors.navy[300]
+                      : expired
+                      ? colors.navy[600]
+                      : colors.navy[700]
+                  }
+                />
+                <Text style={styles.payText}>{requestData.paymentMode}</Text>
+              </View>
+            </View>
+
             {expired ? (
               <>
-                <Text style={styles.expiredKicker}>REQUEST EXPIRED</Text>
-                <Text style={styles.expiredTitle}>Passed to another driver</Text>
+                <Button
+                  title="Back to dashboard"
+                  variant="outline"
+                  onPress={() => navigation.goBack()}
+                  style={styles.backBtn}
+                  textStyle={styles.backBtnText}
+                />
+                <Text style={styles.footerHint}>
+                  Your acceptance rate is unchanged — timeouts aren't counted
+                  against you.
+                </Text>
               </>
             ) : (
               <>
-                <Text style={styles.requestKicker}>NEW RIDE REQUEST</Text>
-                <Text style={styles.requestTitle}>Cab Sedan · Cash</Text>
+                <View style={styles.actions}>
+                  <Button
+                    title="REJECT"
+                    variant="outline"
+                    loading={rejecting}
+                    onPress={handleReject}
+                    disabled={rejecting || accepting}
+                    style={styles.rejectBtn}
+                    textStyle={styles.rejectText}
+                    fullWidth={false}
+                  />
+                  <Button
+                    loading={accepting}
+                    onPress={handleAccept}
+                    disabled={accepting || rejecting}
+                    style={styles.acceptBtn}
+                    fullWidth={false}>
+                    <Text style={styles.acceptTitle}>ACCEPT</Text>
+                    <Text style={styles.acceptSub}>
+                      {formatInr(requestData.fare)} · {requestData.distance}
+                    </Text>
+                  </Button>
+                </View>
+                <Text style={styles.footerHint}>
+                  Accepting locks this ride to you. Rejecting won't affect your
+                  acceptance rate.
+                </Text>
               </>
             )}
-          </View>
-          <View style={styles.earnWrap}>
-            <Text style={styles.earnLabel}>YOU EARN</Text>
-            <Text 
-             style={[
-              styles.earnValue,
-              expired && styles.earnValueExpired,
-            ]}>{formatInr(184)}</Text>
-          </View>
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.tripBlock}>
-          <View style={styles.tripRow}>
-            <View style={styles.tripIconCol}>
-              <View
-                style={[styles.pickupDot, expired && styles.pickupDotExpired]}
-              />
-              <View style={styles.tripRail} />
-              <View
-                style={[styles.dropSquare, expired && styles.dropSquareExpired]}
-              />
-            </View>
-            <View style={styles.tripCopyCol}>
-              <View style={styles.tripCopy}>
-                <Text style={styles.tripLabel}>PICKUP · 2.1 KM AWAY</Text>
-                <Text
-                  style={[
-                    styles.tripTitle,
-                    expired && styles.tripTitleExpired,
-                  ]}>
-                  Prestige Tech Park, Gate 3
-                </Text>
-                <Text style={styles.tripMeta}>about 5 min from you</Text>
-              </View>
-              <View style={[styles.tripCopy, styles.tripCopyDrop]}>
-                <Text style={styles.tripLabel}>DROP · 11.4 KM TRIP</Text>
-                <Text
-                  style={[
-                    styles.tripTitle,
-                    expired && styles.tripTitleExpired,
-                  ]}>
-                  Kempegowda Intl. Airport, T2
-                </Text>
-                <Text style={styles.tripMeta}>about 29 min drive</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.riderRow}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>AS</Text>
-          </View>
-          <Text
-            style={[styles.riderText, expired && styles.riderTextExpired]}
-            numberOfLines={1}>
-            Ananya S. · 4.8 ★ · 128 trips
-          </Text>
-          <View style={styles.payWrap}>
-            <MaterialDesignIcons
-              name="currency-inr"
-              size={14}
-              color={colors.isDark ? colors.navy[300] : (expired ? colors.navy[600] : colors.navy[700])}
-            />
-            <Text style={styles.payText}>Cash</Text>
-          </View>
-        </View>
-
-        {expired ? (
-          <>
-            <TouchableOpacity activeOpacity={0.7}
-              accessibilityRole="button"
-              onPress={() => navigation.goBack()}
-              style={styles.backBtn}>
-              <Text style={styles.backBtnText}>Back to dashboard</Text>
-            </TouchableOpacity>
-            <Text style={styles.footerHint}>
-              Your acceptance rate is unchanged — timeouts aren't counted
-              against you.
-            </Text>
-          </>
-        ) : (
-          <>
-            <View style={styles.actions}>
-              <TouchableOpacity activeOpacity={0.7}
-                accessibilityRole="button"
-                onPress={() => navigation.navigate('CancelRideReason')}
-                style={styles.rejectBtn}>
-                <Text style={styles.rejectText}>REJECT</Text>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.7}
-                accessibilityRole="button"
-                onPress={() => navigation.replace('DriverEnRoutePickup')}
-                style={styles.acceptBtn}>
-                <Text style={styles.acceptTitle}>ACCEPT</Text>
-                <Text style={styles.acceptSub}>
-                  {formatInr(184)} · 13.5 km
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.footerHint}>
-              Accepting locks this ride to you. Rejecting won't affect your
-              acceptance rate.
-            </Text>
           </>
         )}
       </View>
