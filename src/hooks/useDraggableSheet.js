@@ -1,12 +1,15 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, PanResponder} from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, PanResponder } from 'react-native';
 
 /**
- * Bottom-sheet drag via translateY — keeps natural content height (maxHeight),
- * so sheets open only as tall as their content, like before.
+ * Bottom-sheet drag via translateY.
+ * Supports:
+ * - 2-state: full screen (0) <-> minHeight/bottom limit (h - minHeight)
+ * - standard peekHeight if minHeight not provided
  */
 export default function useDraggableSheet({
   peekHeight = 180,
+  minHeight,
   visible = true,
   initialExpanded = true,
 }) {
@@ -20,17 +23,9 @@ export default function useDraggableSheet({
     if (h <= 0) {
       return 0;
     }
-    return Math.max(0, h - peekHeight);
-  }, [peekHeight]);
-
-  useEffect(() => {
-    if (!visible) {
-      return;
-    }
-    translateY.setValue(0);
-    dragStart.current = 0;
-    setExpanded(true);
-  }, [visible, translateY]);
+    const targetMin = minHeight || peekHeight;
+    return Math.max(0, h - targetMin);
+  }, [minHeight, peekHeight]);
 
   const snapTo = useCallback(
     nextExpanded => {
@@ -45,6 +40,16 @@ export default function useDraggableSheet({
     },
     [collapsedOffset, translateY],
   );
+
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+    const initOffset = initialExpanded ? 0 : collapsedOffset();
+    translateY.setValue(initOffset);
+    dragStart.current = initOffset;
+    setExpanded(initialExpanded);
+  }, [visible, initialExpanded, collapsedOffset, translateY]);
 
   const toggle = useCallback(() => {
     snapTo(!expanded);
@@ -80,16 +85,16 @@ export default function useDraggableSheet({
         },
         onPanResponderRelease: (_, g) => {
           const max = collapsedOffset();
-          translateY.stopAnimation(value => {
-            if (g.vy < -0.55) {
+          translateY.stopAnimation(currentValue => {
+            if (g.vy < -0.4) {
               snapTo(true);
               return;
             }
-            if (g.vy > 0.55) {
+            if (g.vy > 0.4) {
               snapTo(false);
               return;
             }
-            snapTo(value < max / 2);
+            snapTo(currentValue < max / 2);
           });
         },
       }),
@@ -105,3 +110,4 @@ export default function useDraggableSheet({
     panHandlers: panResponder.panHandlers,
   };
 }
+

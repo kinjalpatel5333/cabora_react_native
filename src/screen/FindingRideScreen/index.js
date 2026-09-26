@@ -16,6 +16,7 @@ import RatedPaidScreen from './RatedPaidScreen';
 import TripCompletedScreen from './TripCompletedScreen';
 import createStyles from './style';
 import colors from '../../config/color';
+import {ToastHost} from '../../components';
 
 const NEARBY = PASSENGER_FINDING_NEARBY;
 
@@ -685,6 +686,8 @@ export default function FindingRideModal({
         visible={shareOpen}
         onClose={() => setShareOpen(false)}
       />
+
+      <ToastHost />
     </Modal>
   );
 }

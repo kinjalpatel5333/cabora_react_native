@@ -20,6 +20,7 @@ import {
   PASSENGER_SIDEBAR_LINKS as PASSENGER_LINKS,
   DRIVER_SIDEBAR_LINKS as DRIVER_LINKS,
 } from '../../config/staticData';
+import { APP_VERSION } from '../../config/setting';
 
 function DrawerGlyph({ kind, active }) {
   const { colors } = useApp();
@@ -238,6 +239,9 @@ export default function DrawerContent() {
           </View>
           <Text style={styles.logoutText}>Log out</Text>
         </TouchableOpacity>
+
+        {/* App Version */}
+        <Text style={styles.versionText}>v {APP_VERSION}</Text>
       </View>
     </View>
   );

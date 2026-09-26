@@ -14,6 +14,7 @@ import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
 import ScheduleRideModal from './ScheduleRideModal';
 import createStyles from './style';
 import colors from '../../config/color';
+import {ToastHost} from '../../components';
 
 const PROMO_OFF = 50;
 
@@ -330,6 +331,8 @@ export default function ChooseRideModal({
             setScheduleOpen(false);
           }}
         />
+
+        <ToastHost />
       </View>
     </Modal>
   );

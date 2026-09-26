@@ -413,7 +413,7 @@ export const light = {
   cardBg: '#FFFFFF',
   cardHighlight: '#F8FAFD',
   highlight: '#F8FAFD',
-  text: '#6B7587',
+  text: '#000000',
   disabledText: '#B3BCCA',
   inputText: '#0E2A47',
   textPrimary: '#0F2840',

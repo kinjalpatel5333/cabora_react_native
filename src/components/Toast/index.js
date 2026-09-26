@@ -124,14 +124,43 @@ function AnimatedToastItem({item, onDismiss}) {
 }
 
 const ToastContext = createContext({
+  toasts: [],
   showToast: () => {},
   hideToast: () => {},
 });
 
-export function ToastProvider({children}) {
+export function ToastHost() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
+  const {toasts, hideToast} = useContext(ToastContext);
+
+  if (!toasts || toasts.length === 0) {
+    return null;
+  }
+
+  return (
+    <View
+      pointerEvents="box-none"
+      style={[
+        styles.host,
+        {paddingTop: insets.top > 0 ? insets.top + 8 : 16},
+      ]}>
+      <View pointerEvents="box-none" style={styles.stack}>
+        {toasts.map(item => (
+          <AnimatedToastItem
+            key={item.id}
+            item={item}
+            onDismiss={hideToast}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+export function ToastProvider({children}) {
   const [toasts, setToasts] = useState([]);
+  const styles = useThemedStyles(createStyles);
   const timers = useRef({});
 
   const hideToast = useCallback(id => {
@@ -155,32 +184,15 @@ export function ToastProvider({children}) {
   );
 
   const value = useMemo(
-    () => ({showToast, hideToast}),
-    [showToast, hideToast],
+    () => ({toasts, showToast, hideToast}),
+    [toasts, showToast, hideToast],
   );
 
   return (
     <ToastContext.Provider value={value}>
       <View style={styles.providerRoot} pointerEvents="box-none">
         {children}
-        {toasts.length > 0 && (
-          <View
-            pointerEvents="box-none"
-            style={[
-              styles.host,
-              {paddingTop: insets.top > 0 ? insets.top + 8 : 16},
-            ]}>
-            <View pointerEvents="box-none" style={styles.stack}>
-              {toasts.map(item => (
-                <AnimatedToastItem
-                  key={item.id}
-                  item={item}
-                  onDismiss={hideToast}
-                />
-              ))}
-            </View>
-          </View>
-        )}
+        <ToastHost />
       </View>
     </ToastContext.Provider>
   );
@@ -189,3 +201,4 @@ export function ToastProvider({children}) {
 export function useToast() {
   return useContext(ToastContext);
 }
+

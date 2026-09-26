@@ -78,10 +78,10 @@ export default function WalletScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      StatusBar.setBarStyle?.(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
       }
       fetchWallet();
     }, [colors.isDark, fetchWallet]),

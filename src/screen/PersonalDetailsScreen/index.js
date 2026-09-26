@@ -104,15 +104,19 @@ export default function PersonalDetailsScreen({ navigation, route }) {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      StatusBar.setBarStyle?.(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
       }
       if (isDriver) {
-        dispatch(fetchDriverProfile());
+        if (typeof fetchDriverProfile === 'function') {
+          dispatch(fetchDriverProfile());
+        }
       } else {
-        dispatch(fetchPassengerProfile());
+        if (typeof fetchPassengerProfile === 'function') {
+          dispatch(fetchPassengerProfile());
+        }
       }
     }, [colors.isDark, isDriver, dispatch]),
   );

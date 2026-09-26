@@ -26,10 +26,10 @@ export default function DriverEarningsScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      StatusBar.setBarStyle?.(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
       }
     }, [colors.isDark])
   );

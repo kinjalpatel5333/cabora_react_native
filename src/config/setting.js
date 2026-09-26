@@ -13,7 +13,7 @@ export const STORAGE_KEYS = {
 
 export const DEMO_MODE = true;
 
-export const APP_VERSION = '2.1.0 (2412)';
+export const APP_VERSION = '1.0.0';
 export const APP_MARKET = 'Made for India';
 export const STORE_URL = 'https://cabora.app';
 

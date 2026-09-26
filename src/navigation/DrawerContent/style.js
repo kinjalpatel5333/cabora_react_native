@@ -211,6 +211,12 @@ export default function createStyles(colors) {
       color: colors.isDark ? colors.red[400] : colors.red[600],
       fontSize: 15,
     },
-
+    versionText: {
+      fontFamily: colors.fonts.sora.semiBold,
+      color: colors.textMuted,
+      fontSize: 12,
+      textAlign: 'center',
+      marginTop: 12,
+    },
   });
 }

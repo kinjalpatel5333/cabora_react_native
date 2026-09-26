@@ -192,7 +192,7 @@ export default function SplashScreen({
             />
           )}
           <Text style={styles.version}>
-            v{APP_VERSION} · {APP_MARKET}
+            v {APP_VERSION} · {APP_MARKET}
           </Text>
         </View>
       </View>

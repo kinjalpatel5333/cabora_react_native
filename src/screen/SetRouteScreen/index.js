@@ -1,15 +1,16 @@
 import { PASSENGER_SET_ROUTE_RECENT_SAVED, PASSENGER_SET_ROUTE_SUGGESTIONS } from '../../config/staticData';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, Dimensions, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {Lucide} from '@react-native-vector-icons/lucide/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Dimensions, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { Lucide } from '@react-native-vector-icons/lucide/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './style';
 import YourRouteModal from './YourRouteModal';
 import colors from '../../config/color';
+import { ToastHost } from '../../components';
 
 const DEFAULT_PICKUP = '12, Brigade Road, Ashok Nagar';
 
@@ -38,7 +39,7 @@ function placesMatch(a, b) {
   return left === right || left.includes(right) || right.includes(left);
 }
 
-function PlaceIcon({icon, colors}) {
+function PlaceIcon({ icon, colors }) {
   if (icon === 'home') {
     return <Feather name="home" size={18} color={colors.text} />;
   }
@@ -51,10 +52,10 @@ function PlaceIcon({icon, colors}) {
   return <Feather name="map-pin" size={18} color={colors.text} />;
 }
 
-export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
+export default function SetRouteModal({ visible, onClose, onConfirmLocations }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
   const destinationRef = useRef(null);
 
   const [pickup, setPickup] = useState(DEFAULT_PICKUP);
@@ -102,22 +103,22 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
 
   const isOutOfArea = Boolean(
     selectedDestination?.outOfArea ||
-      (dropLabel &&
-        SUGGESTIONS.some(
-          item =>
-            item.outOfArea &&
-            placesMatch(item.address || item.title, dropLabel),
-        )),
+    (dropLabel &&
+      SUGGESTIONS.some(
+        item =>
+          item.outOfArea &&
+          placesMatch(item.address || item.title, dropLabel),
+      )),
   );
 
   const outOfAreaPlace =
     selectedDestination?.outOfArea
       ? selectedDestination
       : SUGGESTIONS.find(
-          item =>
-            item.outOfArea &&
-            placesMatch(item.address || item.title, dropLabel),
-        );
+        item =>
+          item.outOfArea &&
+          placesMatch(item.address || item.title, dropLabel),
+      );
 
   const canConfirm =
     Boolean(dropLabel) &&
@@ -162,11 +163,14 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
     setNotifySaved(false);
   };
 
-  const sheetMaxH = Dimensions.get('window').height * 0.82;
-  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+  const windowH = Dimensions.get('window').height;
+  const sheetMaxH = windowH - (insets.top > 0 ? insets.top + 8 : 16);
+  const minHeight = Math.min(sheetMaxH, windowH * 0.72);
+  const { sheetTY, panHandlers, toggle, expanded, onSheetLayout } =
     useDraggableSheet({
-      peekHeight: 220,
+      minHeight,
       visible,
+      initialExpanded: false,
     });
 
   return (
@@ -195,7 +199,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
               {
                 maxHeight: sheetMaxH,
                 paddingBottom: Math.max(insets.bottom, 10) + 8,
-                transform: [{translateY: sheetTY}],
+                transform: [{ translateY: sheetTY }],
               },
             ]}>
             <View {...panHandlers}>
@@ -325,8 +329,8 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
                       canOpenAddStop
                         ? colors.text
                         : colors.isDark
-                        ? colors.muted
-                        : colors.gray[400]
+                          ? colors.muted
+                          : colors.gray[400]
                     }
                   />
                   <Text
@@ -370,29 +374,29 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
 
               {isSamePlace
                 ? SAME_PLACE_ALTS.map(item => (
-                    <View key={item.id}>
-                      {item.id === SAME_PLACE_ALTS[0].id ? (
-                        <Text style={styles.sectionTitle}>
-                          TRY ONE OF THESE INSTEAD
+                  <View key={item.id}>
+                    {item.id === SAME_PLACE_ALTS[0].id ? (
+                      <Text style={styles.sectionTitle}>
+                        TRY ONE OF THESE INSTEAD
+                      </Text>
+                    ) : null}
+                    <TouchableOpacity activeOpacity={0.7}
+                      style={styles.placeRow}
+                      onPress={() => onPickPlace(item)}>
+                      <View style={styles.placeIcon}>
+                        <PlaceIcon icon={item.icon} colors={colors} />
+                      </View>
+                      <View style={styles.placeCopy}>
+                        <Text style={styles.placeTitle} numberOfLines={1}>
+                          {item.title}
                         </Text>
-                      ) : null}
-                      <TouchableOpacity activeOpacity={0.7}
-                        style={styles.placeRow}
-                        onPress={() => onPickPlace(item)}>
-                        <View style={styles.placeIcon}>
-                          <PlaceIcon icon={item.icon} colors={colors} />
-                        </View>
-                        <View style={styles.placeCopy}>
-                          <Text style={styles.placeTitle} numberOfLines={1}>
-                            {item.title}
-                          </Text>
-                          <Text style={styles.placeSub} numberOfLines={1}>
-                            {item.subtitle}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  ))
+                        <Text style={styles.placeSub} numberOfLines={1}>
+                          {item.subtitle}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                ))
                 : null}
 
               {!isSamePlace && !isOutOfArea ? (
@@ -435,7 +439,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
 
             <TouchableOpacity activeOpacity={0.7}
               accessibilityRole="button"
-              accessibilityState={{disabled: !canConfirm}}
+              accessibilityState={{ disabled: !canConfirm }}
               disabled={!canConfirm}
               onPress={onConfirm}
               style={[
@@ -462,7 +466,7 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
           accessibilityLabel="Go back"
           onPress={onClose}
           hitSlop={12}
-          style={[styles.backBtn, {top: insets.top + 8}]}>
+          style={[styles.backBtn, { top: insets.top + 8 }]}>
           <Feather name="arrow-left" size={22} color={colors.text} />
         </TouchableOpacity>
 
@@ -477,9 +481,11 @@ export default function SetRouteModal({visible, onClose, onConfirmLocations}) {
             'Whitefield · Prestige Tech Park'
           }
           onConfirm={(stops, fare) => {
-            finishConfirm({stops, fare});
+            finishConfirm({ stops, fare });
           }}
         />
+
+        <ToastHost />
       </View>
     </Modal>
   );
