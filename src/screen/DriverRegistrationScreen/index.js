@@ -1,6 +1,8 @@
 import {
   Alert,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -17,6 +19,8 @@ import { images } from '../../assets';
 import { useApp } from '../../context/AppContext';
 import { Button, CountryPickerModal, DatePickerModal, useToast } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
+import { useAppSelector } from '../../redux/hooks';
+import { extractUserProfile } from '../../utils/user';
 import { calculateAge, formatDateNumberInput, formatDateToApi, parseDateString } from '../../utils/dateUtils';
 import {
   requestCameraPermission,
@@ -63,14 +67,65 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     });
   }, []);
 
+  const authUser = useAppSelector(state => state?.auth?.user || null);
+  const profile = useMemo(() => {
+    return extractUserProfile(
+      authUser || route?.params?.user,
+      route?.params?.mobile || authUser?.mobile || authUser?.phone,
+    );
+  }, [authUser, route?.params?.user, route?.params?.mobile]);
+
+  const rawPhone =
+    route?.params?.mobile ||
+    authUser?.mobile ||
+    authUser?.phone ||
+    authUser?.user?.mobile ||
+    authUser?.user?.phone ||
+    profile?.mobile ||
+    profile?.phone ||
+    '';
+
+  const cleanedPhone = rawPhone.replace(/^\+?91\s*/, '').replace(/\D/g, '');
+
+  const rawName = route?.params?.name || authUser?.name || profile?.name || '';
+  const initialName =
+    rawName === 'Driver' || rawName === 'User' || rawName === 'Passenger'
+      ? ''
+      : rawName;
+
   // Step 1 State: Personal Details
-  const [fullName, setFullName] = useState(route?.params?.name || '');
+  const [fullName, setFullName] = useState(initialName);
   const [dob, setDob] = useState('');
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
   const [country, setCountry] = useState(DEFAULT_COUNTRY);
   const [countryPickerVisible, setCountryPickerVisible] = useState(false);
-  const [mobileNum, setMobileNum] = useState(route?.params?.mobile?.replace(/^\+\d+\s*/, '') || '');
-  const [isMobileVerified, setIsMobileVerified] = useState(Boolean(route?.params?.mobile));
+  const [mobileNum, setMobileNum] = useState(cleanedPhone);
+  const [isMobileVerified, setIsMobileVerified] = useState(Boolean(cleanedPhone));
+
+  // Sync logged in user mobile & name if props update
+  useEffect(() => {
+    const activePhone =
+      route?.params?.mobile ||
+      authUser?.mobile ||
+      authUser?.phone ||
+      authUser?.user?.mobile ||
+      authUser?.user?.phone ||
+      profile?.mobile ||
+      '';
+    const digits = activePhone.replace(/^\+?91\s*/, '').replace(/\D/g, '');
+    if (digits && (!mobileNum || !isMobileVerified)) {
+      setMobileNum(digits);
+      setIsMobileVerified(true);
+    }
+    const activeName = route?.params?.name || authUser?.name || profile?.name || '';
+    const cleanActiveName =
+      activeName === 'Driver' || activeName === 'User' || activeName === 'Passenger'
+        ? ''
+        : activeName;
+    if (cleanActiveName && !fullName) {
+      setFullName(cleanActiveName);
+    }
+  }, [authUser, route?.params?.mobile, route?.params?.name, profile?.mobile, profile?.name]);
   const [email, setEmail] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [profilePhotoUri, setProfilePhotoUri] = useState(null);
@@ -1412,70 +1467,74 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         <View style={styles.headerBtn} />
       </View>
 
-      {step <= 5 ? (
-        <View style={styles.progressSection}>
-          <Text style={styles.stepKicker}>STEP {step} OF 5</Text>
-          <Text style={styles.stepTitle}>{currentStepData.title}</Text>
-          <Text style={styles.stepSubtitle}>{currentStepData.subtitle}</Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        {step <= 5 ? (
+          <View style={styles.progressSection}>
+            <Text style={styles.stepKicker}>STEP {step} OF 5</Text>
+            <Text style={styles.stepTitle}>{currentStepData.title}</Text>
+            <Text style={styles.stepSubtitle}>{currentStepData.subtitle}</Text>
 
-          <View style={styles.progressBarRow}>
-            {[1, 2, 3, 4, 5].map(s => (
-              <View
-                key={s}
-                style={[
-                  styles.progressSegment,
-                  s <= step && styles.progressSegmentActive,
-                ]}
-              />
-            ))}
+            <View style={styles.progressBarRow}>
+              {[1, 2, 3, 4, 5].map(s => (
+                <View
+                  key={s}
+                  style={[
+                    styles.progressSegment,
+                    s <= step && styles.progressSegmentActive,
+                  ]}
+                />
+              ))}
+            </View>
+            <Text style={styles.percentText}>{currentStepData.percent}</Text>
           </View>
-          <Text style={styles.percentText}>{currentStepData.percent}</Text>
-        </View>
-      ) : (
-        <View style={styles.progressSection}>
-          <Text style={styles.stepTitle}>Everything checks out</Text>
-          <Text style={styles.stepSubtitle}>
-            17 of 17 required items complete. You can still edit any section before submitting.
-          </Text>
-        </View>
-      )}
-
-      <ScrollView
-        ref={mainScrollRef}
-        contentContainerStyle={[
-          styles.scroll,
-          { paddingBottom: Math.max(insets.bottom, 12) + 80 },
-        ]}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
-        {step === 1 && renderStep1()}
-        {step === 2 && renderStep2()}
-        {step === 3 && renderStep3()}
-        {step === 4 && renderStep4()}
-        {step === 5 && renderStep5()}
-        {step === 6 && renderStep6Review()}
-      </ScrollView>
-
-      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-        {step > 1 && step <= 5 && (
-          <Button
-            title="Back"
-            variant="outline"
-            fullWidth={false}
-            style={styles.btnBack}
-            onPress={handlePrevStep}
-          />
+        ) : (
+          <View style={styles.progressSection}>
+            <Text style={styles.stepTitle}>Everything checks out</Text>
+            <Text style={styles.stepSubtitle}>
+              17 of 17 required items complete. You can still edit any section before submitting.
+            </Text>
+          </View>
         )}
-        <Button
-          title={step === 6 ? 'Submit for verification' : currentStepData.btnLabel}
-          variant="primary"
-          fullWidth={false}
-          loading={loading}
-          disabled={loading}
-          style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
-          onPress={handleNextStep}
-        />
-      </View>
+
+        <ScrollView
+          ref={mainScrollRef}
+          contentContainerStyle={[
+            styles.scroll,
+            { paddingBottom: Math.max(insets.bottom, 12) + 80 },
+          ]}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
+          {step === 1 && renderStep1()}
+          {step === 2 && renderStep2()}
+          {step === 3 && renderStep3()}
+          {step === 4 && renderStep4()}
+          {step === 5 && renderStep5()}
+          {step === 6 && renderStep6Review()}
+        </ScrollView>
+
+        <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+          {step > 1 && step <= 5 && (
+            <Button
+              title="Back"
+              variant="outline"
+              fullWidth={false}
+              style={styles.btnBack}
+              onPress={handlePrevStep}
+            />
+          )}
+          <Button
+            title={step === 6 ? 'Submit for verification' : currentStepData.btnLabel}
+            variant="primary"
+            fullWidth={false}
+            loading={loading}
+            disabled={loading}
+            style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
+            onPress={handleNextStep}
+          />
+        </View>
+      </KeyboardAvoidingView>
 
       <DatePickerModal
         visible={dobPickerVisible}
