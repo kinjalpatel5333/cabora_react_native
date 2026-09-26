@@ -3,6 +3,7 @@ export * from './userApi';
 export * from './driverApi';
 export * from './rideApi';
 export * from './walletApi';
+export * from './paymentApi';
 export {
   ENDPOINTS,
   AUTH_ENDPOINTS,
@@ -10,4 +11,6 @@ export {
   DRIVER_ENDPOINTS,
   RIDE_ENDPOINTS,
   WALLET_ENDPOINTS,
+  PAYMENT_ENDPOINTS,
 } from '../config/endpoints';
+

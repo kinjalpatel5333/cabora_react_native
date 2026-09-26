@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const {width: SCREEN_W} = Dimensions.get('window');
+const CIRCLE_SIZE = SCREEN_W * 0.82;
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -10,23 +13,40 @@ export default function createStyles(colors) {
       backgroundColor: colors.isDark ? colors.navy.darkBg2 : colors.green.soft,
       borderBottomLeftRadius: 36,
       borderBottomRightRadius: 36,
+      overflow: 'hidden',
       alignItems: 'center',
       paddingHorizontal: 28,
       paddingBottom: 28,
+      position: 'relative',
+    },
+    heroDomeCircle: {
+      position: 'absolute',
+      top: -CIRCLE_SIZE * 0.36,
+      width: CIRCLE_SIZE,
+      height: CIRCLE_SIZE,
+      borderRadius: CIRCLE_SIZE / 2,
+      backgroundColor: colors.isDark ? colors.alpha.green15 : '#D1FAE5',
+      alignSelf: 'center',
+      zIndex: 0,
+    },
+    heroInnerContent: {
+      alignItems: 'center',
+      zIndex: 1,
+      width: '100%',
     },
     checkOuter: {
-      width: 64,
-      height: 64,
-      borderRadius: 32,
-      backgroundColor: colors.isDark ? colors.alpha.green25 : colors.green.badgeAlt,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.isDark ? colors.alpha.green25 : '#D1FAE5',
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: 18,
+      marginBottom: 16,
     },
     checkInner: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
+      width: 36,
+      height: 36,
+      borderRadius: 18,
       backgroundColor: colors.green[800],
       alignItems: 'center',
       justifyContent: 'center',
@@ -34,17 +54,17 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.green[400] : colors.green[800],
-      fontSize: 30,
+      fontSize: 28,
       textAlign: 'center',
-      marginBottom: 10,
+      marginBottom: 8,
       letterSpacing: -0.3,
     },
     subtitle: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.isDark ? colors.green.bright : colors.green[700],
-      fontSize: 15,
+      fontSize: 14,
       textAlign: 'center',
-      lineHeight: 22,
+      lineHeight: 20,
       paddingHorizontal: 8,
     },
     content: {

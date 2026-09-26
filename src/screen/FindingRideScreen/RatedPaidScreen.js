@@ -45,16 +45,19 @@ export default function RatedPaidScreen({
 
   return (
     <View style={styles.root}>
-      <View style={[styles.hero, {paddingTop: insets.top + 28}]}>
-        <View style={styles.checkOuter}>
-          <View style={styles.checkInner}>
-            <Feather name="check" size={22} color={colors.white} />
+      <View style={[styles.hero, {paddingTop: Math.max(insets.top, 20) + 16}]}>
+        <View style={styles.heroDomeCircle} />
+        <View style={styles.heroInnerContent}>
+          <View style={styles.checkOuter}>
+            <View style={styles.checkInner}>
+              <Feather name="check" size={20} color={colors.white} />
+            </View>
           </View>
+          <Text style={styles.title}>Rated and paid</Text>
+          <Text style={styles.subtitle}>
+            {driverName} will see your {stars} stars{tipLabel}.
+          </Text>
         </View>
-        <Text style={styles.title}>Rated and paid</Text>
-        <Text style={styles.subtitle}>
-          {driverName} will see your {stars} stars{tipLabel}.
-        </Text>
       </View>
 
       <View style={styles.content}>

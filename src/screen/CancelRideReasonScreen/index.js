@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {Button} from '../../components';
+import {cancelRideApi} from '../../services/rideApi';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -16,6 +17,8 @@ export default function CancelRideReasonScreen() {
   const styles = useThemedStyles(createStyles);
   const {colors} = useApp();
   const navigation = useNavigation();
+  const route = useRoute();
+  const rideId = route?.params?.rideId || '6aa28cc7e02cb357dd298432';
   const [selected, setSelected] = useState(CANCEL_REASONS[0]);
 
   const onKeepRide = () => {
@@ -26,7 +29,12 @@ export default function CancelRideReasonScreen() {
     }
   };
 
-  const onCancelRide = () => {
+  const onCancelRide = async () => {
+    try {
+      await cancelRideApi(rideId, { reason: selected });
+    } catch (err) {
+      console.warn('cancelRideApi error:', err);
+    }
     navigation.navigate('DriverTabs');
   };
 

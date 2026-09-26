@@ -20,6 +20,8 @@ export * from '../services/authApi';
 export * from '../services/userApi';
 export * from '../services/driverApi';
 export * from '../services/rideApi';
+export * from '../services/paymentApi';
+export * from '../services/walletApi';
 
 export function profileApi() {
   return apiGet(USER_ENDPOINTS.PROFILE);

@@ -27,10 +27,10 @@ export default function DriverIncentivesScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle('light-content');
+      StatusBar.setBarStyle?.('light-content');
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
       }
     }, []),
   );

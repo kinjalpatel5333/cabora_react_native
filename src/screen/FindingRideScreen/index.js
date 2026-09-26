@@ -74,11 +74,15 @@ export default function FindingRideModal({
   onBack,
   onRequestCancel,
   rideName = 'Cab Sedan',
-  pickup = '12, Brigade Road, Ashok Nagar',
-  drop = 'Kempegowda Intl. Airport, T2',
-  areaHint = 'Brigade Road',
-  fare = 198,
-  rideId = '6aa28cc7e02cb357dd298432',
+  pickup = 'Surat Railway Station',
+  drop = 'Varachha Main Road',
+  areaHint = 'Surat',
+  fare = 95,
+  currency = 'INR',
+  rideId = '6ab7a123116d933739e5bf6e',
+  rideOtp = '1053',
+  tripOtp = '1053',
+  status = 'SEARCHING_DRIVER',
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
@@ -108,48 +112,64 @@ export default function FindingRideModal({
       return undefined;
     }
 
-    setPhase('searching');
-    // First search → solo driver modal; Search again → co-rider pool.
+    if (status === 'SEARCHING_DRIVER' || !status) {
+      setPhase('searching');
+    } else if (status === 'DRIVER_ASSIGNED' || status === 'ON_THE_WAY') {
+      setPhase('driver');
+    } else if (status === 'IN_PROGRESS' || status === 'ON_TRIP') {
+      setPhase('onTrip');
+    } else if (status === 'COMPLETED') {
+      setPhase('completed');
+    } else {
+      setPhase('searching');
+    }
     matchCoRiderRef.current = searchKey % 2 === 1;
     return undefined;
-  }, [visible, searchKey, spin, progress, tripProgress]);
+  }, [visible, searchKey, status, spin, progress, tripProgress]);
 
-  // Searching → match (paused while SOS / share is open)
+  // 1. 5 seconds searching -> Driver is on the way / OTP modal
   useEffect(() => {
     if (!visible || flowPaused || phase !== 'searching') {
       return undefined;
     }
 
     const matchTimer = setTimeout(() => {
-      setPhase(matchCoRiderRef.current ? 'pool' : 'driver');
-    }, MATCH_MS);
-
-    const failTimer = setTimeout(() => {
-      setPhase(prev => (prev === 'searching' ? 'unavailable' : prev));
-    }, NO_DRIVER_MS);
+      setPhase('driver');
+    }, 5000);
 
     return () => {
       clearTimeout(matchTimer);
-      clearTimeout(failTimer);
     };
   }, [visible, flowPaused, phase, searchKey]);
 
-  // OTP / driver-on-way → On Trip after 5s
+  // 2. 7 seconds on OTP / Driver is on the way -> Live Trip screen
   useEffect(() => {
     if (!visible || flowPaused || phase !== 'driver') {
       return undefined;
     }
-    const t = setTimeout(() => setPhase('onTrip'), ON_TRIP_MS);
-    return () => clearTimeout(t);
+
+    const onTripTimer = setTimeout(() => {
+      setPhase('onTrip');
+    }, 7000);
+
+    return () => {
+      clearTimeout(onTripTimer);
+    };
   }, [visible, flowPaused, phase]);
 
-  // On Trip → Trip completed after 5s
+  // 3. 5 seconds on Live Trip -> Payment / Trip Completed screen
   useEffect(() => {
     if (!visible || flowPaused || phase !== 'onTrip') {
       return undefined;
     }
-    const t = setTimeout(() => setPhase('completed'), COMPLETED_MS);
-    return () => clearTimeout(t);
+
+    const completedTimer = setTimeout(() => {
+      setPhase('completed');
+    }, 5000);
+
+    return () => {
+      clearTimeout(completedTimer);
+    };
   }, [visible, flowPaused, phase]);
 
   useEffect(() => {
@@ -245,12 +265,8 @@ export default function FindingRideModal({
 
   /** Hardware / UI back: one phase or one flow step — never dump to Home. */
   const stepBack = () => {
-    if (phase === 'rateTip') {
-      setPhase('completed');
-      return;
-    }
-    if (phase === 'ratedPaid') {
-      setPhase('rateTip');
+    if (phase === 'rateTip' || phase === 'ratedPaid') {
+      onClose?.();
       return;
     }
     if (phase === 'completed') {
@@ -290,16 +306,18 @@ export default function FindingRideModal({
       statusBarTranslucent>
       {phase === 'ratedPaid' ? (
         <RatedPaidScreen
+          driverName="Rajesh"
           rating={ratingResult.rating}
           tip={ratingResult.tip ?? 0}
+          tripFare={fare || 132}
           onBackHome={onClose}
           onBookAgain={onClose}
         />
       ) : phase === 'rateTip' ? (
         <RateTipScreen
           rideId={rideId}
-          onClose={() => setPhase('completed')}
-          onSkip={stepBack}
+          onClose={onClose}
+          onSkip={onClose}
           onSubmit={result => {
             setRatingResult({
               rating: result?.rating ?? 5,
@@ -310,9 +328,14 @@ export default function FindingRideModal({
         />
       ) : phase === 'completed' ? (
         <TripCompletedScreen
+          tripId={rideId}
+          rideId={rideId}
           pickup={pickup}
           drop={drop}
+          fare={fare}
+          currency={currency}
           rideName={rideName}
+          totalPaid={`₹${fare || 132}`}
           onRate={() => setPhase('rateTip')}
         />
       ) : (
@@ -476,11 +499,12 @@ export default function FindingRideModal({
 
           <View>
           {phase === 'pool' ? (
-            <CoRiderMatchedSheet fare={Math.max(fare, 412)} onCancel={onCancelPress} />
+            <CoRiderMatchedSheet fare={fare} otp={rideOtp || tripOtp || '1053'} onCancel={onCancelPress} />
           ) : null}
 
           {phase === 'driver' ? (
             <DriverOnWaySheet
+              otp={rideOtp || tripOtp || '1053'}
               onCancel={onCancelPress}
               onSos={() => setEmergencyOpen(true)}
               onShare={() => setShareOpen(true)}

@@ -27,12 +27,16 @@ export const WALLET_ENDPOINTS = {
   ADD_MONEY: '/api/v1/wallet/add-money',
 };
 
+export const PAYMENT_ENDPOINTS = {
+  CHARGE: '/api/v1/payments/charge',
+};
+
 export const RIDE_ENDPOINTS = {
   RATE: rideId => `/api/v1/rides/${rideId}/rate`,
   SOS: rideId => `/api/v1/rides/${rideId}/sos`,
   ESTIMATE: '/api/v1/rides/estimate',
   BOOK: '/api/v1/rides/book',
-  CANCEL: '/api/v1/rides/cancel',
+  CANCEL: rideId => (rideId ? `/api/v1/rides/${rideId}/cancel` : '/api/v1/rides/cancel'),
   TRACK: '/api/v1/rides/track',
 };
 
@@ -71,6 +75,9 @@ export const ENDPOINTS = {
   PASSENGER: PASSENGER_ENDPOINTS,
   USER: USER_ENDPOINTS,
   DRIVER: DRIVER_ENDPOINTS,
+  PAYMENT: PAYMENT_ENDPOINTS,
+  WALLET: WALLET_ENDPOINTS,
+  RIDE: RIDE_ENDPOINTS,
 };
 
 // Flattened endpoints map for backwards compatibility

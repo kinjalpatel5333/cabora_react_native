@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
+import {estimateRideApi} from '../../services/rideApi';
 import BookForSomeoneElseModal from './BookForSomeoneElseModal';
 import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
@@ -39,6 +40,8 @@ export default function ChooseRideModal({
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [bookForSomeoneOpen, setBookForSomeoneOpen] = useState(false);
+  const [estimateData, setEstimateData] = useState(null);
+  const [loadingEstimate, setLoadingEstimate] = useState(false);
   const [scheduledVehicle, setScheduledVehicle] = useState({
     name: 'Comfort',
     price: 1640,
@@ -59,8 +62,28 @@ export default function ChooseRideModal({
       setScheduledVehicle({name: 'Comfort', price: 1640});
       setCategoryId('cab');
       setPaymentMethod({id: 'upi', label: 'UPI • you@okaxis'});
+
+      // Fetch live estimate from backend
+      setLoadingEstimate(true);
+      estimateRideApi({
+        pickup: typeof pickup === 'string' ? { address: pickup, lat: 23.03, lng: 72.52 } : pickup,
+        destination: typeof drop === 'string' ? { address: drop, lat: 19.076, lng: 72.8777 } : drop,
+        vehicleTypeId: selectedId || 'vt_1',
+        promoCode: promoCode || 'WELCOME10',
+      })
+        .then(res => {
+          if (res) {
+            setEstimateData(res?.data || res);
+          }
+        })
+        .catch(err => {
+          console.warn('estimateRideApi error:', err);
+        })
+        .finally(() => {
+          setLoadingEstimate(false);
+        });
     }
-  }, [visible]);
+  }, [visible, pickup, drop, promoCode, selectedId]);
 
   const openCategory = rideId => {
     setSelectedId(rideId);

@@ -7,7 +7,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import createStyles from './matchedStyle';
 
-export function CoRiderMatchedSheet({ fare = 412, onCancel }) {
+export function CoRiderMatchedSheet({ fare = 95, otp = '1053', onCancel }) {
   const styles = useThemedStyles(createStyles);
   const { colors } = useApp();
 
@@ -39,7 +39,7 @@ export function CoRiderMatchedSheet({ fare = 412, onCancel }) {
         </View>
         <View style={styles.otpInline}>
           <Feather name="shield" size={16} color={colors.green[600]} />
-          <Text style={styles.otpInlineText}>Start OTP 4182</Text>
+          <Text style={styles.otpInlineText}>Start OTP {otp}</Text>
         </View>
       </View>
 
@@ -87,13 +87,14 @@ export function CoRiderMatchedSheet({ fare = 412, onCancel }) {
 
 export function DriverOnWaySheet({
   driverName = 'Rajesh',
+  otp = '1053',
   onCancel,
   onSos,
   onShare,
 }) {
   const styles = useThemedStyles(createStyles);
   const { colors } = useApp();
-  const otp = DEFAULT_OTP_ARRAY;
+  const otpDigits = String(otp || '1053').split('');
 
   return (
     <ScrollView
@@ -116,7 +117,7 @@ export function DriverOnWaySheet({
           <Text style={styles.otpHeadText}>RIDE START OTP</Text>
         </View>
         <View style={styles.otpDigits}>
-          {otp.map((digit, index) => (
+          {otpDigits.map((digit, index) => (
             <View key={`${digit}-${index}`} style={styles.otpDigit}>
               <Text style={styles.otpDigitText}>{digit}</Text>
             </View>
