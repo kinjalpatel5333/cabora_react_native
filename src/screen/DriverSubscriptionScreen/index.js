@@ -1,6 +1,6 @@
-import React from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+import { Platform, ScrollView, StatusBar, Text, View, TouchableOpacity } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,6 +23,16 @@ export default function DriverSubscriptionScreen() {
   React.useEffect(() => {
     setActiveTab('DriverSubscription');
   }, [setActiveTab]);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [colors.isDark])
+  );
 
   const completedRides = 34;
   const targetRides = 40;
@@ -73,6 +83,11 @@ export default function DriverSubscriptionScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Header Bar */}
       <View

@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
-import {AntDesign} from '@react-native-vector-icons/ant-design/static';
-import {useApp} from '../../context/AppContext';
+import React, { useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
+import { AntDesign } from '@react-native-vector-icons/ant-design/static';
+import { useApp } from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
+
 
 export default function Input({
   label,
@@ -31,12 +31,25 @@ export default function Input({
   hintStyle,
   ...rest
 }) {
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const [focused, setFocused] = useState(false);
   const hasError = Boolean(error);
   const hasSuccess = Boolean(success) && !hasError;
-  const helper = hasError ? error : hasSuccess && typeof success === 'string' ? success : hint;
+  const helper = error || hint;
+  const formatHelperText = val => {
+    if (!val) return '';
+    if (typeof val === 'string') return val;
+    if (typeof val?.message === 'string') return val.message;
+    if (typeof val?.error === 'string') return val.error;
+    try {
+      return JSON.stringify(val);
+    } catch (e) {
+      return String(val);
+    }
+  };
+
+  const helperText = formatHelperText(helper);
 
   return (
     <View style={[styles.wrap, containerStyle]}>
@@ -50,11 +63,11 @@ export default function Input({
           styles.field,
           fieldStyle,
           showFocusBorder &&
-            focused &&
-            !hasError &&
-            !hasSuccess &&
-            !disabled &&
-            styles.fieldFocused,
+          focused &&
+          !hasError &&
+          !hasSuccess &&
+          !disabled &&
+          styles.fieldFocused,
           hasError && !disabled && styles.fieldError,
           hasSuccess && !disabled && styles.fieldSuccess,
           disabled && styles.fieldDisabled,
@@ -96,7 +109,7 @@ export default function Input({
           </View>
         ) : null}
       </View>
-      {helper ? (
+      {helperText ? (
         <View style={styles.hintRow}>
           {hasError && !disabled ? (
             <AntDesign name="info-circle" size={16} color={colors.danger} />
@@ -111,7 +124,7 @@ export default function Input({
               hasSuccess && !disabled && styles.hintSuccess,
               hintStyle,
             ]}>
-            {helper}
+            {helperText}
           </Text>
         </View>
       ) : null}

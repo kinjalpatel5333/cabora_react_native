@@ -58,66 +58,111 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
   const passenger = root?.passenger || {};
   const driver = root?.driver || {};
 
+  const rawRole =
+    root.currentRole ||
+    user.currentRole ||
+    root.role ||
+    user.role ||
+    (root.driver || root.isDriver || user.isDriver ? 'driver' : 'passenger');
+
+  const currentRole = String(rawRole).toLowerCase();
+  const isDriverRole = currentRole === 'driver';
+
+  const primaryObj = isDriverRole ? (Object.keys(driver).length > 0 ? driver : root) : (Object.keys(passenger).length > 0 ? passenger : root);
+  const secondaryObj = isDriverRole ? passenger : driver;
+  const personalObj =
+    driver.personal ||
+    driver.personalDetails ||
+    root.personal ||
+    root.personalDetails ||
+    root.onboarding?.personal ||
+    driver.onboarding?.personal ||
+    {};
+
+  const rawFirstName = primaryObj.firstName || secondaryObj.firstName || personalObj.firstName || user.firstName || root.firstName || '';
+  const rawLastName = primaryObj.lastName || secondaryObj.lastName || personalObj.lastName || user.lastName || root.lastName || '';
+  const combinedFirstLast = `${rawFirstName} ${rawLastName}`.trim();
+
   const name = (
-    passenger.fullName ||
-    passenger.name ||
-    driver.fullName ||
-    driver.name ||
+    primaryObj.fullName ||
+    primaryObj.name ||
+    personalObj.fullName ||
+    personalObj.name ||
+    secondaryObj.fullName ||
+    secondaryObj.name ||
     user.fullName ||
     user.name ||
     root.fullName ||
     root.name ||
+    root.user?.name ||
+    root.user?.fullName ||
+    combinedFirstLast ||
     ''
   ).trim();
 
   const dob =
-    passenger.dob ||
-    driver.dob ||
+    primaryObj.dob ||
+    primaryObj.dateOfBirth ||
+    personalObj.dob ||
+    personalObj.dateOfBirth ||
+    secondaryObj.dob ||
     user.dob ||
     root.dob ||
     '';
 
   const email =
-    passenger.email ||
-    driver.email ||
+    primaryObj.email ||
+    personalObj.email ||
+    secondaryObj.email ||
     user.email ||
     root.email ||
     '';
 
   const mobile =
-    passenger.mobile ||
-    driver.mobile ||
+    primaryObj.mobile ||
+    primaryObj.phone ||
+    personalObj.mobile ||
+    personalObj.phone ||
+    secondaryObj.mobile ||
+    secondaryObj.phone ||
     user.mobile ||
+    user.phone ||
     root.mobile ||
+    root.phone ||
     fallbackPhone ||
     '';
 
   const rawPhoto =
-    passenger.profilePhoto ||
-    passenger.photo ||
-    passenger.avatar ||
-    driver.profilePhoto ||
-    driver.photo ||
-    driver.avatar ||
+    primaryObj.profilePhoto ||
+    primaryObj.photo ||
+    primaryObj.avatar ||
+    personalObj.profilePhoto ||
+    personalObj.photo ||
+    personalObj.avatar ||
+    secondaryObj.profilePhoto ||
+    secondaryObj.photo ||
+    secondaryObj.avatar ||
     user.profilePhoto ||
     user.photo ||
     user.avatar ||
     root.profilePhoto ||
     root.photo ||
+    root.user?.profilePhoto ||
+    root.user?.photo ||
     '';
 
   const photo = formatImageUrl(rawPhoto);
 
   const gender =
-    passenger.gender ||
-    driver.gender ||
+    primaryObj.gender ||
+    secondaryObj.gender ||
     user.gender ||
     root.gender ||
     '';
 
   const cityCode =
-    passenger.cityCode ||
-    driver.cityCode ||
+    primaryObj.cityCode ||
+    secondaryObj.cityCode ||
     user.cityCode ||
     root.cityCode ||
     '';
@@ -143,7 +188,7 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     profilePhoto: photo,
     gender,
     cityCode,
-    role: (root.currentRole || user.currentRole || root.role || 'passenger').toLowerCase(),
+    role: currentRole,
     isProfileComplete,
   };
 }

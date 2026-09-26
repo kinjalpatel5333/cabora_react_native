@@ -1,13 +1,13 @@
-import React, {useMemo, useState} from 'react';
-import {FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, View, TouchableOpacity} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../../assets';
-import {useApp} from '../../context/AppContext';
-import {COUNTRIES} from '../../utils/countries';
+import React, { useMemo, useState } from 'react';
+import { FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { images } from '../../assets';
+import { useApp } from '../../context/AppContext';
+import { COUNTRIES } from '../../utils/countries';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
+
 
 export default function CountryPickerModal({
   visible,
@@ -16,7 +16,7 @@ export default function CountryPickerModal({
   onClose,
 }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const [search, setSearch] = useState('');
 
@@ -44,7 +44,7 @@ export default function CountryPickerModal({
     onClose();
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const isSelected = selectedCountry?.code === item.code;
     return (
       <TouchableOpacity activeOpacity={0.7}
@@ -85,8 +85,8 @@ export default function CountryPickerModal({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.backdrop}>
-        <TouchableOpacity activeOpacity={0.7} style={{flex: 1}} onPress={handleClose} />
-        <View style={[styles.sheet, {paddingBottom: Math.max(insets.bottom, 16)}]}>
+        <TouchableOpacity activeOpacity={0.7} style={{ flex: 1 }} onPress={handleClose} />
+        <View style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]}>
           <View style={styles.dragHandle} />
           <View style={styles.header}>
             <Text style={styles.title}>Select Country</Text>

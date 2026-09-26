@@ -1,6 +1,6 @@
 import { PASSENGER_WALLET_TABS, PASSENGER_WALLET_TXNS } from '../../config/staticData';
 import React, {useCallback, useMemo, useState} from 'react';
-import {ActivityIndicator, RefreshControl, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, Platform, RefreshControl, ScrollView, StatusBar, Text, View, TouchableOpacity} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -78,8 +78,13 @@ export default function WalletScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
       fetchWallet();
-    }, [fetchWallet]),
+    }, [colors.isDark, fetchWallet]),
   );
 
   const formattedBalance = useMemo(() => {
@@ -121,6 +126,11 @@ export default function WalletScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={

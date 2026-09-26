@@ -1,11 +1,11 @@
 import { PASSENGER_WALKTHROUGH_SLIDES } from '../../config/staticData';
-import React, {useMemo, useRef, useState} from 'react';
-import {Dimensions, FlatList, Image, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../../assets';
-import {Button} from '../../components';
-import {useAppDispatch} from '../../redux/hooks';
-import {completeWalkthrough} from '../../redux/slices/appSlice';
+import React, { useMemo, useRef, useState } from 'react';
+import { Dimensions, FlatList, Image, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { images } from '../../assets';
+import { Button } from '../../components';
+import { useAppDispatch } from '../../redux/hooks';
+import { completeWalkthrough } from '../../redux/slices/appSlice';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
@@ -13,7 +13,7 @@ const SLIDES = PASSENGER_WALKTHROUGH_SLIDES;
 
 export default function WalkthroughScreen() {
   const insets = useSafeAreaInsets();
-  const {width: windowWidth, height: windowHeight} = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const screen = Dimensions.get('screen');
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export default function WalkthroughScreen() {
   const compact = pageHeight < 780;
 
   const metrics = useMemo(() => {
-    const curveHeight = Math.min((96 / 390) * pageWidth, compact ? 64 : 96);
+    const curveHeight = Math.min((96 / 390) * pageWidth, compact ? 64 : 140);
     return {
       curveHeight,
       heroTopPad: topPad + (compact ? 40 : 48),
@@ -51,7 +51,7 @@ export default function WalkthroughScreen() {
       return;
     }
     setIndex(next);
-    listRef.current?.scrollToIndex({index: next, animated: true});
+    listRef.current?.scrollToIndex({ index: next, animated: true });
   };
 
   const goNext = () => {
@@ -71,11 +71,11 @@ export default function WalkthroughScreen() {
   );
 
   return (
-    <View style={[styles.root, {width: pageWidth, height: pageHeight}]}>
+    <View style={[styles.root, { width: pageWidth, height: pageHeight }]}>
       {/* Navy under gesture bar — removes the thick white safe-area strip */}
       <View
         pointerEvents="none"
-        style={[styles.bottomFill, {height: Math.max(insets.bottom, 20)}]}
+        style={[styles.bottomFill, { height: Math.max(insets.bottom, 20) }]}
       />
       <FlatList
         ref={listRef}
@@ -98,9 +98,9 @@ export default function WalkthroughScreen() {
           );
           setIndex(next);
         }}
-        renderItem={({item}) => (
-          <View style={[styles.page, {width: pageWidth, height: pageHeight}]}>
-            <View style={[styles.hero, {paddingTop: metrics.heroTopPad}]}>
+        renderItem={({ item }) => (
+          <View style={[styles.page, { width: pageWidth, height: pageHeight }]}>
+            <View style={[styles.hero, { paddingTop: metrics.heroTopPad }]}>
               <View
                 style={[
                   styles.heroFill,
@@ -113,7 +113,7 @@ export default function WalkthroughScreen() {
               </View>
               <Image
                 source={item.curve}
-                style={[styles.wave, {height: metrics.curveHeight}]}
+                style={[styles.wave, { height: metrics.curveHeight }]}
                 resizeMode="stretch"
               />
             </View>
@@ -121,9 +121,9 @@ export default function WalkthroughScreen() {
             <View
               style={[
                 styles.panel,
-                {paddingTop: metrics.panelPt, paddingBottom: bottomPad},
+                { paddingTop: metrics.panelPt, paddingBottom: bottomPad },
               ]}>
-              <View style={[styles.badge, {marginBottom: metrics.badgeMb}]}>
+              <View style={[styles.badge, { marginBottom: metrics.badgeMb }]}>
                 <View style={styles.badgeDot} />
                 <Text style={styles.badgeLabel}>{item.kicker}</Text>
               </View>
@@ -137,14 +137,14 @@ export default function WalkthroughScreen() {
                 ]}>
                 {item.title}
               </Text>
-              <Text style={[styles.body, {marginBottom: metrics.bodyMb}]}>
+              <Text style={[styles.body, { marginBottom: metrics.bodyMb }]}>
                 {item.body}
               </Text>
-              <View style={[styles.dots, {marginBottom: metrics.dotsMb}]}>
+              <View style={[styles.dots, { marginBottom: metrics.dotsMb }]}>
                 {SLIDES.map((slide, i) => (
                   <TouchableOpacity
                     key={slide.key}
-                    hitSlop={{top: 12, bottom: 12, left: 12, right: 12}}
+                    hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
                     activeOpacity={0.7}
                     onPress={() => goTo(i)}
                     accessibilityRole="button"
@@ -165,16 +165,18 @@ export default function WalkthroughScreen() {
         )}
       />
 
-      <View pointerEvents="box-none" style={[styles.header, {top: topPad}]}>
-        <Image
-          source={images.walkLogo}
-          style={styles.logo}
-          resizeMode="contain"
-          accessibilityLabel="Cabora"
-        />
+      <View pointerEvents="box-none" style={[styles.header, { top: topPad }]}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={images.cabOraMark}
+            style={styles.logoImage}
+            resizeMode="contain"
+            accessibilityLabel="Cabora"
+          />
+        </View>
         <TouchableOpacity
           onPress={finish}
-          hitSlop={{top: 8, bottom: 8, left: 8, right: 8}}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           activeOpacity={0.7}
           style={styles.skip}>
           <Text style={styles.skipLabel}>Skip</Text>

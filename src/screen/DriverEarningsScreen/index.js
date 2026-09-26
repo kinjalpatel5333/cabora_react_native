@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import React, { useCallback, useState, useEffect } from 'react';
+import {Platform, ScrollView, StatusBar, Text, View, TouchableOpacity} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,6 +24,16 @@ export default function DriverEarningsScreen() {
   const { showToast } = useToast();
   const { earningsData, earningsLoading } = useSelector(state => state.driver);
 
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [colors.isDark])
+  );
+
   const [activeTab, setActiveTab] = useState('Week');
   const [selectedBarIdx, setSelectedBarIdx] = useState(4); // Default Fri
 
@@ -40,6 +51,11 @@ export default function DriverEarningsScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Top Header */}
       <View

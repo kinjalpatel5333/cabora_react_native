@@ -147,11 +147,13 @@ export default function LocationPermissionScreen({navigation, route}) {
     const result = await requestLocationPermission();
     if (result === 'granted') {
       try {
-        await updatePassengerCurrentLocationApi({
-          lat: 21.1702,
-          long: 72.8311,
-          address: 'Varachha, Surat, Gujarat',
-        });
+        if (role !== 'driver') {
+          await updatePassengerCurrentLocationApi({
+            lat: 21.1702,
+            long: 72.8311,
+            address: 'Varachha, Surat, Gujarat',
+          });
+        }
       } catch (e) {
         console.warn('Failed to update passenger location on permission allow:', e);
       }
@@ -166,12 +168,14 @@ export default function LocationPermissionScreen({navigation, route}) {
 
   const onSetPickupManually = async () => {
     try {
-      const selected = places.find(p => p.id === selectedPlace);
-      await updatePassengerCurrentLocationApi({
-        lat: 21.1702,
-        long: 72.8311,
-        address: selected?.subtitle || selected?.title || 'Varachha, Surat, Gujarat',
-      });
+      if (role !== 'driver') {
+        const selected = places.find(p => p.id === selectedPlace);
+        await updatePassengerCurrentLocationApi({
+          lat: 21.1702,
+          long: 72.8311,
+          address: selected?.subtitle || selected?.title || 'Varachha, Surat, Gujarat',
+        });
+      }
     } catch (e) {
       console.warn('Failed to update passenger location on manual select:', e);
     }

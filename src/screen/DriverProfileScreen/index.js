@@ -36,13 +36,10 @@ export default function DriverProfileScreen() {
         StatusBar.setBackgroundColor('transparent');
         StatusBar.setTranslucent(true);
       }
-    }, [])
+      dispatch(fetchDriverProfile());
+      dispatch(fetchDriverKycStatus());
+    }, [dispatch]),
   );
-
-  useEffect(() => {
-    dispatch(fetchDriverProfile());
-    dispatch(fetchDriverKycStatus());
-  }, [dispatch]);
 
   const driverName = kycData?.personal?.fullName || user?.name || user?.fullName || 'Driver';
   const driverMobile = kycData?.personal?.mobile || user?.mobile || user?.phone || '';

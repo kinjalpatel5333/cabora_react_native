@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -107,6 +107,7 @@ export default function createStyles(colors) {
     },
     inputIcon: {
       marginRight: 10,
+      alignSelf: 'center',
     },
     inputText: {
       fontFamily: colors.fonts.sora.medium,
@@ -114,6 +115,11 @@ export default function createStyles(colors) {
       fontSize: 15,
       color: colors.navy?.[900] || '#0F1E36',
       paddingVertical: 0,
+      textAlignVertical: 'center',
+      includeFontPadding: false,
+    },
+    margin10: {
+      marginTop: 3,
     },
     helperText: {
       fontFamily: colors.fonts.sora.regular,
@@ -232,7 +238,7 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       shadowColor: '#000',
-      shadowOffset: {width: 0, height: -3},
+      shadowOffset: { width: 0, height: -3 },
       shadowOpacity: 0.05,
       shadowRadius: 8,
       elevation: 10,

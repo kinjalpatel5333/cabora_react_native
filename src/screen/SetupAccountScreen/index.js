@@ -1,6 +1,7 @@
 import { PASSENGER_SETUP_ACCOUNT_ROLES, SETUP_ACCOUNT_STRINGS } from '../../config/staticData';
-import React, { useMemo, useState } from 'react';
-import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -51,6 +52,16 @@ export default function SetupAccountScreen({ navigation, route }) {
   const dispatch = useAppDispatch();
   const [selected, setSelected] = useState('passenger');
   const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [colors.isDark]),
+  );
 
   const picked = useMemo(
     () => ROLES.find(role => role.id === selected) || ROLES[0],
@@ -141,6 +152,11 @@ export default function SetupAccountScreen({ navigation, route }) {
 
   return (
     <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
       <View style={styles.header}>
         <TouchableOpacity
           activeOpacity={0.7}

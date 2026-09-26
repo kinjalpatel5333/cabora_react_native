@@ -99,7 +99,7 @@ export default function createStyles(colors) {
       color: colors.white,
     },
     labelDisabled: {
-      color: colors.isDark ? colors.navy[400] : '#A0ABC0',
+      color: colors.isDark ? colors.navy[400] : colors.disabledText,
     },
   });
 }

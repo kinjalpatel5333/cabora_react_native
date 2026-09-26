@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, DatePickerModal} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
+import {updateDriverProfileApi} from '../../services/driverApi';
 import {useAppDispatch} from '../../redux/hooks';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import {extractUserProfile} from '../../utils/user';
@@ -181,18 +182,23 @@ export default function CompleteProfileScreen({navigation, route}) {
         });
       }
 
-      // Call live Passenger profile update API
+      // Call live Profile update API based on role
       let updatedUser = null;
       try {
-        const res = await updatePassengerProfileApi(formData);
+        const isDriver = (role || '').toLowerCase() === 'driver';
+        const res = isDriver
+          ? await updateDriverProfileApi(formData)
+          : await updatePassengerProfileApi(formData);
         updatedUser =
           res?.data?.user ||
           res?.user ||
           res?.data?.passenger ||
           res?.passenger ||
+          res?.data?.driver ||
+          res?.driver ||
           res?.data;
       } catch (apiErr) {
-        console.warn('updatePassengerProfileApi error:', apiErr);
+        console.warn('updateProfileApi error:', apiErr);
       }
 
       const finalName =

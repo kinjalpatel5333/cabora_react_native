@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -38,7 +38,7 @@ export default function createStyles(colors) {
       borderColor: colors.gray[200],
     },
     input: {
-      fontFamily: colors.fonts.sora.regular,
+      fontFamily: colors.fonts.sora.semiBold,
       flex: 1,
       color: colors.text,
       fontSize: 16,
@@ -55,9 +55,12 @@ export default function createStyles(colors) {
     },
     hint: {
       fontFamily: colors.fonts.sora.regular,
-      color: colors.textMuted,
+      color: colors.navy[400] || '#8B95A6',
       fontSize: 12,
+      lineHeight: 16,
+      letterSpacing: 0,
       flex: 1,
+      marginTop: 5,
     },
     hintError: {
       color: colors.danger,

@@ -87,9 +87,50 @@ export function parseDateString(dateStr) {
   if (!dateStr) {
     return new Date();
   }
+  const str = String(dateStr).trim();
+  if (!str) {
+    return new Date();
+  }
 
-  // Try DD MMM YYYY (e.g. "14 Mar 1994")
-  const parts = dateStr.trim().split(/\s+/);
+  const cleanStr = str.includes('T') ? str.split('T')[0] : str;
+
+  // Try YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(cleanStr)) {
+    const parts = cleanStr.split('-');
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    if (!isNaN(day) && month >= 0 && month < 12 && !isNaN(year)) {
+      return new Date(year, month, day);
+    }
+  }
+
+  // Try DD / MM / YYYY or DD/MM/YYYY or YYYY / MM / DD
+  const slashParts = cleanStr.split(/[\/\-]/);
+  if (slashParts.length === 3) {
+    const p0 = parseInt(slashParts[0].trim(), 10);
+    const p1 = parseInt(slashParts[1].trim(), 10);
+    const p2 = parseInt(slashParts[2].trim(), 10);
+
+    if (slashParts[2].trim().length === 4) {
+      const day = p0;
+      const month = p1 - 1;
+      const year = p2;
+      if (!isNaN(day) && month >= 0 && month < 12 && !isNaN(year)) {
+        return new Date(year, month, day);
+      }
+    } else if (slashParts[0].trim().length === 4) {
+      const year = p0;
+      const month = p1 - 1;
+      const day = p2;
+      if (!isNaN(day) && month >= 0 && month < 12 && !isNaN(year)) {
+        return new Date(year, month, day);
+      }
+    }
+  }
+
+  // Try DD MMM YYYY (e.g. "14 Mar 1994" or "24 Aug 2008")
+  const parts = cleanStr.split(/\s+/);
   if (parts.length === 3) {
     const day = parseInt(parts[0], 10);
     const monthIndex = MONTH_SHORT_NAMES.findIndex(
@@ -101,24 +142,12 @@ export function parseDateString(dateStr) {
     }
   }
 
-  // Try DD/MM/YYYY
-  const slashParts = dateStr.split('/');
-  if (slashParts.length === 3) {
-    const day = parseInt(slashParts[0], 10);
-    const month = parseInt(slashParts[1], 10) - 1;
-    const year = parseInt(slashParts[2], 10);
-    if (!isNaN(day) && month >= 0 && month < 12 && !isNaN(year)) {
-      return new Date(year, month, day);
-    }
-  }
-
-  // Fallback
-  const d = new Date(dateStr);
+  const d = new Date(str);
   return isNaN(d.getTime()) ? new Date() : d;
 }
 
 /**
- * Formats a Date object to "DD MMM YYYY" (e.g. "14 Mar 1994")
+ * Formats a Date object to "DD / MM / YYYY"
  */
 export function formatDateToUi(dateObj) {
   if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) {
@@ -126,9 +155,10 @@ export function formatDateToUi(dateObj) {
   }
   const day = dateObj.getDate();
   const dayStr = day < 10 ? `0${day}` : `${day}`;
-  const monthName = MONTH_SHORT_NAMES[dateObj.getMonth()];
+  const month = dateObj.getMonth() + 1;
+  const monthStr = month < 10 ? `0${month}` : `${month}`;
   const year = dateObj.getFullYear();
-  return `${dayStr} ${monthName} ${year}`;
+  return `${dayStr} / ${monthStr} / ${year}`;
 }
 
 /**
