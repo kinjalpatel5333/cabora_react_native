@@ -3,6 +3,10 @@ import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInpu
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {
+  requestGalleryPermission,
+  showPermissionSettingsAlert,
+} from '../../utils/cameraPermission';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, DatePickerModal} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -126,11 +130,27 @@ export default function CompleteProfileScreen({navigation, route}) {
 
   const onPickPhoto = async () => {
     try {
+      const hasPermission = await requestGalleryPermission();
+      if (!hasPermission) {
+        return;
+      }
       const result = await launchImageLibrary({
         mediaType: 'photo',
         quality: 0.8,
         selectionLimit: 1,
       });
+
+      if (result.didCancel) {
+        return;
+      }
+
+      if (result.errorCode) {
+        showPermissionSettingsAlert(
+          'Photo Access Required',
+          'Photo access is turned off. Please allow photo access in Settings to select a profile photo.',
+        );
+        return;
+      }
 
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];

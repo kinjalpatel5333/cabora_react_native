@@ -15,6 +15,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { launchImageLibrary } from 'react-native-image-picker';
+import {
+  requestGalleryPermission,
+  showPermissionSettingsAlert,
+} from '../../utils/cameraPermission';
 import { Button, DatePickerModal, Header } from '../../components';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
@@ -206,11 +210,27 @@ export default function PersonalDetailsScreen({ navigation, route }) {
 
   const handleChangePhoto = async () => {
     try {
+      const hasPermission = await requestGalleryPermission();
+      if (!hasPermission) {
+        return;
+      }
       const result = await launchImageLibrary({
         mediaType: 'photo',
         quality: 0.8,
         selectionLimit: 1,
       });
+
+      if (result.didCancel) {
+        return;
+      }
+
+      if (result.errorCode) {
+        showPermissionSettingsAlert(
+          'Photo Access Required',
+          'Photo access is turned off. Please allow photo access in Settings to select a profile photo.',
+        );
+        return;
+      }
 
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];

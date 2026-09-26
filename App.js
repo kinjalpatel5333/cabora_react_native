@@ -7,6 +7,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {AppProvider} from './src/context/AppContext';
+import {SocketProvider} from './src/context/SocketContext';
 import {ToastProvider} from './src/components';
 import {RootNavigator} from './src/navigation';
 import store from './src/redux/store';
@@ -18,11 +19,13 @@ export default function App() {
       <Provider store={store}>
         <SafeAreaProvider style={{flex: 1, backgroundColor: colors.white}}>
           <AppProvider>
-            <ToastProvider>
-              <View style={{flex: 1, backgroundColor: colors.white}}>
-                <RootNavigator />
-              </View>
-            </ToastProvider>
+            <SocketProvider>
+              <ToastProvider>
+                <View style={{flex: 1, backgroundColor: colors.white}}>
+                  <RootNavigator />
+                </View>
+              </ToastProvider>
+            </SocketProvider>
           </AppProvider>
         </SafeAreaProvider>
       </Provider>

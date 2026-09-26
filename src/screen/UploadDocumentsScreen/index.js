@@ -18,6 +18,7 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useAppSelector } from '../../redux/hooks';
 import { formatImageUrl } from '../../utils/user';
+import { requestCameraPermission } from '../../utils/cameraPermission';
 import createStyles from './style';
 
 import { DRIVER_DOCUMENTS_LIST as DEFAULT_DOCUMENTS_LIST } from '../../config/staticData';
@@ -42,14 +43,11 @@ export default function UploadDocumentsScreen({ navigation }) {
     }, [colors.isDark]),
   );
 
-
-
-  // Open status modal on initial fetch if kycData exists
   useEffect(() => {
-    if (kycData?.platform?.kycStatus || kycData?.status) {
-      setShowStatusModal(true);
-    }
-  }, [kycData]);
+    requestCameraPermission().catch(() => {});
+  }, []);
+
+
 
   // Parse overall KYC / Platform Status
   const platform = kycData?.platform || {};
@@ -214,6 +212,13 @@ export default function UploadDocumentsScreen({ navigation }) {
     d => d.status === 'approved',
   ).length;
   const progressPct = Math.round((approvedCount / 5) * 100);
+
+  // Auto-show status modal ONLY when all documents are approved
+  useEffect(() => {
+    if (isApprovedAll || approvedCount === 5) {
+      setShowStatusModal(true);
+    }
+  }, [isApprovedAll, approvedCount]);
 
   const handleUploadDoc = doc => {
     if (doc.fileUrl) {

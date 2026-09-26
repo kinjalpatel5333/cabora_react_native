@@ -3,7 +3,7 @@ export * from './userApi';
 export * from './driverApi';
 export * from './rideApi';
 export * from './walletApi';
-export * from './paymentApi';
+export * from './socketService';
 export {
   ENDPOINTS,
   AUTH_ENDPOINTS,

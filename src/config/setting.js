@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://cabora-backend.vercel.app';
+export const SOCKET_URL = BASE_URL; // Update here if Socket.IO server has a distinct URL
 
 export const API_TIMEOUT = 20000;
 
