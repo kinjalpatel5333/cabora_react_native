@@ -10,6 +10,11 @@ import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useAppDispatch } from '../../redux/hooks';
 import { saveDriverDocument } from '../../redux/slices/authSlice';
+import {
+  requestCameraPermission,
+  requestGalleryPermission,
+  showPermissionSettingsAlert,
+} from '../../utils/cameraPermission';
 import createStyles from './style';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
@@ -59,14 +64,18 @@ export default function DocumentCaptureScreen({ navigation, route }) {
 
   const openCamera = useCallback(async () => {
     setSource('camera');
+    const hasPermission = await requestCameraPermission();
+    if (!hasPermission) {
+      return;
+    }
     const result = await launchCamera(pickerOptions);
     if (result.didCancel) {
       return;
     }
     if (result.errorCode) {
-      Alert.alert(
-        'Camera unavailable',
-        result.errorMessage || 'Allow camera access in Settings to photograph documents.',
+      showPermissionSettingsAlert(
+        'Camera Access Required',
+        'Camera access is turned off. Please allow camera access in Settings to photograph documents.',
       );
       return;
     }
@@ -75,13 +84,17 @@ export default function DocumentCaptureScreen({ navigation, route }) {
 
   const openGallery = useCallback(async () => {
     setSource('gallery');
+    const hasPermission = await requestGalleryPermission();
+    if (!hasPermission) {
+      return;
+    }
     const result = await launchImageLibrary(pickerOptions);
     if (result.didCancel) {
       return;
     }
     if (result.errorCode) {
-      Alert.alert(
-        'Gallery unavailable',
+      showPermissionSettingsAlert(
+        'Photo Access Required',
         result.errorMessage || 'Allow photo access in Settings to upload documents.',
       );
       return;
@@ -91,8 +104,7 @@ export default function DocumentCaptureScreen({ navigation, route }) {
 
   useEffect(() => {
     if (!asset) {
-      // Default initial mock progress state to match design if no photo taken yet
-      setProgress(72);
+      setProgress(0);
       return undefined;
     }
     setProgress(0);
@@ -104,7 +116,7 @@ export default function DocumentCaptureScreen({ navigation, route }) {
         }
         return value + 10;
       });
-    }, 120);
+    }, 100);
     return () => clearInterval(timer);
   }, [asset]);
 
@@ -116,7 +128,15 @@ export default function DocumentCaptureScreen({ navigation, route }) {
     if (saving) {
       return;
     }
+    if (!asset) {
+      Alert.alert(
+        'Photo Required',
+        'Please take a photo or select an image from your gallery before submitting.',
+      );
+      return;
+    }
     setSaving(true);
+    setProgress(100);
     try {
       if (asset?.uri) {
         await dispatch(
@@ -265,32 +285,41 @@ export default function DocumentCaptureScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
 
-        {/* Uploading File Card */}
-        <View style={styles.fileCard}>
-          <View style={styles.fileRow}>
-            <View style={styles.fileIcon}>
-              <Lucide name="file-text" size={18} color={colors.primary} />
+        {/* Uploading File Card - Shown only when an image is picked/uploaded */}
+        {Boolean(asset) && (
+          <View style={styles.fileCard}>
+            <View style={styles.fileRow}>
+              <View style={styles.fileIcon}>
+                <Lucide name="file-text" size={18} color={colors.primary} />
+              </View>
+              <View style={styles.fileCopy}>
+                <Text
+                  style={styles.fileName}
+                  numberOfLines={1}
+                  ellipsizeMode="middle">
+                  {displayName}
+                </Text>
+                <Text style={styles.fileMeta}>
+                  {progress >= 100
+                    ? `Uploaded · ${formatSize(fileSize)}`
+                    : `Uploading · ${formatSize((fileSize * progress) / 100)} of ${formatSize(fileSize)} · ${Math.max(1, Math.round(10 * (1 - progress / 100)))}s left`}
+                </Text>
+              </View>
+              <View style={styles.fileRightCol}>
+                <Text style={styles.filePct}>{`${progress}%`}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={clearAsset}
+                  style={styles.closeBtn}>
+                  <Feather name="x" size={18} color={colors.gray[500]} />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.fileCopy}>
-              <Text style={styles.fileName}>{displayName}</Text>
-              <Text style={styles.fileMeta}>
-                {`Uploading · 1.4 MB of ${formatSize(fileSize)} · 12s left`}
-              </Text>
+            <View style={styles.track}>
+              <View style={[styles.fill, { width: `${progress}%` }]} />
             </View>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={clearAsset}
-              style={styles.closeBtn}>
-              <Feather name="x" size={18} color={colors.gray[500]} />
-            </TouchableOpacity>
           </View>
-          <Text style={styles.filePct}>{`${progress || 72}%`}</Text>
-          <View style={styles.track}>
-            <View
-              style={[styles.fill, { width: `${progress || 72}%` }]}
-            />
-          </View>
-        </View>
+        )}
 
         {/* Before You Upload Checklist Card */}
         <View style={styles.checklist}>

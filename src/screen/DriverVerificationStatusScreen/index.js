@@ -180,13 +180,13 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
         alignItems: 'center',
         justifyContent: 'space-between',
       }}>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
           <Feather name="clock" size={20} color={colors.orange[500]} />
-          <View style={{flex: 1}}>
-            <Text style={{fontFamily: colors.fonts.sora.bold, fontSize: 13, color: colors.text}}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: colors.fonts.sora.bold, fontSize: 13, color: colors.text }}>
               Auto-redirect in {formatCountdown(redirectSeconds)}
             </Text>
-            <Text style={{fontFamily: colors.fonts.sora.regular, fontSize: 12, color: colors.muted}}>
+            <Text style={{ fontFamily: colors.fonts.sora.regular, fontSize: 12, color: colors.muted }}>
               Directing to Driver Home screen
             </Text>
           </View>
@@ -200,7 +200,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
             paddingVertical: 8,
             borderRadius: 12,
           }}>
-          <Text style={{fontFamily: colors.fonts.sora.bold, fontSize: 12, color: '#FFFFFF'}}>
+          <Text style={{ fontFamily: colors.fonts.sora.bold, fontSize: 12, color: '#FFFFFF' }}>
             Skip Now →
           </Text>
         </TouchableOpacity>
@@ -415,7 +415,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
       />
 
       {/* Status Mode Toggle Bar (For testing in-progress vs rejected states) */}
-      <View style={{ paddingHorizontal: 20, paddingTop: 14 }}>
+      {/* <View style={{ paddingHorizontal: 20, paddingTop: 14 }}>
         <View style={styles.toggleBar}>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -434,7 +434,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       {/* Body Scroll View */}
       <ScrollView

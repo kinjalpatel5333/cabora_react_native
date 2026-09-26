@@ -19,6 +19,11 @@ import { Button, CountryPickerModal, DatePickerModal, useToast } from '../../com
 import useThemedStyles from '../../components/useThemedStyles';
 import { calculateAge, formatDateNumberInput, formatDateToApi, parseDateString } from '../../utils/dateUtils';
 import {
+  requestCameraPermission,
+  requestGalleryPermission,
+  showPermissionSettingsAlert,
+} from '../../utils/cameraPermission';
+import {
   registerDriverApi,
   saveOnboardingPersonalApi,
   saveOnboardingLicenseApi,
@@ -50,6 +55,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [step]);
+
+  // Request camera access permission immediately upon entering the driver registration flow
+  useEffect(() => {
+    requestCameraPermission().catch(err => {
+      console.warn('Initial camera permission request failed:', err);
+    });
+  }, []);
 
   // Step 1 State: Personal Details
   const [fullName, setFullName] = useState(route?.params?.name || '');
@@ -140,12 +152,26 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           text: 'Take Photo',
           onPress: async () => {
             try {
+              const hasPermission = await requestCameraPermission();
+              if (!hasPermission) {
+                return;
+              }
               const result = await launchCamera({
                 mediaType: 'photo',
                 quality: 0.8,
                 cameraType: 'back',
                 saveToPhotos: false,
               });
+              if (result.didCancel) {
+                return;
+              }
+              if (result.errorCode) {
+                showPermissionSettingsAlert(
+                  'Camera Permission Required',
+                  'Camera access is turned off. Please allow camera access in Settings to photograph documents.',
+                );
+                return;
+              }
               if (result.assets && result.assets.length > 0) {
                 const asset = result.assets[0];
                 onSuccess(asset.uri);
@@ -164,11 +190,25 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           text: 'Choose from Gallery',
           onPress: async () => {
             try {
+              const hasPermission = await requestGalleryPermission();
+              if (!hasPermission) {
+                return;
+              }
               const result = await launchImageLibrary({
                 mediaType: 'photo',
                 quality: 0.8,
                 selectionLimit: 1,
               });
+              if (result.didCancel) {
+                return;
+              }
+              if (result.errorCode) {
+                showPermissionSettingsAlert(
+                  'Photo Access Required',
+                  'Photo access is turned off. Please allow photo access in Settings to select documents.',
+                );
+                return;
+              }
               if (result.assets && result.assets.length > 0) {
                 const asset = result.assets[0];
                 onSuccess(asset.uri);
