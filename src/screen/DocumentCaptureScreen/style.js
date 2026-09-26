@@ -189,6 +189,7 @@ export default function createStyles(colors) {
     },
     fileCopy: {
       flex: 1,
+      marginRight: 8,
     },
     fileName: {
       fontFamily: colors.fonts.sora.bold,
@@ -201,16 +202,18 @@ export default function createStyles(colors) {
       color: colors.gray[500],
       marginTop: 2,
     },
-    closeBtn: {
-      padding: 4,
+    fileRightCol: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
     },
     filePct: {
-      position: 'absolute',
-      top: 36,
-      right: 16,
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 13,
       color: colors.primary,
+    },
+    closeBtn: {
+      padding: 4,
     },
     track: {
       height: 6,

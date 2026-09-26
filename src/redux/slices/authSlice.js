@@ -219,10 +219,23 @@ export const loginWithPhone = createAsyncThunk(
       ).toLowerCase();
 
       const isDriver = roleStr === 'driver';
-      const onboardingFinished =
+
+      const isNewDriverOnboarding =
+        isDriver &&
+        (isOnBoarding === true ||
+          rawUser?.isOnBoarding === true ||
+          rawUser?.isNewUser === true ||
+          rawUser?.kycComplete === false ||
+          rawUser?.driver?.onboardingCompleted === false ||
+          rawUser?.platform?.eligibleForRides === false);
+
+      const onboardingFinished = !isNewDriverOnboarding && (
         isOnBoarding === false ||
         rawUser?.isOnBoarding === false ||
-        rawUser?.status === 'ACTIVE';
+        rawUser?.driver?.onboardingCompleted === true ||
+        rawUser?.kycComplete === true ||
+        rawUser?.platform?.eligibleForRides === true
+      );
 
       const extracted = extractUserProfile(rawUser, phone);
 
@@ -243,7 +256,7 @@ export const loginWithPhone = createAsyncThunk(
         photo: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
         profilePhoto: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
         gender: extracted.gender || rawUser?.gender || gender || null,
-        kycComplete: onboardingFinished || !isDriver,
+        kycComplete: isDriver ? Boolean(onboardingFinished) : true,
         kycDocuments: rawUser?.kycDocuments || {},
       };
 
@@ -391,6 +404,17 @@ export const fetchDriverProfile = createAsyncThunk(
         currentUser.profilePhoto ||
         '';
 
+      const isApproved =
+        rootData?.platform?.eligibleForRides === true ||
+        rootData?.driver?.onboardingCompleted === true ||
+        String(rootData?.status || rootData?.onboardingStatus || '').toUpperCase() === 'APPROVED';
+
+      const resolvedKycComplete = isApproved
+        ? true
+        : currentUser.kycComplete === false
+          ? false
+          : Boolean(currentUser.kycComplete);
+
       const mergedUser = {
         ...currentUser,
         ...(rootData?.driver || {}),
@@ -401,6 +425,7 @@ export const fetchDriverProfile = createAsyncThunk(
         fullName: resolvedName,
         photo: resolvedPhoto,
         profilePhoto: resolvedPhoto,
+        kycComplete: resolvedKycComplete,
       };
 
       const token = getState().auth.token;
