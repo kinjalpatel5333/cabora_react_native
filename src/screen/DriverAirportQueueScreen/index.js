@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import {Image, ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import {Image, Platform, ScrollView, StatusBar, Text, View, TouchableOpacity} from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,6 +19,16 @@ export default function DriverAirportQueueScreen() {
   const navigation = useNavigation();
   const { showToast } = useToast();
 
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [colors.isDark])
+  );
+
   const [position, setPosition] = useState(14);
   const [waitMin, setWaitMin] = useState(38);
 
@@ -36,6 +46,11 @@ export default function DriverAirportQueueScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Map Backdrop */}
       <Image

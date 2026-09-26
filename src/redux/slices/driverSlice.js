@@ -1,5 +1,5 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {logoutUser} from './authSlice';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { logoutUser } from './authSlice';
 import {
   getDriverKycStatusApi,
   setDriverAvailabilityApi,
@@ -96,8 +96,11 @@ export const updateDriverAvailability = createAsyncThunk(
       const lng = payload?.longitude ?? 72.8700;
       const res = await setDriverAvailabilityApi({
         online: onlineStatus,
-        latitude: lat,
-        longitude: lng,
+        // latitude: lat,
+        // longitude: lng,
+        latitude: 21.1702,
+        longitude: 72.8311,
+
       });
       return { online: onlineStatus, data: res?.data || res };
     } catch (err) {
@@ -184,5 +187,5 @@ const driverSlice = createSlice({
   },
 });
 
-export const {setDriverOnline, setDriverRestricted, setKycData} = driverSlice.actions;
+export const { setDriverOnline, setDriverRestricted, setKycData } = driverSlice.actions;
 export default driverSlice.reducer;
