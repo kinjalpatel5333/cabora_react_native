@@ -224,9 +224,11 @@ export default function LoginScreen({ navigation }) {
           style={styles.glow}
           resizeMode="contain"
         />
-        <Image source={images.walkLogo} style={styles.logo} resizeMode="contain" />
+        <View style={styles.logoContainer}>
+          <Image source={images.cabOraMark} style={styles.logoImage} resizeMode="contain" />
+        </View>
         <View style={styles.badge}>
-          <Feather name="shield" size={12} color={colors.orange[400]} />
+          <Feather name="shield" size={12} color={colors.orange[425]} />
           <Text style={styles.badgeLabel}>SECURE OTP LOGIN</Text>
         </View>
         <Text style={styles.title}>Let's get you{'\n'}moving.</Text>
@@ -272,7 +274,7 @@ export default function LoginScreen({ navigation }) {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   accessibilityRole="button"
-                  onPress={() => setCountryPickerVisible(true)}
+                  onPress={() => setCountryPickerVisible(false)}
                   style={styles.prefix}>
                   <View style={styles.dial}>
                     {country.code === 'IN' ? (

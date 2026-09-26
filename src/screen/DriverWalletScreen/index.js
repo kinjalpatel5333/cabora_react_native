@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {Platform, ScrollView, StatusBar, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
@@ -19,6 +20,16 @@ export default function DriverWalletScreen() {
   const styles = useThemedStyles(createStyles);
   const { openDrawer } = useSidebar();
   const { showToast } = useToast();
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+    }, [colors.isDark])
+  );
 
   const [selectedPill, setSelectedPill] = useState('4200');
   const [withdrawAmount, setWithdrawAmount] = useState('4,200');
@@ -46,6 +57,11 @@ export default function DriverWalletScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Top Header */}
       <View

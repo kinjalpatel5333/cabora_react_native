@@ -7,7 +7,7 @@ import { FontAwesome6 } from '@react-native-vector-icons/fontawesome6/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, MapBackdrop, Toggle } from '../../components';
+import { Button, Toggle } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useSidebar } from '../../context/SidebarContext';
@@ -16,7 +16,7 @@ import { getHomeTabBarInset } from '../../navigation/homeTabBarMetrics';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setDriverOnline, setDriverRestricted, fetchDriverKycStatus, updateDriverAvailability } from '../../redux/slices/driverSlice';
 import { fetchDriverProfile } from '../../redux/slices/authSlice';
-import { getDriverKycStatusApi } from '../../services/driverApi';
+import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
 import DriverMapBackdrop from '../../components/DriverMapBackdrop';
 
@@ -43,7 +43,20 @@ function formatInr(value) {
 }
 
 function driverDisplayName(user) {
-  const name = (user?.name || user?.fullName || '').trim();
+  const name = (
+    user?.name ||
+    user?.fullName ||
+    user?.personal?.fullName ||
+    user?.personal?.name ||
+    (user?.firstName ? `${user.firstName} ${user.lastName || ''}` : '') ||
+    user?.driver?.name ||
+    user?.driver?.fullName ||
+    user?.driver?.personal?.fullName ||
+    user?.driver?.personalDetails?.fullName ||
+    user?.user?.name ||
+    user?.user?.fullName ||
+    ''
+  ).trim();
   if (!name) {
     return 'Driver';
   }
@@ -76,64 +89,72 @@ export default function DriverHomeScreen() {
   const [kycReason, setKycReason] = useState('Insurance expired — re-upload to unblock');
   const [kycFailState, setKycFailState] = useState(false);
 
+  const loadDriverData = useCallback(async () => {
+    try {
+      dispatch(fetchDriverProfile());
+      const actionRes = await dispatch(fetchDriverKycStatus()).unwrap();
+      const data = actionRes?.data || actionRes;
+      const statusStr = String(data?.status || data?.platform?.kycStatus || '').toUpperCase();
+      const isApproved =
+        data?.platform?.eligibleForRides ??
+        (statusStr === 'APPROVED' || statusStr === 'VERIFIED');
+
+      const isFailed =
+        isApproved === false ||
+        statusStr === 'FAILED' ||
+        statusStr === 'REJECTED' ||
+        statusStr === 'EXPIRED';
+
+      if (isFailed) {
+        setKycFailState(true);
+        dispatch(setDriverRestricted(true));
+        const rawReason =
+          data?.platform?.rejectionReason ||
+          data?.reason ||
+          data?.message;
+        const reasonMsg =
+          typeof rawReason === 'string'
+            ? rawReason
+            : typeof rawReason?.message === 'string'
+              ? rawReason.message
+              : typeof rawReason?.reason === 'string'
+                ? rawReason.reason
+                : 'Insurance expired — re-upload to unblock';
+        setKycReason(reasonMsg);
+      } else {
+        setKycFailState(false);
+        dispatch(setDriverRestricted(false));
+      }
+    } catch (err) {
+      console.warn('loadDriverData error:', err);
+    }
+  }, [dispatch]);
+
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle?.('light-content');
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
-    }, []),
+      loadDriverData();
+    }, [colors.isDark, loadDriverData]),
   );
-
-  useEffect(() => {
-    let isMounted = true;
-    dispatch(fetchDriverProfile());
-
-    const fetchKycStatus = async () => {
-      try {
-        const actionRes = await dispatch(fetchDriverKycStatus()).unwrap();
-        if (!isMounted) return;
-
-        const data = actionRes?.data || actionRes;
-        const statusStr = String(data?.status || data?.platform?.kycStatus || '').toUpperCase();
-        const isApproved =
-          data?.platform?.eligibleForRides ??
-          (statusStr === 'APPROVED' || statusStr === 'VERIFIED');
-
-        const isFailed =
-          isApproved === false ||
-          statusStr === 'FAILED' ||
-          statusStr === 'REJECTED' ||
-          statusStr === 'EXPIRED';
-
-        if (isFailed) {
-          setKycFailState(true);
-          dispatch(setDriverRestricted(true));
-          const reasonMsg =
-            data?.platform?.rejectionReason ||
-            data?.reason ||
-            data?.message ||
-            'Insurance expired — re-upload to unblock';
-          setKycReason(reasonMsg);
-        } else {
-          setKycFailState(false);
-          dispatch(setDriverRestricted(false));
-        }
-      } catch (err) {
-        console.warn('fetchDriverKycStatus error:', err);
-      }
-    };
-
-    fetchKycStatus();
-    return () => {
-      isMounted = false;
-    };
-  }, [dispatch]);
 
   const restricted = Boolean(driver.restricted) || kycFailState;
   const online = Boolean(driver.online) && !restricted;
   const displayName = driverDisplayName(user);
+  const userPhoto = formatImageUrl(
+    user?.photo ||
+    user?.profilePhoto ||
+    user?.avatar ||
+    user?.personal?.profilePhoto ||
+    user?.personal?.photo ||
+    user?.driver?.profilePhoto ||
+    user?.driver?.photo ||
+    user?.driver?.personal?.profilePhoto ||
+    user?.driver?.personalDetails?.profilePhoto
+  );
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],
@@ -192,7 +213,11 @@ export default function DriverHomeScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
       <DriverMapBackdrop showUserDot={false} showDemand={online} />
 
       <View pointerEvents="none" style={styles.mapMarkers}>
@@ -223,8 +248,8 @@ export default function DriverHomeScreen() {
             style={styles.avatar}
             onPress={() => navigation.navigate('Profile')}
             accessibilityRole="button">
-            {user?.photo || user?.profilePhoto ? (
-              <Image source={{ uri: user?.photo || user?.profilePhoto }} style={{ width: 44, height: 44, borderRadius: 22 }} />
+            {Boolean(userPhoto) ? (
+              <Image source={{ uri: userPhoto }} style={{ width: 44, height: 44, borderRadius: 22 }} />
             ) : (
               <Text style={styles.avatarText}>{initials(displayName)}</Text>
             )}
@@ -295,6 +320,26 @@ export default function DriverHomeScreen() {
         </TouchableOpacity>
       ) : null}
 
+      <TouchableOpacity
+        activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel="Search ride request"
+        onPress={() => {
+          const parent = navigation.getParent();
+          if (parent) {
+            parent.navigate('NewRideRequest');
+            return;
+          }
+          navigation.navigate('NewRideRequest');
+        }}
+        style={[styles.locateFab, { bottom: fabBottom + 56 }]}>
+        <Feather
+          name="search"
+          size={20}
+          color={colors.isDark ? colors.white : colors.navy[800]}
+        />
+      </TouchableOpacity>
+
       <TouchableOpacity activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel="Preferred destination"
@@ -341,7 +386,13 @@ export default function DriverHomeScreen() {
                 <View style={styles.statusCopy}>
                   <Text style={styles.restrictedTitle}>You can't go online</Text>
                   <Text style={styles.restrictedSub}>
-                    {kycReason}
+                    {typeof kycReason === 'string'
+                      ? kycReason
+                      : typeof kycReason?.message === 'string'
+                        ? kycReason.message
+                        : typeof kycReason?.reason === 'string'
+                          ? kycReason.reason
+                          : 'Insurance expired — re-upload to unblock'}
                   </Text>
                 </View>
                 <Toggle value={false} locked size="lg" />
@@ -367,7 +418,7 @@ export default function DriverHomeScreen() {
                   size="lg"
                   onValueChange={next => {
                     dispatch(setDriverOnline(false));
-                    dispatch(updateDriverAvailability({ online: false, latitude: 22.7000, longitude: 72.8700 }));
+                    dispatch(updateDriverAvailability({ online: false, latitude: 2.68962, longitude: 72.86399 }));
                   }}
                 />
               </View>
@@ -388,7 +439,7 @@ export default function DriverHomeScreen() {
                   size="lg"
                   onValueChange={next => {
                     dispatch(setDriverOnline(true));
-                    dispatch(updateDriverAvailability({ online: true, latitude: 22.7000, longitude: 72.8700 }));
+                    dispatch(updateDriverAvailability({ online: true, latitude: 2.68962, longitude: 72.86399 }));
                   }}
                 />
               </View>

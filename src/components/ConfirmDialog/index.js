@@ -75,7 +75,17 @@ export default function ConfirmDialog({
           </View>
 
           <Text style={styles.title}>{title}</Text>
-          {message ? <Text style={styles.message}>{message}</Text> : null}
+          {message ? (
+            <Text style={styles.message}>
+              {typeof message === 'string'
+                ? message
+                : typeof message?.message === 'string'
+                  ? message.message
+                  : typeof message?.error === 'string'
+                    ? message.error
+                    : JSON.stringify(message)}
+            </Text>
+          ) : null}
 
           <TouchableOpacity activeOpacity={0.7}
             style={[

@@ -43,7 +43,7 @@ export default function createStyles(colors) {
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.text,
+      color: colors.inputText,
       fontSize: 28,
       letterSpacing: -0.4,
     },
@@ -60,8 +60,8 @@ export default function createStyles(colors) {
       fontSize: 14,
     },
     change: {
-      fontFamily: colors.fonts.sora.bold,
-      color: colors.primary,
+      fontFamily: colors.fonts.sora.semiBold,
+      color: colors.orange[700],
       fontSize: 14,
     },
     boxes: {
@@ -78,16 +78,16 @@ export default function createStyles(colors) {
       borderRadius: 16,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.surface,
+      backgroundColor: colors.isDark ? colors.navy[950] : (colors.navy[50] || '#F3F5FA'),
       borderWidth: 1.5,
-      borderColor: colors.border,
+      borderColor: colors.isDark ? colors.navy[800] : (colors.navy[200] || '#DFE6F0'),
     },
     boxFilled: {
-      backgroundColor: colors.card,
-      borderColor: colors.primary,
+      backgroundColor: colors.surface,
+      borderColor: colors.isDark ? colors.navy[700] : (colors.navy[300] || '#C3CFDF'),
     },
     boxFocused: {
-      backgroundColor: colors.card,
+      backgroundColor: colors.surface,
       borderColor: colors.primary,
     },
     boxError: {
@@ -125,7 +125,7 @@ export default function createStyles(colors) {
     },
     hintRow: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       gap: 6,
       marginBottom: 14,
     },
@@ -170,13 +170,11 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 6,
-      paddingVertical: 8,
-      paddingHorizontal: 12,
+      gap: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 16,
       borderRadius: 999,
-      backgroundColor: colors.surface,
-      borderWidth: colors.isDark ? 1 : 0,
-      borderColor: colors.border,
+      backgroundColor: colors.isDark ? colors.navy[900] : (colors.navy[50] || '#F3F5FA'),
     },
     chipResend: {
       backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
@@ -184,7 +182,7 @@ export default function createStyles(colors) {
     chipLabel: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 13,
-      color: colors.muted,
+      color: colors.text,
     },
     chipLabelResend: {
       color: colors.primary,

@@ -169,7 +169,7 @@ export default function createStyles(colors) {
     },
     ruleRow: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       gap: 10,
       marginBottom: 12,
     },

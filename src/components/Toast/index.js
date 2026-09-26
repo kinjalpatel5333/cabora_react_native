@@ -86,6 +86,17 @@ function AnimatedToastItem({item, onDismiss}) {
     outputRange: [0.96, 1],
   });
 
+  const displayMessage =
+    typeof item.message === 'string'
+      ? item.message
+      : typeof item.message?.message === 'string'
+        ? item.message.message
+        : typeof item.message?.error === 'string'
+          ? item.message.error
+          : typeof item.message?.detail === 'string'
+            ? item.message.detail
+            : JSON.stringify(item.message || '');
+
   return (
     <Animated.View
       style={[
@@ -106,7 +117,7 @@ function AnimatedToastItem({item, onDismiss}) {
           size={22}
           circle
         />
-        <Text style={styles.message}>{item.message}</Text>
+        <Text style={styles.message}>{displayMessage}</Text>
       </TouchableOpacity>
     </Animated.View>
   );

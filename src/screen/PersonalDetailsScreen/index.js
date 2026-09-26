@@ -1,25 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {DatePickerModal} from '../../components';
-import {useToast} from '../../components/Toast';
+import { useFocusEffect } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { Button, DatePickerModal, Header } from '../../components';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {fetchPassengerProfile, fetchUserProfile, setUser} from '../../redux/slices/authSlice';
-import {updatePassengerProfileApi} from '../../services/userApi';
-import {extractUserProfile} from '../../utils/user';
+import { useApp } from '../../context/AppContext';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchDriverProfile, fetchPassengerProfile, fetchUserProfile, setUser } from '../../redux/slices/authSlice';
+import { updatePassengerProfileApi } from '../../services/userApi';
+import { updateDriverProfileApi } from '../../services/driverApi';
+import { extractUserProfile } from '../../utils/user';
 import createStyles from './style';
 
 function formatDob(text) {
@@ -84,32 +87,62 @@ function convertDobToUi(dobString) {
   return str;
 }
 
-export default function PersonalDetailsScreen({navigation}) {
+export default function PersonalDetailsScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.auth.user);
 
+  const isDriver =
+    route?.params?.isDriver ||
+    route?.params?.role === 'driver' ||
+    currentUser?.role === 'driver' ||
+    currentUser?.currentRole === 'DRIVER' ||
+    currentUser?.isDriver === true;
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
+      if (isDriver) {
+        dispatch(fetchDriverProfile());
+      } else {
+        dispatch(fetchPassengerProfile());
+      }
+    }, [colors.isDark, isDriver, dispatch]),
+  );
+
+  const initialExtracted = useMemo(() => {
+    return extractUserProfile(currentUser, currentUser?.phone || currentUser?.mobile || '');
+  }, [currentUser]);
+
   const [name, setName] = useState(
-    currentUser?.name || currentUser?.fullName || '',
+    initialExtracted.name || currentUser?.name || currentUser?.fullName || '',
   );
   const [dob, setDob] = useState(
-    currentUser?.dob ? convertDobToUi(currentUser.dob) : '',
+    initialExtracted.dob
+      ? convertDobToUi(initialExtracted.dob)
+      : currentUser?.dob
+        ? convertDobToUi(currentUser.dob)
+        : '',
   );
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
   const [gender, setGender] = useState(
-    (currentUser?.gender || '').toLowerCase(),
+    (initialExtracted.gender || currentUser?.gender || '').toLowerCase(),
   );
   const [phone, setPhone] = useState(
-    currentUser?.phone || currentUser?.mobile || '',
+    initialExtracted.phone || currentUser?.phone || currentUser?.mobile || '',
   );
   const [email, setEmail] = useState(
-    currentUser?.email || '',
+    initialExtracted.email || currentUser?.email || '',
   );
   const [photo, setPhoto] = useState(
-    currentUser?.photo || currentUser?.profilePhoto || currentUser?.avatar || null,
+    initialExtracted.photo || currentUser?.photo || currentUser?.profilePhoto || currentUser?.avatar || null,
   );
   const [photoAsset, setPhotoAsset] = useState(null);
   const [emailVerified, setEmailVerified] = useState(false);
@@ -117,24 +150,13 @@ export default function PersonalDetailsScreen({navigation}) {
 
   useEffect(() => {
     if (currentUser) {
-      if (currentUser.name || currentUser.fullName) {
-        setName(currentUser.name || currentUser.fullName);
-      }
-      if (currentUser.dob) {
-        setDob(convertDobToUi(currentUser.dob));
-      }
-      if (currentUser.gender) {
-        setGender((currentUser.gender || '').toLowerCase());
-      }
-      if (currentUser.email) {
-        setEmail(currentUser.email);
-      }
-      if (currentUser.phone || currentUser.mobile) {
-        setPhone(currentUser.phone || currentUser.mobile);
-      }
-      if (currentUser.photo || currentUser.profilePhoto || currentUser.avatar) {
-        setPhoto(currentUser.photo || currentUser.profilePhoto || currentUser.avatar);
-      }
+      const p = extractUserProfile(currentUser, currentUser.phone || currentUser.mobile);
+      if (p.name) setName(p.name);
+      if (p.dob) setDob(convertDobToUi(p.dob));
+      if (p.gender) setGender((p.gender || '').toLowerCase());
+      if (p.email) setEmail(p.email);
+      if (p.mobile || p.phone) setPhone(p.mobile || p.phone);
+      if (p.photo || p.profilePhoto) setPhoto(p.photo || p.profilePhoto);
     }
   }, [currentUser]);
 
@@ -158,21 +180,21 @@ export default function PersonalDetailsScreen({navigation}) {
 
   const handleSave = async () => {
     if (!name.trim()) {
-      showToast({type: 'error', message: 'Please enter your full name'});
+      showToast({ type: 'error', message: 'Please enter your full name' });
       return;
     }
     setIsSaving(true);
     try {
       const formData = new FormData();
       formData.append('name', name.trim());
+      formData.append('fullName', name.trim());
       formData.append('gender', gender || '');
+      formData.append('email', email ? email.trim() : '');
 
       const apiDob = convertDobToApi(dob.trim());
       if (apiDob) {
         formData.append('dob', apiDob);
-      }
-      if (email.trim()) {
-        formData.append('email', email.trim());
+        formData.append('dateOfBirth', apiDob);
       }
 
       if (photoAsset?.uri) {
@@ -187,21 +209,30 @@ export default function PersonalDetailsScreen({navigation}) {
         });
       }
 
-      const res = await updatePassengerProfileApi(formData);
+      const res = isDriver
+        ? await updateDriverProfileApi(formData)
+        : await updatePassengerProfileApi(formData);
       const profile = extractUserProfile(res, phone);
 
       const updatedUser = {
+        ...currentUser,
         name: profile?.name || name.trim(),
+        fullName: profile?.name || name.trim(),
         dob: profile?.dob || apiDob,
         gender: profile?.gender || gender || '',
         email: profile?.email || email.trim(),
         photo: profile?.photo || photo,
+        profilePhoto: profile?.photo || photo,
         phone: profile?.phone || phone,
+        mobile: profile?.phone || phone,
       };
 
       dispatch(setUser(updatedUser));
-      dispatch(fetchPassengerProfile());
-      dispatch(fetchUserProfile());
+      if (isDriver) {
+        await dispatch(fetchDriverProfile()).unwrap();
+      } else {
+        await dispatch(fetchPassengerProfile()).unwrap();
+      }
 
       showToast({
         type: 'success',
@@ -209,7 +240,7 @@ export default function PersonalDetailsScreen({navigation}) {
       });
       navigation.goBack();
     } catch (err) {
-      console.error('Failed to update passenger profile:', err);
+      console.error('Failed to update profile:', err);
       showToast({
         type: 'error',
         message: err?.message || 'Failed to update details',
@@ -220,52 +251,46 @@ export default function PersonalDetailsScreen({navigation}) {
   };
 
   const handleChangePhone = () => {
-    showToast({type: 'info', message: 'Phone number cannot be changed here'});
+    showToast({ type: 'info', message: 'Phone number cannot be changed here' });
   };
 
   const handleVerifyEmail = () => {
     if (!email.trim()) {
-      showToast({type: 'error', message: 'Please enter a valid email'});
+      showToast({ type: 'error', message: 'Please enter a valid email' });
       return;
     }
     setEmailVerified(true);
-    showToast({type: 'success', message: 'Verification link sent to ' + email});
+    showToast({ type: 'success', message: 'Verification link sent to ' + email });
   };
 
   return (
     <View style={styles.root}>
+      <StatusBar
+        barStyle={colors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
       {/* Header */}
-      <View style={[styles.header, {paddingTop: Math.max(insets.top, 14)}]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
-          style={styles.backBtn}
-          accessibilityRole="button"
-          accessibilityLabel="Go back">
-          <Feather
-            name="arrow-left"
-            size={24}
-            color={colors.navy?.[900] || '#0F1E36'}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Personal details</Text>
-        <View style={styles.headerRightPlaceholder} />
-      </View>
+      <Header
+        title="Personal details"
+        showBack
+        onBackPress={() => navigation.goBack()}
+      />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{flex: 1}}>
+        style={{ flex: 1 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[
             styles.scrollContent,
-            {paddingBottom: Math.max(insets.bottom, 20) + 90},
+            { paddingBottom: Math.max(insets.bottom, 20) + 90 },
           ]}>
           {/* Avatar Section */}
           <View style={styles.avatarSection}>
             <View style={styles.avatarContainer}>
               {photo ? (
-                <Image source={{uri: photo}} style={styles.avatarImage} />
+                <Image source={{ uri: photo }} style={styles.avatarImage} />
               ) : (
                 <Feather
                   name="user"
@@ -289,7 +314,9 @@ export default function PersonalDetailsScreen({navigation}) {
               <Text style={styles.changePhotoText}>Change photo</Text>
             </TouchableOpacity>
             <Text style={styles.changePhotoSub}>
-              Drivers see your photo and first name only
+              {isDriver
+                ? 'Riders see your photo and full name'
+                : 'Drivers see your photo and first name only'}
             </Text>
           </View>
 
@@ -307,7 +334,9 @@ export default function PersonalDetailsScreen({navigation}) {
               />
             </View>
             <Text style={styles.helperText}>
-              Drivers greet you by your first name
+              {isDriver
+                ? 'Riders identify you by your name and photo'
+                : 'Drivers greet you by your first name'}
             </Text>
           </View>
 
@@ -347,6 +376,8 @@ export default function PersonalDetailsScreen({navigation}) {
             <TouchableOpacity
               activeOpacity={0.85}
               style={styles.inputBox}
+              accessibilityRole="button"
+              accessibilityLabel="Open date picker"
               onPress={() => setDobPickerVisible(true)}>
               <Feather
                 name="calendar"
@@ -355,16 +386,18 @@ export default function PersonalDetailsScreen({navigation}) {
                 style={styles.inputIcon}
               />
               <TextInput
-                style={styles.inputText}
+                style={[styles.inputText, styles.margin10]}
                 value={dob}
-                onChangeText={text => setDob(formatDob(text))}
                 placeholder="DD / MM / YYYY"
                 placeholderTextColor={colors.textMuted || '#94A3B8'}
-                keyboardType="numeric"
+                pointerEvents="none"
+                editable={false}
               />
             </TouchableOpacity>
             <Text style={styles.helperText}>
-              Never shown to drivers — used for age-restricted offers
+              {isDriver
+                ? 'Used for driver verification and age requirements'
+                : 'Never shown to drivers — used for age-restricted offers'}
             </Text>
           </View>
 
@@ -431,7 +464,9 @@ export default function PersonalDetailsScreen({navigation}) {
               color={colors.textMuted || '#64748B'}
             />
             <Text style={styles.securityText}>
-              Only your first name, photo and rating reach drivers.
+              {isDriver
+                ? 'Your verified profile details build trust and safety with riders.'
+                : 'Only your first name, photo and rating reach drivers.'}
             </Text>
           </View>
         </ScrollView>
@@ -441,10 +476,11 @@ export default function PersonalDetailsScreen({navigation}) {
       <DatePickerModal
         visible={dobPickerVisible}
         onClose={() => setDobPickerVisible(false)}
+        value={dob}
         initialDate={dob}
         onSelectDate={selectedDate => {
           if (selectedDate) {
-            setDob(convertDobToUi(selectedDate));
+            setDob(selectedDate);
           }
         }}
       />
@@ -453,28 +489,24 @@ export default function PersonalDetailsScreen({navigation}) {
       <View
         style={[
           styles.bottomBar,
-          {paddingBottom: Math.max(insets.bottom, 12) + 8},
+          { paddingBottom: Math.max(insets.bottom, 12) + 8 },
         ]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.cancelButton}
+        <Button
+          title="Cancel"
+          variant="outline"
           onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Cancel">
-          <Text style={styles.cancelButtonText}>Cancel</Text>
-        </TouchableOpacity>
+          fullWidth={false}
+          style={styles.cancelButton}
+        />
 
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.saveButton}
+        <Button
+          title="Save changes"
           onPress={handleSave}
+          loading={isSaving}
           disabled={isSaving}
-          accessibilityRole="button"
-          accessibilityLabel="Save changes">
-          <Text style={styles.saveButtonText}>
-            {isSaving ? 'Saving...' : 'Save changes'}
-          </Text>
-        </TouchableOpacity>
+          fullWidth={false}
+          style={styles.saveButton}
+        />
       </View>
     </View>
   );

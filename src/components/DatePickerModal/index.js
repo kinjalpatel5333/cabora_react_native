@@ -25,6 +25,7 @@ export default function DatePickerModal({
   onClose,
   onSelectDate,
   value,
+  initialDate,
   title = 'Select Date',
   minYear = 1940,
   maxYear = 2035,
@@ -42,7 +43,8 @@ export default function DatePickerModal({
     return list;
   }, [minYear, maxYear]);
 
-  const initialParsed = useMemo(() => parseDateString(value), [value]);
+  const activeDateValue = value || initialDate;
+  const initialParsed = useMemo(() => parseDateString(activeDateValue), [activeDateValue]);
 
   const [year, setYear] = useState(() => {
     const y = initialParsed.getFullYear();
@@ -53,7 +55,7 @@ export default function DatePickerModal({
 
   useEffect(() => {
     if (visible) {
-      const parsed = parseDateString(value);
+      const parsed = parseDateString(activeDateValue);
       const clampedYear = Math.min(Math.max(parsed.getFullYear(), minYear), maxYear);
       setYear(clampedYear);
       setMonthIndex(parsed.getMonth());
@@ -70,7 +72,7 @@ export default function DatePickerModal({
         }
       });
     }
-  }, [visible, value, minYear, maxYear, yearsList]);
+  }, [visible, activeDateValue, minYear, maxYear, yearsList]);
 
   // Calculate days in current month
   const daysInMonth = useMemo(() => {

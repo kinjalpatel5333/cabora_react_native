@@ -9,7 +9,7 @@ import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
 import {setAuthToken, getAuthToken} from '../../config/apicall';
 import {getMeApi, logoutApi} from '../../services/authApi';
 import {getPassengerProfileApi} from '../../services/userApi';
-import {getDriverProfileApi} from '../../services/driverApi';
+import {getDriverProfileApi, getOnboardingStatusApi} from '../../services/driverApi';
 import {extractUserProfile} from '../../utils/user';
 
 const initialState = {
@@ -224,20 +224,25 @@ export const loginWithPhone = createAsyncThunk(
         rawUser?.isOnBoarding === false ||
         rawUser?.status === 'ACTIVE';
 
+      const extracted = extractUserProfile(rawUser, phone);
+
       const sessionUser = {
         ...(rawUser || {}),
-        id: rawUser?._id || rawUser?.id || `phone-${phone}`,
-        _id: rawUser?._id || rawUser?.id,
-        name: rawUser?.name || rawUser?.fullName || name || (isDriver ? 'Driver' : 'User'),
-        email: rawUser?.email || email || `${phone}@cabora.local`,
+        ...extracted,
+        id: rawUser?._id || rawUser?.id || extracted.id || `phone-${phone}`,
+        _id: rawUser?._id || rawUser?.id || extracted.id,
+        name: extracted.name || rawUser?.name || rawUser?.fullName || name || (isDriver ? 'Driver' : 'User'),
+        fullName: extracted.name || rawUser?.fullName || rawUser?.name || name || (isDriver ? 'Driver' : 'User'),
+        email: extracted.email || rawUser?.email || email || `${phone}@cabora.local`,
         phone: rawUser?.mobile || rawUser?.phone || phone,
         mobile: rawUser?.mobile || rawUser?.phone || phone,
         role: roleStr,
         currentRole: rawUser?.currentRole || roleStr.toUpperCase(),
         roles: rawUser?.roles || [roleStr.toUpperCase()],
-        dob: rawUser?.dob || dob || null,
-        photo: rawUser?.photo || rawUser?.profilePhoto || photo || null,
-        gender: rawUser?.gender || gender || null,
+        dob: extracted.dob || rawUser?.dob || dob || null,
+        photo: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
+        profilePhoto: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
+        gender: extracted.gender || rawUser?.gender || gender || null,
         kycComplete: onboardingFinished || !isDriver,
         kycDocuments: rawUser?.kycDocuments || {},
       };
@@ -359,25 +364,50 @@ export const fetchDriverProfile = createAsyncThunk(
   'auth/fetchDriverProfile',
   async (_, {getState, rejectWithValue}) => {
     try {
-      const res = await getDriverProfileApi();
+      let res;
+      try {
+        res = await getDriverProfileApi();
+      } catch (e1) {
+        console.warn('getDriverProfileApi fallback to getOnboardingStatusApi:', e1);
+        res = await getOnboardingStatusApi();
+      }
       const currentUser = getState().auth.user || {};
       const profile = extractUserProfile(res, currentUser.phone || currentUser.mobile);
       const rootData = res?.data || res;
 
-      if (profile) {
-        const mergedUser = {
-          ...currentUser,
-          ...profile,
-          ...(rootData?.driver || {}),
-          ...(rootData?.user || {}),
-        };
-        const token = getState().auth.token;
-        if (token) {
-          await persistSession(token, mergedUser);
-        }
-        return mergedUser;
+      const resolvedName =
+        profile?.name ||
+        rootData?.personal?.fullName ||
+        rootData?.personal?.name ||
+        currentUser.name ||
+        currentUser.fullName ||
+        '';
+
+      const resolvedPhoto =
+        profile?.photo ||
+        rootData?.personal?.profilePhoto ||
+        rootData?.personal?.photo ||
+        currentUser.photo ||
+        currentUser.profilePhoto ||
+        '';
+
+      const mergedUser = {
+        ...currentUser,
+        ...(rootData?.driver || {}),
+        ...(rootData?.user || {}),
+        ...(rootData?.personal || {}),
+        ...profile,
+        name: resolvedName,
+        fullName: resolvedName,
+        photo: resolvedPhoto,
+        profilePhoto: resolvedPhoto,
+      };
+
+      const token = getState().auth.token;
+      if (token) {
+        await persistSession(token, mergedUser);
       }
-      return rootData;
+      return mergedUser;
     } catch (err) {
       return rejectWithValue(err?.message || 'Failed to fetch driver profile');
     }

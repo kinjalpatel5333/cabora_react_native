@@ -31,11 +31,18 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'space-between',
     },
-    logo: {
+    logoContainer: {
       width: 40,
       height: 40,
       borderRadius: 12,
+      backgroundColor: colors.navy[850] || '#0F1E36',
+      alignItems: 'center',
+      justifyContent: 'center',
       overflow: 'hidden',
+    },
+    logoImage: {
+      width: 35,
+      height: 35,
     },
     skip: {
       flexDirection: 'row',

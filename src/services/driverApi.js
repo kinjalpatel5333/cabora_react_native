@@ -1,6 +1,6 @@
-import {apiGet, apiPost, apiPut} from '../config/apicall';
-import {apiPostFormData, apiPutFormData} from '../config/apicallFormData';
-import {DRIVER_ENDPOINTS, DRIVER_ONBOARDING_ENDPOINTS} from '../config/endpoints';
+import { apiGet, apiPost, apiPut } from '../config/apicall';
+import { apiPostFormData, apiPutFormData } from '../config/apicallFormData';
+import { DRIVER_ENDPOINTS, DRIVER_ONBOARDING_ENDPOINTS } from '../config/endpoints';
 
 export function registerDriverApi(formData) {
   return apiPostFormData(DRIVER_ENDPOINTS.REGISTRATION, formData);
@@ -37,6 +37,10 @@ export function getOnboardingStatusApi() {
 
 export function getDriverProfileApi() {
   return apiGet(DRIVER_ENDPOINTS.PROFILE);
+}
+
+export function updateDriverProfileApi(formData) {
+  return apiPutFormData(DRIVER_ONBOARDING_ENDPOINTS.PERSONAL, formData);
 }
 
 export function updateDriverStatusApi(payload) {
