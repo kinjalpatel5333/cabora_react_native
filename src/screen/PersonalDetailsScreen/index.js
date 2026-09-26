@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -22,7 +23,9 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchDriverProfile, fetchPassengerProfile, fetchUserProfile, setUser } from '../../redux/slices/authSlice';
 import { updatePassengerProfileApi } from '../../services/userApi';
 import { updateDriverProfileApi } from '../../services/driverApi';
-import { extractUserProfile } from '../../utils/user';
+import { extractUserProfile, formatImageUrl } from '../../utils/user';
+import { storageSetItem } from '../../utils/storage';
+import { STORAGE_KEYS } from '../../config/setting';
 import createStyles from './style';
 
 function formatDob(text) {
@@ -102,6 +105,10 @@ export default function PersonalDetailsScreen({ navigation, route }) {
     currentUser?.currentRole === 'DRIVER' ||
     currentUser?.isDriver === true;
 
+  const scrollViewRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle?.(colors.isDark ? 'light-content' : 'dark-content');
@@ -109,6 +116,9 @@ export default function PersonalDetailsScreen({ navigation, route }) {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo?.({ y: 0, animated: false });
+      }, 50);
       if (isDriver) {
         if (typeof fetchDriverProfile === 'function') {
           dispatch(fetchDriverProfile());
@@ -151,6 +161,36 @@ export default function PersonalDetailsScreen({ navigation, route }) {
   const [photoAsset, setPhotoAsset] = useState(null);
   const [emailVerified, setEmailVerified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [focusedInput, setFocusedInput] = useState(null);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      e => {
+        const h = e?.endCoordinates?.height || 0;
+        setKeyboardHeight(h);
+      },
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (keyboardHeight > 0 && focusedInput === 'email') {
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [keyboardHeight, focusedInput]);
 
   useEffect(() => {
     if (currentUser) {
@@ -191,52 +231,73 @@ export default function PersonalDetailsScreen({ navigation, route }) {
     try {
       const formData = new FormData();
       formData.append('name', name.trim());
-      formData.append('fullName', name.trim());
-      formData.append('gender', gender || '');
-      formData.append('email', email ? email.trim() : '');
-
+      if (gender) {
+        formData.append('gender', gender.trim().toUpperCase());
+      }
       const apiDob = convertDobToApi(dob.trim());
       if (apiDob) {
         formData.append('dob', apiDob);
-        formData.append('dateOfBirth', apiDob);
+      }
+      if (email && email.trim()) {
+        formData.append('email', email.trim());
       }
 
       if (photoAsset?.uri) {
         const fileUri =
-          Platform.OS === 'ios'
-            ? photoAsset.uri.replace('file://', '')
-            : photoAsset.uri;
-        formData.append('profilePhoto', {
+          Platform.OS === 'android'
+            ? photoAsset.uri
+            : photoAsset.uri.replace('file://', '');
+        const fileObj = {
           uri: fileUri,
           type: photoAsset.type || 'image/jpeg',
-          name: photoAsset.fileName || `photo_${Date.now()}.jpg`,
-        });
+          name: photoAsset.fileName || `profilePhoto_${Date.now()}.jpg`,
+        };
+        formData.append('profilePhoto', fileObj);
       }
 
-      const res = isDriver
-        ? await updateDriverProfileApi(formData)
-        : await updatePassengerProfileApi(formData);
-      const profile = extractUserProfile(res, phone);
-
-      const updatedUser = {
+      const updatedPhoto = photoAsset?.uri || photo || currentUser?.photo || '';
+      let updatedUser = {
         ...currentUser,
-        name: profile?.name || name.trim(),
-        fullName: profile?.name || name.trim(),
-        dob: profile?.dob || apiDob,
-        gender: profile?.gender || gender || '',
-        email: profile?.email || email.trim(),
-        photo: profile?.photo || photo,
-        profilePhoto: profile?.photo || photo,
-        phone: profile?.phone || phone,
-        mobile: profile?.phone || phone,
+        name: name.trim(),
+        fullName: name.trim(),
+        dob: apiDob || currentUser?.dob || '',
+        gender: gender ? gender.trim().toUpperCase() : currentUser?.gender || '',
+        email: email ? email.trim() : currentUser?.email || '',
+        photo: updatedPhoto,
+        profilePhoto: updatedPhoto,
+        avatar: updatedPhoto,
+        phone: phone || currentUser?.phone || '',
+        mobile: phone || currentUser?.mobile || '',
       };
 
-      dispatch(setUser(updatedUser));
-      if (isDriver) {
-        await dispatch(fetchDriverProfile()).unwrap();
-      } else {
-        await dispatch(fetchPassengerProfile()).unwrap();
+      try {
+        const res = isDriver
+          ? await updateDriverProfileApi(formData)
+          : await updatePassengerProfileApi(formData);
+        const profile = extractUserProfile(res, phone);
+        if (profile?.name) updatedUser.name = profile.name;
+        if (profile?.dob) updatedUser.dob = profile.dob;
+        if (profile?.gender) updatedUser.gender = profile.gender;
+        if (profile?.email) updatedUser.email = profile.email;
+        if (profile?.photo) {
+          updatedUser.photo = profile.photo;
+          updatedUser.profilePhoto = profile.photo;
+          updatedUser.avatar = profile.photo;
+        }
+      } catch (apiErr) {
+        console.warn('API profile update error, persisting local profile changes:', apiErr);
       }
+
+      await storageSetItem(STORAGE_KEYS.user, updatedUser).catch(() => {});
+      dispatch(setUser(updatedUser));
+
+      try {
+        if (isDriver) {
+          await dispatch(fetchDriverProfile()).unwrap();
+        } else {
+          await dispatch(fetchPassengerProfile()).unwrap();
+        }
+      } catch (_) {}
 
       showToast({
         type: 'success',
@@ -285,10 +346,16 @@ export default function PersonalDetailsScreen({ navigation, route }) {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}>
         <ScrollView
+          ref={scrollViewRef}
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[
             styles.scrollContent,
-            { paddingBottom: Math.max(insets.bottom, 20) + 90 },
+            {
+              paddingBottom:
+                Math.max(insets.bottom, 20) +
+                (keyboardHeight > 0 ? keyboardHeight + 10 : 120),
+            },
           ]}>
           {/* Avatar Section */}
           <View style={styles.avatarSection}>
@@ -299,7 +366,7 @@ export default function PersonalDetailsScreen({ navigation, route }) {
                 <Feather
                   name="user"
                   size={42}
-                  color={colors.blue?.gray || '#8EA4BE'}
+                  color={colors.textMuted}
                 />
               )}
               <TouchableOpacity
@@ -327,16 +394,25 @@ export default function PersonalDetailsScreen({ navigation, route }) {
           {/* Full Name */}
           <View style={styles.formGroup}>
             <Text style={styles.label}>Full name *</Text>
-            <View style={styles.inputBox}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => nameInputRef.current?.focus()}
+              style={[
+                styles.inputBox,
+                focusedInput === 'name' && styles.inputBoxFocused,
+              ]}>
               <TextInput
+                ref={nameInputRef}
                 style={styles.inputText}
                 value={name}
                 onChangeText={setName}
                 placeholder="Enter full name"
-                placeholderTextColor={colors.textMuted || '#94A3B8'}
+                placeholderTextColor={colors.textMuted}
                 autoCapitalize="words"
+                onFocus={() => setFocusedInput('name')}
+                onBlur={() => setFocusedInput(null)}
               />
-            </View>
+            </TouchableOpacity>
             <Text style={styles.helperText}>
               {isDriver
                 ? 'Riders identify you by your name and photo'
@@ -386,14 +462,14 @@ export default function PersonalDetailsScreen({ navigation, route }) {
               <Feather
                 name="calendar"
                 size={18}
-                color={colors.navy?.[900] || '#0F1E36'}
+                color={colors.text}
                 style={styles.inputIcon}
               />
               <TextInput
                 style={[styles.inputText, styles.margin10]}
                 value={dob}
                 placeholder="DD / MM / YYYY"
-                placeholderTextColor={colors.textMuted || '#94A3B8'}
+                placeholderTextColor={colors.textMuted}
                 pointerEvents="none"
                 editable={false}
               />
@@ -434,15 +510,34 @@ export default function PersonalDetailsScreen({ navigation, route }) {
           {/* Email */}
           <View style={styles.formGroup}>
             <Text style={styles.label}>Email</Text>
-            <View style={styles.inputBox}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => {
+                emailInputRef.current?.focus();
+                setTimeout(() => {
+                  scrollViewRef.current?.scrollToEnd({ animated: true });
+                }, 120);
+              }}
+              style={[
+                styles.inputBox,
+                focusedInput === 'email' && styles.inputBoxFocused,
+              ]}>
               <TextInput
+                ref={emailInputRef}
                 style={styles.inputText}
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Enter your email"
-                placeholderTextColor={colors.textMuted || '#94A3B8'}
+                placeholderTextColor={colors.textMuted}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                onFocus={() => {
+                  setFocusedInput('email');
+                  setTimeout(() => {
+                    scrollViewRef.current?.scrollToEnd({ animated: true });
+                  }, 120);
+                }}
+                onBlur={() => setFocusedInput(null)}
               />
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -454,7 +549,7 @@ export default function PersonalDetailsScreen({ navigation, route }) {
                   {emailVerified ? 'Verified' : 'Verify'}
                 </Text>
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
             <Text style={styles.helperText}>
               Add it to get receipts and GST invoices by email
             </Text>
@@ -465,7 +560,7 @@ export default function PersonalDetailsScreen({ navigation, route }) {
             <Feather
               name="lock"
               size={14}
-              color={colors.textMuted || '#64748B'}
+              color={colors.textMuted}
             />
             <Text style={styles.securityText}>
               {isDriver
@@ -490,28 +585,32 @@ export default function PersonalDetailsScreen({ navigation, route }) {
       />
 
       {/* Bottom Bar */}
-      <View
-        style={[
-          styles.bottomBar,
-          { paddingBottom: Math.max(insets.bottom, 12) + 8 },
-        ]}>
-        <Button
-          title="Cancel"
-          variant="outline"
-          onPress={() => navigation.goBack()}
-          fullWidth={false}
-          style={styles.cancelButton}
-        />
+      {keyboardHeight === 0 && (
+        <View
+          style={[
+            styles.bottomBar,
+            { paddingBottom: Math.max(insets.bottom, 12) + 8 },
+          ]}>
+          <Button
+            title="Cancel"
+            variant="outline"
+            onPress={() => navigation.goBack()}
+            fullWidth={false}
+            style={styles.cancelButton}
+            textStyle={styles.cancelButtonText}
+          />
 
-        <Button
-          title="Save changes"
-          onPress={handleSave}
-          loading={isSaving}
-          disabled={isSaving}
-          fullWidth={false}
-          style={styles.saveButton}
-        />
-      </View>
+          <Button
+            title="Save changes"
+            onPress={handleSave}
+            loading={isSaving}
+            disabled={isSaving}
+            fullWidth={false}
+            style={styles.saveButton}
+            textStyle={styles.saveButtonText}
+          />
+        </View>
+      )}
     </View>
   );
 }

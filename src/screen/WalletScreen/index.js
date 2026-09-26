@@ -11,7 +11,7 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
-import {getWalletBalanceApi} from '../../services/walletApi';
+import {getWalletBalanceApi, getLocalWalletTransactions} from '../../services/walletApi';
 import createStyles from './style';
 
 const TABS = PASSENGER_WALLET_TABS;
@@ -46,6 +46,7 @@ export default function WalletScreen() {
 
   const [balance, setBalance] = useState(0);
   const [currency, setCurrency] = useState('₹');
+  const [localTxns, setLocalTxns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -56,7 +57,12 @@ export default function WalletScreen() {
       } else {
         setLoading(true);
       }
-      const res = await getWalletBalanceApi();
+      const [res, storedTxns] = await Promise.all([
+        getWalletBalanceApi(),
+        getLocalWalletTransactions(),
+      ]);
+      setLocalTxns(storedTxns || []);
+
       const data = res?.data || res;
       const rawBalance =
         data?.balance ??
@@ -96,14 +102,15 @@ export default function WalletScreen() {
   }, [balance, currency]);
 
   const txns = useMemo(() => {
+    const combined = [...localTxns, ...TXNS];
     if (tab === 'credits') {
-      return TXNS.filter(t => t.type === 'credit');
+      return combined.filter(t => t.type === 'credit');
     }
     if (tab === 'debits') {
-      return TXNS.filter(t => t.type === 'debit');
+      return combined.filter(t => t.type === 'debit');
     }
-    return TXNS;
-  }, [tab]);
+    return combined;
+  }, [tab, localTxns]);
 
   const iconColors = {
     navy: {

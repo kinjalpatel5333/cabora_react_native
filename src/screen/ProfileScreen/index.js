@@ -11,6 +11,7 @@ import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {fetchPassengerProfile, fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
+import {formatImageUrl} from '../../utils/user';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -94,7 +95,7 @@ export default function ProfileScreen({navigation}) {
         : `+91 ${String(user.phone || user.mobile)}`)
     : '+91 98765 43210';
   const displayEmail = user?.email || 'user@example.com';
-  const displayPhoto = user?.photo || user?.profilePhoto || user?.avatar;
+  const displayPhoto = formatImageUrl(user?.photo || user?.profilePhoto || user?.avatar);
 
   const initials = displayName
     .trim()

@@ -39,16 +39,14 @@ export default function RootNavigator() {
 
   const runBoot = useCallback(async () => {
     setPhase('loading');
-    const [isOnline] = await Promise.all([
-      checkInternet(3500),
-      dispatch(bootstrapAuth()),
-      dispatch(bootstrapApp()),
-      wait(MIN_SPLASH_MS),
-    ]);
-
-    if (!isOnline) {
-      setPhase('offline');
-      return;
+    try {
+      await Promise.all([
+        dispatch(bootstrapAuth()),
+        dispatch(bootstrapApp()),
+        wait(MIN_SPLASH_MS),
+      ]);
+    } catch (e) {
+      console.warn('Boot bootstrap error:', e);
     }
 
     if (SPLASH.maintenance) {

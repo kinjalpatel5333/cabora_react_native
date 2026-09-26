@@ -4,7 +4,7 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.surface,
+      backgroundColor: colors.background,
     },
     body: {
       flex: 1,
@@ -17,8 +17,8 @@ export default function createStyles(colors) {
       width: 40,
       height: 40,
       borderRadius: 20,
-      backgroundColor: colors.gray[100],
-      borderWidth: colors.isDark ? 1 : 0,
+      backgroundColor: colors.isDark ? colors.card : colors.gray[100],
+      borderWidth: 1,
       borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
@@ -43,7 +43,7 @@ export default function createStyles(colors) {
     },
     title: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.inputText,
+      color: colors.text,
       fontSize: 28,
       letterSpacing: -0.4,
     },
@@ -56,12 +56,12 @@ export default function createStyles(colors) {
     },
     metaText: {
       fontFamily: colors.fonts.sora.regular,
-      color: colors.gray[500],
+      color: colors.textMuted,
       fontSize: 14,
     },
     change: {
       fontFamily: colors.fonts.sora.semiBold,
-      color: colors.orange[700],
+      color: colors.primary,
       fontSize: 14,
     },
     boxes: {
@@ -78,13 +78,13 @@ export default function createStyles(colors) {
       borderRadius: 16,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.isDark ? colors.navy[950] : (colors.navy[50] || '#F3F5FA'),
+      backgroundColor: colors.card,
       borderWidth: 1.5,
-      borderColor: colors.isDark ? colors.navy[800] : (colors.navy[200] || '#DFE6F0'),
+      borderColor: colors.border,
     },
     boxFilled: {
       backgroundColor: colors.surface,
-      borderColor: colors.isDark ? colors.navy[700] : (colors.navy[300] || '#C3CFDF'),
+      borderColor: colors.isDark ? colors.border : (colors.navy[300] || '#C3CFDF'),
     },
     boxFocused: {
       backgroundColor: colors.surface,
@@ -174,10 +174,13 @@ export default function createStyles(colors) {
       paddingVertical: 10,
       paddingHorizontal: 16,
       borderRadius: 999,
-      backgroundColor: colors.isDark ? colors.navy[900] : (colors.navy[50] || '#F3F5FA'),
+      backgroundColor: colors.isDark ? colors.surface : (colors.navy[50] || '#F3F5FA'),
+      borderWidth: colors.isDark ? 1 : 0,
+      borderColor: colors.border,
     },
     chipResend: {
-      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
+      borderColor: colors.primary,
     },
     chipLabel: {
       fontFamily: colors.fonts.sora.semiBold,
@@ -195,12 +198,12 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.regular,
       marginTop: 14,
       textAlign: 'center',
-      color: colors.muted,
+      color: colors.textMuted,
       fontSize: 13,
     },
     helpLink: {
       fontFamily: colors.fonts.sora.semiBold,
-      color: colors.gray[600],
+      color: colors.primary,
     },
     verifyButton: {
       minHeight: 56,
@@ -209,7 +212,7 @@ export default function createStyles(colors) {
     // OTP Modal Styles
     otpModalOverlay: {
       flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: colors.alpha.black55,
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 24,
@@ -222,7 +225,7 @@ export default function createStyles(colors) {
       alignItems: 'center',
       borderWidth: 1,
       borderColor: colors.border,
-      shadowColor: '#000',
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOffset: { width: 0, height: 10 },
       shadowOpacity: 0.25,
       shadowRadius: 20,
@@ -232,7 +235,7 @@ export default function createStyles(colors) {
       width: 60,
       height: 60,
       borderRadius: 30,
-      backgroundColor: colors.isDark ? colors.alpha.orange18 : colors.orange[100],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 16,
@@ -247,7 +250,7 @@ export default function createStyles(colors) {
     otpModalSub: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
-      color: colors.muted,
+      color: colors.textMuted,
       textAlign: 'center',
       marginBottom: 20,
     },
@@ -255,8 +258,8 @@ export default function createStyles(colors) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: colors.isDark ? colors.alpha.orange18 : '#FFF7ED',
-      borderColor: colors.orange[400],
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
+      borderColor: colors.primary,
       borderWidth: 1.5,
       borderStyle: 'dashed',
       borderRadius: 16,
@@ -268,7 +271,7 @@ export default function createStyles(colors) {
     otpBadgeText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 28,
-      color: colors.orange[500],
+      color: colors.primary,
       letterSpacing: 6,
     },
     otpModalActions: {
@@ -276,7 +279,7 @@ export default function createStyles(colors) {
       gap: 12,
     },
     autoFillBtn: {
-      backgroundColor: colors.orange[500],
+      backgroundColor: colors.primary,
       borderRadius: 16,
       paddingVertical: 14,
       alignItems: 'center',

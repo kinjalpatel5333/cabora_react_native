@@ -65,12 +65,12 @@ export default function OtpScreen({ navigation, route }) {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle?.('light-content');
+      StatusBar.setBarStyle?.(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
-    }, [])
+    }, [colors.isDark])
   );
 
   const [serverOtp, setServerOtp] = useState(route?.params?.serverOtp || '');

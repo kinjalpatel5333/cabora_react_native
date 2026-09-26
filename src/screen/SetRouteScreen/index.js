@@ -1,6 +1,6 @@
 import { PASSENGER_SET_ROUTE_RECENT_SAVED, PASSENGER_SET_ROUTE_SUGGESTIONS } from '../../config/staticData';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Dimensions, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Animated, Dimensions, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -164,14 +164,39 @@ export default function SetRouteModal({ visible, onClose, onConfirmLocations }) 
   };
 
   const windowH = Dimensions.get('window').height;
+  const topAvoidanceLimit = Math.max(insets.top + 60, Math.round(windowH * 0.28));
   const sheetMaxH = windowH - (insets.top > 0 ? insets.top + 8 : 16);
-  const minHeight = Math.min(sheetMaxH, windowH * 0.72);
-  const { sheetTY, panHandlers, toggle, expanded, onSheetLayout } =
+  const minHeight = Math.max(270, Math.min(sheetMaxH, Math.round(windowH * 0.36)));
+  const { sheetTY, panHandlers, toggle, snapTo, expanded, onSheetLayout } =
     useDraggableSheet({
       minHeight,
       visible,
-      initialExpanded: false,
+      initialExpanded: true,
+      onClose,
     });
+
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      e => {
+        const h = e.endCoordinates?.height || 0;
+        setKeyboardHeight(h);
+      },
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   return (
     <Modal
@@ -181,23 +206,42 @@ export default function SetRouteModal({ visible, onClose, onConfirmLocations }) 
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <TouchableOpacity activeOpacity={0.7}
+        <TouchableOpacity
+          activeOpacity={1}
           style={styles.backdrop}
-          onPress={onClose}
+          onPress={() => {
+            Keyboard.dismiss();
+            if (expanded) {
+              snapTo(false);
+            } else {
+              onClose();
+            }
+          }}
           accessibilityRole="button"
           accessibilityLabel="Dismiss"
         />
 
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.sheetWrap}
+          style={[
+            styles.sheetWrap,
+            Platform.OS === 'android' && keyboardHeight > 0
+              ? { marginBottom: keyboardHeight }
+              : null,
+          ]}
           pointerEvents="box-none">
           <Animated.View
             onLayout={onSheetLayout}
             style={[
               styles.sheet,
               {
-                maxHeight: sheetMaxH,
+                maxHeight:
+                  keyboardHeight > 0
+                    ? Math.max(
+                        220,
+                        windowH - topAvoidanceLimit - keyboardHeight,
+                      )
+                    : sheetMaxH,
                 paddingBottom: Math.max(insets.bottom, 10) + 8,
                 transform: [{ translateY: sheetTY }],
               },
@@ -212,8 +256,8 @@ export default function SetRouteModal({ visible, onClose, onConfirmLocations }) 
                 style={styles.grabberHit}>
                 <View style={styles.grabber} />
               </TouchableOpacity>
+              <Text style={styles.title}>Set your route</Text>
             </View>
-            <Text style={styles.title}>Set your route</Text>
 
             <ScrollView
               keyboardShouldPersistTaps="handled"

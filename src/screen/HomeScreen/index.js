@@ -1,6 +1,6 @@
 import { PASSENGER_HOME_EXPLORE } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, Dimensions, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {Animated, Dimensions, Image, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -24,6 +24,7 @@ import {
   updatePassengerCurrentLocationApi,
 } from '../../services/userApi';
 import { bookRideApi, cancelRideApi } from '../../services/rideApi';
+import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -86,6 +87,7 @@ export default function HomeScreen() {
 
   const rawName = user?.name?.trim();
   const displayName = rawName || 'Rider';
+  const avatarUri = formatImageUrl(user?.photo || user?.profilePhoto || user?.avatar);
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],
@@ -421,7 +423,11 @@ export default function HomeScreen() {
               onPress={() => navigation.navigate('Profile')}
               accessibilityRole="button"
               accessibilityLabel="Open profile">
-              <Text style={styles.avatarText}>{initials(displayName)}</Text>
+              {Boolean(avatarUri) ? (
+                <Image source={{uri: avatarUri}} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarText}>{initials(displayName)}</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>

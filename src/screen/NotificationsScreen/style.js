@@ -103,13 +103,17 @@ export default function createStyles(colors) {
       shadowOpacity: 0.04,
       shadowRadius: 6,
       elevation: 1.5,
-      overflow: 'hidden',
     },
     cardUnread: {
-      backgroundColor: colors.isDark ? colors.navy[800] : colors.orange[50],
-      borderColor: colors.isDark ? colors.orange[900] : colors.orange.borderLight,
-      borderLeftWidth: 4,
-      borderLeftColor: colors.primary,
+      borderColor: colors.isDark ? colors.orange[600] : colors.orange[400],
+      backgroundColor: colors.isDark ? colors.alpha.orange10 : colors.orange.subtleBg,
+    },
+    unreadDot: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.primary,
+      marginLeft: 6,
     },
     iconBox: {
       width: 44,
@@ -128,6 +132,10 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'space-between',
       marginBottom: 3,
+    },
+    timeWrap: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     itemTitle: {
       fontFamily: colors.fonts.sora.bold,

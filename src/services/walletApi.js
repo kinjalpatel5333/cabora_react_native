@@ -1,5 +1,5 @@
-import {apiGet, apiPost} from '../config/apicall';
-import {WALLET_ENDPOINTS} from '../config/endpoints';
+import { apiGet, apiPost } from '../config/apicall';
+import { WALLET_ENDPOINTS } from '../config/endpoints';
 
 /**
  * Fetch wallet balance and details
@@ -28,7 +28,7 @@ export async function getWalletBalanceApi() {
  * @param {string} [params.idempotencyKey]
  * @returns {Promise<any>}
  */
-export async function addMoneyToWalletApi({amount, paymentMethod = 'CASH', idempotencyKey}) {
+export async function addMoneyToWalletApi({ amount, paymentMethod = 'CASH', idempotencyKey }) {
   const finalKey =
     idempotencyKey ||
     `idem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
