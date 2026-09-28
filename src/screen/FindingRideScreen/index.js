@@ -582,7 +582,7 @@ export default function FindingRideModal({
                 <Feather name="info" size={16} color={colors.muted} />
                 <Text style={styles.infoText}>
                   Nothing has been charged. Your fare of ₹{fare} is still locked
-                  for 5 minutes.
+                  for 3 minutes.
                 </Text>
               </View>
 

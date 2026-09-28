@@ -328,7 +328,7 @@ export default function LoginScreen({ navigation }) {
                     </Text>
                     <Text
                       style={[styles.bannerBody, styles.bannerBodyCooldown]}>
-                      For your security we've paused new codes for 5 minutes.
+                      For your security we've paused new codes for 3 minutes.
                       Your last code may still work.
                     </Text>
                   </View>

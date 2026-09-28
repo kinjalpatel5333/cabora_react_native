@@ -239,22 +239,38 @@ export const loginWithPhone = createAsyncThunk(
       const isDriver = roleStr === 'driver';
       const isPassenger = roleStr === 'passenger';
 
+      const isCompleteExplicit =
+        rawUser?.isComplete !== undefined
+          ? Boolean(rawUser.isComplete)
+          : rawUser?.driver?.isComplete !== undefined
+            ? Boolean(rawUser.driver.isComplete)
+            : rawUser?.isCompleted !== undefined
+              ? Boolean(rawUser.isCompleted)
+              : rawUser?.driver?.isCompleted !== undefined
+                ? Boolean(rawUser.driver.isCompleted)
+                : rawUser?.profileCompleted !== undefined
+                  ? Boolean(rawUser.profileCompleted)
+                  : undefined;
+
       const isNewDriverOnboarding =
         isDriver &&
-        (isOnBoarding === true ||
-          rawUser?.isOnBoarding === true ||
-          rawUser?.isNewUser === true ||
-          rawUser?.kycComplete === false ||
+        (isCompleteExplicit === false ||
+          rawUser?.isComplete === false ||
+          rawUser?.driver?.isComplete === false ||
+          rawUser?.isCompleted === false ||
+          rawUser?.driver?.isCompleted === false ||
           rawUser?.driver?.onboardingCompleted === false ||
-          rawUser?.platform?.eligibleForRides === false);
+          rawUser?.kycComplete === false ||
+          isOnBoarding === true ||
+          rawUser?.isOnBoarding === true ||
+          rawUser?.isNewUser === true);
 
-      const driverOnboardingFinished = !isNewDriverOnboarding && (
-        isOnBoarding === false ||
-        rawUser?.isOnBoarding === false ||
-        rawUser?.driver?.onboardingCompleted === true ||
-        rawUser?.kycComplete === true ||
-        rawUser?.platform?.eligibleForRides === true
-      );
+      const driverOnboardingFinished =
+        !isNewDriverOnboarding &&
+        (isCompleteExplicit === true ||
+          rawUser?.driver?.onboardingCompleted === true ||
+          rawUser?.kycComplete === true ||
+          rawUser?.platform?.eligibleForRides === true);
 
       const extracted = extractUserProfile(rawUser, phone);
       const userName = extracted.name || rawUser?.name || rawUser?.fullName || name || '';
@@ -311,6 +327,12 @@ export const loginWithPhone = createAsyncThunk(
         profilePhoto: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
         gender: extracted.gender || rawUser?.gender || gender || null,
         isNewUser: isNewUserExplicit !== undefined ? isNewUserExplicit : false,
+        isComplete: isDriver
+          ? (isCompleteExplicit !== undefined ? isCompleteExplicit : Boolean(driverOnboardingFinished))
+          : Boolean(passengerProfileFinished),
+        isCompleted: isDriver
+          ? (isCompleteExplicit !== undefined ? isCompleteExplicit : Boolean(driverOnboardingFinished))
+          : Boolean(passengerProfileFinished),
         isOnBoarding: isDriver ? isNewDriverOnboarding : isNewPassengerOnboarding,
         profileCompleted: isDriver ? Boolean(driverOnboardingFinished) : Boolean(passengerProfileFinished),
         isProfileComplete: isDriver ? Boolean(driverOnboardingFinished) : Boolean(passengerProfileFinished),

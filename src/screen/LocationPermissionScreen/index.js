@@ -126,10 +126,26 @@ export default function LocationPermissionScreen({navigation, route}) {
       );
 
       if (role === 'driver') {
-        if (navigation?.replace) {
-          navigation.replace('DriverTabs');
+        const isDriverDone = Boolean(
+          userRaw?.isComplete === true ||
+          userRaw?.driver?.isComplete === true ||
+          userRaw?.isCompleted === true ||
+          userRaw?.driver?.isCompleted === true ||
+          userRaw?.driver?.onboardingCompleted === true ||
+          userRaw?.kycComplete === true
+        );
+        if (isDriverDone) {
+          if (navigation?.replace) {
+            navigation.replace('DriverTabs');
+          } else {
+            navigation.navigate('DriverTabs');
+          }
         } else {
-          navigation.navigate('DriverTabs');
+          if (navigation?.replace) {
+            navigation.replace('DriverRegistration', { mobile: userPhone, userId, user: profile, token });
+          } else {
+            navigation.navigate('DriverRegistration', { mobile: userPhone, userId, user: profile, token });
+          }
         }
         return;
       }
