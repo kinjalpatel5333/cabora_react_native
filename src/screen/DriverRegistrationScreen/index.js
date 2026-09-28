@@ -71,9 +71,12 @@ function formatImageUrl(url) {
   return `${BASE_URL}${cleanPath}`;
 }
 
-function formatInsurancePolicyNumber(text) {
-  if (!text) return '';
-  const clean = text.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+function formatInsurancePolicyNumber(rawText, prevText = '') {
+  if (!rawText) return '';
+  if (prevText && rawText.length < prevText.length && prevText.endsWith('-') && !rawText.endsWith('-')) {
+    return rawText;
+  }
+  const clean = rawText.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
   const parts = [];
   if (clean.length > 0) parts.push(clean.slice(0, 2));
   if (clean.length > 2) parts.push(clean.slice(2, 6));
@@ -1501,8 +1504,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           <TextInput
             value={policyNumber}
             onChangeText={text => {
-              setPolicyNumber(text);
-              if (text.trim()) clearError('policyNumber');
+              const formatted = formatInsurancePolicyNumber(text, policyNumber);
+              setPolicyNumber(formatted);
+              if (formatted.trim()) clearError('policyNumber');
             }}
             placeholder="OD-2026-4471-9920-3318"
             placeholderTextColor={colors.gray[400]}
