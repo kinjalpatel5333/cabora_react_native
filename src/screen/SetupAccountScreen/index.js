@@ -93,12 +93,18 @@ export default function SetupAccountScreen({ navigation, route }) {
           setAuthToken(token);
         }
 
-        // Call /auth/me to fetch fresh user profile & role state
-        const meRes = await getMeApi();
-        rawUserData = meRes || rawUserData;
+        // Call /auth/me to fetch fresh user profile & role state safely
+        try {
+          const meRes = await getMeApi();
+          if (meRes) {
+            rawUserData = meRes;
+          }
+        } catch (meErr) {
+          console.warn('getMeApi error in SetupAccountScreen:', meErr);
+        }
       }
     } catch (err) {
-      console.warn('selectRoleApi or getMeApi error:', err);
+      console.warn('selectRoleApi error:', err);
     }
 
     const profile = extractUserProfile(rawUserData, phone);

@@ -8,7 +8,7 @@ import {
   showPermissionSettingsAlert,
 } from '../../utils/cameraPermission';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Button, DatePickerModal} from '../../components';
+import {Button, DatePickerInput, DatePickerModal} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
 import {updateDriverProfileApi} from '../../services/driverApi';
@@ -380,35 +380,13 @@ export default function CompleteProfileScreen({navigation, route}) {
 
             {/* Date of birth */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>
-                Date of birth <Text style={styles.requiredStar}>*</Text>
-              </Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
+              <DatePickerInput
+                label="Date of birth *"
+                value={dob}
+                placeholder="14 Mar 1994"
                 onPress={() => setDobPickerVisible(true)}
-                style={[
-                  styles.inputIconWrapper,
-                  focusedField === 'dob' && styles.inputFocused,
-                ]}>
-                <Feather
-                  name="calendar"
-                  size={18}
-                  color={colors.navy[925]}
-                  style={{marginRight: 10}}
-                />
-                <TextInput
-                  value={dob}
-                  onChangeText={onChangeDob}
-                  placeholder="14 Mar 1994"
-                  placeholderTextColor={colors.slate[400]}
-                  style={styles.inputWithIcon}
-                  pointerEvents="none"
-                  editable={false}
-                />
-              </TouchableOpacity>
-              <Text style={styles.caption}>
-                Never shown to drivers — used for age-restricted offers
-              </Text>
+                hint="Never shown to drivers — used for age-restricted offers"
+              />
             </View>
 
             {/* Email */}
