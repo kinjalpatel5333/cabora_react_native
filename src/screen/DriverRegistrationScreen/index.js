@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Image,
   KeyboardAvoidingView,
@@ -19,7 +20,8 @@ import { images } from '../../assets';
 import { useApp } from '../../context/AppContext';
 import { Button, CountryPickerModal, DatePickerInput, DatePickerModal, ImagePickerModal, useToast } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchDriverProfile } from '../../redux/slices/authSlice';
 import { extractUserProfile } from '../../utils/user';
 import { calculateAge, formatDateNumberInput, formatDateToApi, parseDateString } from '../../utils/dateUtils';
 import {
@@ -35,8 +37,12 @@ import {
   saveOnboardingInsuranceApi,
   saveOnboardingBankApi,
   submitOnboardingApi,
+  getOnboardingStatusApi,
 } from '../../services/driverApi';
+import { getMeApi } from '../../services/authApi';
 import { DEFAULT_COUNTRY } from '../../utils/countries';
+import { storageGetItem, storageSetItem, storageRemoveMultiple } from '../../utils/storage';
+import { BASE_URL, STORAGE_KEYS } from '../../config/setting';
 import createStyles from './style';
 import {
   DRIVER_REGISTRATION_STEPS as STEPS,
@@ -46,15 +52,37 @@ import {
 } from '../../config/staticData';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+function formatApiDateToDisplay(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return '';
+  const clean = dateStr.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3) {
+    const [year, month, day] = parts;
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
+}
+
+function formatImageUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('file://')) {
+    return url;
+  }
+  const cleanPath = url.startsWith('/') ? url : `/${url}`;
+  return `${BASE_URL}${cleanPath}`;
+}
+
 export default function DriverRegistrationScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const dispatch = useAppDispatch();
   const mainScrollRef = useRef(null);
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [restoringProgress, setRestoringProgress] = useState(true);
 
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
@@ -165,6 +193,235 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   // Step 6 State: Confirmation Checkbox
   const [termsConfirmed, setTermsConfirmed] = useState(false);
+
+  const persistCurrentProgress = async (nextStep, customData = {}) => {
+    try {
+      const dataToSave = {
+        fullName,
+        dob,
+        email,
+        profilePhotoUri,
+        dlNumber,
+        dlFrontUri,
+        dlBackUri,
+        selectedVehicle,
+        regNumber,
+        plateUri,
+        rcUri,
+        policyNumber,
+        insuranceExpiry,
+        insuranceUri,
+        accountHolder,
+        accountNumber,
+        ifscCode,
+        ...customData,
+      };
+
+      await Promise.all([
+        storageSetItem(STORAGE_KEYS.driverOnboardingStep, String(nextStep)),
+        storageSetItem(STORAGE_KEYS.driverOnboardingData, JSON.stringify(dataToSave)),
+      ]);
+    } catch (err) {
+      console.warn('Failed to save onboarding progress locally:', err);
+    }
+  };
+
+  // Restore pending onboarding step and saved details on mount / app open
+  useEffect(() => {
+    async function restoreProgress() {
+      try {
+        const [savedStepStr, savedDataStr] = await Promise.all([
+          storageGetItem(STORAGE_KEYS.driverOnboardingStep),
+          storageGetItem(STORAGE_KEYS.driverOnboardingData),
+        ]);
+
+        let targetStep = savedStepStr ? parseInt(savedStepStr, 10) : 1;
+
+        if (savedDataStr) {
+          try {
+            const data = JSON.parse(savedDataStr);
+            if (data.fullName) setFullName(data.fullName);
+            if (data.dob) setDob(data.dob);
+            if (data.email) setEmail(data.email);
+            if (data.profilePhotoUri) {
+              setProfilePhotoUri(data.profilePhotoUri);
+              setHasPhoto(true);
+            }
+            if (data.dlNumber) setDlNumber(data.dlNumber);
+            if (data.dlFrontUri) {
+              setDlFrontUri(data.dlFrontUri);
+              setDlFrontStatus('verified');
+            }
+            if (data.dlBackUri) {
+              setDlBackUri(data.dlBackUri);
+              setDlBackStatus('verified');
+            }
+            if (data.selectedVehicle) setSelectedVehicle(data.selectedVehicle);
+            if (data.regNumber) setRegNumber(data.regNumber);
+            if (data.plateUri) {
+              setPlateUri(data.plateUri);
+              setPlateDocStatus('uploaded');
+            }
+            if (data.rcUri) {
+              setRcUri(data.rcUri);
+              setRcDocStatus('uploaded');
+            }
+            if (data.policyNumber) setPolicyNumber(data.policyNumber);
+            if (data.insuranceExpiry) setInsuranceExpiry(data.insuranceExpiry);
+            if (data.insuranceUri) {
+              setInsuranceUri(data.insuranceUri);
+              setInsuranceDocStatus('uploaded');
+            }
+            if (data.accountHolder) setAccountHolder(data.accountHolder);
+            if (data.accountNumber) setAccountNumber(data.accountNumber);
+            if (data.ifscCode) setIfscCode(data.ifscCode);
+          } catch (err) {
+            console.warn('Failed to parse saved onboarding data:', err);
+          }
+        }
+
+        // Fetch remote status from backend API (/auth/me and /driver/onboarding/status)
+        try {
+          let meRes = null;
+          try {
+            meRes = await getMeApi();
+          } catch (e1) {
+            meRes = await getOnboardingStatusApi();
+          }
+
+          const rootData = meRes?.data || meRes;
+          const driverData = rootData?.driver || rootData;
+          const platform = driverData?.platform || rootData?.platform;
+
+          if (driverData) {
+            const kycStatus = String(platform?.kycStatus || driverData?.kycStatus || '').toLowerCase();
+            const driverStatus = String(driverData?.status || '').toLowerCase();
+
+            const isSubmittedForReview =
+              (kycStatus === 'submitted' ||
+                kycStatus === 'under_review' ||
+                kycStatus === 'pending' ||
+                driverStatus === 'submitted' ||
+                driverStatus === 'under_review' ||
+                driverStatus === 'pending' ||
+                driverStatus === 'pending_approval' ||
+                driverStatus === 'in_review' ||
+                platform?.onboardingStatus === 'submitted' ||
+                platform?.onboardingStatus === 'under_review') &&
+              driverStatus !== 'not_submitted';
+
+            if (driverStatus === 'approved' || platform?.eligibleForRides === true || kycStatus === 'approved') {
+              navigation.replace('DriverTabs');
+              return;
+            }
+
+            if (isSubmittedForReview) {
+              navigation.replace('DriverVerificationStatus', { mode: 'in_progress' });
+              return;
+            }
+
+            // Determine pending step number from API
+            const nextStepNum =
+              driverData?.nextStepNumber ||
+              platform?.nextStepNumber ||
+              driverData?.pendingSteps?.[0]?.step ||
+              (driverData?.completedStepsCount !== undefined ? driverData.completedStepsCount + 1 : null);
+
+            if (nextStepNum && typeof nextStepNum === 'number' && nextStepNum >= 1 && nextStepNum <= 6) {
+              targetStep = nextStepNum;
+            } else if (driverData?.completedStepsCount === 5 || driverData?.pendingStepsCount === 0) {
+              targetStep = 6;
+            }
+
+            // Populate Section 1: Personal Details
+            if (driverData.personal) {
+              if (driverData.personal.fullName) setFullName(driverData.personal.fullName);
+              if (driverData.personal.dateOfBirth) {
+                setDob(formatApiDateToDisplay(driverData.personal.dateOfBirth));
+              }
+              if (driverData.personal.email) setEmail(driverData.personal.email);
+              if (driverData.personal.mobile) {
+                const digits = driverData.personal.mobile.replace(/^\+?91\s*/, '').replace(/\D/g, '');
+                if (digits) setMobileNum(digits);
+              }
+              if (driverData.personal.profilePhoto) {
+                const photoUrl = formatImageUrl(driverData.personal.profilePhoto);
+                if (photoUrl) {
+                  setProfilePhotoUri(photoUrl);
+                  setHasPhoto(true);
+                }
+              }
+            }
+
+            // Populate Section 2: Driving Licence
+            if (driverData.drivingLicence) {
+              if (driverData.drivingLicence.drivingLicenceNumber) {
+                setDlNumber(driverData.drivingLicence.drivingLicenceNumber);
+              }
+              if (driverData.drivingLicence.dlFront) {
+                setDlFrontUri(formatImageUrl(driverData.drivingLicence.dlFront));
+                setDlFrontStatus('verified');
+              }
+              if (driverData.drivingLicence.dlBack) {
+                setDlBackUri(formatImageUrl(driverData.drivingLicence.dlBack));
+                setDlBackStatus('verified');
+              }
+            }
+
+            // Populate Section 3: Vehicle Details
+            if (driverData.vehicle) {
+              if (driverData.vehicle.vehicleType) {
+                const vt = String(driverData.vehicle.vehicleType).toLowerCase();
+                setSelectedVehicle(
+                  vt.includes('sedan') ? 'sedan' : vt.includes('mini') ? 'mini' : vt.includes('auto') ? 'auto' : 'bike',
+                );
+              }
+              if (driverData.vehicle.registrationNumber || driverData.vehicle.numberPlate) {
+                setRegNumber(driverData.vehicle.registrationNumber || driverData.vehicle.numberPlate);
+              }
+              if (driverData.vehicle.rcDocument) {
+                setRcUri(formatImageUrl(driverData.vehicle.rcDocument));
+                setRcDocStatus('uploaded');
+              }
+            }
+
+            // Populate Section 4: Insurance Details
+            if (driverData.insurance) {
+              if (driverData.insurance.insurancePolicyNumber) {
+                setPolicyNumber(driverData.insurance.insurancePolicyNumber);
+              }
+              if (driverData.insurance.insuranceExpiryDate) {
+                setInsuranceExpiry(formatApiDateToDisplay(driverData.insurance.insuranceExpiryDate));
+              }
+              if (driverData.insurance.insuranceDocument) {
+                setInsuranceUri(formatImageUrl(driverData.insurance.insuranceDocument));
+                setInsuranceDocStatus('uploaded');
+              }
+            }
+
+            // Populate Section 5: Payout / Bank Details
+            if (driverData.payout) {
+              if (driverData.payout.accountHolderName) setAccountHolder(driverData.payout.accountHolderName);
+              if (driverData.payout.bankAccountNumber) setAccountNumber(driverData.payout.bankAccountNumber);
+              if (driverData.payout.ifscCode) setIfscCode(driverData.payout.ifscCode);
+            }
+          }
+        } catch (apiErr) {
+          console.log('Auth ME / Onboarding status fetch error:', apiErr);
+        }
+
+        if (targetStep >= 1 && targetStep <= 6) {
+          setStep(targetStep);
+        }
+      } catch (err) {
+        console.warn('Error restoring onboarding progress:', err);
+      } finally {
+        setRestoringProgress(false);
+      }
+    }
+
+    restoreProgress();
+  }, []);
 
   const insuranceExpiryInfo = useMemo(() => {
     if (!insuranceExpiry) return { isSet: false, isValid: false, daysLeft: 0 };
@@ -557,6 +814,46 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     };
   };
 
+  const syncFreshMeState = async defaultNextStep => {
+    try {
+      let meRes = null;
+      try {
+        meRes = await getMeApi();
+      } catch (e1) {
+        meRes = await getOnboardingStatusApi();
+      }
+
+      const rootData = meRes?.data || meRes;
+      const driverData = rootData?.driver || rootData;
+      const platform = driverData?.platform || rootData?.platform;
+
+      if (driverData) {
+        const nextStepNum =
+          driverData?.nextStepNumber ||
+          platform?.nextStepNumber ||
+          driverData?.pendingSteps?.[0]?.step ||
+          (driverData?.completedStepsCount !== undefined ? driverData.completedStepsCount + 1 : null);
+
+        let resolvedNext = defaultNextStep;
+        if (nextStepNum && typeof nextStepNum === 'number' && nextStepNum >= 1 && nextStepNum <= 6) {
+          resolvedNext = nextStepNum;
+        } else if (driverData?.completedStepsCount === 5 || driverData?.pendingStepsCount === 0) {
+          resolvedNext = 6;
+        }
+
+        setStep(resolvedNext);
+        await persistCurrentProgress(resolvedNext);
+        return resolvedNext;
+      }
+    } catch (err) {
+      console.warn('syncFreshMeState warning:', err);
+    }
+
+    setStep(defaultNextStep);
+    await persistCurrentProgress(defaultNextStep);
+    return defaultNextStep;
+  };
+
   const handleNextStep = async () => {
     if (!validateStep(step)) {
       return;
@@ -588,7 +885,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           email: email ? email.trim() : undefined,
           profilePhoto: profileFile || profilePhotoUri || '',
         });
-        
+
         try {
           await saveOnboardingPersonalApi(formData);
         } catch (apiErr) {
@@ -601,10 +898,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               if (email && email.trim()) fallbackData.append('email', email.trim());
               fallbackData.append('profilePhoto', '');
               await saveOnboardingPersonalApi(fallbackData);
-            } catch (_) {}
+            } catch (_) { }
           }
         }
-        setStep(prev => prev + 1);
+        await syncFreshMeState(2);
       } else if (step === 2) {
         // PUT /api/v1/driver/onboarding/license
         const formData = new FormData();
@@ -618,7 +915,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           if (dlBackFile) formData.append('dlBack', dlBackFile);
         }
         await saveOnboardingLicenseApi(formData);
-        setStep(prev => prev + 1);
+        await syncFreshMeState(3);
       } else if (step === 3) {
         // PUT /api/v1/driver/onboarding/vehicle
         const formData = new FormData();
@@ -631,7 +928,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           if (rcFile) formData.append('rcDocument', rcFile);
         }
         await saveOnboardingVehicleApi(formData);
-        setStep(prev => prev + 1);
+        await syncFreshMeState(4);
       } else if (step === 4) {
         // PUT /api/v1/driver/onboarding/insurance
         const formData = new FormData();
@@ -642,7 +939,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           if (insFile) formData.append('insuranceDocument', insFile);
         }
         await saveOnboardingInsuranceApi(formData);
-        setStep(prev => prev + 1);
+        await syncFreshMeState(5);
       } else if (step === 5) {
         // PUT /api/v1/driver/onboarding/bank (JSON payload)
         await saveOnboardingBankApi({
@@ -650,32 +947,44 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           bankAccountNumber: accountNumber.replace(/[\s•]/g, ''),
           ifscCode: ifscCode.replace(/\s+/g, '').toUpperCase(),
         });
-        setStep(prev => prev + 1);
+        await syncFreshMeState(6);
       } else if (step === 6) {
         // POST /api/v1/driver/onboarding/submit
         const res = await submitOnboardingApi();
+        await storageRemoveMultiple([
+          STORAGE_KEYS.driverOnboardingStep,
+          STORAGE_KEYS.driverOnboardingData,
+        ]);
         showToast({
           type: 'success',
-          title: 'Submitted for Verification',
-          message: res?.message || 'Your documents have been submitted to admin.',
+          title: 'Registration Submitted',
+          message: res?.message || 'Your driver registration is under review.',
         });
-        navigation.navigate('DriverVerificationStatus', {
-          mode: 'in_progress',
+        dispatch(fetchDriverProfile());
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DriverVerificationStatus', params: { mode: 'in_progress' } }],
         });
       }
     } catch (err) {
       console.log(`❌ Onboarding Step ${step} API Error:`, err);
       // Fallback: Proceed to next step even if backend API server is not active locally
       if (step < 6) {
-        setStep(prev => prev + 1);
+        await syncFreshMeState(step + 1);
       } else {
+        await storageRemoveMultiple([
+          STORAGE_KEYS.driverOnboardingStep,
+          STORAGE_KEYS.driverOnboardingData,
+        ]);
         showToast({
           type: 'success',
-          title: 'Submitted for Verification',
-          message: 'Your documents have been submitted to admin.',
+          title: 'Registration Submitted',
+          message: 'Your driver registration is under review.',
         });
-        navigation.navigate('DriverVerificationStatus', {
-          mode: 'in_progress',
+        dispatch(fetchDriverProfile());
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'DriverVerificationStatus', params: { mode: 'in_progress' } }],
         });
       }
     } finally {
@@ -1448,6 +1757,31 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       </View>
     </View>
   );
+
+  if (restoringProgress) {
+    return (
+      <View
+        style={[
+          styles.root,
+          {
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.background,
+          },
+        ]}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text
+          style={{
+            marginTop: 16,
+            fontSize: 14,
+            fontFamily: colors.fonts.sora.medium,
+            color: colors.textSecondary,
+          }}>
+          Restoring registration status...
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.root}>

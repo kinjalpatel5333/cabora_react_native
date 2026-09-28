@@ -16,7 +16,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchDriverProfile } from '../../redux/slices/authSlice';
+import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
 import { formatImageUrl } from '../../utils/user';
 import { requestCameraPermission } from '../../utils/cameraPermission';
 import createStyles from './style';
@@ -27,8 +29,10 @@ export default function UploadDocumentsScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
-  const { showToast } = useToast();
-  const kycData = useAppSelector(state => state.driver.kycData);
+  const dispatch = useAppDispatch();
+  const authUser = useAppSelector(state => state.auth.user);
+  const driverKycData = useAppSelector(state => state.driver.kycData);
+  const kycData = driverKycData || authUser?.driver || authUser;
 
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
@@ -40,7 +44,9 @@ export default function UploadDocumentsScreen({ navigation }) {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
-    }, [colors.isDark]),
+      dispatch(fetchDriverKycStatus()).catch(() => {});
+      dispatch(fetchDriverProfile()).catch(() => {});
+    }, [colors.isDark, dispatch]),
   );
 
   useEffect(() => {
@@ -75,14 +81,18 @@ export default function UploadDocumentsScreen({ navigation }) {
       return DEFAULT_DOCUMENTS_LIST;
     }
 
-    const {
-      personal,
-      drivingLicence,
-      vehicle,
-      insurance,
-      payout,
-      documents = [],
-    } = kycData;
+    const driverObj = kycData?.driver || kycData || {};
+    const personal = kycData?.personal || driverObj?.personal || {};
+    const drivingLicence = kycData?.drivingLicence || driverObj?.drivingLicence || {};
+    const vehicle = kycData?.vehicle || driverObj?.vehicle || {};
+    const insurance = kycData?.insurance || driverObj?.insurance || {};
+    const payout = kycData?.payout || driverObj?.payout || {};
+    const documents = kycData?.documents || driverObj?.documents || [];
+    const completedSteps = kycData?.completedSteps || driverObj?.completedSteps || [];
+
+    const isStepDone = stepKey =>
+      Array.isArray(completedSteps) &&
+      completedSteps.some(s => (s.key === stepKey || s.step === stepKey) && (s.isCompleted !== false));
 
     // Helper to find document status in documents array
     const findDocStatus = types => {
@@ -98,7 +108,9 @@ export default function UploadDocumentsScreen({ navigation }) {
     // 1. Driving Licence
     const dlStatus =
       findDocStatus(['DRIVING_LICENCE_FRONT', 'DRIVING_LICENCE_BACK']) ||
-      (drivingLicence?.isCompleted ? 'APPROVED' : 'PENDING');
+      (drivingLicence?.isCompleted || isStepDone('DRIVING_LICENCE') || isStepDone(2) || drivingLicence?.drivingLicenceNumber
+        ? 'APPROVED'
+        : 'PENDING');
     const dlUrl =
       drivingLicence?.dlFront ||
       findDocUrl(['DRIVING_LICENCE_FRONT', 'DRIVING_LICENCE_BACK']);
@@ -106,26 +118,35 @@ export default function UploadDocumentsScreen({ navigation }) {
     // 2. RC / Registration Certificate
     const rcStatus =
       findDocStatus(['VEHICLE_RC', 'RC']) ||
-      (vehicle?.isCompleted ? 'APPROVED' : 'PENDING');
+      (vehicle?.isCompleted || isStepDone('VEHICLE') || isStepDone(3) || vehicle?.registrationNumber
+        ? 'APPROVED'
+        : 'PENDING');
     const rcUrl = vehicle?.rcDocument || findDocUrl(['VEHICLE_RC', 'RC']);
 
     // 3. Profile Photo
     const photoStatus =
       findDocStatus(['PROFILE_PHOTO']) ||
-      (personal?.isCompleted ? 'APPROVED' : 'PENDING');
+      (personal?.isCompleted || isStepDone('PERSONAL') || isStepDone(1) || personal?.profilePhoto
+        ? 'APPROVED'
+        : 'PENDING');
     const photoUrl =
       personal?.profilePhoto || findDocUrl(['PROFILE_PHOTO']);
 
     // 4. Insurance Policy
     const insuranceStatus =
       findDocStatus(['VEHICLE_INSURANCE', 'INSURANCE']) ||
-      (insurance?.isCompleted ? 'APPROVED' : 'PENDING');
+      (insurance?.isCompleted || isStepDone('INSURANCE') || isStepDone(4) || insurance?.insurancePolicyNumber
+        ? 'APPROVED'
+        : 'PENDING');
     const insuranceUrl =
       insurance?.insuranceDocument ||
       findDocUrl(['VEHICLE_INSURANCE', 'INSURANCE']);
 
     // 5. Bank Passbook / Payout
-    const bankStatus = payout?.isCompleted ? 'APPROVED' : 'PENDING';
+    const bankStatus =
+      payout?.isCompleted || isStepDone('PAYOUT') || isStepDone(5) || payout?.bankAccountNumber
+        ? 'APPROVED'
+        : 'PENDING';
     const bankUrl = payout?.passbookDocument || null;
 
     return [
