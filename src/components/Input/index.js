@@ -1,39 +1,45 @@
-import React, { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { useApp } from '../../context/AppContext';
 import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
-
-export default function Input({
-  label,
-  value,
-  onChangeText,
-  placeholder,
-  secureTextEntry,
-  keyboardType,
-  autoCapitalize = 'none',
-  error,
-  success,
-  hint,
-  disabled = false,
-  left,
-  right,
-  statusIcon = true,
-  showFocusBorder = true,
-  onFocus,
-  onBlur,
-  style,
-  fieldStyle,
-  containerStyle,
-  hintStyle,
-  ...rest
-}) {
+const Input = forwardRef(function Input(
+  {
+    label,
+    value,
+    onChangeText,
+    placeholder,
+    secureTextEntry,
+    keyboardType,
+    autoCapitalize = 'none',
+    error,
+    success,
+    hint,
+    disabled = false,
+    left,
+    right,
+    statusIcon = true,
+    showFocusBorder = true,
+    onFocus,
+    onBlur,
+    style,
+    fieldStyle,
+    containerStyle,
+    hintStyle,
+    ...rest
+  },
+  ref,
+) {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef(null);
+
+  useImperativeHandle(ref, () => inputRef.current);
+
   const hasError = Boolean(error);
   const hasSuccess = Boolean(success) && !hasError;
   const helper = error || hint;
@@ -51,6 +57,12 @@ export default function Input({
 
   const helperText = formatHelperText(helper);
 
+  const handleFieldPress = () => {
+    if (!disabled) {
+      inputRef.current?.focus();
+    }
+  };
+
   return (
     <View style={[styles.wrap, containerStyle]}>
       {label ? (
@@ -58,22 +70,24 @@ export default function Input({
           {label}
         </Text>
       ) : null}
-      <View
+      <Pressable
+        onPress={handleFieldPress}
         style={[
           styles.field,
           fieldStyle,
           showFocusBorder &&
-          focused &&
-          !hasError &&
-          !hasSuccess &&
-          !disabled &&
-          styles.fieldFocused,
+            focused &&
+            !hasError &&
+            !hasSuccess &&
+            !disabled &&
+            styles.fieldFocused,
           hasError && !disabled && styles.fieldError,
           hasSuccess && !disabled && styles.fieldSuccess,
           disabled && styles.fieldDisabled,
         ]}>
         {left ? <View style={styles.left}>{left}</View> : null}
         <TextInput
+          ref={inputRef}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -108,7 +122,7 @@ export default function Input({
             <Icon name="check" color={colors.success} size={20} circle />
           </View>
         ) : null}
-      </View>
+      </Pressable>
       {helperText ? (
         <View style={styles.hintRow}>
           {hasError && !disabled ? (
@@ -130,4 +144,6 @@ export default function Input({
       ) : null}
     </View>
   );
-}
+});
+
+export default Input;

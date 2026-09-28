@@ -1452,7 +1452,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     <View style={styles.root}>
 
 
-      <View style={[styles.header, { paddingTop: insets.top > 0 ? insets.top + 4 : 12 }]}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
         <TouchableOpacity
           activeOpacity={0.7}
           accessibilityRole="button"
@@ -1529,7 +1529,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             variant="primary"
             fullWidth={false}
             loading={loading}
-            disabled={loading}
+            disabled={loading || (step === 6 && !termsConfirmed)}
             style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
             onPress={handleNextStep}
           />

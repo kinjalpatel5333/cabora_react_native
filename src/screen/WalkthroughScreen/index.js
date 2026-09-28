@@ -67,6 +67,7 @@ export default function WalkthroughScreen() {
       source={item.image}
       style={item.contain ? styles.payImage : styles.heroImage}
       resizeMode={item.contain ? 'contain' : 'cover'}
+      fadeDuration={0}
     />
   );
 
@@ -87,6 +88,10 @@ export default function WalkthroughScreen() {
         bounces={false}
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}
+        initialNumToRender={SLIDES.length}
+        maxToRenderPerBatch={SLIDES.length}
+        windowSize={SLIDES.length}
+        removeClippedSubviews={false}
         getItemLayout={(_, i) => ({
           length: pageWidth,
           offset: pageWidth * i,
@@ -115,6 +120,7 @@ export default function WalkthroughScreen() {
                 source={item.curve}
                 style={[styles.wave, { height: metrics.curveHeight }]}
                 resizeMode="stretch"
+                fadeDuration={0}
               />
             </View>
 
@@ -172,6 +178,7 @@ export default function WalkthroughScreen() {
             style={styles.logoImage}
             resizeMode="contain"
             accessibilityLabel="Cabora"
+            fadeDuration={0}
           />
         </View>
         <TouchableOpacity
