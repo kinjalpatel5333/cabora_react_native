@@ -455,7 +455,7 @@ export default function CompleteProfileScreen({navigation, route}) {
               <DatePickerInput
                 label="Date of birth *"
                 value={dob}
-                placeholder="14 Mar 1994"
+                placeholder="DD / MM / YYYY"
                 error={errors.dob}
                 onPress={() => setDobPickerVisible(true)}
                 hint={errors.dob ? undefined : "Never shown to drivers — used for age-restricted offers"}

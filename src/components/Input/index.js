@@ -21,7 +21,8 @@ const Input = forwardRef(function Input(
     disabled = false,
     left,
     right,
-    statusIcon = true,
+    statusIcon = false,
+    showHelperIcon = false,
     showFocusBorder = true,
     pointerEvents,
     onPress,
@@ -138,10 +139,10 @@ const Input = forwardRef(function Input(
       </Pressable>
       {helperText ? (
         <View style={styles.hintRow}>
-          {hasError && !disabled ? (
+          {showHelperIcon && hasError && !disabled ? (
             <AntDesign name="info-circle" size={16} color={colors.danger} />
           ) : null}
-          {hasSuccess && !disabled ? (
+          {showHelperIcon && hasSuccess && !disabled ? (
             <AntDesign name="check-circle" size={14} color={colors.success} />
           ) : null}
           <Text

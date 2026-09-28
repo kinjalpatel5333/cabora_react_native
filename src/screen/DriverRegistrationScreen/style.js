@@ -9,7 +9,7 @@ export default function createStyles(colors) {
     header: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       paddingHorizontal: 16,
       paddingBottom: 14,
       borderBottomWidth: 1,
@@ -27,6 +27,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
       color: colors.text,
+      textAlign: 'center',
     },
 
     // Progress Header

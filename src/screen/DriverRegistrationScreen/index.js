@@ -575,18 +575,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     }
   };
 
-  const handleHeaderBack = () => {
-    if (step > 1) {
-      setStep(prev => prev - 1);
-    } else {
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('SetupAccount');
-      }
-    }
-  };
-
   const validateStep = currentStep => {
     if (currentStep === 1) {
       if (!profilePhotoUri && !hasPhoto) {
@@ -1578,29 +1566,19 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 <Text style={styles.statusPillRequiredText}>Required</Text>
               </View>
             )}
-            <View style={styles.docRowButtonsGroup}>
-              {insuranceUri || insuranceDocStatus === 'uploaded' ? (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => showToast({ type: 'info', message: 'Opening document preview' })}
-                  style={styles.btnPillOrange}>
-                  <Text style={styles.btnPillOrangeText}>View</Text>
-                </TouchableOpacity>
-              ) : null}
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() =>
-                  handlePickImage(uri => {
-                    setInsuranceUri(uri);
-                    setInsuranceDocStatus('uploaded');
-                  }, 'Insurance Document')
-                }
-                style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
-                <Text style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGrayText : styles.btnPillOrangeText}>
-                  {insuranceUri || insuranceDocStatus === 'uploaded' ? 'Replace' : 'Upload'}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() =>
+                handlePickImage(uri => {
+                  setInsuranceUri(uri);
+                  setInsuranceDocStatus('uploaded');
+                }, 'Insurance Document')
+              }
+              style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
+              <Text style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGrayText : styles.btnPillOrangeText}>
+                {insuranceUri || insuranceDocStatus === 'uploaded' ? 'Replace' : 'Upload'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -1837,18 +1815,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
 
       <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={handleHeaderBack}
-          style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>
           {step === 6 ? 'Review and submit' : 'Driver registration'}
         </Text>
-        <View style={styles.headerBtn} />
       </View>
 
       <KeyboardAvoidingView
