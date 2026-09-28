@@ -11,6 +11,8 @@ export const STORAGE_KEYS = {
   walkthrough: 'cabora.app.walkthrough',
   notifications: 'cabora.app.notifications',
   locationResolved: 'cabora.app.location_resolved',
+  driverOnboardingStep: 'cabora.driver.onboarding_step',
+  driverOnboardingData: 'cabora.driver.onboarding_data',
 };
 
 export const DEMO_MODE = true;

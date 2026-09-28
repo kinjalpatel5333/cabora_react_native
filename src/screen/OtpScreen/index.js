@@ -219,6 +219,26 @@ export default function OtpScreen({ navigation, route }) {
         verifiedResponseData?.accessToken ||
         verifiedResponseData?.token;
 
+      // When isOnBoarding is false and isNewUser is true, redirect to Role Select screen (SetupAccount)
+      if (isOnBoarding === false && isNewUser === true) {
+        navigation.replace('SetupAccount', {
+          mobile: phone,
+          countryCode,
+          userId:
+            verifiedUser?.id ||
+            verifiedUser?._id ||
+            verifiedUser?.userId ||
+            verifiedResponseData?.userId ||
+            verifiedResponseData?.user?.id ||
+            verifiedResponseData?.user?._id,
+          user: verifiedUser || verifiedResponseData?.user,
+          token: token || verifiedToken,
+          isOnBoarding,
+          isNewUser,
+        });
+        return;
+      }
+
       // If token and role (DRIVER/PASSENGER) exist, log user in via Redux directly
       if (token && (role === 'driver' || role === 'passenger')) {
         try {
@@ -228,7 +248,7 @@ export default function OtpScreen({ navigation, route }) {
               role,
               token,
               user: verifiedUser,
-              isOnBoarding: isOnBoarding === true || isNewUser === true,
+              isOnBoarding: isOnBoarding === true,
             }),
           ).unwrap();
           return;
@@ -248,6 +268,7 @@ export default function OtpScreen({ navigation, route }) {
         user: verifiedUser,
         token: verifiedToken,
         isOnBoarding,
+        isNewUser,
       });
     }, VERIFY_REDIRECT_MS);
     return () => clearTimeout(timeout);

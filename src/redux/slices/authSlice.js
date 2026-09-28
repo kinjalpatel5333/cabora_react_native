@@ -1,16 +1,16 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   storageGetItem,
   storageSetItem,
   storageSetMultiple,
   storageRemoveMultiple,
 } from '../../utils/storage';
-import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
-import {setAuthToken, getAuthToken, setRefreshToken} from '../../config/apicall';
-import {getMeApi, logoutApi} from '../../services/authApi';
-import {getPassengerProfileApi} from '../../services/userApi';
-import {getDriverProfileApi, getOnboardingStatusApi} from '../../services/driverApi';
-import {extractUserProfile} from '../../utils/user';
+import { STORAGE_KEYS, DEMO_CREDENTIALS } from '../../config/setting';
+import { setAuthToken, getAuthToken, setRefreshToken } from '../../config/apicall';
+import { getMeApi, logoutApi } from '../../services/authApi';
+import { getPassengerProfileApi } from '../../services/userApi';
+import { getDriverProfileApi, getOnboardingStatusApi } from '../../services/driverApi';
+import { extractUserProfile } from '../../utils/user';
 
 const initialState = {
   user: null,
@@ -76,10 +76,10 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
       }
     }
 
-    return {token: token || null, refreshToken: refreshToken || null, user, registeredUsers};
+    return { token: token || null, refreshToken: refreshToken || null, user, registeredUsers };
   } catch (err) {
     console.error('bootstrapAuth error:', err);
-    return {token: null, refreshToken: null, user: null, registeredUsers: []};
+    return { token: null, refreshToken: null, user: null, registeredUsers: [] };
   }
 });
 
@@ -92,12 +92,12 @@ async function persistSession(token, user, refreshToken) {
     items.push([STORAGE_KEYS.refreshToken, refreshToken]);
   }
   await storageSetMultiple(items);
-  return {token, user, refreshToken};
+  return { token, user, refreshToken };
 }
 
 export const signupUser = createAsyncThunk(
   'auth/signup',
-  async ({name, email, password}, {getState, rejectWithValue}) => {
+  async ({ name, email, password }, { getState, rejectWithValue }) => {
     try {
       const state = getState();
       const existingUsers = Array.isArray(state.auth?.registeredUsers)
@@ -151,7 +151,7 @@ export const signupUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async ({email, password}, {getState, rejectWithValue}) => {
+  async ({ email, password }, { getState, rejectWithValue }) => {
     try {
       const state = getState();
       const registeredUsers = state.auth.registeredUsers || [];
@@ -178,17 +178,17 @@ export const loginUser = createAsyncThunk(
       }
 
       const sessionUser = matchedUser
-        ? {id: matchedUser.id, name: matchedUser.name, email: matchedUser.email}
+        ? { id: matchedUser.id, name: matchedUser.name, email: matchedUser.email }
         : {
-            id: 'demo-user',
-            name: DEMO_CREDENTIALS.email.split('@')[0],
-            email: DEMO_CREDENTIALS.email,
-          };
+          id: 'demo-user',
+          name: DEMO_CREDENTIALS.email.split('@')[0],
+          email: DEMO_CREDENTIALS.email,
+        };
 
       const token = `local-token-${Date.now()}`;
       await persistSession(token, sessionUser);
 
-      return {token, user: sessionUser};
+      return { token, user: sessionUser };
     } catch (err) {
       return rejectWithValue(err?.message || 'Login failed');
     }
@@ -198,8 +198,8 @@ export const loginUser = createAsyncThunk(
 export const loginWithPhone = createAsyncThunk(
   'auth/loginPhone',
   async (
-    {phone, role, name, email, dob, photo, gender, token: passedToken, refreshToken: passedRefreshToken, user: rawUser, isOnBoarding},
-    {getState, rejectWithValue},
+    { phone, role, name, email, dob, photo, gender, token: passedToken, refreshToken: passedRefreshToken, user: rawUser, isOnBoarding },
+    { getState, rejectWithValue },
   ) => {
     try {
       const state = getState();
@@ -324,7 +324,7 @@ export const loginWithPhone = createAsyncThunk(
         await storageSetItem(STORAGE_KEYS.user, JSON.stringify(sessionUser));
       }
 
-      return {token: validToken, refreshToken: validRefreshToken, user: sessionUser};
+      return { token: validToken, refreshToken: validRefreshToken, user: sessionUser };
     } catch (err) {
       return rejectWithValue(err?.message || 'Verification failed');
     }
@@ -333,9 +333,9 @@ export const loginWithPhone = createAsyncThunk(
 
 export const saveDriverDocument = createAsyncThunk(
   'auth/saveDriverDocument',
-  async ({id, uri, fileName, fileSize}, {getState, rejectWithValue}) => {
+  async ({ id, uri, fileName, fileSize }, { getState, rejectWithValue }) => {
     try {
-      const {token, user} = getState().auth;
+      const { token, user } = getState().auth;
       if (!token || !user) {
         return rejectWithValue('No session');
       }
@@ -353,7 +353,7 @@ export const saveDriverDocument = createAsyncThunk(
           uploadedAt: Date.now(),
         },
       };
-      const nextUser = {...user, kycDocuments};
+      const nextUser = { ...user, kycDocuments };
       await persistSession(token, nextUser);
       return nextUser;
     } catch (err) {
@@ -364,13 +364,13 @@ export const saveDriverDocument = createAsyncThunk(
 
 export const completeDriverKyc = createAsyncThunk(
   'auth/completeDriverKyc',
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const {token, user} = getState().auth;
+      const { token, user } = getState().auth;
       if (!token || !user) {
         return rejectWithValue('No session');
       }
-      const nextUser = {...user, kycComplete: true};
+      const nextUser = { ...user, kycComplete: true };
       await persistSession(token, nextUser);
       return nextUser;
     } catch (err) {
@@ -381,7 +381,7 @@ export const completeDriverKyc = createAsyncThunk(
 
 export const fetchUserProfile = createAsyncThunk(
   'auth/fetchUserProfile',
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
       const res = await getMeApi();
       const currentUser = getState().auth.user || {};
@@ -407,7 +407,7 @@ export const fetchUserProfile = createAsyncThunk(
 
 export const fetchPassengerProfile = createAsyncThunk(
   'auth/fetchPassengerProfile',
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
       const res = await getPassengerProfileApi();
       const currentUser = getState().auth.user || {};
@@ -433,7 +433,7 @@ export const fetchPassengerProfile = createAsyncThunk(
 
 export const fetchDriverProfile = createAsyncThunk(
   'auth/fetchDriverProfile',
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
       let res;
       try {
@@ -519,7 +519,14 @@ export const logoutUser = createAsyncThunk(
       console.warn('Backend logout warning:', err);
     } finally {
       setAuthToken(null);
-      await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]).catch(() => {});
+      setRefreshToken(null);
+      await storageRemoveMultiple([
+        STORAGE_KEYS.token,
+        STORAGE_KEYS.refreshToken,
+        STORAGE_KEYS.user,
+        STORAGE_KEYS.driverOnboardingStep,
+        STORAGE_KEYS.driverOnboardingData,
+      ]).catch(() => { });
     }
     return null;
   },
@@ -533,7 +540,7 @@ const authSlice = createSlice({
       state.error = null;
     },
     updateToken(state, action) {
-      const {token, refreshToken: rToken} = action.payload || {};
+      const { token, refreshToken: rToken } = action.payload || {};
       if (token) {
         state.token = token;
         setAuthToken(token);
@@ -552,7 +559,13 @@ const authSlice = createSlice({
       state.bootstrapped = true;
       setAuthToken(null);
       setRefreshToken(null);
-      storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.refreshToken, STORAGE_KEYS.user]).catch(() => {});
+      storageRemoveMultiple([
+        STORAGE_KEYS.token,
+        STORAGE_KEYS.refreshToken,
+        STORAGE_KEYS.user,
+        STORAGE_KEYS.driverOnboardingStep,
+        STORAGE_KEYS.driverOnboardingData,
+      ]).catch(() => { });
     },
     setUser(state, action) {
       if (action.payload) {
@@ -677,5 +690,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {clearAuthError, logoutNow, setUser, updateToken} = authSlice.actions;
+export const { clearAuthError, logoutNow, setUser, updateToken } = authSlice.actions;
 export default authSlice.reducer;
