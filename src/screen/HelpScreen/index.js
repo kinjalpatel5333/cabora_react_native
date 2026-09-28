@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SearchField} from '../../components';
 import {useToast} from '../../components/Toast';
 import {
   PASSENGER_HELP_TOPICS as TOPICS,
@@ -12,7 +13,6 @@ import {
 import {useApp} from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
 
 function TopicIcon({item, styles, colors}) {
   if (item.iconType === 'text') {
@@ -74,16 +74,12 @@ export default function HelpScreen() {
           styles.scroll,
           {paddingBottom: Math.max(insets.bottom, 16) + 20},
         ]}>
-        <View style={styles.searchBox}>
-          <Feather name="search" size={18} color={colors.textMuted} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search help topics"
-            placeholderTextColor={colors.textMuted}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
+        <SearchField
+          placeholder="Search help topics"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={{marginBottom: 14}}
+        />
 
         <TouchableOpacity activeOpacity={0.7}
           style={styles.lastTripCard}

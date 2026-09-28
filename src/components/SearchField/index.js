@@ -1,80 +1,113 @@
-import React, {useState} from 'react';
-import {TextInput, View, TouchableOpacity} from 'react-native';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import {TextInput, TouchableOpacity} from 'react-native';
+import {Feather} from '@react-native-vector-icons/feather/static';
 import {useApp} from '../../context/AppContext';
-import Icon from '../Icon';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
-import colors from '../../config/color';
 
-export default function SearchField({
-  value,
-  onChangeText,
-  placeholder = 'Where to?',
-  disabled = false,
-  onFocus,
-  onBlur,
-  style,
-  ...rest
-}) {
+const SearchField = forwardRef(function SearchField(
+  {
+    value = '',
+    onChangeText,
+    placeholder = 'Search...',
+    placeholderTextColor,
+    disabled = false,
+    editable = true,
+    onFocus,
+    onBlur,
+    onSubmitEditing,
+    onClear,
+    showClear = true,
+    style,
+    inputStyle,
+    leftIcon,
+    rightComponent,
+    returnKeyType = 'search',
+    ...rest
+  },
+  ref,
+) {
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
-  const [focused, setFocused] = useState(false);
-  const hasValue = Boolean(value);
-  const accented = !disabled && (focused || hasValue);
-  const iconColor = disabled
-    ? colors.disabledText
-    : accented
-      ? colors.primary
-      : colors.gray[400];
+  const inputRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current?.focus(),
+    blur: () => inputRef.current?.blur(),
+    clear: () => inputRef.current?.clear(),
+    isFocused: () => inputRef.current?.isFocused(),
+  }));
+
+  const isEditable = editable && !disabled;
+  const hasValue = Boolean(value && value.length > 0);
+
+  const handleClear = () => {
+    onChangeText?.('');
+    onClear?.();
+  };
 
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => {
+        if (isEditable) {
+          inputRef.current?.focus();
+        }
+      }}
       style={[
-        styles.field,
-        !disabled && hasValue && !focused && styles.fieldFilled,
-        !disabled && focused && styles.fieldFocused,
-        disabled && styles.fieldDisabled,
+        styles.searchBox,
+        isFocused && styles.searchBoxFocused,
+        disabled && styles.searchBoxDisabled,
         style,
       ]}>
-      <Icon name="search" color={iconColor} size={20} />
+      {leftIcon !== undefined ? (
+        leftIcon
+      ) : (
+        <Feather
+          name="search"
+          size={18}
+          color={isFocused ? colors.primary : colors.textMuted}
+        />
+      )}
+
       <TextInput
+        ref={inputRef}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={colors.disabledText}
-        editable={!disabled}
+        placeholderTextColor={placeholderTextColor || colors.textMuted}
+        editable={isEditable}
+        returnKeyType={returnKeyType}
         autoCapitalize="none"
-        returnKeyType="search"
-        cursorColor={colors.focus}
-        selectionColor={colors.orange[200]}
-        underlineColorAndroid="transparent"
-        onFocus={event => {
-          setFocused(true);
-          onFocus?.(event);
+        onFocus={e => {
+          setIsFocused(true);
+          onFocus?.(e);
         }}
-        onBlur={event => {
-          setFocused(false);
-          onBlur?.(event);
+        onBlur={e => {
+          setIsFocused(false);
+          onBlur?.(e);
         }}
-        style={[styles.input, disabled && styles.inputDisabled]}
+        onSubmitEditing={onSubmitEditing}
+        style={[styles.searchInput, inputStyle]}
         {...rest}
       />
-      {hasValue && !disabled ? (
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Clear search"
+
+      {showClear && hasValue && isEditable ? (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={handleClear}
           hitSlop={8}
-          onPress={() => onChangeText?.('')}
-          style={styles.clearBtn}>
-          <Icon
-            name="close"
-            color={colors.gray[400]}
-            size={18}
-            circle
-            circleColor={colors.gray[300]}
-          />
+          style={styles.clearBtn}
+          accessibilityRole="button"
+          accessibilityLabel="Clear search">
+          <Feather name="x-circle" size={16} color={colors.textMuted} />
         </TouchableOpacity>
       ) : null}
-    </View>
+
+      {rightComponent}
+    </TouchableOpacity>
   );
-}
+});
+
+export default SearchField;

@@ -39,32 +39,6 @@ export default function createStyles(colors) {
       paddingBottom: 110,
     },
 
-    // Search Box
-    searchBox: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: colors.isDark ? colors.navy[900] : colors.white,
-      borderRadius: 16,
-      paddingHorizontal: 16,
-      height: 48,
-      marginHorizontal: 16,
-      marginTop: 6,
-      marginBottom: 12,
-      shadowColor: colors.black,
-      shadowOpacity: 0.04,
-      shadowRadius: 6,
-      shadowOffset: { width: 0, height: 2 },
-      elevation: 2,
-      gap: 10,
-    },
-    searchInput: {
-      fontFamily: colors.fonts.sora.medium,
-      flex: 1,
-      fontSize: 14,
-      color: colors.isDark ? colors.navy[25] : colors.slate[900],
-      paddingVertical: 0,
-    },
-
     // Period Tabs (Today, Week, Month, Custom)
     periodRow: {
       flexDirection: 'row',

@@ -9,8 +9,9 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { bootstrapApp } from '../redux/slices/appSlice';
 import { bootstrapAuth } from '../redux/slices/authSlice';
 import { SPLASH } from '../config/setting';
-import { checkInternet, wait } from '../utils/network';
+import { wait } from '../utils/network';
 import { NetworkProvider } from '../context/NetworkContext';
+import { startTokenRefreshTimer, stopTokenRefreshTimer } from '../services/tokenRefreshService';
 import colors, { palette } from '../config/color';
 
 const MIN_SPLASH_MS = 1800;
@@ -63,6 +64,17 @@ export default function RootNavigator() {
   useEffect(() => {
     runBoot();
   }, [runBoot]);
+
+  useEffect(() => {
+    if (token && phase === 'ready') {
+      startTokenRefreshTimer(dispatch);
+    } else {
+      stopTokenRefreshTimer();
+    }
+    return () => {
+      stopTokenRefreshTimer();
+    };
+  }, [token, phase, dispatch]);
 
   if (SPLASH.holdOnSplash) {
     return <SplashScreen />;

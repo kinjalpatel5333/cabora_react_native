@@ -38,7 +38,7 @@ export default function AuthStack() {
       <Stack.Screen
         name="SetupAccount"
         component={SetupAccountScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
       <Stack.Screen
         name="DriverRegistration"

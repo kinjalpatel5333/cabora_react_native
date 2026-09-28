@@ -275,6 +275,17 @@ export default function createStyles(colors) {
       color: colors.orange[500],
       fontSize: 14,
     },
+    removeText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.red[500] || '#EF4444',
+      fontSize: 13,
+      marginLeft: 8,
+    },
+    applyText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.orange[500],
+      fontSize: 14,
+    },
     promoAmount: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.isDark ? colors.green[400] : colors.green[600],

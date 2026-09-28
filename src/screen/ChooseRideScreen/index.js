@@ -1,6 +1,7 @@
 import { PASSENGER_CHOOSE_RIDES } from '../../config/staticData';
 import React, {useEffect, useMemo, useState} from 'react';
 import {Animated, Dimensions, Modal, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -35,6 +36,7 @@ export default function ChooseRideModal({
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
   const {colors: themeColors} = useApp();
+  const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState('sedan');
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -42,6 +44,8 @@ export default function ChooseRideModal({
   const [selectedCategoryRide, setSelectedCategoryRide] = useState('cab-sedan');
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [bookForSomeoneOpen, setBookForSomeoneOpen] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState(promoCode || 'CABORA50');
+  const [promoDiscount, setPromoDiscount] = useState(PROMO_OFF);
   const [scheduledVehicle, setScheduledVehicle] = useState({
     name: 'Comfort',
     price: 1640,
@@ -61,11 +65,30 @@ export default function ChooseRideModal({
       setSelectedCategoryRide('cab-sedan');
       setScheduleOpen(false);
       setBookForSomeoneOpen(false);
+      setAppliedPromo(promoCode || 'CABORA50');
+      setPromoDiscount(PROMO_OFF);
       setScheduledVehicle({name: 'Comfort', price: 1640});
       setCategoryId('cab');
       setPaymentMethod({id: 'upi', label: 'UPI • you@okaxis'});
     }
-  }, [visible]);
+  }, [visible, promoCode]);
+
+  const handleRemovePromo = () => {
+    setAppliedPromo('');
+    setPromoDiscount(0);
+  };
+
+  const handleApplyCoupon = coupon => {
+    setAppliedPromo(coupon.code);
+    setPromoDiscount(coupon.discount || 50);
+  };
+
+  const handleOpenOffers = () => {
+    navigation.navigate('OffersCoupons', {
+      appliedCode: appliedPromo,
+      onSelectCoupon: handleApplyCoupon,
+    });
+  };
 
   const openCategory = rideId => {
     setSelectedId(rideId);
@@ -78,15 +101,19 @@ export default function ChooseRideModal({
     [selectedId],
   );
 
-  const total = Math.max(0, selected.price - PROMO_OFF);
+  const total = Math.max(0, selected.price - (appliedPromo ? promoDiscount : 0));
   const sheetMaxH = Dimensions.get('window').height * 0.72;
-  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+  const {sheetTY, panHandlers, toggle, expanded, snapTo, onSheetLayout} =
     useDraggableSheet({
       peekHeight: 200,
       visible,
     });
 
   const isSubScreenOpen = categoryOpen || shareAndSaveOpen;
+
+  const handleBackdropPress = () => {
+    snapTo(!expanded);
+  };
 
   return (
     <Modal
@@ -96,7 +123,7 @@ export default function ChooseRideModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={1} style={styles.backdrop} onPress={handleBackdropPress} />
 
         {!isSubScreenOpen && (
           <>
@@ -233,15 +260,48 @@ export default function ChooseRideModal({
               </View>
 
               <View style={[styles.metaRow, styles.metaRowPromo]}>
-                <View style={[styles.metaIcon, styles.metaIconPromo]}>
-                  <Feather name="percent" size={16} color={themeColors.green[600]} />
+                <View
+                  style={[
+                    styles.metaIcon,
+                    appliedPromo && styles.metaIconPromo,
+                  ]}>
+                  <Feather
+                    name="percent"
+                    size={16}
+                    color={appliedPromo ? themeColors.green[600] : themeColors.text}
+                  />
                 </View>
                 <Text
-                  style={[styles.metaText, styles.metaTextPromo, styles.metaCopy]}
+                  style={[
+                    styles.metaText,
+                    appliedPromo && styles.metaTextPromo,
+                    styles.metaCopy,
+                  ]}
                   numberOfLines={1}>
-                  {promoCode} applied
+                  {appliedPromo ? `${appliedPromo} applied` : 'Apply promo code'}
                 </Text>
-                <Text style={styles.promoAmount}>- ₹{PROMO_OFF}</Text>
+                {appliedPromo ? (
+                  <>
+                    <Text style={styles.promoAmount}>- ₹{promoDiscount}</Text>
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      hitSlop={8}
+                      onPress={handleRemovePromo}
+                      accessibilityRole="button"
+                      accessibilityLabel="Remove coupon">
+                      <Text style={styles.removeText}>Remove</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    hitSlop={8}
+                    onPress={handleOpenOffers}
+                    accessibilityRole="button"
+                    accessibilityLabel="Apply coupon">
+                    <Text style={styles.applyText}>Apply</Text>
+                  </TouchableOpacity>
+                )}
               </View>
 
               <View style={styles.footer}>
@@ -275,7 +335,9 @@ export default function ChooseRideModal({
           visible={paymentOpen}
           onClose={() => setPaymentOpen(false)}
           selectedId={paymentMethod.id}
-          promoCode={promoCode}
+          promoCode={appliedPromo}
+          onRemovePromo={handleRemovePromo}
+          onOpenOffers={handleOpenOffers}
           onSave={method => {
             setPaymentMethod({id: method.id, label: method.label});
           }}
@@ -287,9 +349,12 @@ export default function ChooseRideModal({
           onClose={() => setCategoryOpen(false)}
           categoryId={categoryId}
           routeSummary={routeSummary.replace('•', '·')}
-          promoCode={promoCode}
+          promoCode={appliedPromo}
+          promoDiscount={promoDiscount}
           paymentLabel={paymentMethod.label.replace('•', '·')}
           onChangePayment={() => setPaymentOpen(true)}
+          onRemovePromo={handleRemovePromo}
+          onOpenOffers={handleOpenOffers}
           onProceed={payload => {
             setCategoryOpen(false);
             setSelectedCategoryRide(payload?.rideId || 'pool');
@@ -307,9 +372,12 @@ export default function ChooseRideModal({
           categoryId={categoryId}
           initialSelectedId={selectedCategoryRide}
           routeSummary={routeSummary.replace('•', '·')}
-          promoCode={promoCode}
+          promoCode={appliedPromo}
+          promoDiscount={promoDiscount}
           paymentLabel={paymentMethod.label.replace('•', '·')}
           onChangePayment={() => setPaymentOpen(true)}
+          onRemovePromo={handleRemovePromo}
+          onOpenOffers={handleOpenOffers}
           onBook={payload => {
             setShareAndSaveOpen(false);
             onBook?.({

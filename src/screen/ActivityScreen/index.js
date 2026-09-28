@@ -1,19 +1,20 @@
 import { PASSENGER_ACTIVITY_TABS, PASSENGER_ACTIVITY_RIDES } from '../../config/staticData';
 import React, {useMemo, useState} from 'react';
-import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SearchField} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import SortFilterModal from './SortFilterModal';
+import ScheduledRidesScreen from '../ScheduledRidesScreen';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const TABS = PASSENGER_ACTIVITY_TABS;
 
@@ -72,6 +73,14 @@ export default function ActivityScreen() {
   const monthLabel = rides[0]?.month || 'SEPTEMBER 2026';
   const emptyCopy = EMPTY_COPY[tab] || EMPTY_COPY.completed;
 
+  if (tab === 'scheduled') {
+    return (
+      <View style={[styles.root, {paddingBottom: tabInset}]}>
+        <ScheduledRidesScreen onGoBack={() => setTab('completed')} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.root}>
       <ScrollView
@@ -126,24 +135,12 @@ export default function ActivityScreen() {
           </View>
         </View>
 
-        <View style={styles.searchBox}>
-          <Feather
-            name="search"
-            size={18}
-            color={colors.isDark ? colors.white : colors.gray[400]}
-          />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search by place, date or fare"
-            placeholderTextColor={
-              colors.isDark ? colors.alpha.white75 : colors.gray[400]
-            }
-            style={styles.searchInput}
-            returnKeyType="search"
-            clearButtonMode="while-editing"
-          />
-        </View>
+        <SearchField
+          value={query}
+          onChangeText={setQuery}
+          placeholder="Search by place, date or fare"
+          style={{marginBottom: 14}}
+        />
 
         <View style={styles.tabs}>
           {TABS.map(item => {

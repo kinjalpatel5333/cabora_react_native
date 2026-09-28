@@ -122,12 +122,33 @@ export default function createStyles(colors) {
       fontSize: 16,
     },
     appliedBtn: {
-      backgroundColor: colors.orange[500],
-      paddingHorizontal: 14,
-      paddingVertical: 8,
-      borderRadius: 12,
+      backgroundColor: colors.isDark ? colors.alpha.greenDark20 : '#E6F8EF',
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 10,
     },
     appliedText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: '#10B981',
+      fontSize: 12,
+    },
+    removeBtn: {
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      marginLeft: 6,
+    },
+    removeBtnText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.red[500] || '#EF4444',
+      fontSize: 12,
+    },
+    applyBtn: {
+      backgroundColor: colors.orange[500],
+      paddingHorizontal: 16,
+      paddingVertical: 7,
+      borderRadius: 12,
+    },
+    applyBtnText: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.white,
       fontSize: 13,

@@ -1,0 +1,260 @@
+import {StyleSheet} from 'react-native';
+
+export default function createStyles(colors) {
+  const isDark = Boolean(colors?.isDark);
+
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 16,
+      paddingBottom: 14,
+      backgroundColor: colors.card,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    headerBtn: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    headerTitle: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 18,
+      color: colors.text,
+      textAlign: 'center',
+    },
+    scroll: {
+      paddingHorizontal: 16,
+      paddingTop: 14,
+    },
+    tabsContainer: {
+      flexDirection: 'row',
+      backgroundColor: isDark ? colors.surface : '#EEF2F6',
+      borderRadius: 14,
+      padding: 4,
+      marginBottom: 16,
+      height: 48,
+      alignItems: 'center',
+    },
+    tabBtn: {
+      flex: 1,
+      height: 40,
+      borderRadius: 11,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    tabBtnActive: {
+      backgroundColor: colors.card,
+      shadowColor: isDark ? colors.black : colors.navy[900],
+      shadowOpacity: 0.08,
+      shadowRadius: 6,
+      shadowOffset: {width: 0, height: 1},
+      elevation: 2,
+    },
+    tabText: {
+      fontFamily: colors.fonts.sora.semiBold,
+      color: colors.textMuted,
+      fontSize: 13,
+    },
+    tabTextActive: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.text,
+    },
+    list: {
+      gap: 12,
+    },
+    rideCard: {
+      backgroundColor: colors.card,
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.border,
+      padding: 14,
+      shadowColor: colors.shadow,
+      shadowOffset: {width: 0, height: 1},
+      shadowOpacity: 0.04,
+      shadowRadius: 4,
+      elevation: 1,
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    dateBox: {
+      width: 48,
+      height: 52,
+      borderRadius: 12,
+      backgroundColor: isDark ? colors.alpha.orange20 : '#FFF4EC',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 3,
+    },
+    dateDay: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 10.5,
+      color: '#FF7A00',
+      letterSpacing: 0.5,
+    },
+    dateNum: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 17,
+      color: '#FF7A00',
+      marginTop: 1,
+    },
+    cardHeaderCopy: {
+      flex: 1,
+      marginLeft: 10,
+      minWidth: 0,
+    },
+    cardTitle: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 14.5,
+      color: colors.text,
+    },
+    cardSubtitle: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12,
+      color: colors.textMuted,
+      marginTop: 2,
+    },
+    statusBadge: {
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+      borderRadius: 999,
+      alignSelf: 'flex-start',
+    },
+    statusBadgeConfirmed: {
+      backgroundColor: isDark ? colors.alpha.greenDark20 : '#E8F8F0',
+    },
+    statusBadgePending: {
+      backgroundColor: isDark ? colors.alpha.orange20 : '#FFF6ED',
+    },
+    statusText: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 11,
+    },
+    statusTextConfirmed: {
+      color: '#10B981',
+    },
+    statusTextPending: {
+      color: '#F59E0B',
+    },
+    cardBody: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      paddingTop: 0,
+    },
+    routeCol: {
+      flex: 1,
+      marginRight: 10,
+    },
+    routeStopRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    stopDotPickup: {
+      width: 7,
+      height: 7,
+      borderRadius: 3.5,
+      backgroundColor: isDark ? colors.navy[200] : '#1E293B',
+    },
+    stopDotDrop: {
+      width: 7,
+      height: 7,
+      borderRadius: 3.5,
+      backgroundColor: '#FF7A00',
+    },
+    stopLine: {
+      width: 2,
+      height: 10,
+      backgroundColor: isDark ? colors.navy[700] : '#E2E8F0',
+      marginLeft: 2.5,
+      marginVertical: 1,
+    },
+    stopAddress: {
+      fontFamily: colors.fonts.sora.medium,
+      fontSize: 12.5,
+      color: colors.text,
+      flex: 1,
+    },
+    fareCol: {
+      alignItems: 'flex-end',
+    },
+    farePrice: {
+      fontFamily: colors.fonts.sora.extraBold,
+      fontSize: 16,
+      color: colors.text,
+    },
+    fareEstimate: {
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 10.5,
+      color: colors.textMuted,
+      marginTop: 0,
+    },
+    manageBtn: {
+      backgroundColor: isDark ? colors.surface : '#F1F5F9',
+      borderRadius: 9,
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      marginTop: 4,
+      borderWidth: isDark ? 1 : 0,
+      borderColor: colors.border,
+    },
+    manageBtnText: {
+      fontFamily: colors.fonts.sora.semiBold,
+      fontSize: 11.5,
+      color: colors.text,
+    },
+    scheduleAnotherCard: {
+      borderWidth: 1.5,
+      borderStyle: 'dashed',
+      borderColor: isDark ? colors.navy[600] : '#CBD5E1',
+      borderRadius: 16,
+      backgroundColor: isDark ? colors.navy[900] : '#F8FAFC',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingHorizontal: 18,
+      paddingVertical: 14,
+      marginTop: 18,
+      marginBottom: 20,
+    },
+    scheduleAnotherLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+    },
+    scheduleAnotherText: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 14.5,
+      color: '#FF7A00',
+    },
+    emptyWrap: {
+      alignItems: 'center',
+      paddingVertical: 48,
+    },
+    emptyTitle: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 16,
+      color: colors.text,
+      marginTop: 12,
+    },
+    emptySub: {
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 13,
+      color: colors.textMuted,
+      marginTop: 4,
+      textAlign: 'center',
+    },
+  });
+}

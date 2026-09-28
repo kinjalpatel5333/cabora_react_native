@@ -3,6 +3,7 @@ export { default as Header } from './Header';
 export { default as Input } from './Input';
 export { default as Screen } from './Screen';
 export { default as SearchField } from './SearchField';
+export { default as SearchBar } from './SearchField';
 export { default as Chip } from './Chip';
 export { default as Toggle } from './Toggle';
 export { default as StatusBadge } from './StatusBadge';

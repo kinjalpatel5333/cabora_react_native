@@ -173,3 +173,26 @@ export async function logoutApi(payload = { deviceId: 'device_123' }, token) {
 
   return response;
 }
+
+/**
+ * Refresh access token using refresh token
+ * @param {string} [refreshToken]
+ * @returns {Promise<any>}
+ */
+export async function refreshTokenApi(refreshToken) {
+  console.log('\n==========================================');
+  console.log(`📤 [API REQUEST] POST ${AUTH_ENDPOINTS.REFRESH}`);
+  console.log('📍 Refreshing Auth Token...');
+  console.log('==========================================');
+
+  const response = await apiPost(AUTH_ENDPOINTS.REFRESH, {
+    refreshToken: refreshToken || '',
+  });
+
+  console.log('\n==========================================');
+  console.log('📥 [API RESPONSE] Refresh Token Success:');
+  console.log(JSON.stringify(response, null, 2));
+  console.log('==========================================\n');
+
+  return response;
+}

@@ -17,6 +17,12 @@ import createStyles from './style';
 
 const INITIAL_METHODS = [
   {
+    id: 'upi',
+    type: 'upi',
+    title: 'UPI · ananya@okhdfc',
+    subtitle: 'HDFC Bank · linked 12 Aug 2026',
+  },
+  {
     id: 'cash',
     type: 'cash',
     title: 'Cash',
@@ -59,8 +65,7 @@ export default function PaymentMethodsScreen() {
         if (exists) {
           return prev;
         }
-        // Place new card in the card list
-        return [prev[0], newCard, ...prev.slice(1)];
+        return [...prev, newCard];
       });
       setSelectedMethodId(newCard.id);
     }
@@ -82,11 +87,71 @@ export default function PaymentMethodsScreen() {
           if (exists) {
             return prev;
           }
-          return [prev[0], newCard, ...prev.slice(1)];
+          return [...prev, newCard];
         });
         setSelectedMethodId(newCard.id);
       },
     });
+  };
+
+  const defaultMethod =
+    methodsList.find(item => item.id === selectedMethodId) || methodsList[0];
+  const otherMethods = methodsList.filter(item => item.id !== defaultMethod.id);
+
+  const renderMethodIcon = (item, isDefault = false) => {
+    if (item.type === 'upi' || item.type === 'cash') {
+      return (
+        <View
+          style={
+            isDefault
+              ? styles.defaultIconContainer
+              : styles.methodIconContainer
+          }>
+          <Text
+            style={
+              isDefault
+                ? styles.defaultCurrencySymbol
+                : styles.methodCurrencySymbol
+            }>
+            ₹
+          </Text>
+        </View>
+      );
+    }
+    if (item.type === 'wallet') {
+      return (
+        <View
+          style={
+            isDefault
+              ? styles.defaultIconContainer
+              : styles.methodIconContainer
+          }>
+          <Lucide
+            name="wallet"
+            size={20}
+            color={
+              isDefault ? '#FF7A00' : isDark ? colors.navy[200] : '#475569'
+            }
+          />
+        </View>
+      );
+    }
+    return (
+      <View
+        style={
+          isDefault
+            ? styles.defaultIconContainer
+            : styles.methodIconContainer
+        }>
+        <Lucide
+          name="credit-card"
+          size={20}
+          color={
+            isDefault ? '#FF7A00' : isDark ? colors.navy[200] : '#475569'
+          }
+        />
+      </View>
+    );
   };
 
   return (
@@ -134,14 +199,14 @@ export default function PaymentMethodsScreen() {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.defaultCard}
-          onPress={() => handleSelectMethod('upi', 'UPI · ananya@okhdfc')}>
-          <View style={styles.defaultIconContainer}>
-            <Text style={styles.defaultCurrencySymbol}>₹</Text>
-          </View>
+          onPress={() =>
+            handleSelectMethod(defaultMethod.id, defaultMethod.title)
+          }>
+          {renderMethodIcon(defaultMethod, true)}
           <View style={styles.defaultContent}>
-            <Text style={styles.defaultTitle}>UPI · ananya@okhdfc</Text>
+            <Text style={styles.defaultTitle}>{defaultMethod.title}</Text>
             <Text style={styles.defaultSubtitle}>
-              HDFC Bank · linked 12 Aug 2026
+              {defaultMethod.subtitle}
             </Text>
             <Text style={styles.defaultBadgeText}>Default</Text>
           </View>
@@ -151,57 +216,34 @@ export default function PaymentMethodsScreen() {
         </TouchableOpacity>
 
         {/* Section 2: OTHER METHODS */}
-        <Text style={[styles.sectionHeader, styles.sectionHeaderOther]}>
-          OTHER METHODS
-        </Text>
+        {otherMethods.length > 0 ? (
+          <>
+            <Text style={[styles.sectionHeader, styles.sectionHeaderOther]}>
+              OTHER METHODS
+            </Text>
 
-        {/* Dynamic Methods List */}
-        {methodsList.map(item => {
-          const isSelected = selectedMethodId === item.id;
-          return (
-            <TouchableOpacity
-              key={item.id}
-              activeOpacity={0.7}
-              style={styles.methodCard}
-              onPress={() => handleSelectMethod(item.id, item.title)}>
-              <View style={styles.methodIconContainer}>
-                {item.type === 'cash' ? (
-                  <Text style={styles.methodCurrencySymbol}>₹</Text>
-                ) : item.type === 'wallet' ? (
-                  <Lucide
-                    name="wallet"
-                    size={20}
-                    color={isDark ? colors.navy[200] : '#475569'}
-                  />
+            {otherMethods.map(item => (
+              <TouchableOpacity
+                key={item.id}
+                activeOpacity={0.7}
+                style={styles.methodCard}
+                onPress={() => handleSelectMethod(item.id, item.title)}>
+                {renderMethodIcon(item, false)}
+                <View style={styles.methodContent}>
+                  <Text style={styles.methodTitle}>{item.title}</Text>
+                  <Text style={styles.methodSubtitle}>{item.subtitle}</Text>
+                </View>
+                {item.badge ? (
+                  <View style={styles.activeBadge}>
+                    <Text style={styles.activeBadgeText}>{item.badge}</Text>
+                  </View>
                 ) : (
-                  <Lucide
-                    name="credit-card"
-                    size={20}
-                    color={isDark ? colors.navy[200] : '#475569'}
-                  />
+                  <View style={styles.radioUnselected} />
                 )}
-              </View>
-              <View style={styles.methodContent}>
-                <Text style={styles.methodTitle}>{item.title}</Text>
-                <Text style={styles.methodSubtitle}>{item.subtitle}</Text>
-              </View>
-              {item.badge ? (
-                <View style={styles.activeBadge}>
-                  <Text style={styles.activeBadgeText}>{item.badge}</Text>
-                </View>
-              ) : (
-                <View
-                  style={
-                    isSelected
-                      ? styles.radioSelectedOuter
-                      : styles.radioUnselected
-                  }>
-                  {isSelected ? <View style={styles.radioSelectedInner} /> : null}
-                </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
+              </TouchableOpacity>
+            ))}
+          </>
+        ) : null}
 
         {/* Add a card or UPI ID */}
         <TouchableOpacity

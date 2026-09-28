@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, View, TouchableOpacity } from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
 import { useApp } from '../../context/AppContext';
 import { COUNTRIES } from '../../utils/countries';
+import SearchField from '../SearchField';
 import useThemedStyles from '../useThemedStyles';
 import createStyles from './style';
 
@@ -98,23 +99,12 @@ export default function CountryPickerModal({
             </TouchableOpacity>
           </View>
 
-          <View style={styles.searchContainer}>
-            <Feather name="search" size={18} color={colors.muted} />
-            <TextInput
-              value={search}
-              onChangeText={setSearch}
-              placeholder="Search country or code..."
-              placeholderTextColor={colors.muted}
-              style={styles.searchInput}
-              clearButtonMode="while-editing"
-              autoCorrect={false}
-            />
-            {search ? (
-              <TouchableOpacity activeOpacity={0.7} onPress={() => setSearch('')}>
-                <Feather name="x-circle" size={16} color={colors.muted} />
-              </TouchableOpacity>
-            ) : null}
-          </View>
+          <SearchField
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search country or code..."
+            style={{marginBottom: 12}}
+          />
 
           <FlatList
             data={filteredCountries}

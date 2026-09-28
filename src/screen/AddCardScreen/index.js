@@ -24,12 +24,12 @@ export default function AddCardScreen({ route }) {
   const navigation = useNavigation();
   const { showToast } = useToast();
 
-  const [cardNumber, setCardNumber] = useState('5412 7512 3412 4417');
-  const [expiry, setExpiry] = useState('09 / 29');
-  const [cvv, setCvv] = useState('884');
-  const [nameOnCard, setNameOnCard] = useState('Ananya Shah');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [nameOnCard, setNameOnCard] = useState('');
   const [saveCard, setSaveCard] = useState(true);
-  const [focusedField, setFocusedField] = useState('cvv');
+  const [focusedField, setFocusedField] = useState(null);
 
   // Format Card Number
   const handleCardNumberChange = text => {
@@ -66,7 +66,7 @@ export default function AddCardScreen({ route }) {
     if (cleanNum.startsWith('6')) {
       return 'RUPAY';
     }
-    return 'NETWORK';
+    return cleanNum.length > 0 ? 'CARD' : 'CARD';
   };
 
   const getMaskedPreviewNumber = () => {
@@ -74,6 +74,9 @@ export default function AddCardScreen({ route }) {
     if (clean.length >= 4) {
       const last4 = clean.slice(-4);
       return `▪▪▪▪ ▪▪▪▪ ▪▪▪▪ ${last4}`;
+    }
+    if (clean.length > 0) {
+      return cardNumber;
     }
     return '▪▪▪▪ ▪▪▪▪ ▪▪▪▪ ▪▪▪▪';
   };
@@ -156,7 +159,7 @@ export default function AddCardScreen({ route }) {
               <View>
                 <Text style={styles.cardLabel}>CARD HOLDER</Text>
                 <Text style={styles.cardHolderName} numberOfLines={1}>
-                  {(nameOnCard || 'ANANYA SHAH').toUpperCase()}
+                  {(nameOnCard || 'CARDHOLDER NAME').toUpperCase()}
                 </Text>
               </View>
               <View>
@@ -164,7 +167,7 @@ export default function AddCardScreen({ route }) {
                   EXPIRES
                 </Text>
                 <Text style={styles.cardExpiry}>
-                  {expiry || '09 / 29'}
+                  {expiry || 'MM / YY'}
                 </Text>
               </View>
             </View>

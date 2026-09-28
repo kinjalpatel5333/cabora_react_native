@@ -13,7 +13,7 @@ export default function createStyles(colors) {
       paddingHorizontal: 12,
       paddingBottom: 10,
       backgroundColor: colors.card,
-      borderBottomWidth: colors.isDark ? 1 : 0,
+      borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
     headerBtn: {
@@ -29,29 +29,14 @@ export default function createStyles(colors) {
       color: colors.text,
       fontSize: 17,
     },
-    searchBox: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 10,
-      marginHorizontal: 16,
-      marginBottom: 14,
-      backgroundColor: colors.surface,
-      borderWidth: colors.isDark ? 1 : 0,
-      borderColor: colors.border,
-      borderRadius: 14,
-      paddingHorizontal: 14,
-      paddingVertical: 12,
-    },
-    searchInput: {
-      fontFamily: colors.fonts.sora.regular,
-      flex: 1,
-      color: colors.text,
-      fontSize: 15,
-      padding: 0,
-      margin: 0,
+    searchContainer: {
+      paddingHorizontal: 16,
+      paddingTop: 12,
+      paddingBottom: 4,
     },
     scroll: {
       paddingHorizontal: 16,
+      paddingTop: 8,
     },
     sectionLabel: {
       fontFamily: colors.fonts.sora.bold,

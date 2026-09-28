@@ -15,6 +15,7 @@ const apiClient = axios.create({
 });
 
 let authToken = null;
+let refreshToken = null;
 
 export function setAuthToken(token) {
   authToken = token || null;
@@ -29,6 +30,29 @@ export function setAuthToken(token) {
 
 export function getAuthToken() {
   return authToken;
+}
+
+export function setRefreshToken(token) {
+  refreshToken = token || null;
+  if (token) {
+    storageSetItem(STORAGE_KEYS.refreshToken, token).catch(() => {});
+  } else {
+    storageRemoveItem(STORAGE_KEYS.refreshToken).catch(() => {});
+  }
+}
+
+export async function getRefreshToken() {
+  if (refreshToken) {
+    return refreshToken;
+  }
+  try {
+    const stored = await storageGetItem(STORAGE_KEYS.refreshToken);
+    if (stored) {
+      refreshToken = stored;
+      return stored;
+    }
+  } catch (_) {}
+  return null;
 }
 
 apiClient.interceptors.request.use(async config => {

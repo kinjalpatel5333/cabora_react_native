@@ -26,7 +26,6 @@ import {
 import { bookRideApi, cancelRideApi } from '../../services/rideApi';
 import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const EXPLORE = PASSENGER_HOME_EXPLORE;
 
@@ -372,6 +371,10 @@ export default function HomeScreen() {
       navigation.navigate('Services');
       return;
     }
+    if (item.id === 'portal' || item.label?.toLowerCase() === 'portal') {
+      navigation.navigate('Portal');
+      return;
+    }
     openRoute();
     showToast({type: 'info', message: `${item.label} selected — set your drop`});
   };
@@ -467,6 +470,14 @@ export default function HomeScreen() {
             color={colors.text}
           />
         </TouchableOpacity>
+      ) : null}
+
+      {!overlayOpen ? (
+        <TouchableOpacity
+          activeOpacity={1}
+          style={[styles.sheetBackdrop, {bottom: sheetMinH}]}
+          onPress={() => snapSheet(sheetExpanded ? sheetMinH : sheetOpenH)}
+        />
       ) : null}
 
       {!overlayOpen ? (

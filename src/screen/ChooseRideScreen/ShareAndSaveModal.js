@@ -8,8 +8,6 @@ import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './shareAndSaveStyle';
 
-const PROMO_OFF = 50;
-
 export const CATEGORY_DATA = {
   cab: {
     pool: {
@@ -104,8 +102,11 @@ export default function ShareAndSaveModal({
   initialSelectedId = 'pool',
   routeSummary = '14.2 km · 38 min · via Airport Rd',
   promoCode = 'CABORA50',
+  promoDiscount = 50,
   paymentLabel = 'UPI · you@okaxis',
   onChangePayment,
+  onRemovePromo,
+  onOpenOffers,
   onBook,
 }) {
   const insets = useSafeAreaInsets();
@@ -139,11 +140,15 @@ export default function ShareAndSaveModal({
   }
 
   const sheetMaxH = Dimensions.get('window').height * 0.78;
-  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+  const {sheetTY, panHandlers, toggle, expanded, snapTo, onSheetLayout} =
     useDraggableSheet({
       peekHeight: 240,
       visible,
     });
+
+  const handleBackdropPress = () => {
+    snapTo(!expanded);
+  };
 
   return (
     <Modal
@@ -154,9 +159,9 @@ export default function ShareAndSaveModal({
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={1}
           style={styles.backdrop}
-          onPress={onClose}
+          onPress={handleBackdropPress}
         />
 
         {/* Top bar with back button & route pill over map */}
@@ -375,17 +380,48 @@ export default function ShareAndSaveModal({
             </TouchableOpacity>
           </View>
 
-          {/* Promo Code Applied */}
+          {/* Promo Code Section */}
           <View style={[styles.metaRow, styles.metaRowPromo]}>
-            <View style={[styles.metaIcon, styles.metaIconPromo]}>
-              <Feather name="percent" size={15} color={themeColors.green[600]} />
+            <View style={[styles.metaIcon, promoCode && styles.metaIconPromo]}>
+              <Feather
+                name="percent"
+                size={15}
+                color={promoCode ? themeColors.green[600] : themeColors.text}
+              />
             </View>
             <Text
-              style={[styles.metaText, styles.metaTextPromo, styles.metaCopy]}
+              style={[
+                styles.metaText,
+                promoCode && styles.metaTextPromo,
+                styles.metaCopy,
+              ]}
               numberOfLines={1}>
-              {promoCode} applied
+              {promoCode ? `${promoCode} applied` : 'Apply promo code'}
             </Text>
-            <Text style={styles.promoAmount}>- ₹{PROMO_OFF}</Text>
+            {promoCode ? (
+              <>
+                <Text style={styles.promoAmount}>- ₹{promoDiscount}</Text>
+                {onRemovePromo ? (
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    hitSlop={8}
+                    onPress={onRemovePromo}
+                    accessibilityRole="button"
+                    accessibilityLabel="Remove coupon">
+                    <Text style={styles.removeText}>Remove</Text>
+                  </TouchableOpacity>
+                ) : null}
+              </>
+            ) : (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                hitSlop={8}
+                onPress={onOpenOffers}
+                accessibilityRole="button"
+                accessibilityLabel="Apply coupon">
+                <Text style={styles.applyText}>Apply</Text>
+              </TouchableOpacity>
+            )}
           </View>
 
           {/* Footer with Total and CTA */}
