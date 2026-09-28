@@ -86,6 +86,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const [restoringProgress, setRestoringProgress] = useState(true);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [focusedField, setFocusedField] = useState(null);
 
   useEffect(() => {
     const showSub = Keyboard.addListener(
@@ -101,6 +102,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       () => {
         setIsKeyboardVisible(false);
         setKeyboardHeight(0);
+        setFocusedField(null);
       },
     );
     return () => {
@@ -110,6 +112,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   }, []);
 
   const handleInputFocus = (offset = null) => {
+    setFocusedField(offset);
     setTimeout(() => {
       if (typeof offset === 'number') {
         mainScrollRef.current?.scrollTo({ y: offset, animated: true });
@@ -118,6 +121,20 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       }
     }, 120);
   };
+
+  useEffect(() => {
+    if (keyboardHeight > 0 && focusedField) {
+      setTimeout(() => {
+        if (focusedField === 'email') {
+          mainScrollRef.current?.scrollToEnd({ animated: true });
+        } else if (typeof focusedField === 'number') {
+          mainScrollRef.current?.scrollTo({ y: focusedField, animated: true });
+        } else {
+          mainScrollRef.current?.scrollToEnd({ animated: true });
+        }
+      }, 100);
+    }
+  }, [keyboardHeight, focusedField]);
 
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
@@ -1077,6 +1094,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           placeholder="DD / MM / YYYY"
           onPress={() => setDobPickerVisible(true)}
           hint="You must be 18 or older to drive on Cabora"
+          containerStyle={{ marginBottom: 0 }}
         />
       </View>
 
@@ -1165,10 +1183,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.textInput}
-            onFocus={() => {
-              setTimeout(() => {
-                mainScrollRef.current?.scrollToEnd({ animated: true });
-              }, 150);
+            onFocus={() => handleInputFocus('email')}
+            onBlur={() => {
+              if (focusedField === 'email') setFocusedField(null);
             }}
           />
         </View>
@@ -1420,7 +1437,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             placeholderTextColor={colors.gray[400]}
             autoCapitalize="characters"
             style={styles.textInput}
-            onFocus={() => handleInputFocus(220)}
+            onFocus={() => handleInputFocus(300)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Must match the RC exactly</Text>
@@ -1589,6 +1606,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           value={insuranceExpiry}
           placeholder="DD / MM / YYYY"
           onPress={() => setInsurancePickerVisible(true)}
+          containerStyle={{ marginBottom: 0 }}
           error={
             insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
               ? 'Policy has expired. Please select a valid future expiry date.'
@@ -1854,6 +1872,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
         <ScrollView
           ref={mainScrollRef}
+          bounces={false}
+          alwaysBounceVertical={false}
+          overScrollMode="never"
           contentContainerStyle={[
             styles.scroll,
             { paddingBottom: keyboardHeight > 0 ? keyboardHeight + 80 : 36 },

@@ -374,12 +374,15 @@ export default function CompleteProfileScreen({navigation, route}) {
         keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}>
         <ScrollView
           ref={scrollViewRef}
+          bounces={false}
+          alwaysBounceVertical={false}
+          overScrollMode="never"
           contentContainerStyle={[
             styles.scroll,
             {
               paddingBottom:
                 Math.max(insets.bottom, 20) +
-                (keyboardHeight > 0 ? keyboardHeight + 30 : 100),
+                (keyboardHeight > 0 ? keyboardHeight + 60 : 100),
             },
           ]}
           showsVerticalScrollIndicator={false}
