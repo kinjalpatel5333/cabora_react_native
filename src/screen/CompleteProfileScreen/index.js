@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
-  Alert,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -22,6 +21,7 @@ import {
 } from '../../utils/cameraPermission';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, DatePickerInput, DatePickerModal} from '../../components';
+import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
@@ -72,6 +72,7 @@ export default function CompleteProfileScreen({navigation, route}) {
   const {colors: themeColors} = useApp();
   const dispatch = useAppDispatch();
   const { user: authUser } = useAuth();
+  const {showToast} = useToast();
 
   useFocusEffect(
     useCallback(() => {
@@ -111,6 +112,7 @@ export default function CompleteProfileScreen({navigation, route}) {
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [focusedField, setFocusedField] = useState(null);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollViewRef = useRef(null);
@@ -215,39 +217,31 @@ export default function CompleteProfileScreen({navigation, route}) {
   };
 
   const onStartRiding = async () => {
+    const newErrors = {};
+
     if (!fullName || !fullName.trim()) {
-      Alert.alert(
-        'Full Name Required',
-        'Please enter your full name to complete your profile.',
-      );
-      return;
+      newErrors.fullName = 'Please enter your full name';
     }
 
     if (!dob || !dob.trim()) {
-      Alert.alert(
-        'Date of Birth Required',
-        'Please select your date of birth to continue.',
-      );
-      return;
+      newErrors.dob = 'Please select your date of birth';
     }
 
     if (!email || !email.trim()) {
-      Alert.alert(
-        'Email Required',
-        'Please enter your email address to continue.',
-      );
+      newErrors.email = 'Please enter your email address';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.trim())) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      Alert.alert(
-        'Invalid Email',
-        'Please enter a valid email address (e.g. name@example.com).',
-      );
-      return;
-    }
-
+    setErrors({});
     setLoading(true);
     try {
       // Build FormData for multipart/form-data PUT /api/v1/passenger/profile
@@ -352,7 +346,10 @@ export default function CompleteProfileScreen({navigation, route}) {
       }
     } catch (err) {
       console.warn('Profile completion failed:', err);
-      Alert.alert('Error', 'Failed to complete profile. Please try again.');
+      showToast({
+        type: 'error',
+        message: 'Failed to complete profile. Please try again.',
+      });
     } finally {
       setLoading(false);
     }
@@ -422,25 +419,35 @@ export default function CompleteProfileScreen({navigation, route}) {
           <View style={styles.form}>
             {/* Full name */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, errors.fullName && styles.labelError]}>
                 Full name <Text style={styles.requiredStar}>*</Text>
               </Text>
               <TextInput
                 value={fullName}
-                onChangeText={setFullName}
+                onChangeText={text => {
+                  setFullName(text);
+                  if (errors.fullName) {
+                    setErrors(prev => ({...prev, fullName: null}));
+                  }
+                }}
                 placeholder="Ananya Shah"
                 placeholderTextColor={themeColors.textMuted}
                 style={[
                   styles.input,
                   focusedField === 'fullName' && styles.inputFocused,
+                  errors.fullName && styles.inputError,
                 ]}
                 onFocus={() => setFocusedField('fullName')}
                 onBlur={() => setFocusedField(null)}
                 autoCapitalize="words"
               />
-              <Text style={styles.caption}>
-                Your first name is what drivers see
-              </Text>
+              {errors.fullName ? (
+                <Text style={styles.errorText}>{errors.fullName}</Text>
+              ) : (
+                <Text style={styles.caption}>
+                  Your first name is what drivers see
+                </Text>
+              )}
             </View>
 
             {/* Date of birth */}
@@ -449,19 +456,25 @@ export default function CompleteProfileScreen({navigation, route}) {
                 label="Date of birth *"
                 value={dob}
                 placeholder="14 Mar 1994"
+                error={errors.dob}
                 onPress={() => setDobPickerVisible(true)}
-                hint="Never shown to drivers — used for age-restricted offers"
+                hint={errors.dob ? undefined : "Never shown to drivers — used for age-restricted offers"}
               />
             </View>
 
             {/* Email */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, errors.email && styles.labelError]}>
                 Email <Text style={styles.requiredStar}>*</Text>
               </Text>
               <TextInput
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={text => {
+                  setEmail(text);
+                  if (errors.email) {
+                    setErrors(prev => ({...prev, email: null}));
+                  }
+                }}
                 placeholder="name@example.com"
                 placeholderTextColor={themeColors.textMuted}
                 keyboardType="email-address"
@@ -470,6 +483,7 @@ export default function CompleteProfileScreen({navigation, route}) {
                 style={[
                   styles.input,
                   focusedField === 'email' && styles.inputFocused,
+                  errors.email && styles.inputError,
                 ]}
                 onFocus={() => {
                   setFocusedField('email');
@@ -479,6 +493,9 @@ export default function CompleteProfileScreen({navigation, route}) {
                 }}
                 onBlur={() => setFocusedField(null)}
               />
+              {errors.email ? (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              ) : null}
             </View>
 
             {/* Verified Phone Badge */}
@@ -513,7 +530,12 @@ export default function CompleteProfileScreen({navigation, route}) {
       <DatePickerModal
         visible={dobPickerVisible}
         onClose={() => setDobPickerVisible(false)}
-        onSelectDate={dateStr => setDob(dateStr)}
+        onSelectDate={dateStr => {
+          setDob(dateStr);
+          if (errors.dob) {
+            setErrors(prev => ({...prev, dob: null}));
+          }
+        }}
         value={dob}
         title="Select Date of Birth"
       />

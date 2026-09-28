@@ -116,6 +116,9 @@ export default function createStyles(colors) {
       color: colors.text,
       marginBottom: 8,
     },
+    labelError: {
+      color: colors.danger || colors.red?.[500] || '#EF4444',
+    },
     requiredStar: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.danger || colors.red?.[500] || '#EF4444',
@@ -133,6 +136,10 @@ export default function createStyles(colors) {
     },
     inputFocused: {
       borderColor: colors.orange[500],
+    },
+    inputError: {
+      borderColor: colors.danger || colors.red?.[500] || '#EF4444',
+      borderWidth: 1.2,
     },
     inputIconWrapper: {
       flexDirection: 'row',
@@ -155,6 +162,13 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
       color: colors.textMuted,
+      marginTop: 6,
+      lineHeight: 17,
+    },
+    errorText: {
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 12.5,
+      color: colors.danger || colors.red?.[500] || '#EF4444',
       marginTop: 6,
       lineHeight: 17,
     },

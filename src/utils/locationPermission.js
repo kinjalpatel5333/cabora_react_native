@@ -22,7 +22,10 @@ export async function checkLocationPermission() {
     const fine = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
-    return fine ? 'granted' : 'denied';
+    const coarse = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+    );
+    return fine || coarse ? 'granted' : 'denied';
   }
 
   // iOS has no sync check without probing; treat as unknown/denied until requested.
@@ -32,21 +35,32 @@ export async function checkLocationPermission() {
 export async function requestLocationPermission() {
   try {
     if (Platform.OS === 'android') {
-      const result = await PermissionsAndroid.request(
+      const permissions = [
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Allow 'Cabora' to use your location?",
-          message:
-            'Your location is used to set your pickup point and show nearby drivers.',
-          buttonPositive: 'Allow while using the app',
-          buttonNegative: "Don't allow",
-        },
-      );
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      ];
 
-      if (result === PermissionsAndroid.RESULTS.GRANTED) {
+      const granted = await PermissionsAndroid.requestMultiple(permissions);
+
+      const fineGranted =
+        granted[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] ===
+        PermissionsAndroid.RESULTS.GRANTED;
+      const coarseGranted =
+        granted[PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION] ===
+        PermissionsAndroid.RESULTS.GRANTED;
+
+      if (fineGranted || coarseGranted) {
         return 'granted';
       }
-      if (result === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+
+      const fineNeverAsk =
+        granted[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] ===
+        PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN;
+      const coarseNeverAsk =
+        granted[PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION] ===
+        PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN;
+
+      if (fineNeverAsk || coarseNeverAsk) {
         return 'blocked';
       }
       return 'denied';

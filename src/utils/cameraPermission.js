@@ -42,12 +42,12 @@ export async function requestCameraPermission() {
 
 export async function requestGalleryPermission() {
   if (Platform.OS === 'android') {
+    // Android 13+ (API 33+) uses the system PhotoPicker which doesn't require runtime storage permission
+    if (Platform.Version >= 33) {
+      return true;
+    }
     try {
-      let permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
-      if (Platform.Version >= 33) {
-        permission = PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES;
-      }
-
+      const permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
       const hasPermission = await PermissionsAndroid.check(permission);
       if (hasPermission) {
         return true;
@@ -55,7 +55,7 @@ export async function requestGalleryPermission() {
 
       const granted = await PermissionsAndroid.request(permission, {
         title: "Allow 'Cabora' to access your photos?",
-        message: 'Photo access is required to upload document photos.',
+        message: 'Photo access is required to select photos.',
         buttonPositive: 'Allow',
         buttonNegative: "Don't allow",
       });
@@ -66,7 +66,7 @@ export async function requestGalleryPermission() {
 
       showPermissionSettingsAlert(
         'Photo Access Required',
-        'Photo access is turned off. Please allow photo access in Settings to select documents.',
+        'Photo access is turned off. Please allow photo access in Settings to select photos.',
       );
       return false;
     } catch (err) {
