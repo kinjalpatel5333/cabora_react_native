@@ -1,16 +1,15 @@
 import { PASSENGER_OUTSTATION_VEHICLES, PASSENGER_OUTSTATION_FARE_ROWS } from '../../config/staticData';
-import React, {useMemo, useState} from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useToast} from '../../components/Toast';
-import {Button} from '../../components';
+import React, { useMemo, useState } from 'react';
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToast } from '../../components/Toast';
+import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const VEHICLES = PASSENGER_OUTSTATION_VEHICLES;
 
@@ -23,9 +22,9 @@ function formatPrice(n) {
 export default function OutstationScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
   const navigation = useNavigation();
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const [tripType, setTripType] = useState('round');
   const [vehicleId, setVehicleId] = useState('comfort');
   const [fromCity, setFromCity] = useState({
@@ -48,13 +47,13 @@ export default function OutstationScreen() {
   };
 
   const onBook = () => {
-    showToast({type: 'success', message: 'Outstation trip booked'});
+    showToast({ type: 'success', message: 'Outstation trip booked' });
     navigation.goBack();
   };
 
   return (
     <View style={styles.root}>
-      <View style={[styles.header, {paddingTop: insets.top + 4}]}>
+      <View style={[styles.header, { paddingTop: insets.top + 4 }]}>
         <TouchableOpacity activeOpacity={0.7}
           style={styles.headerBtn}
           onPress={() => navigation.goBack()}
@@ -76,7 +75,7 @@ export default function OutstationScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.scroll, {paddingBottom: 24}]}>
+        contentContainerStyle={[styles.scroll, { paddingBottom: 24 }]}>
         <View style={styles.tripToggle}>
           <TouchableOpacity activeOpacity={0.7}
             style={[
@@ -142,7 +141,7 @@ export default function OutstationScreen() {
               <Text style={styles.dateValue}>Sat 13 Sep · 07:00 am</Text>
               <TouchableOpacity activeOpacity={0.7}
                 onPress={() =>
-                  showToast({type: 'info', message: 'Edit depart time'})
+                  showToast({ type: 'info', message: 'Edit depart time' })
                 }
                 hitSlop={8}>
                 <Text style={styles.editText}>Edit</Text>
@@ -156,7 +155,7 @@ export default function OutstationScreen() {
                   <Text style={styles.dateValue}>Sun 14 Sep · 06:00 pm</Text>
                   <TouchableOpacity activeOpacity={0.7}
                     onPress={() =>
-                      showToast({type: 'info', message: 'Edit return time'})
+                      showToast({ type: 'info', message: 'Edit return time' })
                     }
                     hitSlop={8}>
                     <Text style={styles.editText}>Edit</Text>
@@ -178,8 +177,8 @@ export default function OutstationScreen() {
               const iconColor = active
                 ? colors.primary
                 : colors.isDark
-                ? colors.white
-                : colors.navy[800];
+                  ? colors.white
+                  : colors.navy[800];
               return (
                 <TouchableOpacity activeOpacity={0.7}
                   key={vehicle.id}
@@ -189,7 +188,7 @@ export default function OutstationScreen() {
                   ]}
                   onPress={() => setVehicleId(vehicle.id)}
                   accessibilityRole="button"
-                  accessibilityState={{selected: active}}>
+                  accessibilityState={{ selected: active }}>
                   <MaterialDesignIcons
                     name={vehicle.icon}
                     size={22}
@@ -229,7 +228,7 @@ export default function OutstationScreen() {
       <View
         style={[
           styles.footer,
-          {paddingBottom: Math.max(insets.bottom, 12)},
+          { paddingBottom: Math.max(insets.bottom, 12) },
         ]}>
         <View style={styles.footerCopy}>
           <Text style={styles.footerTrip} numberOfLines={1}>

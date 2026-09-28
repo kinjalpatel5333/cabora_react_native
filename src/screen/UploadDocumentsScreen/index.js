@@ -14,13 +14,12 @@ import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../../context/AppContext';
-import { useToast } from '../../components/Toast';
+
 import useThemedStyles from '../../components/useThemedStyles';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchDriverProfile } from '../../redux/slices/authSlice';
 import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
 import { formatImageUrl } from '../../utils/user';
-import { requestCameraPermission } from '../../utils/cameraPermission';
 import createStyles from './style';
 
 import { DRIVER_DOCUMENTS_LIST as DEFAULT_DOCUMENTS_LIST } from '../../config/staticData';
@@ -34,6 +33,7 @@ export default function UploadDocumentsScreen({ navigation }) {
   const driverKycData = useAppSelector(state => state.driver.kycData);
   const kycData = driverKycData || authUser?.driver || authUser;
 
+  console.log("driverKycData", driverKycData)
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
 
@@ -44,14 +44,10 @@ export default function UploadDocumentsScreen({ navigation }) {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
-      dispatch(fetchDriverKycStatus()).catch(() => {});
-      dispatch(fetchDriverProfile()).catch(() => {});
+      dispatch(fetchDriverKycStatus()).catch(() => { });
+      dispatch(fetchDriverProfile()).catch(() => { });
     }, [colors.isDark, dispatch]),
   );
-
-  useEffect(() => {
-    requestCameraPermission().catch(() => {});
-  }, []);
 
 
 

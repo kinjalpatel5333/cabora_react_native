@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
 import { Button, CountryPickerModal, Input } from '../../components';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { sendOtpApi } from '../../config';
@@ -59,6 +60,7 @@ function parseCooldownSeconds(errMsg, errData) {
 export default function LoginScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const { colors, isDark } = useApp();
+  const { showToast } = useToast();
   const styles = useThemedStyles(createStyles);
 
   useFocusEffect(
@@ -109,16 +111,12 @@ export default function LoginScreen({ navigation }) {
         : 'Enter a valid phone number.'
       : undefined;
 
-  const hint = coolingDown
-    ? 'You can request a new code once the timer ends.'
-    : !error
-      ? "We'll send a 6-digit code. Standard SMS rates may apply."
-      : undefined;
+  const hint = !error
+    ? "We'll send a 6-digit code. Standard SMS rates may apply."
+    : undefined;
 
-  const canSend = isValid && !blocked && !coolingDown && !loading;
-  const buttonTitle = coolingDown
-    ? `Resend in ${formatTimer(cooldown)}`
-    : 'Send OTP';
+  const canSend = isValid && !blocked && !loading;
+  const buttonTitle = 'Send OTP';
 
   useEffect(() => {
     if (prevDigitsRef.current !== digits) {
@@ -126,11 +124,6 @@ export default function LoginScreen({ navigation }) {
       if (digits === TEST_BLOCKED_NUMBER) {
         setBlocked(true);
         setCooldown(0);
-        return;
-      }
-      if (digits === TEST_COOLDOWN_NUMBER) {
-        setBlocked(false);
-        setCooldown(value => (value > 0 ? value : COOLDOWN_SECONDS));
         return;
       }
       setBlocked(false);
@@ -164,10 +157,6 @@ export default function LoginScreen({ navigation }) {
       setBlocked(true);
       return;
     }
-    if (isTestCooldown) {
-      setCooldown(COOLDOWN_SECONDS);
-      return;
-    }
 
     setLoading(true);
     try {
@@ -183,17 +172,12 @@ export default function LoginScreen({ navigation }) {
         response?.data?.code ||
         '123456';
 
-      const nextCount = sendCount + 1;
-      setSendCount(nextCount);
-      if (nextCount >= MAX_SEND_ATTEMPTS) {
-        setCooldown(COOLDOWN_SECONDS);
-      } else {
-        navigation.navigate('Otp', {
-          mobile: digits,
-          countryCode: country.dialCode,
-          serverOtp: receivedOtp,
-        });
-      }
+      setSendCount(prev => prev + 1);
+      navigation.navigate('Otp', {
+        mobile: digits,
+        countryCode: country.dialCode,
+        serverOtp: receivedOtp,
+      });
     } catch (err) {
       console.warn('sendOtpApi error:', err);
       const rawMsg = err?.message || err?.error || err;
@@ -208,7 +192,7 @@ export default function LoginScreen({ navigation }) {
       if (extractedCooldown) {
         setCooldown(extractedCooldown > 0 ? extractedCooldown : COOLDOWN_SECONDS);
       } else {
-        Alert.alert('Send OTP Failed', String(errMsg));
+        showToast({ type: 'error', message: `Send OTP Failed: ${String(errMsg)}` });
       }
     } finally {
       setLoading(false);
@@ -342,7 +326,7 @@ export default function LoginScreen({ navigation }) {
               title={buttonTitle}
               onPress={onSendOtp}
               loading={loading}
-              disabled={!canSend}
+            // disabled={!canSend}
             />
             <Text style={styles.terms}>
               By continuing you agree to{' '}

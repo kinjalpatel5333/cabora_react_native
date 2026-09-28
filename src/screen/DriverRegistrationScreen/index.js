@@ -88,13 +88,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [step]);
 
-  // Request camera access permission immediately upon entering the driver registration flow
-  useEffect(() => {
-    requestCameraPermission().catch(err => {
-      console.warn('Initial camera permission request failed:', err);
-    });
-  }, []);
-
   const authUser = useAppSelector(state => state?.auth?.user || null);
   const profile = useMemo(() => {
     return extractUserProfile(

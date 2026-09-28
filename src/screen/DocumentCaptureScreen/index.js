@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Image, Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useAppDispatch } from '../../redux/hooks';
@@ -38,6 +39,7 @@ function formatSize(bytes) {
 export default function DocumentCaptureScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
+  const { showToast } = useToast();
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
 
@@ -55,12 +57,12 @@ export default function DocumentCaptureScreen({ navigation, route }) {
 
   const applyAsset = useCallback(next => {
     if (next?.fileSize && next.fileSize > MAX_BYTES) {
-      Alert.alert('File too large', 'Please choose a file under 5 MB.');
+      showToast({ type: 'error', message: 'File too large. Please choose a file under 5 MB.' });
       return;
     }
     setAsset(next);
     setProgress(0);
-  }, []);
+  }, [showToast]);
 
   const openCamera = useCallback(async () => {
     setSource('camera');
@@ -129,10 +131,10 @@ export default function DocumentCaptureScreen({ navigation, route }) {
       return;
     }
     if (!asset) {
-      Alert.alert(
-        'Photo Required',
-        'Please take a photo or select an image from your gallery before submitting.',
-      );
+      showToast({
+        type: 'info',
+        message: 'Please take a photo or select an image from your gallery before submitting.',
+      });
       return;
     }
     setSaving(true);
@@ -155,10 +157,10 @@ export default function DocumentCaptureScreen({ navigation, route }) {
       }
     } catch (err) {
       setSaving(false);
-      Alert.alert(
-        'Upload failed',
-        err?.message || 'Could not save this document. Please try again.',
-      );
+      showToast({
+        type: 'error',
+        message: err?.message || 'Could not save this document. Please try again.',
+      });
     }
   };
 

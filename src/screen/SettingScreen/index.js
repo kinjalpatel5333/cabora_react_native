@@ -1,9 +1,9 @@
-import React from 'react';
-import {Alert, Text, View} from 'react-native';
-import {Button, Screen, Toggle} from '../../components';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {setNotificationsEnabled} from '../../redux/slices/appSlice';
-import {logoutUser} from '../../redux/slices/authSlice';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
+import { Button, ConfirmDialog, Screen, Toggle } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setNotificationsEnabled } from '../../redux/slices/appSlice';
+import { logoutUser } from '../../redux/slices/authSlice';
 import useThemedStyles from '../../components/useThemedStyles';
 import createStyles from './style';
 
@@ -23,12 +23,10 @@ export default function SettingScreen() {
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
   const notifications = useAppSelector(state => state.app.notifications);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const onLogout = () => {
-    Alert.alert('Log out', 'End this demo session?', [
-      {text: 'Cancel', style: 'cancel'},
-      {text: 'Log out', style: 'destructive', onPress: () => dispatch(logoutUser())},
-    ]);
+  const handleLogoutConfirm = () => {
+    dispatch(logoutUser());
   };
 
   return (
@@ -51,7 +49,18 @@ export default function SettingScreen() {
         />
       </View>
 
-      <Button title="Log out" variant="outline" onPress={onLogout} />
+      <Button title="Log out" variant="outline" onPress={() => setShowLogoutModal(true)} />
+
+      <ConfirmDialog
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        variant="danger"
+        title="Log out"
+        message="End this demo session?"
+        confirmLabel="Log out"
+        cancelLabel="Cancel"
+        onConfirm={handleLogoutConfirm}
+      />
     </Screen>
   );
 }

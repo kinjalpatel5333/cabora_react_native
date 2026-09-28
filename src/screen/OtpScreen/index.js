@@ -4,7 +4,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Linking,
-  Modal,
   Platform,
   ScrollView,
   StatusBar,
@@ -100,21 +99,21 @@ export default function OtpScreen({ navigation, route }) {
     if (route?.params?.serverOtp) {
       setServerOtp(route.params.serverOtp);
     }
-    setShowOtpModal(true);
   }, [route?.params?.serverOtp]);
 
   const activeOtp = serverOtp || route?.params?.serverOtp || CORRECT_OTP;
 
-  const handleAutoFill = () => {
-    setShowOtpModal(false);
+  // Auto fill OTP automatically
+  useEffect(() => {
     const val = String(activeOtp || CORRECT_OTP).replace(/\D/g, '').slice(0, CODE_LENGTH);
-    if (val) {
+    if (val && val.length === CODE_LENGTH) {
       setCode(val);
-      if (val.length === CODE_LENGTH) {
+      const timer = setTimeout(() => {
         verifySubmittedCode(val);
-      }
+      }, 400);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [activeOtp]);
 
   const paused = pauseIn > 0;
   const digits = code.split('');
@@ -589,36 +588,20 @@ export default function OtpScreen({ navigation, route }) {
               <Text style={styles.chipLabel}>Resend paused</Text>
             </View>
           ) : (
-            <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={startNewCode}
-                disabled={!canResend && !expired}
-                style={[styles.chip, expired ? styles.chipResend : null]}>
-                <Feather name={expired ? "refresh-cw" : "clock"} size={14} color={expired ? colors.primary : colors.gray[400]} />
-                <Text style={[styles.chipLabel, expired ? styles.chipLabelResend : null]}>
-                  {expired
-                    ? 'Resend code'
-                    : resendIn > 0
-                      ? `Resend code in ${formatTimer(resendIn)}`
-                      : 'Resend code'}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                activeOpacity={0.7}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                onPress={() => {
-                  Keyboard.dismiss();
-                  setShowOtpModal(true);
-                }}
-                style={[styles.chip, styles.chipResend]}>
-                <Feather name="key" size={14} color={colors.orange[500]} />
-                <Text style={[styles.chipLabel, { color: colors.orange[500] }]}>
-                  View OTP Code
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={startNewCode}
+              disabled={!canResend && !expired}
+              style={[styles.chip, expired ? styles.chipResend : null]}>
+              <Feather name={expired ? "refresh-cw" : "clock"} size={14} color={expired ? colors.primary : colors.gray[400]} />
+              <Text style={[styles.chipLabel, expired ? styles.chipLabelResend : null]}>
+                {expired
+                  ? 'Resend code'
+                  : resendIn > 0
+                    ? `Resend code in ${formatTimer(resendIn)}`
+                    : 'Resend code'}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
 
@@ -641,46 +624,6 @@ export default function OtpScreen({ navigation, route }) {
           </Text>
         </View>
       </KeyboardAvoidingView>
-
-      {/* OTP Code Modal */}
-      <Modal
-        visible={showOtpModal}
-        transparent
-        statusBarTranslucent
-        animationType="fade"
-        onRequestClose={() => setShowOtpModal(false)}>
-        <View style={styles.otpModalOverlay}>
-          <View style={styles.otpModalContent}>
-            <View style={styles.otpIconContainer}>
-              <Feather name="key" size={28} color={colors.orange[500]} />
-            </View>
-            <Text style={styles.otpModalTitle}>Your OTP Code</Text>
-            <Text style={styles.otpModalSub}>
-              Use this verification code to complete your login
-            </Text>
-
-            <View style={styles.otpBadge}>
-              <Text style={styles.otpBadgeText}>{activeOtp}</Text>
-            </View>
-
-            <View style={styles.otpModalActions}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={handleAutoFill}
-                style={styles.autoFillBtn}>
-                <Text style={styles.autoFillBtnText}>Auto-Fill OTP</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setShowOtpModal(false)}
-                style={styles.dismissBtn}>
-                <Text style={styles.dismissBtnText}>Dismiss</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
