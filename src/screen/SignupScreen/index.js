@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {Alert, Image, Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {images} from '../../assets';
 import {Button, Input, Screen} from '../../components';
+import {useToast} from '../../components/Toast';
 import {useAppDispatch} from '../../redux/hooks';
 import {signupUser} from '../../redux/slices/authSlice';
 import {isValidEmail, isValidPassword} from '../../utils/validators';
@@ -9,6 +10,7 @@ import styles from './style';
 
 export default function SignupScreen({navigation}) {
   const dispatch = useAppDispatch();
+  const {showToast} = useToast();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,10 +43,10 @@ export default function SignupScreen({navigation}) {
           typeof result.payload === 'string'
             ? result.payload
             : result.error?.message || 'Try again';
-        Alert.alert('Sign up failed', errorMsg);
+        showToast({type: 'error', message: `Sign up failed: ${errorMsg}`});
       }
     } catch (err) {
-      Alert.alert('Sign up failed', err?.message || 'An error occurred.');
+      showToast({type: 'error', message: `Sign up failed: ${err?.message || 'An error occurred.'}`});
     } finally {
       setLoading(false);
     }

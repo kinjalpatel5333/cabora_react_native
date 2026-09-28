@@ -1,4 +1,4 @@
-import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native';
+import { Linking, PermissionsAndroid, Platform } from 'react-native';
 
 export async function requestCameraPermission() {
   if (Platform.OS === 'android') {
@@ -25,10 +25,6 @@ export async function requestCameraPermission() {
         return true;
       }
 
-      showPermissionSettingsAlert(
-        'Camera Permission Required',
-        'Camera access is turned off. Please allow camera access in Settings to photograph documents.',
-      );
       return false;
     } catch (err) {
       console.warn('requestCameraPermission error:', err);
@@ -64,10 +60,6 @@ export async function requestGalleryPermission() {
         return true;
       }
 
-      showPermissionSettingsAlert(
-        'Photo Access Required',
-        'Photo access is turned off. Please allow photo access in Settings to select photos.',
-      );
       return false;
     } catch (err) {
       console.warn('requestGalleryPermission error:', err);
@@ -83,16 +75,5 @@ export function showPermissionSettingsAlert(
   title = 'Permission Required',
   message = 'Please grant access in Settings to use this feature.',
 ) {
-  Alert.alert(
-    title,
-    message,
-    [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Open Settings',
-        onPress: () => Linking.openSettings().catch(() => {}),
-      },
-    ],
-    { cancelable: true },
-  );
+  Linking.openSettings().catch(() => {});
 }

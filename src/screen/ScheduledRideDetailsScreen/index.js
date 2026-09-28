@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import { useState } from 'react';
 import {
-  Alert,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useToast} from '../../components/Toast';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
@@ -40,10 +39,10 @@ const DEFAULT_RIDE = {
 export default function ScheduledRideDetailsScreen() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const { colors } = useApp();
   const navigation = useNavigation();
   const route = useRoute();
-  const {showToast} = useToast();
+  const { showToast } = useToast();
 
   const initialRide = route.params?.ride || DEFAULT_RIDE;
 
@@ -52,15 +51,13 @@ export default function ScheduledRideDetailsScreen() {
     ...initialRide,
     dateFormatted:
       initialRide.dateFormatted ||
-      `${initialRide.dayFull || initialRide.day || 'Tuesday'} ${
-        initialRide.date || '22'
+      `${initialRide.dayFull || initialRide.day || 'Tuesday'} ${initialRide.date || '22'
       } ${initialRide.month || 'Sep'}, ${initialRide.time || '6:30 am'}`,
     pickupSub: initialRide.pickupSub || `Pickup ${initialRide.time || '6:30 am'}`,
     dropSub: initialRide.dropSub || 'Arrive by 7:14 am · 18.4 km',
     fareDetails:
       initialRide.fareDetails ||
-      `${initialRide.fare || '₹520'} · locked till ${
-        initialRide.time || '6:30 am'
+      `${initialRide.fare || '₹520'} · locked till ${initialRide.time || '6:30 am'
       }`,
     paymentMethod: initialRide.paymentMethod || 'Cash on arrival',
   });
@@ -76,25 +73,10 @@ export default function ScheduledRideDetailsScreen() {
   };
 
   const handleOptions = () => {
-    Alert.alert(
-      'Scheduled Ride Options',
-      'What would you like to do with this scheduled ride?',
-      [
-        {
-          text: 'Share ride details',
-          onPress: () =>
-            showToast({
-              type: 'info',
-              message: 'Ride details copied to clipboard',
-            }),
-        },
-        {
-          text: 'Need Help?',
-          onPress: () => navigation.navigate('Help'),
-        },
-        {text: 'Close', style: 'cancel'},
-      ],
-    );
+    showToast({
+      type: 'info',
+      message: 'Ride details copied to clipboard',
+    });
   };
 
   const handleConfirmNewSchedule = data => {
@@ -153,7 +135,7 @@ export default function ScheduledRideDetailsScreen() {
   return (
     <View style={styles.root}>
       {/* Top Header */}
-      <View style={[styles.header, {paddingTop: insets.top + 6}]}>
+      <View style={[styles.header, { paddingTop: insets.top + 6 }]}>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.headerBtn}
@@ -336,7 +318,7 @@ export default function ScheduledRideDetailsScreen() {
       <View
         style={[
           styles.bottomBar,
-          {paddingBottom: Math.max(insets.bottom, 12) + 6},
+          { paddingBottom: Math.max(insets.bottom, 12) + 6 },
         ]}>
         <TouchableOpacity
           activeOpacity={0.8}

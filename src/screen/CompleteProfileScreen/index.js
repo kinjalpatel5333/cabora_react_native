@@ -220,24 +220,39 @@ export default function CompleteProfileScreen({navigation, route}) {
     const newErrors = {};
 
     if (!fullName || !fullName.trim()) {
-      newErrors.fullName = 'Please enter your full name';
+      showToast({
+        type: 'danger',
+        title: 'Full Name Required',
+        message: 'Please enter your full name to complete your profile.',
+      });
+      return;
     }
 
     if (!dob || !dob.trim()) {
-      newErrors.dob = 'Please select your date of birth';
+      showToast({
+        type: 'danger',
+        title: 'Date of Birth Required',
+        message: 'Please select your date of birth to continue.',
+      });
+      return;
     }
 
     if (!email || !email.trim()) {
-      newErrors.email = 'Please enter your email address';
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email.trim())) {
-        newErrors.email = 'Please enter a valid email address';
-      }
+      showToast({
+        type: 'danger',
+        title: 'Email Required',
+        message: 'Please enter your email address to continue.',
+      });
+      return;
     }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      showToast({
+        type: 'danger',
+        title: 'Invalid Email',
+        message: 'Please enter a valid email address (e.g. name@example.com).',
+      });
       return;
     }
 
@@ -347,7 +362,8 @@ export default function CompleteProfileScreen({navigation, route}) {
     } catch (err) {
       console.warn('Profile completion failed:', err);
       showToast({
-        type: 'error',
+        type: 'danger',
+        title: 'Profile Error',
         message: 'Failed to complete profile. Please try again.',
       });
     } finally {

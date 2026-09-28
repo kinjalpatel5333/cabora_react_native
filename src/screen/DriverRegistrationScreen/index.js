@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Alert,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -31,7 +30,6 @@ import {
   showPermissionSettingsAlert,
 } from '../../utils/cameraPermission';
 import {
-  registerDriverApi,
   saveOnboardingPersonalApi,
   saveOnboardingLicenseApi,
   saveOnboardingVehicleApi,
@@ -51,7 +49,7 @@ import {
   DRIVER_REGISTRATION_VEHICLE_TYPES as VEHICLE_TYPES,
   DRIVER_REVIEW_ITEMS as REVIEW_ITEMS,
 } from '../../config/staticData';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 function formatApiDateToDisplay(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return '';
@@ -84,6 +82,36 @@ function formatInsurancePolicyNumber(text) {
   if (clean.length > 14) parts.push(clean.slice(14, 18));
   if (clean.length > 18) parts.push(clean.slice(18, 22));
   return parts.join('-');
+}
+
+function formatVehicleRegNumber(rawText, prevText = '') {
+  if (!rawText) return '';
+  if (prevText && rawText.length < prevText.length && prevText.endsWith(' ') && !rawText.endsWith(' ')) {
+    return rawText;
+  }
+  const clean = rawText.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  if (!clean) return '';
+
+  const state = clean.slice(0, 2);
+  if (clean.length <= 2) return state;
+
+  const rto = clean.slice(2, 4);
+  if (clean.length <= 4) return `${state} ${rto}`;
+
+  const rest = clean.slice(4);
+  const firstDigitIndex = rest.search(/\d/);
+
+  if (firstDigitIndex === -1) {
+    const series = rest.slice(0, 3);
+    return `${state} ${rto} ${series}`;
+  } else if (firstDigitIndex === 0) {
+    const digits = rest.slice(0, 4);
+    return `${state} ${rto} ${digits}`;
+  } else {
+    const series = rest.slice(0, Math.min(firstDigitIndex, 3));
+    const digits = rest.slice(firstDigitIndex, firstDigitIndex + 4);
+    return `${state} ${rto} ${series} ${digits}`;
+  }
 }
 
 export default function DriverRegistrationScreen({ navigation, route }) {
@@ -152,13 +180,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [step]);
-
-  // Request camera access permission immediately upon entering the driver registration flow
-  useEffect(() => {
-    requestCameraPermission().catch(err => {
-      console.warn('Initial camera permission request failed:', err);
-    });
-  }, []);
 
   const authUser = useAppSelector(state => state?.auth?.user || null);
   const profile = useMemo(() => {
@@ -235,10 +256,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   // Step 3 State: Vehicle Details
   const [selectedVehicle, setSelectedVehicle] = useState('bike');
   const [regNumber, setRegNumber] = useState('');
-  const [make, setMake] = useState('Hyundai');
-  const [model, setModel] = useState('Aura');
-  const [year, setYear] = useState('2020');
-  const [color, setColor] = useState('');
   const [plateDocStatus, setPlateDocStatus] = useState('pending');
   const [rcDocStatus, setRcDocStatus] = useState('pending');
   const [plateUri, setPlateUri] = useState(null);
@@ -258,6 +275,18 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   // Step 6 State: Confirmation Checkbox
   const [termsConfirmed, setTermsConfirmed] = useState(false);
+
+  // Form Validation Red Border Errors State
+  const [errors, setErrors] = useState({});
+
+  const clearError = useCallback(key => {
+    setErrors(prev => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }, []);
 
   const persistCurrentProgress = async (nextStep, customData = {}) => {
     try {
@@ -393,9 +422,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               (driverData?.completedStepsCount !== undefined ? driverData.completedStepsCount + 1 : null);
 
             if (nextStepNum && typeof nextStepNum === 'number' && nextStepNum >= 1 && nextStepNum <= 6) {
-              targetStep = nextStepNum;
+              targetStep = Math.max(targetStep, nextStepNum);
             } else if (driverData?.completedStepsCount === 5 || driverData?.pendingStepsCount === 0) {
-              targetStep = 6;
+              targetStep = Math.max(targetStep, 6);
             }
 
             // Populate Section 1: Personal Details
@@ -607,213 +636,107 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   const validateStep = currentStep => {
     if (currentStep === 1) {
+      const stepErrors = {};
       if (!profilePhotoUri && !hasPhoto) {
-        showToast({
-          type: 'danger',
-          title: 'Profile Photo Required',
-          message: 'Please upload a clear front-facing profile photo.',
-        });
-        return false;
+        stepErrors.profilePhoto = true;
       }
       if (!fullName.trim() || fullName.trim().length < 3) {
-        showToast({
-          type: 'danger',
-          title: 'Full Name Required',
-          message: 'Please enter your full name as printed on your driving licence.',
-        });
-        return false;
+        stepErrors.fullName = true;
       }
       if (!dob || dob.trim().length < 6) {
-        showToast({
-          type: 'danger',
-          title: 'Date of Birth Required',
-          message: 'Please select or enter a valid date of birth.',
-        });
-        return false;
-      }
-
-      const birthDate = parseDateString(dob);
-      const today = new Date();
-      if (birthDate > today) {
-        showToast({
-          type: 'danger',
-          title: 'Invalid Date of Birth',
-          message: 'Date of birth cannot be in the future.',
-        });
-        return false;
-      }
-
-      const age = calculateAge(dob);
-      if (age < 18) {
-        showToast({
-          type: 'danger',
-          title: 'Age Requirement Not Met',
-          message: 'You must be at least 18 years old to drive on Cabora.',
-        });
-        return false;
+        stepErrors.dob = true;
+      } else {
+        const birthDate = parseDateString(dob);
+        const today = new Date();
+        const age = calculateAge(dob);
+        if (birthDate > today || age < 18) {
+          stepErrors.dob = true;
+        }
       }
       if (!mobileNum.trim() || mobileNum.replace(/\s+/g, '').length < 10) {
-        showToast({
-          type: 'danger',
-          title: 'Mobile Number Required',
-          message: 'Please enter a valid 10-digit mobile number.',
-        });
-        return false;
+        stepErrors.mobileNum = true;
       }
       if (email && email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-        showToast({
-          type: 'danger',
-          title: 'Invalid Email',
-          message: 'Please enter a valid email address or leave it blank.',
-        });
+        stepErrors.email = true;
+      }
+      if (Object.keys(stepErrors).length > 0) {
+        setErrors(prev => ({ ...prev, ...stepErrors }));
         return false;
       }
       return true;
     }
 
     if (currentStep === 2) {
+      const stepErrors = {};
       const cleanDl = dlNumber.replace(/\s+/g, '').toUpperCase();
-      if (!cleanDl) {
-        showToast({
-          type: 'danger',
-          title: 'Licence Number Required',
-          message: 'Please enter your 15-character driving licence number.',
-        });
-        return false;
-      }
-      if (cleanDl.length !== 15) {
-        showToast({
-          type: 'danger',
-          title: 'Invalid Licence Number',
-          message: 'Driving licence number must be exactly 15 characters without spaces (e.g. GJ0120190012345).',
-        });
-        return false;
-      }
-      if (!/^[A-Z0-9]{15}$/.test(cleanDl)) {
-        showToast({
-          type: 'danger',
-          title: 'Invalid Licence Format',
-          message: 'Driving licence number must contain 15 uppercase letters and numbers only.',
-        });
-        return false;
+      if (!cleanDl || cleanDl.length !== 15 || !/^[A-Z0-9]{15}$/.test(cleanDl)) {
+        stepErrors.dlNumber = true;
       }
       if (!dlFrontUri && dlFrontStatus !== 'verified') {
-        showToast({
-          type: 'danger',
-          title: 'DL Front Photo Required',
-          message: 'Please upload a clear photo of the front of your driving licence.',
-        });
-        return false;
+        stepErrors.dlFront = true;
       }
       if (!dlBackUri && dlBackStatus !== 'verified') {
-        showToast({
-          type: 'danger',
-          title: 'DL Back Photo Required',
-          message:
-            dlBackStatus === 'blurred'
-              ? 'The back of your driving licence is blurred. Please retake the photo.'
-              : 'Please upload a clear photo of the back of your driving licence.',
-        });
+        stepErrors.dlBack = true;
+      }
+      if (Object.keys(stepErrors).length > 0) {
+        setErrors(prev => ({ ...prev, ...stepErrors }));
         return false;
       }
       return true;
     }
 
     if (currentStep === 3) {
+      const stepErrors = {};
       if (!selectedVehicle) {
-        showToast({
-          type: 'danger',
-          title: 'Vehicle Type Required',
-          message: 'Please select a vehicle type for your registration.',
-        });
-        return false;
+        stepErrors.selectedVehicle = true;
       }
       if (!regNumber.trim() || regNumber.trim().length < 5) {
-        showToast({
-          type: 'danger',
-          title: 'Registration Number Required',
-          message: 'Please enter a valid vehicle registration (RC) number.',
-        });
-        return false;
+        stepErrors.regNumber = true;
       }
       if (!plateUri && plateDocStatus !== 'uploaded') {
-        showToast({
-          type: 'danger',
-          title: 'Number Plate Photo Required',
-          message: 'Please upload a clear photo of your rear vehicle number plate.',
-        });
-        return false;
+        stepErrors.plateUri = true;
       }
       if (!rcUri && rcDocStatus !== 'uploaded') {
-        showToast({
-          type: 'danger',
-          title: 'RC Document Photo Required',
-          message: 'Please upload a photo of your vehicle registration certificate (RC).',
-        });
+        stepErrors.rcUri = true;
+      }
+      if (Object.keys(stepErrors).length > 0) {
+        setErrors(prev => ({ ...prev, ...stepErrors }));
         return false;
       }
       return true;
     }
 
     if (currentStep === 4) {
+      const stepErrors = {};
       if (!policyNumber.trim() || policyNumber.trim().length < 5) {
-        showToast({
-          type: 'danger',
-          title: 'Policy Number Required',
-          message: 'Please enter a valid insurance policy number.',
-        });
-        return false;
+        stepErrors.policyNumber = true;
       }
-      if (!insuranceExpiry || insuranceExpiry.trim().length < 6) {
-        showToast({
-          type: 'danger',
-          title: 'Expiry Date Required',
-          message: 'Please select a valid insurance policy expiry date.',
-        });
-        return false;
-      }
-      if (!insuranceExpiryInfo.isValid) {
-        showToast({
-          type: 'danger',
-          title: 'Expired Insurance Policy',
-          message: 'Your insurance policy has expired. Please select a valid future expiry date.',
-        });
-        return false;
+      if (!insuranceExpiry || insuranceExpiry.trim().length < 6 || !insuranceExpiryInfo.isValid) {
+        stepErrors.insuranceExpiry = true;
       }
       if (!insuranceUri && insuranceDocStatus !== 'uploaded') {
-        showToast({
-          type: 'danger',
-          title: 'Insurance Document Required',
-          message: 'Please upload a photo or document of your vehicle insurance policy.',
-        });
+        stepErrors.insuranceUri = true;
+      }
+      if (Object.keys(stepErrors).length > 0) {
+        setErrors(prev => ({ ...prev, ...stepErrors }));
         return false;
       }
       return true;
     }
 
     if (currentStep === 5) {
+      const stepErrors = {};
       if (!accountHolder.trim()) {
-        showToast({
-          type: 'danger',
-          title: 'Account Holder Name Required',
-          message: 'Please enter the bank account holder name.',
-        });
-        return false;
+        stepErrors.accountHolder = true;
       }
       if (!accountNumber.trim() || accountNumber.replace(/[\s•]/g, '').length < 4) {
-        showToast({
-          type: 'danger',
-          title: 'Account Number Required',
-          message: 'Please enter a valid bank account number.',
-        });
-        return false;
+        stepErrors.accountNumber = true;
       }
       if (!ifscCode.trim() || ifscCode.trim().length < 4) {
-        showToast({
-          type: 'danger',
-          title: 'IFSC Code Required',
-          message: 'Please enter a valid 11-digit bank IFSC code.',
-        });
+        stepErrors.ifscCode = true;
+      }
+      if (Object.keys(stepErrors).length > 0) {
+        setErrors(prev => ({ ...prev, ...stepErrors }));
         return false;
       }
       return true;
@@ -890,9 +813,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
         let resolvedNext = defaultNextStep;
         if (nextStepNum && typeof nextStepNum === 'number' && nextStepNum >= 1 && nextStepNum <= 6) {
-          resolvedNext = nextStepNum;
+          resolvedNext = Math.max(defaultNextStep || 1, nextStepNum);
         } else if (driverData?.completedStepsCount === 5 || driverData?.pendingStepsCount === 0) {
-          resolvedNext = 6;
+          resolvedNext = Math.max(defaultNextStep || 1, 6);
         }
 
         setStep(resolvedNext);
@@ -1054,7 +977,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   const renderStep1 = () => (
     <View>
-      <View style={styles.profileCard}>
+      <View style={[styles.profileCard, errors.profilePhoto && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
         <View style={styles.avatarWrap}>
           {profilePhotoUri ? (
             <Image
@@ -1076,6 +999,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             handlePickImage(uri => {
               setProfilePhotoUri(uri);
               setHasPhoto(true);
+              clearError('profilePhoto');
             }, 'Profile photo')
           }
           style={styles.uploadPillBtn}>
@@ -1087,10 +1011,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Full name *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.fullName && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={fullName}
-            onChangeText={setFullName}
+            onChangeText={text => {
+              setFullName(text);
+              if (text.trim()) clearError('fullName');
+            }}
             placeholder="Rahul Mehta"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
@@ -1105,6 +1032,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           label="Date of birth *"
           value={dob}
           placeholder="DD / MM / YYYY"
+          fieldStyle={errors.dob && { borderColor: colors.red[500], borderWidth: 1.5 }}
           onPress={() => setDobPickerVisible(true)}
           hint="You must be 18 or older to drive on Cabora"
           containerStyle={{ marginBottom: 0 }}
@@ -1114,7 +1042,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       {!isMobileVerified ? (
         <View style={styles.fieldGroup}>
           <Text style={styles.fieldLabel}>Mobile number *</Text>
-          <View style={styles.mobileInputRow}>
+          <View style={[styles.mobileInputRow, errors.mobileNum && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
             <TouchableOpacity
               activeOpacity={0.7}
               accessibilityRole="button"
@@ -1137,7 +1065,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
             <TextInput
               value={mobileNum}
-              onChangeText={setMobileNum}
+              onChangeText={text => {
+                setMobileNum(text);
+                if (text.trim()) clearError('mobileNum');
+              }}
               placeholder="98240 11234"
               placeholderTextColor={colors.gray[400]}
               keyboardType="phone-pad"
@@ -1152,6 +1083,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               onPress={() => {
                 if (mobileNum.replace(/\D/g, '').length >= 8) {
                   setIsMobileVerified(true);
+                  clearError('mobileNum');
                   showToast({
                     type: 'success',
                     title: 'Mobile Verified',
@@ -1187,10 +1119,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Email</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.email && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={email}
-            onChangeText={setEmail}
+            onChangeText={text => {
+              setEmail(text);
+              clearError('email');
+            }}
             placeholder="name@example.com"
             placeholderTextColor={colors.gray[400]}
             keyboardType="email-address"
@@ -1211,10 +1146,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     <View>
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Driving licence number *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.dlNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={dlNumber}
-            onChangeText={text => setDlNumber(text.replace(/\s+/g, '').toUpperCase())}
+            onChangeText={text => {
+              setDlNumber(text.replace(/\s+/g, '').toUpperCase());
+              if (text.trim()) clearError('dlNumber');
+            }}
             placeholder="GJ0120190012345"
             placeholderTextColor={colors.gray[400]}
             autoCapitalize="characters"
@@ -1226,7 +1164,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         <Text style={styles.fieldSubtext}>15 characters, no spaces — as printed on the card</Text>
       </View>
       <View style={styles.twoColGrid}>
-        <View style={[styles.docUploadBox, dlFrontUri && styles.docUploadBoxVerified]}>
+        <View style={[styles.docUploadBox, dlFrontUri && styles.docUploadBoxVerified, errors.dlFront && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <View style={styles.docIllustrationFront}>
             {dlFrontUri ? (
               <Image
@@ -1258,6 +1196,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 handlePickImage(uri => {
                   setDlFrontUri(uri);
                   setDlFrontStatus('verified');
+                  clearError('dlFront');
                 }, 'DL Front')
               }
               style={dlFrontUri ? styles.btnPillGray : styles.btnPillOrange}>
@@ -1276,6 +1215,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               : dlBackStatus === 'blurred'
                 ? styles.docUploadBoxError
                 : null,
+            errors.dlBack && { borderColor: colors.red[500], borderWidth: 1.5 },
           ]}>
           <View
             style={[
@@ -1325,6 +1265,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 handlePickImage(uri => {
                   setDlBackUri(uri);
                   setDlBackStatus('verified');
+                  clearError('dlBack');
                 }, 'DL Back')
               }
               style={
@@ -1392,14 +1333,17 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const renderStep3 = () => (
     <View>
       <Text style={styles.fieldLabel}>Vehicle type *</Text>
-      <View style={styles.vehicleGrid}>
+      <View style={[styles.vehicleGrid, errors.selectedVehicle && { borderColor: colors.red[500], borderWidth: 1.5, borderRadius: 16, padding: 4 }]}>
         {VEHICLE_TYPES.map(vt => {
           const active = selectedVehicle === vt.id;
           return (
             <TouchableOpacity
               activeOpacity={0.7}
               key={vt.id}
-              onPress={() => setSelectedVehicle(vt.id)}
+              onPress={() => {
+                setSelectedVehicle(vt.id);
+                clearError('selectedVehicle');
+              }}
               style={[styles.vehicleCard, active && styles.vehicleCardActive]}>
               <View style={[styles.vehicleIconWrap, active && styles.vehicleIconWrapActive]}>
                 {vt.icon === 'motorbike' ? (
@@ -1442,13 +1386,18 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Vehicle registration number *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.regNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={regNumber}
-            onChangeText={setRegNumber}
+            onChangeText={text => {
+              const formatted = formatVehicleRegNumber(text, regNumber);
+              setRegNumber(formatted);
+              if (formatted.trim()) clearError('regNumber');
+            }}
             placeholder="GJ 01 MJ 4821"
             placeholderTextColor={colors.gray[400]}
             autoCapitalize="characters"
+            maxLength={13}
             style={styles.textInput}
             onFocus={() => handleInputFocus(300)}
           />
@@ -1456,7 +1405,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         <Text style={styles.fieldSubtext}>Must match the RC exactly</Text>
       </View>
 
-      <View style={[styles.docRowCard, (plateUri || plateDocStatus === 'uploaded') && styles.docRowCardVerified]}>
+      <View style={[styles.docRowCard, (plateUri || plateDocStatus === 'uploaded') && styles.docRowCardVerified, errors.plateUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
         <View style={styles.docRowThumb}>
           {plateUri ? (
             <Image
@@ -1488,6 +1437,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 handlePickImage(uri => {
                   setPlateUri(uri);
                   setPlateDocStatus('uploaded');
+                  clearError('plateUri');
                 }, 'Number Plate')
               }
               style={plateUri || plateDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
@@ -1499,7 +1449,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </View>
       </View>
 
-      <View style={[styles.docRowCard, (rcUri || rcDocStatus === 'uploaded') && styles.docRowCardVerified]}>
+      <View style={[styles.docRowCard, (rcUri || rcDocStatus === 'uploaded') && styles.docRowCardVerified, errors.rcUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
         <View style={styles.docRowThumb}>
           {rcUri ? (
             <Image
@@ -1529,6 +1479,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 handlePickImage(uri => {
                   setRcUri(uri);
                   setRcDocStatus('uploaded');
+                  clearError('rcUri');
                 }, 'RC Document')
               }
               style={rcUri || rcDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
@@ -1546,10 +1497,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     <View>
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Insurance policy number *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.policyNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={policyNumber}
-            onChangeText={text => setPolicyNumber(formatInsurancePolicyNumber(text))}
+            onChangeText={text => {
+              setPolicyNumber(text);
+              if (text.trim()) clearError('policyNumber');
+            }}
             placeholder="OD-2026-4471-9920-3318"
             placeholderTextColor={colors.gray[400]}
             autoCapitalize="characters"
@@ -1561,7 +1515,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         <Text style={styles.fieldSubtext}>Comprehensive or third-party, in the owner's name</Text>
       </View>
 
-      <View style={[styles.docRowCard, (insuranceUri || insuranceDocStatus === 'uploaded') && styles.docRowCardVerified]}>
+      <View style={[styles.docRowCard, (insuranceUri || insuranceDocStatus === 'uploaded') && styles.docRowCardVerified, errors.insuranceUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
         <View style={styles.docRowThumbTall}>
           {insuranceUri ? (
             <Image
@@ -1598,19 +1552,30 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                 <Text style={styles.statusPillRequiredText}>Required</Text>
               </View>
             )}
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() =>
-                handlePickImage(uri => {
-                  setInsuranceUri(uri);
-                  setInsuranceDocStatus('uploaded');
-                }, 'Insurance Document')
-              }
-              style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
-              <Text style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGrayText : styles.btnPillOrangeText}>
-                {insuranceUri || insuranceDocStatus === 'uploaded' ? 'Replace' : 'Upload'}
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.docRowButtonsGroup}>
+              {insuranceUri || insuranceDocStatus === 'uploaded' ? (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => showToast({ type: 'info', message: 'Opening document preview' })}
+                  style={styles.btnPillOrange}>
+                  <Text style={styles.btnPillOrangeText}>View</Text>
+                </TouchableOpacity>
+              ) : null}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() =>
+                  handlePickImage(uri => {
+                    setInsuranceUri(uri);
+                    setInsuranceDocStatus('uploaded');
+                    clearError('insuranceUri');
+                  }, 'Insurance Document')
+                }
+                style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGray : styles.btnPillOrange}>
+                <Text style={insuranceUri || insuranceDocStatus === 'uploaded' ? styles.btnPillGrayText : styles.btnPillOrangeText}>
+                  {insuranceUri || insuranceDocStatus === 'uploaded' ? 'Replace' : 'Upload'}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -1620,13 +1585,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           label="Insurance expiry date *"
           value={insuranceExpiry}
           placeholder="DD / MM / YYYY"
-          onPress={() => setInsurancePickerVisible(true)}
-          containerStyle={{ marginBottom: 0 }}
+          fieldStyle={errors.insuranceExpiry && { borderColor: colors.red[500], borderWidth: 1.5 }}
           error={
             insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
               ? 'Policy has expired. Please select a valid future expiry date.'
               : undefined
           }
+          onPress={() => setInsurancePickerVisible(true)}
           success={
             insuranceExpiryInfo.isSet && insuranceExpiryInfo.isValid
               ? true
@@ -1656,10 +1621,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     <View>
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Account holder name *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.accountHolder && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={accountHolder}
-            onChangeText={setAccountHolder}
+            onChangeText={text => {
+              setAccountHolder(text);
+              if (text.trim()) clearError('accountHolder');
+            }}
             placeholder="Rahul Mehta"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
@@ -1671,10 +1639,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>Bank account number *</Text>
-        <View style={styles.inputWrap}>
+        <View style={[styles.inputWrap, errors.accountNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={accountNumber}
-            onChangeText={setAccountNumber}
+            onChangeText={text => {
+              setAccountNumber(text);
+              if (text.trim()) clearError('accountNumber');
+            }}
             placeholder="•••• •••• 4417"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
@@ -1686,10 +1657,14 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>IFSC code *</Text>
-        <View style={[styles.inputWrap, isIfscValid && styles.inputWrapSuccess, { gap: 10 }]}>
+        <View style={[styles.inputWrap, isIfscValid && styles.inputWrapSuccess, errors.ifscCode && { borderColor: colors.red[500], borderWidth: 1.5 }, { gap: 10 }]}>
           <TextInput
             value={ifscCode}
-            onChangeText={text => setIfscCode(text.replace(/\s+/g, '').toUpperCase())}
+            onChangeText={text => {
+              const formatted = text.replace(/\s+/g, '').toUpperCase();
+              setIfscCode(formatted);
+              if (formatted.trim()) clearError('ifscCode');
+            }}
             placeholder="HDFC0000342"
             placeholderTextColor={colors.gray[400]}
             autoCapitalize="characters"
@@ -1932,7 +1907,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       <DatePickerModal
         visible={dobPickerVisible}
         onClose={() => setDobPickerVisible(false)}
-        onSelectDate={dateStr => setDob(dateStr)}
+        onSelectDate={dateStr => {
+          setDob(dateStr);
+          if (dateStr) clearError('dob');
+        }}
         value={dob}
         maxYear={new Date().getFullYear() - 18}
         title="Select Date of Birth"
@@ -1941,7 +1919,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       <DatePickerModal
         visible={insurancePickerVisible}
         onClose={() => setInsurancePickerVisible(false)}
-        onSelectDate={dateStr => setInsuranceExpiry(dateStr)}
+        onSelectDate={dateStr => {
+          setInsuranceExpiry(dateStr);
+          if (dateStr) clearError('insuranceExpiry');
+        }}
         value={insuranceExpiry}
         title="Select Insurance Expiry Date"
       />
