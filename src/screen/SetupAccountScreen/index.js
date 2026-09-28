@@ -109,11 +109,6 @@ export default function SetupAccountScreen({ navigation, route }) {
 
     const profile = extractUserProfile(rawUserData, phone);
 
-    const isOnBoarding =
-      route?.params?.isOnBoarding ??
-      rawUserData?.isOnBoarding ??
-      rawUserData?.data?.isOnBoarding;
-
     if (selected === 'driver') {
       try {
         await dispatch(
@@ -146,13 +141,20 @@ export default function SetupAccountScreen({ navigation, route }) {
       return;
     }
 
+    const isNewUser =
+      route?.params?.isNewUser ??
+      rawUserData?.isNewUser ??
+      rawUserData?.data?.isNewUser ??
+      rawUserData?.user?.isNewUser;
+
     setLoading(false);
     navigation.navigate('LocationPermission', {
       mobile: phone,
       role: selected,
       userId,
-      user: profile,
+      user: {...profile, isNewUser},
       token: activeToken,
+      isNewUser,
     });
   };
 
@@ -164,13 +166,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         translucent
       />
       <View style={styles.header}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          onPress={() => navigation.goBack()}
-          style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
+        <View style={styles.headerBtn} />
         <Text style={styles.headerTitle}>{SETUP_ACCOUNT_STRINGS.HEADER_TITLE}</Text>
         <TouchableOpacity
           activeOpacity={0.7}

@@ -5,6 +5,7 @@ export const API_TIMEOUT = 20000;
 
 export const STORAGE_KEYS = {
   token: 'cabora.auth.token',
+  refreshToken: 'cabora.auth.refresh_token',
   user: 'cabora.auth.user',
   registeredUsers: 'cabora.auth.registered_users',
   walkthrough: 'cabora.app.walkthrough',

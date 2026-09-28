@@ -1,8 +1,9 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ActivityIndicator, RefreshControl, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, RefreshControl, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SearchField} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -232,16 +233,11 @@ export default function SavedPlacesScreen() {
         <View style={styles.headerBtn} />
       </View>
 
-      <View style={styles.searchBox}>
-        <Feather name="search" size={18} color={colors.muted} />
-        <TextInput
+      <View style={styles.searchContainer}>
+        <SearchField
           value={query}
           onChangeText={setQuery}
           placeholder="Search your saved places"
-          placeholderTextColor={colors.muted}
-          style={styles.searchInput}
-          returnKeyType="search"
-          clearButtonMode="while-editing"
         />
       </View>
 

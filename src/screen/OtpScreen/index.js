@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
-import { sendOtpApi, verifyOtpApi, setAuthToken } from '../../config';
+import { sendOtpApi, verifyOtpApi, setAuthToken, setRefreshToken } from '../../config';
 import { formatIndianMobile } from '../../utils/validators';
 import { useAppDispatch } from '../../redux/hooks';
 import { loginWithPhone } from '../../redux/slices/authSlice';
@@ -318,9 +318,16 @@ export default function OtpScreen({ navigation, route }) {
         response?.data?.accessToken ||
         response?.token ||
         response?.accessToken;
+      const rToken =
+        response?.data?.refreshToken ||
+        response?.refreshToken ||
+        response?.data?.data?.refreshToken;
       if (token) {
         setAuthToken(token);
         setVerifiedToken(token);
+      }
+      if (rToken) {
+        setRefreshToken(rToken);
       }
 
       if (response?.data) {

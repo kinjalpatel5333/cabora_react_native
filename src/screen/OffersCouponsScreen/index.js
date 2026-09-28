@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToast } from '../../components/Toast';
@@ -18,10 +18,20 @@ import createStyles from './style';
 
 const AVAILABLE_OFFERS = [
   {
+    id: 'cabora50',
+    title: 'Flat ₹50 off your ride',
+    subtitle: 'Valid on all city rides · no minimum fare',
+    code: 'CABORA50',
+    discount: 50,
+    expiry: 'Ends 30 Sep',
+    accentColor: '#FF7A00',
+  },
+  {
     id: 'cab20',
     title: '20% off up to ₹75',
     subtitle: 'On your next 3 cab rides in Ahmedabad',
     code: 'CAB20',
+    discount: 75,
     expiry: 'Ends 30 Sep',
     accentColor: '#FF7A00',
   },
@@ -30,6 +40,7 @@ const AVAILABLE_OFFERS = [
     title: 'Flat ₹40 off autos',
     subtitle: 'Minimum fare ₹80 · weekdays before 11 am',
     code: 'AUTO40',
+    discount: 40,
     expiry: 'Ends 12 Oct',
     accentColor: '#2563EB',
   },
@@ -38,6 +49,7 @@ const AVAILABLE_OFFERS = [
     title: '₹100 off intercity',
     subtitle: 'Ahmedabad ⇄ Baroda one-way trips',
     code: 'CITY100',
+    discount: 100,
     expiry: 'Ends 31 Oct',
     accentColor: '#0D9488',
   },
@@ -57,10 +69,13 @@ export default function OffersCouponsScreen() {
   const styles = useThemedStyles(createStyles);
   const { colors, isDark } = useApp();
   const navigation = useNavigation();
+  const route = useRoute();
   const { showToast } = useToast();
 
   const [inputCode, setInputCode] = useState('');
-  const [appliedCode, setAppliedCode] = useState('');
+  const [appliedCode, setAppliedCode] = useState(
+    route.params?.appliedCode || '',
+  );
 
   const handleApply = (codeToApply) => {
     const code = (codeToApply || inputCode).trim().toUpperCase();
@@ -68,11 +83,25 @@ export default function OffersCouponsScreen() {
       showToast({ type: 'warning', message: 'Please enter a coupon code' });
       return;
     }
+    const matched = AVAILABLE_OFFERS.find(o => o.code === code);
+    const discount = matched ? matched.discount : 50;
+
     setAppliedCode(code);
     showToast({
       type: 'success',
       message: `Coupon ${code} applied successfully!`,
     });
+
+    if (route.params?.onSelectCoupon) {
+      route.params.onSelectCoupon({
+        code,
+        discount,
+        title: matched?.title || `Coupon ${code}`,
+      });
+      setTimeout(() => {
+        navigation.goBack();
+      }, 300);
+    }
   };
 
   const handleHelp = () => {

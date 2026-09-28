@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SearchField } from '../../components';
 import { useApp } from '../../context/AppContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useSidebar } from '../../context/SidebarContext';
 import createStyles from './style';
-import colors from '../../config/color';
 
 import { DRIVER_TRIP_PERIODS as PERIODS, DRIVER_TRIP_STATUS_FILTERS as STATUS_FILTERS, DRIVER_TRIPS_DATA as TRIPS_DATA } from '../../config/staticData';
 
@@ -71,21 +71,12 @@ export default function DriverTripHistoryScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
         {/* Search Bar */}
-        <View style={styles.searchBox}>
-          <Feather name="search" size={18} color={colors.slate[400]} />
-          <TextInput
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholder="Search by date, place or trip ID"
-            placeholderTextColor={colors.slate[400]}
-            style={styles.searchInput}
-          />
-          {searchQuery ? (
-            <TouchableOpacity activeOpacity={0.7} onPress={() => setSearchQuery('')}>
-              <Feather name="x" size={16} color={colors.slate[400]} />
-            </TouchableOpacity>
-          ) : null}
-        </View>
+        <SearchField
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search by date, place or trip ID"
+          style={{marginBottom: 16}}
+        />
 
         {/* Time Period Selector (Today, Week, Month, Custom) */}
         <View style={styles.periodRow}>

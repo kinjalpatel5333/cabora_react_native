@@ -160,6 +160,14 @@ export default function createStyles(colors) {
       shadowOffset: {width: 0, height: 2},
       elevation: 4,
     },
+    sheetBackdrop: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 3,
+    },
     sheetWrap: {
       position: 'absolute',
       left: 0,

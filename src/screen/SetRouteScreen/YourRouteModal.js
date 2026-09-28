@@ -7,7 +7,6 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './yourRouteStyle';
-import colors from '../../config/color';
 import {ToastHost} from '../../components';
 
 const STOP_POOL = PASSENGER_SET_ROUTE_STOP_POOL;
@@ -133,11 +132,15 @@ export default function YourRouteModal({
   };
 
   const sheetMaxH = Dimensions.get('window').height * 0.72;
-  const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
+  const {sheetTY, panHandlers, toggle, expanded, snapTo, onSheetLayout} =
     useDraggableSheet({
       peekHeight: 200,
       visible,
     });
+
+  const handleBackdropPress = () => {
+    snapTo(!expanded);
+  };
 
   return (
     <Modal
@@ -147,7 +150,7 @@ export default function YourRouteModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity activeOpacity={1} style={styles.backdrop} onPress={handleBackdropPress} />
 
         <View style={styles.routePreview} pointerEvents="none">
           <View style={styles.routeLine} />

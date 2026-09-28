@@ -10,7 +10,7 @@ export const AUTH_ENDPOINTS = {
   ME: '/api/v1/auth/me',
   LOGIN: '/api/v1/auth/login',
   REGISTER: '/api/v1/auth/register',
-  REFRESH_TOKEN: '/api/v1/auth/refresh-token',
+  REFRESH: '/api/v1/auth/refresh',
   LOGOUT: '/api/v1/auth/logout',
 };
 

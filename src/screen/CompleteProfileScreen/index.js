@@ -1,5 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  Alert,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -10,28 +23,16 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, DatePickerInput, DatePickerModal} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
+import {useApp} from '../../context/AppContext';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
 import {updateDriverProfileApi} from '../../services/driverApi';
 import {useAppDispatch} from '../../redux/hooks';
+import {useAuth} from '../../hooks/useAuth';
 import {loginWithPhone} from '../../redux/slices/authSlice';
 import {extractUserProfile} from '../../utils/user';
 import createStyles from './style';
-import colors from '../../config/color';
-
-
 import {storageSetItem} from '../../utils/storage';
 import {STORAGE_KEYS} from '../../config/setting';
-
-function formatDob(text) {
-  const digits = text.replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 2) {
-    return digits;
-  }
-  if (digits.length <= 4) {
-    return `${digits.slice(0, 2)} / ${digits.slice(2)}`;
-  }
-  return `${digits.slice(0, 2)} / ${digits.slice(2, 4)} / ${digits.slice(4, 8)}`;
-}
 
 function convertDobToApi(dobString) {
   if (!dobString) {
@@ -68,14 +69,38 @@ function convertDobToUi(dobString) {
 export default function CompleteProfileScreen({navigation, route}) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
+  const {colors: themeColors} = useApp();
   const dispatch = useAppDispatch();
+  const { user: authUser } = useAuth();
 
-  const initialProfile = extractUserProfile(route?.params?.user, route?.params?.mobile);
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle?.(themeColors.isDark ? 'light-content' : 'dark-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
+      }
+    }, [themeColors.isDark]),
+  );
+
+  const userSource = route?.params?.user || authUser;
+  const initialProfile = extractUserProfile(
+    userSource,
+    route?.params?.mobile || authUser?.phone || authUser?.mobile,
+  );
 
   const [phone, setPhone] = useState(
-    initialProfile.mobile || route?.params?.mobile || '9879522140',
+    initialProfile.mobile ||
+      route?.params?.mobile ||
+      authUser?.phone ||
+      authUser?.mobile ||
+      '9879522140',
   );
-  const role = route?.params?.role || initialProfile.role || 'passenger';
+  const role =
+    route?.params?.role ||
+    initialProfile.role ||
+    authUser?.role ||
+    'passenger';
 
   const [photoUri, setPhotoUri] = useState(initialProfile.photo || null);
   const [photoAsset, setPhotoAsset] = useState(null);
@@ -84,10 +109,39 @@ export default function CompleteProfileScreen({navigation, route}) {
     initialProfile.dob ? convertDobToUi(initialProfile.dob) : '',
   );
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
-  const [email, setEmail] = useState(initialProfile.email || '');
-  const [gender, setGender] = useState(initialProfile.gender || '');
+  const [email, setEmail] = useState('');
   const [focusedField, setFocusedField] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const scrollViewRef = useRef(null);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      e => {
+        const h = e?.endCoordinates?.height || 0;
+        setKeyboardHeight(h);
+      },
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (keyboardHeight > 0 && focusedField === 'email') {
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd?.({ animated: true });
+      }, 100);
+    }
+  }, [keyboardHeight, focusedField]);
 
   // Fetch initial profile info from /api/v1/auth/me on mount if not provided
   useEffect(() => {
@@ -100,12 +154,6 @@ export default function CompleteProfileScreen({navigation, route}) {
         if (isMounted && profile) {
           if (profile.name) {
             setFullName(profile.name);
-          }
-          if (profile.email) {
-            setEmail(profile.email);
-          }
-          if (profile.gender) {
-            setGender(profile.gender);
           }
           if (profile.dob) {
             setDob(convertDobToUi(profile.dob));
@@ -140,7 +188,8 @@ export default function CompleteProfileScreen({navigation, route}) {
       const result = await launchImageLibrary({
         mediaType: 'photo',
         quality: 0.8,
-        selectionLimit: 1,
+        maxWidth: 800,
+        maxHeight: 800,
       });
 
       if (result.didCancel) {
@@ -163,10 +212,6 @@ export default function CompleteProfileScreen({navigation, route}) {
     } catch (err) {
       console.warn('Image picker error:', err);
     }
-  };
-
-  const onChangeDob = text => {
-    setDob(formatDob(text));
   };
 
   const onStartRiding = async () => {
@@ -208,7 +253,6 @@ export default function CompleteProfileScreen({navigation, route}) {
       // Build FormData for multipart/form-data PUT /api/v1/passenger/profile
       const formData = new FormData();
       formData.append('name', fullName.trim());
-      formData.append('gender', gender || '');
 
       const apiDob = convertDobToApi(dob.trim());
       if (apiDob) {
@@ -270,7 +314,7 @@ export default function CompleteProfileScreen({navigation, route}) {
         photo: finalPhoto,
         profilePhoto: finalPhoto,
         avatar: finalPhoto,
-        gender: updatedUser?.gender || gender || '',
+        gender: updatedUser?.gender || '',
         mobile: phone,
         phone: phone,
         role,
@@ -287,11 +331,25 @@ export default function CompleteProfileScreen({navigation, route}) {
           email: finalEmail,
           dob: finalDob,
           photo: finalPhoto,
-          gender: updatedUser?.gender || gender || '',
+          gender: updatedUser?.gender || '',
           token: route?.params?.token,
-          user: userObject,
+          user: {
+            ...userObject,
+            isOnBoarding: false,
+            profileCompleted: true,
+            isProfileComplete: true,
+          },
+          isOnBoarding: false,
         }),
       ).unwrap();
+
+      if (navigation?.canGoBack() && navigation.getState()?.routes?.length > 1) {
+        navigation.goBack();
+      } else if (navigation?.replace) {
+        navigation.replace('MainTabs');
+      } else if (navigation?.navigate) {
+        navigation.navigate('MainTabs');
+      }
     } catch (err) {
       console.warn('Profile completion failed:', err);
       Alert.alert('Error', 'Failed to complete profile. Please try again.');
@@ -302,24 +360,31 @@ export default function CompleteProfileScreen({navigation, route}) {
 
   return (
     <View style={[styles.root, {paddingTop: insets.top}]}>
+      <StatusBar
+        barStyle={themeColors.isDark ? 'light-content' : 'dark-content'}
+        backgroundColor="transparent"
+        translucent
+      />
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          onPress={() => navigation.goBack()}
-          style={styles.backBtn}>
-          <Feather name="arrow-left" size={22} color={colors.navy[925]} />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>Complete your profile</Text>
       </View>
 
       <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        style={styles.keyboardContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}>
         <ScrollView
-          contentContainerStyle={styles.scroll}
+          ref={scrollViewRef}
+          contentContainerStyle={[
+            styles.scroll,
+            {
+              paddingBottom:
+                Math.max(insets.bottom, 20) +
+                (keyboardHeight > 0 ? keyboardHeight + 30 : 100),
+            },
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
           {/* Hero Section */}
@@ -341,10 +406,10 @@ export default function CompleteProfileScreen({navigation, route}) {
               {photoUri ? (
                 <Image source={{uri: photoUri}} style={styles.avatarImage} />
               ) : (
-                <Feather name="user" size={44} color={colors.slate[400]} />
+                <Feather name="user" size={44} color={themeColors.textMuted} />
               )}
               <View style={styles.cameraBadge}>
-                <Feather name="camera" size={15} color={colors.white} />
+                <Feather name="camera" size={15} color={themeColors.white} />
               </View>
             </View>
             <Text style={styles.addPhotoText}>Add a photo</Text>
@@ -364,7 +429,7 @@ export default function CompleteProfileScreen({navigation, route}) {
                 value={fullName}
                 onChangeText={setFullName}
                 placeholder="Ananya Shah"
-                placeholderTextColor={colors.slate[400]}
+                placeholderTextColor={themeColors.textMuted}
                 style={[
                   styles.input,
                   focusedField === 'fullName' && styles.inputFocused,
@@ -398,14 +463,20 @@ export default function CompleteProfileScreen({navigation, route}) {
                 value={email}
                 onChangeText={setEmail}
                 placeholder="name@example.com"
-                placeholderTextColor={colors.slate[400]}
+                placeholderTextColor={themeColors.textMuted}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                returnKeyType="done"
                 style={[
                   styles.input,
                   focusedField === 'email' && styles.inputFocused,
                 ]}
-                onFocus={() => setFocusedField('email')}
+                onFocus={() => {
+                  setFocusedField('email');
+                  setTimeout(() => {
+                    scrollViewRef.current?.scrollToEnd?.({ animated: true });
+                  }, 120);
+                }}
                 onBlur={() => setFocusedField(null)}
               />
             </View>
@@ -413,7 +484,7 @@ export default function CompleteProfileScreen({navigation, route}) {
             {/* Verified Phone Badge */}
             <View style={styles.verifiedPhoneBox}>
               <View style={styles.verifiedIconWrap}>
-                <AntDesign name="check-circle" size={16} color={colors.green[600]} />
+                <AntDesign name="check-circle" size={16} color={themeColors.green[600]} />
               </View>
               <Text style={styles.verifiedPhoneText}>{formattedPhone}</Text>
             </View>
@@ -421,20 +492,22 @@ export default function CompleteProfileScreen({navigation, route}) {
         </ScrollView>
 
         {/* Footer with CTA Button */}
-        <View
-          style={[
-            styles.footer,
-            {paddingBottom: Math.max(insets.bottom, 16) + 6},
-          ]}>
-          <Button
-            title="Start riding"
-            onPress={onStartRiding}
-            loading={loading}
-            disabled={loading}
-            style={styles.startBtn}
-            textStyle={styles.startBtnText}
-          />
-        </View>
+        {keyboardHeight === 0 && (
+          <View
+            style={[
+              styles.footer,
+              {paddingBottom: Math.max(insets.bottom, 16) + 6},
+            ]}>
+            <Button
+              title="Start riding"
+              onPress={onStartRiding}
+              loading={loading}
+              disabled={loading}
+              style={styles.startBtn}
+              textStyle={styles.startBtnText}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
 
       <DatePickerModal

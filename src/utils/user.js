@@ -167,13 +167,21 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     root.cityCode ||
     '';
 
+  const isNewUser =
+    root.isNewUser !== undefined
+      ? root.isNewUser
+      : user.isNewUser !== undefined
+        ? user.isNewUser
+        : passenger.isNewUser !== undefined
+          ? passenger.isNewUser
+          : undefined;
+
   const isProfileComplete = Boolean(
-    (root.isNewUser === false && name.length > 0) ||
+    isNewUser === false ||
     passenger.profileCompleted === true ||
     driver.profileCompleted === true ||
     root.profileCompleted === true ||
-    name.length > 0 ||
-    dob.length > 0
+    (isNewUser !== true && (name.length > 0 || dob.length > 0))
   );
 
   return {
@@ -189,6 +197,7 @@ export function extractUserProfile(apiResponse, fallbackPhone = '') {
     gender,
     cityCode,
     role: currentRole,
+    isNewUser,
     isProfileComplete,
   };
 }

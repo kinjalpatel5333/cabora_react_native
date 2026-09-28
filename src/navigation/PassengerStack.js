@@ -1,11 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAuth } from '../hooks/useAuth';
 import { useAppSelector } from '../redux/hooks';
 import { SidebarProvider } from '../context/SidebarContext';
 import Sidebar from './Sidebar';
 import TabNavigator from './TabNavigator';
 import LocationPermissionScreen from '../screen/LocationPermissionScreen';
+import CompleteProfileScreen from '../screen/CompleteProfileScreen';
 import AirportRideScreen from '../screen/AirportRideScreen';
 import RentalsScreen from '../screen/RentalsScreen';
 import OutstationScreen from '../screen/OutstationScreen';
@@ -32,21 +34,45 @@ import AddCardScreen from '../screen/AddCardScreen';
 import OffersCouponsScreen from '../screen/OffersCouponsScreen';
 import ReferEarnScreen from '../screen/ReferEarnScreen';
 import SettingScreen from '../screen/SettingScreen';
+import ScheduledRidesScreen from '../screen/ScheduledRidesScreen';
+import ScheduledRideDetailsScreen from '../screen/ScheduledRideDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
-
 export default function PassengerStack() {
+  const { user } = useAuth();
   const locationResolved = useAppSelector(state => state.app.locationResolved);
 
+  const isPassengerProfileComplete = Boolean(
+    user?.isNewUser === false ||
+    user?.isProfileComplete === true ||
+    user?.profileCompleted === true ||
+    (user?.isOnBoarding === false && user?.name && user?.name.trim().length > 0)
+  );
+
+  let initialRouteName = 'MainTabs';
   if (!locationResolved) {
-    return <LocationPermissionScreen />;
+    initialRouteName = 'LocationPermission';
+  } else if (user?.isNewUser !== false && !isPassengerProfileComplete) {
+    initialRouteName = 'CompleteProfile';
   }
 
   return (
     <SidebarProvider>
-      <View style={{ flex: 1 }}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <View style={styles.root}>
+        <Stack.Navigator
+          initialRouteName={initialRouteName}
+          screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="LocationPermission"
+            component={LocationPermissionScreen}
+            options={{ gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="CompleteProfile"
+            component={CompleteProfileScreen}
+            options={{ gestureEnabled: false }}
+          />
           <Stack.Screen name="MainTabs" component={TabNavigator} />
           <Stack.Screen
             name="AirportRide"
@@ -182,6 +208,16 @@ export default function PassengerStack() {
             component={SettingScreen}
             options={{ animation: 'slide_from_right' }}
           />
+          <Stack.Screen
+            name="ScheduledRides"
+            component={ScheduledRidesScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="ScheduledRideDetails"
+            component={ScheduledRideDetailsScreen}
+            options={{ animation: 'slide_from_right' }}
+          />
         </Stack.Navigator>
 
         <Sidebar />
@@ -189,3 +225,9 @@ export default function PassengerStack() {
     </SidebarProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});

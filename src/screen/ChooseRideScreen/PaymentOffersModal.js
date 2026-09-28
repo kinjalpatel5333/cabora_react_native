@@ -8,7 +8,6 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './paymentOffersStyle';
-import colors from '../../config/color';
 
 const METHODS = PASSENGER_PAYMENT_OFFERS_METHODS;
 
@@ -29,6 +28,8 @@ export default function PaymentOffersModal({
   selectedId = 'upi',
   promoCode = 'CABORA50',
   onSave,
+  onRemovePromo,
+  onOpenOffers,
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
@@ -135,10 +136,40 @@ export default function PaymentOffersModal({
             <View style={styles.offerIcon}>
               <Feather name="percent" size={18} color={colors.text} />
             </View>
-            <Text style={styles.offerCode}>{promoCode}</Text>
-            <View style={styles.appliedBtn}>
-              <Text style={styles.appliedText}>Applied</Text>
-            </View>
+            <Text style={styles.offerCode} numberOfLines={1}>
+              {promoCode ? promoCode : 'Apply promo code'}
+            </Text>
+            {promoCode ? (
+              <>
+                <View style={styles.appliedBtn}>
+                  <Text style={styles.appliedText}>Applied</Text>
+                </View>
+                {onRemovePromo ? (
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.removeBtn}
+                    onPress={onRemovePromo}
+                    hitSlop={8}
+                    accessibilityRole="button"
+                    accessibilityLabel="Remove coupon">
+                    <Text style={styles.removeBtnText}>Remove</Text>
+                  </TouchableOpacity>
+                ) : null}
+              </>
+            ) : (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.applyBtn}
+                onPress={() => {
+                  onClose?.();
+                  onOpenOffers?.();
+                }}
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel="Apply coupon">
+                <Text style={styles.applyBtnText}>Apply</Text>
+              </TouchableOpacity>
+            )}
           </View>
 
           <TouchableOpacity activeOpacity={0.7} style={styles.saveBtn} onPress={onSaveContinue}>

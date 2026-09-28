@@ -5,7 +5,6 @@ import {
   Keyboard,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -15,6 +14,7 @@ import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SearchField} from '../../components';
 import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -61,7 +61,6 @@ export default function ServicesScreen() {
 
   const {showToast} = useToast();
   const [query, setQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchInputRef = useRef(null);
 
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -182,41 +181,14 @@ export default function ServicesScreen() {
             </View>
           </TouchableWithoutFeedback>
 
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => searchInputRef.current?.focus()}
-            style={[
-              styles.searchBox,
-              isSearchFocused && styles.searchBoxFocused,
-            ]}>
-            <Feather
-              name="search"
-              size={18}
-              color={isSearchFocused ? colors.primary : colors.textMuted}
-            />
-            <TextInput
-              ref={searchInputRef}
-              value={query}
-              onChangeText={setQuery}
-              placeholder="Search a service"
-              placeholderTextColor={colors.textMuted}
-              style={styles.searchInput}
-              returnKeyType="search"
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-              onSubmitEditing={dismissSearch}
-            />
-            {query.length > 0 && (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setQuery('')}
-                style={styles.clearBtn}
-                accessibilityRole="button"
-                accessibilityLabel="Clear search">
-                <Feather name="x-circle" size={17} color={colors.textMuted} />
-              </TouchableOpacity>
-            )}
-          </TouchableOpacity>
+          <SearchField
+            ref={searchInputRef}
+            value={query}
+            onChangeText={setQuery}
+            placeholder="Search a service"
+            onSubmitEditing={dismissSearch}
+            style={{marginBottom: 22}}
+          />
 
         {rideItems.length > 0 ? (
           <View style={styles.section}>

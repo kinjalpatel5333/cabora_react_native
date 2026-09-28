@@ -1,9 +1,10 @@
 import { PASSENGER_LOCATION_BENEFITS, PASSENGER_LOCATION_SAVED_PLACES } from '../../config/staticData';
-import React, {useMemo, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {Animated, Text, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Geolocation from '@react-native-community/geolocation';
 import {Button, SearchField} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -13,6 +14,7 @@ import {loginWithPhone} from '../../redux/slices/authSlice';
 import {getMeApi} from '../../services/authApi';
 import {updatePassengerCurrentLocationApi} from '../../services/userApi';
 import {extractUserProfile} from '../../utils/user';
+import {useAuth} from '../../hooks/useAuth';
 import {
   openLocationSettings,
   requestLocationPermission,
@@ -67,15 +69,26 @@ export default function LocationPermissionScreen({navigation, route}) {
   const {colors} = useApp();
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
+  const {user: authUser} = useAuth();
   const sessionRole = useAppSelector(state => state.auth.user?.role);
-  const phone = route?.params?.mobile || '';
-  const role = route?.params?.role || sessionRole || 'passenger';
-  const userId = route?.params?.userId || '';
-  const fromSetup = Boolean(phone);
+  const phone = route?.params?.mobile || authUser?.phone || authUser?.mobile || '';
+  const role = route?.params?.role || sessionRole || authUser?.role || 'passenger';
+  const userId = route?.params?.userId || authUser?.id || '';
+  const fromSetup = Boolean(route?.params?.mobile || route?.params?.userId);
   const [mode, setMode] = useState('prompt');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const slideAnim = useRef(new Animated.Value(500)).current;
+
+  useEffect(() => {
+    Animated.spring(slideAnim, {
+      toValue: 0,
+      tension: 65,
+      friction: 11,
+      useNativeDriver: true,
+    }).start();
+  }, [slideAnim]);
 
   const places = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -94,46 +107,105 @@ export default function LocationPermissionScreen({navigation, route}) {
     try {
       // Mark location done before login so RootNavigator does not flash this screen again.
       await dispatch(completeLocationPrompt(resolution)).unwrap();
-      if (fromSetup) {
-        let userRaw = route?.params?.user;
-        if (!userRaw || !userRaw.name) {
-          try {
-            const meRes = await getMeApi();
+
+      let userRaw = route?.params?.user || authUser || {};
+      const userPhone = phone || userRaw?.mobile || userRaw?.phone || '';
+      const token = route?.params?.token || authUser?.token;
+
+      if (!userRaw || !userRaw.name) {
+        try {
+          const meRes = await getMeApi();
+          if (meRes) {
             userRaw = meRes;
-          } catch (e) {
-            console.warn('Failed to fetch me in LocationPermission:', e);
           }
+        } catch (e) {
+          console.warn('Failed to fetch me in LocationPermission:', e);
         }
+      }
 
-        const profile = extractUserProfile(userRaw, phone);
+      const profile = extractUserProfile(userRaw, userPhone);
 
-        const token = route?.params?.token;
-        if (profile.isProfileComplete) {
-          // Returning user who already has profile data filled / verified
+      const isNewUser =
+        route?.params?.isNewUser ??
+        userRaw?.isNewUser ??
+        userRaw?.passenger?.isNewUser ??
+        userRaw?.data?.isNewUser ??
+        profile.isNewUser;
+
+      // Profile is complete if: not new user, or profile completed flag is true, or has full name + dob
+      const isProfileDone = Boolean(
+        isNewUser === false ||
+        userRaw?.profileCompleted === true ||
+        userRaw?.isProfileComplete === true ||
+        profile.isProfileComplete === true ||
+        (profile.name && profile.name.trim().length > 0 && profile.dob && profile.dob.trim().length > 0)
+      );
+
+      if (role === 'driver') {
+        if (navigation?.replace) {
+          navigation.replace('DriverTabs');
+        } else {
+          navigation.navigate('DriverTabs');
+        }
+        return;
+      }
+
+      if (fromSetup) {
+        if (isProfileDone) {
+          // Returning user who has completed profile -> Log in and land on Home
           await dispatch(
             loginWithPhone({
-              phone: profile.mobile || phone,
+              phone: profile.mobile || userPhone,
               role,
               name: profile.name,
-              email: profile.email || `${phone}@cabora.local`,
+              email: profile.email || `${userPhone}@cabora.local`,
               dob: profile.dob,
               photo: profile.photo,
               gender: profile.gender,
               token,
+              user: userRaw,
+              isOnBoarding: false,
             }),
           ).unwrap();
         } else {
-          // 1st-time user with no profile data - proceed to CompleteProfile screen
+          // 1st-time user with incomplete profile -> proceed to CompleteProfile screen
           navigation.navigate('CompleteProfile', {
-            mobile: phone,
+            mobile: userPhone,
             role,
             userId,
             user: profile,
             token,
           });
         }
-      } else if (role === 'driver' && navigation?.replace) {
-        navigation.replace('DriverTabs');
+      } else {
+        // Already within PassengerStack
+        if (isProfileDone) {
+          // Profile complete -> Navigate to Home (MainTabs)
+          if (navigation?.replace) {
+            navigation.replace('MainTabs');
+          } else {
+            navigation.navigate('MainTabs');
+          }
+        } else {
+          // Profile incomplete -> Navigate to CompleteProfile
+          if (navigation?.replace) {
+            navigation.replace('CompleteProfile', {
+              mobile: userPhone,
+              role,
+              userId,
+              user: profile,
+              token,
+            });
+          } else {
+            navigation.navigate('CompleteProfile', {
+              mobile: userPhone,
+              role,
+              userId,
+              user: profile,
+              token,
+            });
+          }
+        }
       }
     } catch (err) {
       console.warn('Location finish failed', err);
@@ -142,25 +214,61 @@ export default function LocationPermissionScreen({navigation, route}) {
     }
   };
 
+  const closeAndFinish = resolution => {
+    Animated.timing(slideAnim, {
+      toValue: 500,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(async () => {
+      await finish(resolution);
+    });
+  };
+
   const onAllow = async () => {
     setLoading(true);
-    const result = await requestLocationPermission();
-    if (result === 'granted') {
-      try {
-        if (role !== 'driver') {
-          await updatePassengerCurrentLocationApi({
-            lat: 21.1702,
-            long: 72.8311,
-            address: 'Varachha, Surat, Gujarat',
+    try {
+      const result = await requestLocationPermission();
+      if (result === 'granted') {
+        let lat = 21.1702;
+        let long = 72.8311;
+        let address = 'Varachha, Surat, Gujarat';
+
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            Geolocation.getCurrentPosition(
+              p => resolve(p),
+              err => reject(err),
+              {enableHighAccuracy: true, timeout: 8000, maximumAge: 10000},
+            );
           });
+          if (pos?.coords?.latitude && pos?.coords?.longitude) {
+            lat = Number(pos.coords.latitude.toFixed(6));
+            long = Number(pos.coords.longitude.toFixed(6));
+          }
+        } catch (geoErr) {
+          console.warn('Geolocation getCurrentPosition fallback:', geoErr);
         }
-      } catch (e) {
-        console.warn('Failed to update passenger location on permission allow:', e);
+
+        try {
+          if (role !== 'driver') {
+            await updatePassengerCurrentLocationApi({
+              lat,
+              long,
+              address,
+            });
+          }
+        } catch (e) {
+          console.warn('Failed to update passenger location on permission allow:', e);
+        }
+
+        closeAndFinish('granted');
+        return;
       }
-      await finish('granted');
-      return;
+    } catch (err) {
+      console.warn('onAllow error:', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
     setMode('manual');
   };
 
@@ -179,7 +287,7 @@ export default function LocationPermissionScreen({navigation, route}) {
     } catch (e) {
       console.warn('Failed to update passenger location on manual select:', e);
     }
-    await finish(selectedPlace ? `manual:${selectedPlace}` : 'manual');
+    closeAndFinish(selectedPlace ? `manual:${selectedPlace}` : 'manual');
   };
 
   return (
@@ -195,10 +303,13 @@ export default function LocationPermissionScreen({navigation, route}) {
         </View>
       ) : null}
 
-      <View
+      <Animated.View
         style={[
           styles.sheet,
-          {paddingBottom: Math.max(insets.bottom, 16) + 8},
+          {
+            transform: [{translateY: slideAnim}],
+            paddingBottom: Math.max(insets.bottom, 16) + 8,
+          },
         ]}>
         {mode === 'prompt' ? (
           <>
@@ -289,7 +400,7 @@ export default function LocationPermissionScreen({navigation, route}) {
             </View>
           </>
         )}
-      </View>
+      </Animated.View>
     </View>
   );
 }

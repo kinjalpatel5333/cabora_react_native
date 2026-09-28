@@ -6,7 +6,7 @@ import {
   storageRemoveMultiple,
 } from '../../utils/storage';
 import {STORAGE_KEYS, DEMO_CREDENTIALS} from '../../config/setting';
-import {setAuthToken, getAuthToken} from '../../config/apicall';
+import {setAuthToken, getAuthToken, setRefreshToken} from '../../config/apicall';
 import {getMeApi, logoutApi} from '../../services/authApi';
 import {getPassengerProfileApi} from '../../services/userApi';
 import {getDriverProfileApi, getOnboardingStatusApi} from '../../services/driverApi';
@@ -15,6 +15,7 @@ import {extractUserProfile} from '../../utils/user';
 const initialState = {
   user: null,
   token: null,
+  refreshToken: null,
   registeredUsers: [],
   loading: false,
   bootstrapped: false,
@@ -23,8 +24,9 @@ const initialState = {
 
 export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
   try {
-    let [token, userRaw, registeredRaw] = await Promise.all([
+    let [token, refreshToken, userRaw, registeredRaw] = await Promise.all([
       storageGetItem(STORAGE_KEYS.token),
+      storageGetItem(STORAGE_KEYS.refreshToken),
       storageGetItem(STORAGE_KEYS.user),
       storageGetItem(STORAGE_KEYS.registeredUsers),
     ]);
@@ -33,6 +35,9 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
     }
     if (token) {
       setAuthToken(token);
+    }
+    if (refreshToken) {
+      setRefreshToken(refreshToken);
     }
     let user = userRaw ? JSON.parse(userRaw) : null;
     let registeredUsers = [];
@@ -63,29 +68,31 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
         if (meErr?.status === 401 || meErr?.status === 403) {
           token = null;
           user = null;
+          refreshToken = null;
           setAuthToken(null);
-          await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
+          setRefreshToken(null);
+          await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.refreshToken, STORAGE_KEYS.user]);
         }
       }
     }
 
-    return {token: token || null, user, registeredUsers};
+    return {token: token || null, refreshToken: refreshToken || null, user, registeredUsers};
   } catch (err) {
     console.error('bootstrapAuth error:', err);
-    return {token: null, user: null, registeredUsers: []};
+    return {token: null, refreshToken: null, user: null, registeredUsers: []};
   }
 });
 
-async function persistSession(token, user) {
+async function persistSession(token, user, refreshToken) {
+  const items = [[STORAGE_KEYS.user, JSON.stringify(user)]];
   if (token && !String(token).startsWith('local-token-')) {
-    await storageSetMultiple([
-      [STORAGE_KEYS.token, token],
-      [STORAGE_KEYS.user, JSON.stringify(user)],
-    ]);
-  } else {
-    await storageSetItem(STORAGE_KEYS.user, JSON.stringify(user));
+    items.push([STORAGE_KEYS.token, token]);
   }
-  return {token, user};
+  if (refreshToken) {
+    items.push([STORAGE_KEYS.refreshToken, refreshToken]);
+  }
+  await storageSetMultiple(items);
+  return {token, user, refreshToken};
 }
 
 export const signupUser = createAsyncThunk(
@@ -191,12 +198,13 @@ export const loginUser = createAsyncThunk(
 export const loginWithPhone = createAsyncThunk(
   'auth/loginPhone',
   async (
-    {phone, role, name, email, dob, photo, gender, token: passedToken, user: rawUser, isOnBoarding},
+    {phone, role, name, email, dob, photo, gender, token: passedToken, refreshToken: passedRefreshToken, user: rawUser, isOnBoarding},
     {getState, rejectWithValue},
   ) => {
     try {
       const state = getState();
       const storedToken = await storageGetItem(STORAGE_KEYS.token);
+      const storedRefreshToken = await storageGetItem(STORAGE_KEYS.refreshToken);
       const memoryToken = getAuthToken();
       const stateToken = state.auth?.token;
 
@@ -207,8 +215,18 @@ export const loginWithPhone = createAsyncThunk(
         (stateToken && !String(stateToken).startsWith('local-token-') ? stateToken : null) ||
         null;
 
+      let validRefreshToken =
+        passedRefreshToken ||
+        rawUser?.refreshToken ||
+        rawUser?.data?.refreshToken ||
+        storedRefreshToken ||
+        null;
+
       if (validToken) {
         setAuthToken(validToken);
+      }
+      if (validRefreshToken) {
+        setRefreshToken(validRefreshToken);
       }
 
       const roleStr = (
@@ -219,6 +237,7 @@ export const loginWithPhone = createAsyncThunk(
       ).toLowerCase();
 
       const isDriver = roleStr === 'driver';
+      const isPassenger = roleStr === 'passenger';
 
       const isNewDriverOnboarding =
         isDriver &&
@@ -229,7 +248,7 @@ export const loginWithPhone = createAsyncThunk(
           rawUser?.driver?.onboardingCompleted === false ||
           rawUser?.platform?.eligibleForRides === false);
 
-      const onboardingFinished = !isNewDriverOnboarding && (
+      const driverOnboardingFinished = !isNewDriverOnboarding && (
         isOnBoarding === false ||
         rawUser?.isOnBoarding === false ||
         rawUser?.driver?.onboardingCompleted === true ||
@@ -238,14 +257,49 @@ export const loginWithPhone = createAsyncThunk(
       );
 
       const extracted = extractUserProfile(rawUser, phone);
+      const userName = extracted.name || rawUser?.name || rawUser?.fullName || name || '';
+
+      const isNewUserExplicit =
+        rawUser?.isNewUser !== undefined
+          ? Boolean(rawUser.isNewUser)
+          : rawUser?.passenger?.isNewUser !== undefined
+            ? Boolean(rawUser.passenger.isNewUser)
+            : rawUser?.user?.isNewUser !== undefined
+              ? Boolean(rawUser.user.isNewUser)
+              : extracted.isNewUser;
+
+      const isExistingPassenger =
+        isPassenger &&
+        (isNewUserExplicit === false ||
+          rawUser?.isNewUser === false ||
+          rawUser?.profileCompleted === true ||
+          rawUser?.passenger?.profileCompleted === true);
+
+      const isNewPassengerOnboarding =
+        isPassenger &&
+        !isExistingPassenger &&
+        (isNewUserExplicit === true ||
+          rawUser?.isNewUser === true ||
+          isOnBoarding === true ||
+          rawUser?.isOnBoarding === true ||
+          rawUser?.profileCompleted === false ||
+          rawUser?.passenger?.profileCompleted === false ||
+          !userName ||
+          userName.trim().length === 0);
+
+      const passengerProfileFinished =
+        !isNewPassengerOnboarding ||
+        isExistingPassenger ||
+        isNewUserExplicit === false ||
+        rawUser?.isNewUser === false;
 
       const sessionUser = {
         ...(rawUser || {}),
         ...extracted,
         id: rawUser?._id || rawUser?.id || extracted.id || `phone-${phone}`,
         _id: rawUser?._id || rawUser?.id || extracted.id,
-        name: extracted.name || rawUser?.name || rawUser?.fullName || name || '',
-        fullName: extracted.name || rawUser?.fullName || rawUser?.name || name || '',
+        name: userName,
+        fullName: userName,
         email: extracted.email || rawUser?.email || email || `${phone}@cabora.local`,
         phone: rawUser?.mobile || rawUser?.phone || phone,
         mobile: rawUser?.mobile || rawUser?.phone || phone,
@@ -256,17 +310,21 @@ export const loginWithPhone = createAsyncThunk(
         photo: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
         profilePhoto: extracted.photo || rawUser?.photo || rawUser?.profilePhoto || photo || null,
         gender: extracted.gender || rawUser?.gender || gender || null,
-        kycComplete: isDriver ? Boolean(onboardingFinished) : true,
+        isNewUser: isNewUserExplicit !== undefined ? isNewUserExplicit : false,
+        isOnBoarding: isDriver ? isNewDriverOnboarding : isNewPassengerOnboarding,
+        profileCompleted: isDriver ? Boolean(driverOnboardingFinished) : Boolean(passengerProfileFinished),
+        isProfileComplete: isDriver ? Boolean(driverOnboardingFinished) : Boolean(passengerProfileFinished),
+        kycComplete: isDriver ? Boolean(driverOnboardingFinished) : true,
         kycDocuments: rawUser?.kycDocuments || {},
       };
 
       if (validToken) {
-        await persistSession(validToken, sessionUser);
+        await persistSession(validToken, sessionUser, validRefreshToken);
       } else {
         await storageSetItem(STORAGE_KEYS.user, JSON.stringify(sessionUser));
       }
 
-      return {token: validToken, user: sessionUser};
+      return {token: validToken, refreshToken: validRefreshToken, user: sessionUser};
     } catch (err) {
       return rejectWithValue(err?.message || 'Verification failed');
     }
@@ -474,14 +532,27 @@ const authSlice = createSlice({
     clearAuthError(state) {
       state.error = null;
     },
+    updateToken(state, action) {
+      const {token, refreshToken: rToken} = action.payload || {};
+      if (token) {
+        state.token = token;
+        setAuthToken(token);
+      }
+      if (rToken) {
+        state.refreshToken = rToken;
+        setRefreshToken(rToken);
+      }
+    },
     logoutNow(state) {
       state.user = null;
       state.token = null;
+      state.refreshToken = null;
       state.error = null;
       state.loading = false;
       state.bootstrapped = true;
       setAuthToken(null);
-      storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]).catch(() => {});
+      setRefreshToken(null);
+      storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.refreshToken, STORAGE_KEYS.user]).catch(() => {});
     },
     setUser(state, action) {
       if (action.payload) {
@@ -606,5 +677,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {clearAuthError, logoutNow, setUser} = authSlice.actions;
+export const {clearAuthError, logoutNow, setUser, updateToken} = authSlice.actions;
 export default authSlice.reducer;
