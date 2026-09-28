@@ -1,10 +1,11 @@
 import { PASSENGER_LOCATION_BENEFITS, PASSENGER_LOCATION_SAVED_PLACES } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Geolocation from '@react-native-community/geolocation';
+import {images} from '../../assets';
 import {Button, SearchField} from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
@@ -25,24 +26,7 @@ const BENEFITS = PASSENGER_LOCATION_BENEFITS;
 
 const SAVED_PLACES = PASSENGER_LOCATION_SAVED_PLACES;
 
-function MapBackdrop({styles}) {
-  return (
-    <View style={styles.map} pointerEvents="none">
-      <View style={[styles.park, {top: 70, left: 24, width: 110, height: 70}]} />
-      <View style={[styles.park, {top: 210, right: 30, width: 90, height: 60}]} />
-      <View style={[styles.water, {top: 120, right: -20, width: 140, height: 100}]} />
-      <View style={[styles.building, {top: 90, left: 150, width: 48, height: 36}]} />
-      <View style={[styles.building, {top: 160, left: 48, width: 56, height: 42}]} />
-      <View style={[styles.building, {top: 250, left: 180, width: 64, height: 40}]} />
-      <View style={[styles.mapRoadH, {top: 140}]} />
-      <View style={[styles.mapRoadH, styles.mapRoadAlt, {top: 230, height: 7}]} />
-      <View style={[styles.mapRoadV, {left: 90}]} />
-      <View style={[styles.mapRoadV, styles.mapRoadAlt, {left: 220, width: 7}]} />
-      <Text style={[styles.mapLabel, {top: 118, left: 108}]}>MG ROAD</Text>
-      <Text style={[styles.mapLabel, {top: 248, left: 40}]}>BRIGADE</Text>
-    </View>
-  );
-}
+
 
 function BenefitIcon({name, color}) {
   if (name === 'map-pin') {
@@ -66,7 +50,7 @@ function PlaceIcon({name, color}) {
 
 export default function LocationPermissionScreen({navigation, route}) {
   const insets = useSafeAreaInsets();
-  const {colors} = useApp();
+  const {colors, isDark} = useApp();
   const styles = useThemedStyles(createStyles);
   const dispatch = useAppDispatch();
   const {user: authUser} = useAuth();
@@ -292,7 +276,12 @@ export default function LocationPermissionScreen({navigation, route}) {
 
   return (
     <View style={styles.root}>
-      <MapBackdrop styles={styles} />
+      <Image
+        source={isDark ? images.homeMapDark : images.homeMap}
+        style={styles.mapImage}
+        resizeMode="cover"
+        accessibilityIgnoresInvertColors
+      />
 
       {mode === 'manual' ? (
         <View style={[styles.banner, {top: insets.top + 10}]}>
