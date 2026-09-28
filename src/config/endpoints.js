@@ -58,6 +58,8 @@ export const DRIVER_ONBOARDING_ENDPOINTS = {
 export const DRIVER_ENDPOINTS = {
   REGISTRATION: '/api/v1/driver/registration',
   PROFILE: '/api/v1/driver/profile',
+  PERSONAL: DRIVER_ONBOARDING_ENDPOINTS.PERSONAL,
+  UPDATE_PROFILE: DRIVER_ONBOARDING_ENDPOINTS.PERSONAL,
   STATUS: '/api/v1/driver/status',
   AVAILABILITY: '/api/v1/driver/availability',
   KYC_STATUS: '/api/v1/driver/kyc/status',

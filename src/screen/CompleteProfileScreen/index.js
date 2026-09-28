@@ -216,35 +216,39 @@ export default function CompleteProfileScreen({navigation, route}) {
 
   const onStartRiding = async () => {
     if (!fullName || !fullName.trim()) {
-      Alert.alert(
-        'Full Name Required',
-        'Please enter your full name to complete your profile.',
-      );
+      showToast({
+        type: 'danger',
+        title: 'Full Name Required',
+        message: 'Please enter your full name to complete your profile.',
+      });
       return;
     }
 
     if (!dob || !dob.trim()) {
-      Alert.alert(
-        'Date of Birth Required',
-        'Please select your date of birth to continue.',
-      );
+      showToast({
+        type: 'danger',
+        title: 'Date of Birth Required',
+        message: 'Please select your date of birth to continue.',
+      });
       return;
     }
 
     if (!email || !email.trim()) {
-      Alert.alert(
-        'Email Required',
-        'Please enter your email address to continue.',
-      );
+      showToast({
+        type: 'danger',
+        title: 'Email Required',
+        message: 'Please enter your email address to continue.',
+      });
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
-      Alert.alert(
-        'Invalid Email',
-        'Please enter a valid email address (e.g. name@example.com).',
-      );
+      showToast({
+        type: 'danger',
+        title: 'Invalid Email',
+        message: 'Please enter a valid email address (e.g. name@example.com).',
+      });
       return;
     }
 
@@ -352,7 +356,11 @@ export default function CompleteProfileScreen({navigation, route}) {
       }
     } catch (err) {
       console.warn('Profile completion failed:', err);
-      Alert.alert('Error', 'Failed to complete profile. Please try again.');
+      showToast({
+        type: 'danger',
+        title: 'Profile Error',
+        message: 'Failed to complete profile. Please try again.',
+      });
     } finally {
       setLoading(false);
     }
