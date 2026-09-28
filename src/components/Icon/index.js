@@ -1,6 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {AntDesign} from '@react-native-vector-icons/ant-design/static';
 import colors from '../../config/color';
+
+function CheckGlyph({color, size}) {
+  return (
+    <View style={[styles.center, {width: size, height: size}]}>
+      <AntDesign name="check" size={Math.round(size * 0.75)} color={color} />
+    </View>
+  );
+}
 
 
 function SearchGlyph({color, size}) {
@@ -46,23 +55,6 @@ function CloseGlyph({color, size}) {
     <View style={[styles.center, {width: size, height: size}]}>
       <View style={[bar, {transform: [{rotate: '45deg'}]}]} />
       <View style={[bar, {transform: [{rotate: '-45deg'}]}]} />
-    </View>
-  );
-}
-
-function CheckGlyph({color, size}) {
-  return (
-    <View style={[styles.center, {width: size, height: size}]}>
-      <View
-        style={{
-          width: size * 0.22,
-          height: size * 0.42,
-          borderRightWidth: 2.2,
-          borderBottomWidth: 2.2,
-          borderColor: color,
-          transform: [{rotate: '45deg'}, {translateY: -size * 0.06}],
-        }}
-      />
     </View>
   );
 }

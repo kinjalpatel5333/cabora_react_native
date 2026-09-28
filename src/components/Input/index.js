@@ -132,7 +132,7 @@ const Input = forwardRef(function Input(
         ) : null}
         {!right && statusIcon && hasSuccess && !disabled ? (
           <View style={styles.accessory}>
-            <Icon name="check" color={colors.success} size={20} circle />
+            <AntDesign name="check-circle" size={20} color={colors.success} />
           </View>
         ) : null}
       </Pressable>
@@ -142,7 +142,7 @@ const Input = forwardRef(function Input(
             <AntDesign name="info-circle" size={16} color={colors.danger} />
           ) : null}
           {hasSuccess && !disabled ? (
-            <Icon name="check" color={colors.success} size={14} circle />
+            <AntDesign name="check-circle" size={14} color={colors.success} />
           ) : null}
           <Text
             style={[

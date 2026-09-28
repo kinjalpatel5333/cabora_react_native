@@ -51,13 +51,40 @@ export default function DriverStack() {
   const { user } = useAuth();
   const { colors } = useApp();
   const locationResolved = useAppSelector(state => state.app.locationResolved);
-  const kycComplete = Boolean(user?.kycComplete);
+  const kycComplete = Boolean(
+    user?.kycComplete === true ||
+    user?.platform?.eligibleForRides === true ||
+    user?.driver?.onboardingCompleted === true ||
+    user?.driver?.platform?.eligibleForRides === true,
+  );
+
+  const kycStatus = String(
+    user?.driver?.kycStatus || user?.platform?.kycStatus || user?.kycStatus || '',
+  ).toLowerCase();
+  const driverStatus = String(
+    user?.driver?.status || user?.status || '',
+  ).toLowerCase();
+  const completedStepsCount = user?.driver?.completedStepsCount;
+  const pendingStepsCount = user?.driver?.pendingStepsCount;
+
+  const isSubmittedForReview =
+    (kycStatus === 'submitted' ||
+      kycStatus === 'under_review' ||
+      kycStatus === 'pending' ||
+      driverStatus === 'submitted' ||
+      driverStatus === 'under_review' ||
+      driverStatus === 'pending' ||
+      driverStatus === 'pending_approval' ||
+      driverStatus === 'in_review') &&
+    driverStatus !== 'not_submitted';
 
   let initialRouteName = 'DriverRegistration';
   if (kycComplete && locationResolved) {
     initialRouteName = 'DriverTabs';
   } else if (kycComplete) {
     initialRouteName = 'LocationPermission';
+  } else if (isSubmittedForReview) {
+    initialRouteName = 'DriverVerificationStatus';
   }
 
   return (

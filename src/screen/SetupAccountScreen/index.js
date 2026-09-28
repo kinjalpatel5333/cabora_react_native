@@ -141,21 +141,32 @@ export default function SetupAccountScreen({ navigation, route }) {
       return;
     }
 
-    const isNewUser =
-      route?.params?.isNewUser ??
-      rawUserData?.isNewUser ??
-      rawUserData?.data?.isNewUser ??
-      rawUserData?.user?.isNewUser;
-
-    setLoading(false);
-    navigation.navigate('LocationPermission', {
-      mobile: phone,
-      role: selected,
-      userId,
-      user: {...profile, isNewUser},
-      token: activeToken,
-      isNewUser,
-    });
+    try {
+      await dispatch(
+        loginWithPhone({
+          phone: profile.mobile || phone,
+          role: 'passenger',
+          name: profile.name,
+          email: profile.email,
+          dob: profile.dob,
+          photo: profile.photo,
+          gender: profile.gender,
+          token: activeToken,
+          user: { ...rawUserData, currentRole: 'PASSENGER', role: 'passenger' },
+        }),
+      ).unwrap();
+    } catch (err) {
+      console.warn('loginWithPhone passenger error:', err);
+      navigation.navigate('LocationPermission', {
+        mobile: phone,
+        role: selected,
+        userId,
+        user: profile,
+        token: activeToken,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
