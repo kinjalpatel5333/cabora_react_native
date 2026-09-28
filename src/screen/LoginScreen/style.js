@@ -95,7 +95,6 @@ export default function createStyles(colors) {
     phoneInput: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 18,
-      lineHeight: 22,
       letterSpacing: 0,
       paddingVertical: 0,
       color: colors.text,

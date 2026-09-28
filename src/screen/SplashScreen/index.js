@@ -111,8 +111,9 @@ export default function SplashScreen({
     <ImageBackground
       source={images.splashGradient}
       resizeMode="cover"
+      fadeDuration={0}
       style={[styles.root, {width: pageWidth, height: pageHeight}]}>
-      {/* Dark under gesture bar — removes the thick white safe-area strip */}
+      {/* Matching navy under gesture bar */}
       <View
         pointerEvents="none"
         style={[styles.bottomFill, {height: Math.max(insets.bottom, 24)}]}
@@ -133,6 +134,7 @@ export default function SplashScreen({
               source={images.brandGlow}
               pointerEvents="none"
               resizeMode="contain"
+              fadeDuration={0}
               style={[
                 styles.glow,
                 {
@@ -166,6 +168,7 @@ export default function SplashScreen({
                   style={{width: ICON_SIZE, height: ICON_SIZE}}
                   resizeMode="cover"
                   accessibilityLabel="Cabora"
+                  fadeDuration={0}
                 />
               </View>
             </View>
