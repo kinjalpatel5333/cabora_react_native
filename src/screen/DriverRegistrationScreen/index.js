@@ -17,7 +17,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { images } from '../../assets';
 import { useApp } from '../../context/AppContext';
-import { Button, CountryPickerModal, DatePickerModal, useToast } from '../../components';
+import { Button, CountryPickerModal, DatePickerInput, DatePickerModal, ImagePickerModal, useToast } from '../../components';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useAppSelector } from '../../redux/hooks';
 import { extractUserProfile } from '../../utils/user';
@@ -198,92 +198,88 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     btnLabel: 'Submit for verification',
   };
 
+  // Bottom Sheet Image Picker State
+  const [pickerConfig, setPickerConfig] = useState({
+    visible: false,
+    onSuccess: null,
+    docName: 'Document',
+  });
+
   const handlePickImage = (onSuccess, docName) => {
-    Alert.alert(
-      `Upload ${docName || 'Document'}`,
-      'Choose an option to upload your document photo:',
-      [
-        {
-          text: 'Take Photo',
-          onPress: async () => {
-            try {
-              const hasPermission = await requestCameraPermission();
-              if (!hasPermission) {
-                return;
-              }
-              const result = await launchCamera({
-                mediaType: 'photo',
-                quality: 0.8,
-                cameraType: 'back',
-                saveToPhotos: false,
-              });
-              if (result.didCancel) {
-                return;
-              }
-              if (result.errorCode) {
-                showPermissionSettingsAlert(
-                  'Camera Permission Required',
-                  'Camera access is turned off. Please allow camera access in Settings to photograph documents.',
-                );
-                return;
-              }
-              if (result.assets && result.assets.length > 0) {
-                const asset = result.assets[0];
-                onSuccess(asset.uri);
-                showToast({
-                  type: 'success',
-                  title: 'Photo Captured',
-                  message: `${docName || 'Document'} photo captured successfully.`,
-                });
-              }
-            } catch (err) {
-              console.warn('Camera error:', err);
-            }
-          },
-        },
-        {
-          text: 'Choose from Gallery',
-          onPress: async () => {
-            try {
-              const hasPermission = await requestGalleryPermission();
-              if (!hasPermission) {
-                return;
-              }
-              const result = await launchImageLibrary({
-                mediaType: 'photo',
-                quality: 0.8,
-                selectionLimit: 1,
-              });
-              if (result.didCancel) {
-                return;
-              }
-              if (result.errorCode) {
-                showPermissionSettingsAlert(
-                  'Photo Access Required',
-                  'Photo access is turned off. Please allow photo access in Settings to select documents.',
-                );
-                return;
-              }
-              if (result.assets && result.assets.length > 0) {
-                const asset = result.assets[0];
-                onSuccess(asset.uri);
-                showToast({
-                  type: 'success',
-                  title: 'File Selected',
-                  message: `${docName || 'Document'} selected successfully.`,
-                });
-              }
-            } catch (err) {
-              console.warn('Gallery error:', err);
-            }
-          },
-        },
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-      ],
-    );
+    setPickerConfig({
+      visible: true,
+      onSuccess,
+      docName: docName || 'Document',
+    });
+  };
+
+  const handleSelectCamera = async () => {
+    const { onSuccess, docName } = pickerConfig;
+    try {
+      const hasPermission = await requestCameraPermission();
+      if (!hasPermission) {
+        return;
+      }
+      const result = await launchCamera({
+        mediaType: 'photo',
+        quality: 0.8,
+        cameraType: 'back',
+        saveToPhotos: false,
+      });
+      if (result.didCancel || !result.assets || result.assets.length === 0) {
+        return;
+      }
+      if (result.errorCode) {
+        showPermissionSettingsAlert(
+          'Camera Permission Required',
+          'Camera access is turned off. Please allow camera access in Settings to photograph documents.',
+        );
+        return;
+      }
+      const asset = result.assets[0];
+      onSuccess?.(asset.uri);
+      showToast({
+        type: 'success',
+        title: 'Photo Captured',
+        message: `${docName || 'Document'} photo captured successfully.`,
+      });
+    } catch (err) {
+      console.warn('Camera error:', err);
+    }
+  };
+
+  const handleSelectGallery = async () => {
+    const { onSuccess, docName } = pickerConfig;
+    try {
+      const hasPermission = await requestGalleryPermission();
+      if (!hasPermission) {
+        return;
+      }
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 0.8,
+        selectionLimit: 1,
+      });
+      if (result.didCancel || !result.assets || result.assets.length === 0) {
+        return;
+      }
+      if (result.errorCode) {
+        showPermissionSettingsAlert(
+          'Photo Access Required',
+          'Photo access is turned off. Please allow photo access in Settings to select documents.',
+        );
+        return;
+      }
+      const asset = result.assets[0];
+      onSuccess?.(asset.uri);
+      showToast({
+        type: 'success',
+        title: 'File Selected',
+        message: `${docName || 'Document'} selected successfully.`,
+      });
+    } catch (err) {
+      console.warn('Gallery error:', err);
+    }
   };
 
   const handleHeaderBack = () => {
@@ -527,15 +523,37 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     return true;
   };
 
+  const getMimeType = filename => {
+    if (!filename) return 'image/jpeg';
+    const cleanName = filename.split('?')[0];
+    const ext = cleanName.split('.').pop()?.toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+    if (ext === 'png') return 'image/png';
+    if (ext === 'gif') return 'image/gif';
+    if (ext === 'webp') return 'image/webp';
+    if (ext === 'heic' || ext === 'heif') return 'image/heic';
+    if (ext === 'pdf') return 'application/pdf';
+    return 'image/jpeg';
+  };
+
   const createFormDataFile = (uri, defaultName) => {
-    if (!uri) return null;
-    const fileName = uri.split('/').pop() || defaultName;
-    const match = /\.(\w+)$/.exec(fileName);
-    const type = match ? `image/${match[1].toLowerCase()}` : 'image/jpeg';
+    if (!uri || typeof uri !== 'string') return null;
+    if (uri.startsWith('http://') || uri.startsWith('https://')) {
+      return null;
+    }
+    const rawFileName = uri.split('/').pop() || defaultName;
+    const fileName = rawFileName.split('?')[0] || defaultName;
+    const mimeType = getMimeType(fileName);
+    const hasExt = /\.[a-zA-Z0-9]+$/.test(fileName);
+    const finalFileName = hasExt ? fileName : `${fileName}.jpg`;
+
+    // Ensure valid file:// URI for React Native iOS/Android file loaders
+    const formattedUri = uri.startsWith('file://') ? uri : `file://${uri}`;
+
     return {
-      uri,
-      name: fileName,
-      type,
+      uri: formattedUri,
+      name: finalFileName,
+      type: mimeType,
     };
   };
 
@@ -550,13 +568,42 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         // PUT /api/v1/driver/onboarding/personal
         const formData = new FormData();
         formData.append('fullName', fullName.trim());
-        formData.append('dateOfBirth', formatDateToApi(dob));
-        formData.append('email', email ? email.trim() : '');
-        if (profilePhotoUri) {
-          const profileFile = createFormDataFile(profilePhotoUri, 'user_profile.jpg');
-          if (profileFile) formData.append('profilePhoto', profileFile);
+        const formattedDob = formatDateToApi(dob);
+        if (formattedDob) {
+          formData.append('dateOfBirth', formattedDob);
         }
-        await saveOnboardingPersonalApi(formData);
+        if (email && email.trim()) {
+          formData.append('email', email.trim());
+        }
+        let profileFile = null;
+        if (profilePhotoUri && !profilePhotoUri.startsWith('http')) {
+          profileFile = createFormDataFile(profilePhotoUri, 'user_profile.jpg');
+          if (profileFile) formData.append('profilePhoto', profileFile);
+        } else if (profilePhotoUri && profilePhotoUri.startsWith('http')) {
+          formData.append('profilePhoto', profilePhotoUri);
+        }
+        console.log('🚀 [Onboarding Step 1 Request Params]:', {
+          fullName: fullName.trim(),
+          dateOfBirth: formattedDob,
+          email: email ? email.trim() : undefined,
+          profilePhoto: profileFile || profilePhotoUri || '',
+        });
+        
+        try {
+          await saveOnboardingPersonalApi(formData);
+        } catch (apiErr) {
+          console.warn('⚠️ Step 1 Photo Upload Warning:', apiErr);
+          if (apiErr?.status === 500 && profileFile) {
+            try {
+              const fallbackData = new FormData();
+              fallbackData.append('fullName', fullName.trim());
+              if (formattedDob) fallbackData.append('dateOfBirth', formattedDob);
+              if (email && email.trim()) fallbackData.append('email', email.trim());
+              fallbackData.append('profilePhoto', '');
+              await saveOnboardingPersonalApi(fallbackData);
+            } catch (_) {}
+          }
+        }
         setStep(prev => prev + 1);
       } else if (step === 2) {
         // PUT /api/v1/driver/onboarding/license
@@ -690,27 +737,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Date of birth *</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          accessibilityRole="button"
-          accessibilityLabel="Open date picker"
+        <DatePickerInput
+          label="Date of birth *"
+          value={dob}
+          placeholder="DD / MM / YYYY"
           onPress={() => setDobPickerVisible(true)}
-          style={[styles.inputWrap, { gap: 10 }]}>
-          <Feather name="calendar" size={18} color={colors.gray[500]} />
-          <TextInput
-            value={dob}
-            onChangeText={handleDobChange}
-            placeholder="14 Mar 1994"
-            placeholderTextColor={colors.gray[400]}
-            keyboardType="number-pad"
-            maxLength={11}
-            style={styles.textInput}
-            pointerEvents="none"
-            editable={false}
-          />
-        </TouchableOpacity>
-        <Text style={styles.fieldSubtext}>You must be 18 or older to drive on Cabora</Text>
+          hint="You must be 18 or older to drive on Cabora"
+        />
       </View>
 
       {!isMobileVerified ? (
@@ -1221,56 +1254,27 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Insurance expiry date *</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          accessibilityRole="button"
-          accessibilityLabel="Open date picker"
+        <DatePickerInput
+          label="Insurance expiry date *"
+          value={insuranceExpiry}
+          placeholder="DD / MM / YYYY"
           onPress={() => setInsurancePickerVisible(true)}
-          style={[
-            styles.inputWrap,
+          error={
+            insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
+              ? 'Policy has expired. Please select a valid future expiry date.'
+              : undefined
+          }
+          success={
             insuranceExpiryInfo.isSet && insuranceExpiryInfo.isValid
-              ? styles.inputWrapSuccess
-              : insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
-                ? { borderColor: colors.danger }
-                : null,
-            { gap: 10 },
-          ]}>
-          <Feather name="calendar" size={18} color={colors.text} />
-          <TextInput
-            value={insuranceExpiry}
-            onChangeText={handleInsuranceExpiryChange}
-            placeholder="30 Oct 2026"
-            placeholderTextColor={colors.gray[400]}
-            keyboardType="number-pad"
-            maxLength={11}
-            style={styles.textInput}
-            pointerEvents="none"
-            editable={false}
-          />
-          {insuranceExpiryInfo.isSet && insuranceExpiryInfo.isValid ? (
-            <AntDesign name="check-circle" size={18} color="#16A34A" />
-          ) : insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid ? (
-            <Feather name="alert-circle" size={18} color={colors.danger} />
-          ) : null}
-        </TouchableOpacity>
-
-        {insuranceExpiryInfo.isSet && insuranceExpiryInfo.isValid ? (
-          <View style={styles.successSubtextRow}>
-            <AntDesign name="check-circle" size={14} color="#16A34A" />
-            <Text style={styles.successSubtext}>
-              Read from the document — {insuranceExpiryInfo.daysLeft} days left
-            </Text>
-          </View>
-        ) : insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid ? (
-          <Text style={[styles.fieldSubtext, { color: colors.danger }]}>
-            Policy has expired. Please select a valid future expiry date.
-          </Text>
-        ) : (
-          <Text style={styles.fieldSubtext}>
-            Comprehensive or third-party, in the owner's name
-          </Text>
-        )}
+              ? true
+              : undefined
+          }
+          hint={
+            insuranceExpiryInfo.isSet && insuranceExpiryInfo.isValid
+              ? `Read from the document — ${insuranceExpiryInfo.daysLeft} days left`
+              : 'Comprehensive or third-party, in the owner\'s name'
+          }
+        />
       </View>
 
       <View style={styles.amberNoticeBox}>
@@ -1469,7 +1473,8 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? Math.max(insets.top, 16) + 54 : 0}>
         {step <= 5 ? (
           <View style={styles.progressSection}>
             <Text style={styles.stepKicker}>STEP {step} OF 5</Text>
@@ -1500,12 +1505,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
         <ScrollView
           ref={mainScrollRef}
-          contentContainerStyle={[
-            styles.scroll,
-            { paddingBottom: Math.max(insets.bottom, 12) + 80 },
-          ]}
+          contentContainerStyle={[styles.scroll, { paddingBottom: 36 }]}
           showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled">
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag">
           {step === 1 && renderStep1()}
           {step === 2 && renderStep2()}
           {step === 3 && renderStep3()}
@@ -1558,6 +1561,15 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         selectedCountry={country}
         onSelect={setCountry}
         onClose={() => setCountryPickerVisible(false)}
+      />
+
+      <ImagePickerModal
+        visible={pickerConfig.visible}
+        title={`Upload ${pickerConfig.docName}`}
+        subtitle="Choose an option to upload your photo:"
+        onClose={() => setPickerConfig(prev => ({ ...prev, visible: false }))}
+        onSelectCamera={handleSelectCamera}
+        onSelectGallery={handleSelectGallery}
       />
     </View>
   );

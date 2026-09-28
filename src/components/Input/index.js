@@ -23,6 +23,8 @@ const Input = forwardRef(function Input(
     right,
     statusIcon = true,
     showFocusBorder = true,
+    pointerEvents,
+    onPress,
     onFocus,
     onBlur,
     style,
@@ -57,14 +59,24 @@ const Input = forwardRef(function Input(
 
   const helperText = formatHelperText(helper);
 
-  const handleFieldPress = () => {
-    if (!disabled) {
+  const handleFieldPress = event => {
+    if (disabled) {
+      return;
+    }
+    if (onPress) {
+      onPress(event);
+    } else {
       inputRef.current?.focus();
     }
   };
 
+  const isPressable = Boolean(onPress);
+  const ContainerComponent = isPressable ? Pressable : View;
+
   return (
-    <View style={[styles.wrap, containerStyle]}>
+    <ContainerComponent
+      onPress={isPressable ? handleFieldPress : undefined}
+      style={[styles.wrap, containerStyle]}>
       {label ? (
         <Text style={[styles.label, disabled && styles.labelDisabled]}>
           {label}
@@ -95,7 +107,8 @@ const Input = forwardRef(function Input(
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
-          editable={!disabled}
+          editable={!disabled && !isPressable && rest.editable !== false}
+          pointerEvents={isPressable || rest.editable === false ? 'none' : pointerEvents}
           onFocus={event => {
             setFocused(true);
             onFocus?.(event);
@@ -142,7 +155,7 @@ const Input = forwardRef(function Input(
           </Text>
         </View>
       ) : null}
-    </View>
+    </ContainerComponent>
   );
 });
 

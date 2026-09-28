@@ -12,5 +12,7 @@ export { default as MapBackdrop } from './MapBackdrop';
 export { default as ConfirmDialog } from './ConfirmDialog';
 export { default as CountryPickerModal } from './CountryPickerModal';
 export { default as DatePickerModal } from './DatePickerModal';
+export { default as DatePickerInput } from './DatePickerInput';
 export { default as AppStatusModal } from './AppStatusModal';
+export { default as ImagePickerModal } from './ImagePickerModal';
 export { default as DriverMapBackdrop } from './DriverMapBackdrop';

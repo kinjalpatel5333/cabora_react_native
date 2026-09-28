@@ -87,7 +87,9 @@ export default function createStyles(colors) {
     },
 
     scroll: {
-      padding: 20,
+      paddingHorizontal: 20,
+      paddingTop: 16,
+      paddingBottom: 16,
     },
 
     // Card containers
@@ -108,7 +110,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
       borderRadius: 16,
       padding: 16,
-      marginBottom: 20,
+      marginBottom: 16,
       borderWidth: 1,
       borderColor: colors.border,
     },

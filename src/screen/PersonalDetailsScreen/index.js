@@ -18,7 +18,7 @@ import {
   requestGalleryPermission,
   showPermissionSettingsAlert,
 } from '../../utils/cameraPermission';
-import { Button, DatePickerModal, Header } from '../../components';
+import { Button, DatePickerInput, DatePickerModal, Header } from '../../components';
 import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
@@ -392,33 +392,17 @@ export default function PersonalDetailsScreen({ navigation, route }) {
 
           {/* Date of Birth */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Date of birth</Text>
-            <TouchableOpacity
-              activeOpacity={0.85}
-              style={styles.inputBox}
-              accessibilityRole="button"
-              accessibilityLabel="Open date picker"
-              onPress={() => setDobPickerVisible(true)}>
-              <Feather
-                name="calendar"
-                size={18}
-                color={colors.navy?.[900] || '#0F1E36'}
-                style={styles.inputIcon}
-              />
-              <TextInput
-                style={[styles.inputText, styles.margin10]}
-                value={dob}
-                placeholder="DD / MM / YYYY"
-                placeholderTextColor={colors.textMuted || '#94A3B8'}
-                pointerEvents="none"
-                editable={false}
-              />
-            </TouchableOpacity>
-            <Text style={styles.helperText}>
-              {isDriver
-                ? 'Used for driver verification and age requirements'
-                : 'Never shown to drivers — used for age-restricted offers'}
-            </Text>
+            <DatePickerInput
+              label="Date of birth"
+              value={dob}
+              placeholder="DD / MM / YYYY"
+              onPress={() => setDobPickerVisible(true)}
+              hint={
+                isDriver
+                  ? 'Used for driver verification and age requirements'
+                  : 'Never shown to drivers — used for age-restricted offers'
+              }
+            />
           </View>
 
           {/* Mobile Number */}
