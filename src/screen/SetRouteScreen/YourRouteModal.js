@@ -8,6 +8,7 @@ import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './yourRouteStyle';
 import colors from '../../config/color';
+import {ToastHost} from '../../components';
 
 const STOP_POOL = PASSENGER_SET_ROUTE_STOP_POOL;
 
@@ -290,6 +291,8 @@ export default function YourRouteModal({
           style={[styles.backBtn, {top: insets.top + 8}]}>
           <Feather name="arrow-left" size={22} color={colors.text} />
         </TouchableOpacity>
+
+        <ToastHost />
       </View>
     </Modal>
   );

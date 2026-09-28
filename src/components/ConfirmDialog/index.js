@@ -6,6 +6,7 @@ import useThemedStyles from '../useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import createStyles from './style';
 import colors from '../../config/color';
+import {ToastHost} from '../Toast';
 
 /**
  * Centered confirmation card over a full-screen dim.
@@ -100,6 +101,7 @@ export default function ConfirmDialog({
             <Text style={styles.secondaryText}>{cancelLabel}</Text>
           </TouchableOpacity>
         </View>
+        <ToastHost />
       </View>
     </Modal>
   );

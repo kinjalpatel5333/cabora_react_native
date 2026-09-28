@@ -133,7 +133,9 @@ const driverSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(logoutUser.pending, () => initialState)
       .addCase(logoutUser.fulfilled, () => initialState)
+      .addCase(logoutUser.rejected, () => initialState)
       .addCase(fetchDriverKycStatus.fulfilled, (state, action) => {
         if (action.payload) {
           state.kycData = action.payload;

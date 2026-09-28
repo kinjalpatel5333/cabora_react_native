@@ -134,8 +134,8 @@ export default function DriverHomeScreen() {
     useCallback(() => {
       StatusBar.setBarStyle(colors.isDark ? 'light-content' : 'dark-content');
       if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        StatusBar.setBackgroundColor?.('transparent');
+        StatusBar.setTranslucent?.(true);
       }
       loadDriverData();
     }, [colors.isDark, loadDriverData]),

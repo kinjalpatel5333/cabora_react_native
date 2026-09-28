@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -78,7 +80,9 @@ export default function OffersCouponsScreen() {
   };
 
   return (
-    <View style={styles.root}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={styles.root}>
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 6 }]}>
         <TouchableOpacity
@@ -203,6 +207,6 @@ export default function OffersCouponsScreen() {
           </View>
         ))}
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

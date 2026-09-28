@@ -124,15 +124,51 @@ function AnimatedToastItem({item, onDismiss}) {
 }
 
 const ToastContext = createContext({
+  toasts: [],
   showToast: () => {},
   hideToast: () => {},
 });
 
-export function ToastProvider({children}) {
+export function ToastHost() {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
+  const {toasts, hideToast} = useContext(ToastContext);
+
+  if (!toasts || toasts.length === 0) {
+    return null;
+  }
+
+  return (
+    <View
+      pointerEvents="box-none"
+      style={[
+        styles.host,
+        {paddingTop: insets.top > 0 ? insets.top + 8 : 16},
+      ]}>
+      <View pointerEvents="box-none" style={styles.stack}>
+        {toasts.map(item => (
+          <AnimatedToastItem
+            key={item.id}
+            item={item}
+            onDismiss={hideToast}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+export function ToastProvider({children}) {
   const [toasts, setToasts] = useState([]);
+  const styles = useThemedStyles(createStyles);
   const timers = useRef({});
+
+  useEffect(() => {
+    return () => {
+      Object.values(timers.current).forEach(t => clearTimeout(t));
+      timers.current = {};
+    };
+  }, []);
 
   const hideToast = useCallback(id => {
     setToasts(current => current.filter(item => item.id !== id));
@@ -147,40 +183,28 @@ export function ToastProvider({children}) {
       if (!message) {
         return;
       }
+      // Clear any previous active toast timers
+      Object.values(timers.current).forEach(t => clearTimeout(t));
+      timers.current = {};
+
       const id = `${Date.now()}-${Math.random()}`;
-      setToasts(current => [...current.slice(-2), {id, type, message}]);
+      // Replace immediately so only the latest toast is visible
+      setToasts([{id, type, message}]);
       timers.current[id] = setTimeout(() => hideToast(id), duration);
     },
     [hideToast],
   );
 
   const value = useMemo(
-    () => ({showToast, hideToast}),
-    [showToast, hideToast],
+    () => ({toasts, showToast, hideToast}),
+    [toasts, showToast, hideToast],
   );
 
   return (
     <ToastContext.Provider value={value}>
       <View style={styles.providerRoot} pointerEvents="box-none">
         {children}
-        {toasts.length > 0 && (
-          <View
-            pointerEvents="box-none"
-            style={[
-              styles.host,
-              {paddingTop: insets.top > 0 ? insets.top + 8 : 16},
-            ]}>
-            <View pointerEvents="box-none" style={styles.stack}>
-              {toasts.map(item => (
-                <AnimatedToastItem
-                  key={item.id}
-                  item={item}
-                  onDismiss={hideToast}
-                />
-              ))}
-            </View>
-          </View>
-        )}
+        <ToastHost />
       </View>
     </ToastContext.Provider>
   );
@@ -189,3 +213,4 @@ export function ToastProvider({children}) {
 export function useToast() {
   return useContext(ToastContext);
 }
+

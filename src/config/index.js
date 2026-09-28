@@ -39,6 +39,11 @@ export {
   getMeApi,
   getPassengerProfileApi,
   updatePassengerProfileApi,
+  estimateRideApi,
+  bookRideApi,
+  cancelRideApi,
+  chargeTripPaymentApi,
+  chargePaymentApi,
   logoutApi,
   endpoints,
   ENDPOINTS,
@@ -47,6 +52,8 @@ export {
   USER_ENDPOINTS,
   DRIVER_ENDPOINTS,
   RIDE_ENDPOINTS,
+  PAYMENT_ENDPOINTS,
+  WALLET_ENDPOINTS,
 } from './api';
 export {apiPostFormData} from './apicallFormData';
 export {fonts, typography, fontByWeight} from './typography';

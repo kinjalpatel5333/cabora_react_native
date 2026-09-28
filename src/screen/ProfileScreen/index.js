@@ -11,6 +11,7 @@ import {useApp} from '../../context/AppContext';
 import {useSidebar} from '../../context/SidebarContext';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {fetchPassengerProfile, fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
+import {formatImageUrl} from '../../utils/user';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -77,6 +78,16 @@ export default function ProfileScreen({navigation}) {
     setPreferences(prev => ({...prev, [key]: !prev[key]}));
   };
 
+  const userRoles = Array.isArray(user?.roles)
+    ? user.roles.map(r => String(r).toUpperCase())
+    : [String(user?.role || user?.currentRole || 'PASSENGER').toUpperCase()];
+
+  const hasPassengerRole = userRoles.includes('PASSENGER');
+  const hasDriverRole =
+    userRoles.includes('DRIVER') ||
+    Boolean(user?.driverId || user?.isDriver === true || user?.isDriverApproved || user?.hasDriverProfile);
+  const hasBothRoles = hasPassengerRole && hasDriverRole;
+
   const displayName = user?.name || user?.fullName || 'User';
   const displayPhone = user?.phone || user?.mobile
     ? (String(user.phone || user.mobile).startsWith('+')
@@ -84,7 +95,7 @@ export default function ProfileScreen({navigation}) {
         : `+91 ${String(user.phone || user.mobile)}`)
     : '+91 98765 43210';
   const displayEmail = user?.email || 'user@example.com';
-  const displayPhoto = user?.photo || user?.profilePhoto || user?.avatar;
+  const displayPhoto = formatImageUrl(user?.photo || user?.profilePhoto || user?.avatar);
 
   const initials = displayName
     .trim()
@@ -146,57 +157,59 @@ export default function ProfileScreen({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.roleBar}>
-          <TouchableOpacity activeOpacity={0.7}
-            style={[
-              styles.roleTab,
-              activeRole === 'passenger' && styles.roleTabActive,
-            ]}
-            onPress={() => setActiveRole('passenger')}
-            accessibilityRole="button"
-            accessibilityLabel="Passenger mode">
-            <Feather
-              name="user"
-              size={18}
-              color={activeRole === 'passenger' ? colors.navy.darkBg3 : colors.blue.gray}
-            />
-            <Text
+        {hasBothRoles && (
+          <View style={styles.roleBar}>
+            <TouchableOpacity activeOpacity={0.7}
               style={[
-                styles.roleText,
-                activeRole === 'passenger' && styles.roleTextActive,
-              ]}>
-              Passenger
-            </Text>
-          </TouchableOpacity>
+                styles.roleTab,
+                activeRole === 'passenger' && styles.roleTabActive,
+              ]}
+              onPress={() => setActiveRole('passenger')}
+              accessibilityRole="button"
+              accessibilityLabel="Passenger mode">
+              <Feather
+                name="user"
+                size={18}
+                color={activeRole === 'passenger' ? colors.navy.darkBg3 : colors.blue.gray}
+              />
+              <Text
+                style={[
+                  styles.roleText,
+                  activeRole === 'passenger' && styles.roleTextActive,
+                ]}>
+                Passenger
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.7}
-            style={[
-              styles.roleTab,
-              activeRole === 'driver' && styles.roleTabActive,
-            ]}
-            onPress={() => {
-              setActiveRole('driver');
-              showToast({type: 'info', message: 'Switching to Driver mode'});
-            }}
-            accessibilityRole="button"
-            accessibilityLabel="Driver mode">
-            <MaterialDesignIcons
-              name="car-side"
-              size={20}
-              color={activeRole === 'driver' ? colors.navy.darkBg3 : colors.blue.gray}
-            />
-            <Text
+            <TouchableOpacity activeOpacity={0.7}
               style={[
-                styles.roleText,
-                activeRole === 'driver' && styles.roleTextActive,
-              ]}>
-              Driver
-            </Text>
-            <View style={styles.approvedBadge}>
-              <Text style={styles.approvedText}>APPROVED</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+                styles.roleTab,
+                activeRole === 'driver' && styles.roleTabActive,
+              ]}
+              onPress={() => {
+                setActiveRole('driver');
+                showToast({type: 'info', message: 'Switching to Driver mode'});
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Driver mode">
+              <MaterialDesignIcons
+                name="car-side"
+                size={20}
+                color={activeRole === 'driver' ? colors.navy.darkBg3 : colors.blue.gray}
+              />
+              <Text
+                style={[
+                  styles.roleText,
+                  activeRole === 'driver' && styles.roleTextActive,
+                ]}>
+                Driver
+              </Text>
+              <View style={styles.approvedBadge}>
+                <Text style={styles.approvedText}>APPROVED</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <ScrollView

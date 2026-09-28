@@ -8,14 +8,14 @@ export default function createStyles(colors) {
       justifyContent: 'flex-end',
     },
     sheet: {
-      backgroundColor: colors.surface,
+      backgroundColor: colors.card,
       borderTopLeftRadius: 28,
       borderTopRightRadius: 28,
       maxHeight: '82%',
       minHeight: 420,
       paddingTop: 12,
       paddingHorizontal: 20,
-      shadowColor: colors.black,
+      shadowColor: colors.isDark ? colors.black : colors.navy[900],
       shadowOffset: {width: 0, height: -4},
       shadowOpacity: 0.15,
       shadowRadius: 12,
@@ -25,7 +25,7 @@ export default function createStyles(colors) {
       width: 40,
       height: 4,
       borderRadius: 2,
-      backgroundColor: colors.isDark ? colors.gray.gray600 : colors.gray.gray200,
+      backgroundColor: colors.border,
       alignSelf: 'center',
       marginBottom: 14,
     },
@@ -44,14 +44,16 @@ export default function createStyles(colors) {
       width: 32,
       height: 32,
       borderRadius: 16,
-      backgroundColor: colors.isDark ? colors.gray.gray700 : colors.gray.gray100,
+      backgroundColor: colors.isDark ? colors.surface : colors.gray[100],
+      borderWidth: colors.isDark ? 1 : 0,
+      borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
     },
     searchContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.isDark ? colors.gray.gray900 : colors.gray.gray50,
+      backgroundColor: colors.isDark ? colors.surface : colors.gray[50],
       borderRadius: 14,
       borderWidth: 1,
       borderColor: colors.border,
@@ -80,7 +82,7 @@ export default function createStyles(colors) {
       borderBottomColor: colors.border,
     },
     itemSelected: {
-      backgroundColor: colors.isDark ? colors.alpha.orangeBrand12 : colors.alpha.orangeBrand08,
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
     },
     flagEmoji: {
       fontFamily: colors.fonts.sora.regular,
@@ -106,7 +108,7 @@ export default function createStyles(colors) {
     dialCode: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
-      color: colors.muted,
+      color: colors.textMuted,
       marginLeft: 8,
       marginRight: 8,
     },
@@ -118,7 +120,7 @@ export default function createStyles(colors) {
     emptyText: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 14,
-      color: colors.muted,
+      color: colors.textMuted,
     },
   });
 }

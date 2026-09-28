@@ -19,13 +19,14 @@ const INITIAL_EARLIER = PASSENGER_NOTIFICATIONS_EARLIER;
 const CATEGORIES = PASSENGER_NOTIFICATIONS_CATEGORIES;
 
 function NotificationIcon({type, name, color}) {
+  const iconColor = color || '#FF8C3C';
   if (type === 'lucide') {
-    return <Lucide name={name} size={20} color={color} />;
+    return <Lucide name={name || 'bell'} size={20} color={iconColor} />;
   }
   if (type === 'mdi') {
-    return <MaterialDesignIcons name={name} size={22} color={color} />;
+    return <MaterialDesignIcons name={name || 'bell-outline'} size={22} color={iconColor} />;
   }
-  return <Feather name={name} size={20} color={color} />;
+  return <Feather name={name || 'bell'} size={20} color={iconColor} />;
 }
 
 export default function NotificationsScreen() {
@@ -143,7 +144,7 @@ export default function NotificationsScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={item.title}>
                 <View
-                  style={[styles.iconBox, {backgroundColor: item.iconBg}]}>
+                  style={[styles.iconBox, {backgroundColor: item.iconBg || (colors.isDark ? colors.navy[800] : colors.orange[50])}]}>
                   <NotificationIcon
                     type={item.iconType}
                     name={item.iconName}
@@ -153,7 +154,10 @@ export default function NotificationsScreen() {
                 <View style={styles.cardBody}>
                   <View style={styles.titleRow}>
                     <Text style={styles.itemTitle}>{item.title}</Text>
-                    <Text style={styles.itemTime}>{item.time}</Text>
+                    <View style={styles.timeWrap}>
+                      <Text style={styles.itemTime}>{item.time}</Text>
+                      {item.unread ? <View style={styles.unreadDot} /> : null}
+                    </View>
                   </View>
                   <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
                 </View>
@@ -179,7 +183,7 @@ export default function NotificationsScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={item.title}>
                 <View
-                  style={[styles.iconBox, {backgroundColor: item.iconBg}]}>
+                  style={[styles.iconBox, {backgroundColor: item.iconBg || (colors.isDark ? colors.navy[800] : colors.orange[50])}]}>
                   <NotificationIcon
                     type={item.iconType}
                     name={item.iconName}
@@ -189,7 +193,10 @@ export default function NotificationsScreen() {
                 <View style={styles.cardBody}>
                   <View style={styles.titleRow}>
                     <Text style={styles.itemTitle}>{item.title}</Text>
-                    <Text style={styles.itemTime}>{item.time}</Text>
+                    <View style={styles.timeWrap}>
+                      <Text style={styles.itemTime}>{item.time}</Text>
+                      {item.unread ? <View style={styles.unreadDot} /> : null}
+                    </View>
                   </View>
                   <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
                 </View>

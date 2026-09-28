@@ -11,4 +11,6 @@ export {
   DRIVER_ENDPOINTS,
   RIDE_ENDPOINTS,
   WALLET_ENDPOINTS,
+  PAYMENT_ENDPOINTS,
 } from '../config/endpoints';
+

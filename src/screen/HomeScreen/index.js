@@ -1,6 +1,6 @@
 import { PASSENGER_HOME_EXPLORE } from '../../config/staticData';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Animated, Dimensions, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {Animated, Dimensions, Image, PanResponder, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -23,6 +23,8 @@ import {
   getPassengerCurrentLocationApi,
   updatePassengerCurrentLocationApi,
 } from '../../services/userApi';
+import { bookRideApi, cancelRideApi } from '../../services/rideApi';
+import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
 import colors from '../../config/color';
 
@@ -85,6 +87,7 @@ export default function HomeScreen() {
 
   const rawName = user?.name?.trim();
   const displayName = rawName || 'Rider';
+  const avatarUri = formatImageUrl(user?.photo || user?.profilePhoto || user?.avatar);
   const greeting = useMemo(
     () => greetingForHour(new Date().getHours()),
     [],
@@ -207,9 +210,14 @@ export default function HomeScreen() {
     };
   }, [navigation, overlayOpen]);
 
+  const [selectedRoute, setSelectedRoute] = useState(null);
+
   const openRoute = () => setRouteOpen(true);
 
-  const openChooseRide = () => {
+  const openChooseRide = routeData => {
+    if (routeData) {
+      setSelectedRoute(routeData);
+    }
     setRouteOpen(false);
     setTimeout(() => setChooseRideOpen(true), 280);
   };
@@ -225,12 +233,43 @@ export default function HomeScreen() {
     setPickupConfirmTrip(trip);
   };
 
-  const openFindingRide = trip => {
+  const openFindingRide = async trip => {
     setPickupConfirmTrip(null);
     setFindingTrip(trip);
     setChooseRideOpen(false);
     setRouteOpen(false);
     setTimeout(() => setFindingOpen(true), 280);
+
+    try {
+      const res = await bookRideApi({
+        pickup: {
+          lat: 21.1702,
+          lng: 72.8311,
+          address: trip?.pickup || selectedRoute?.pickup || 'Surat Railway Station',
+        },
+        destination: {
+          lat: 21.19,
+          lng: 72.845,
+          address: trip?.drop || selectedRoute?.drop || 'Varachha Main Road',
+        },
+        vehicleTypeId: trip?.rideId || trip?.vehicleTypeId || 'SEDAN',
+        paymentMethod: trip?.payment?.id || trip?.paymentMethod || 'CASH',
+      });
+      const responseData = res?.data || res;
+      if (responseData) {
+        setFindingTrip(prev => ({
+          ...prev,
+          rideId: responseData?.rideId || responseData?._id || prev?.rideId || '6ab7a123116d933739e5bf6e',
+          status: responseData?.status || 'SEARCHING_DRIVER',
+          rideOtp: responseData?.rideOtp || responseData?.tripOtp || '1053',
+          tripOtp: responseData?.tripOtp || responseData?.rideOtp || '1053',
+          fare: responseData?.fare?.estimatedTotal ?? responseData?.fare ?? prev?.total ?? 95,
+          currency: responseData?.fare?.currency || 'INR',
+        }));
+      }
+    } catch (err) {
+      console.warn('bookRideApi error:', err);
+    }
   };
 
   /** One step back: Finding ride → Choose ride (not Home). */
@@ -241,10 +280,20 @@ export default function HomeScreen() {
     setTimeout(() => setChooseRideOpen(true), 280);
   };
 
-  const closeFindingRide = () => {
+  const closeFindingRide = async (reason = 'Changed plans') => {
+    const activeRideId = findingTrip?.rideId || '6aa28cc7e02cb357dd298432';
     setCancelConfirmOpen(false);
     setFindingOpen(false);
     setFindingTrip(null);
+
+    try {
+      await cancelRideApi(activeRideId, {
+        reason: typeof reason === 'string' ? reason : 'Changed plans',
+      });
+      showToast({ type: 'info', message: 'Ride has been cancelled' });
+    } catch (err) {
+      console.warn('cancelRideApi error:', err);
+    }
   };
 
   const [currentLocation, setCurrentLocation] = useState({
@@ -374,7 +423,11 @@ export default function HomeScreen() {
               onPress={() => navigation.navigate('Profile')}
               accessibilityRole="button"
               accessibilityLabel="Open profile">
-              <Text style={styles.avatarText}>{initials(displayName)}</Text>
+              {Boolean(avatarUri) ? (
+                <Image source={{uri: avatarUri}} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarText}>{initials(displayName)}</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -636,6 +689,8 @@ export default function HomeScreen() {
         visible={chooseRideOpen}
         onClose={backFromChooseRide}
         onBook={requestPickupConfirm}
+        pickup={selectedRoute?.pickup || 'Satellite, Ahmedabad'}
+        drop={selectedRoute?.drop || 'Mumbai, Maharashtra, India'}
       />
       <FindingRideModal
         visible={findingOpen}
@@ -643,11 +698,15 @@ export default function HomeScreen() {
         onBack={backFromFindingRide}
         onRequestCancel={() => setCancelConfirmOpen(true)}
         rideName={findingTrip?.rideName || 'Cab Sedan'}
-        pickup={findingTrip?.pickup || '12, Brigade Road, Ashok Nagar'}
-        drop={findingTrip?.drop || 'Kempegowda Intl. Airport, T2'}
-        areaHint="Brigade Road"
-        fare={findingTrip?.total || 198}
-        rideId={findingTrip?.rideId || findingTrip?.id || '6aa28cc7e02cb357dd298432'}
+        pickup={findingTrip?.pickup || selectedRoute?.pickup || 'Surat Railway Station'}
+        drop={findingTrip?.drop || selectedRoute?.drop || 'Varachha Main Road'}
+        areaHint="Surat"
+        fare={findingTrip?.fare || findingTrip?.total || 95}
+        currency={findingTrip?.currency || 'INR'}
+        rideId={findingTrip?.rideId || '6ab7a123116d933739e5bf6e'}
+        rideOtp={findingTrip?.rideOtp || findingTrip?.tripOtp || '1053'}
+        tripOtp={findingTrip?.tripOtp || findingTrip?.rideOtp || '1053'}
+        status={findingTrip?.status || 'SEARCHING_DRIVER'}
       />
 
       <ConfirmDialog

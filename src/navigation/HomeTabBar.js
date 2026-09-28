@@ -1,7 +1,5 @@
-import React from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { Feather } from '@react-native-vector-icons/feather/static';
-import { Lucide } from '@react-native-vector-icons/lucide/static';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
@@ -22,18 +20,40 @@ function TabGlyph({ kind, color, active }) {
     );
   }
   if (kind === 'grid') {
-    return <Feather name="grid" size={size} color={color} />;
+    return (
+      <MaterialDesignIcons
+        name={active ? 'view-grid' : 'view-grid-outline'}
+        size={size}
+        color={color}
+      />
+    );
   }
   if (kind === 'clock') {
-    return <Feather name="clock" size={size} color={color} />;
+    return (
+      <MaterialDesignIcons
+        name={active ? 'clock' : 'clock-outline'}
+        size={size}
+        color={color}
+      />
+    );
   }
   if (kind === 'rupee') {
     return (
-      <MaterialDesignIcons name="currency-inr" size={size} color={color} />
+      <MaterialDesignIcons
+        name={active ? 'cash-multiple' : 'currency-inr'}
+        size={size}
+        color={color}
+      />
     );
   }
   if (kind === 'gift') {
-    return <Lucide name="gift" size={size} color={color} />;
+    return (
+      <MaterialDesignIcons
+        name={active ? 'gift' : 'gift-outline'}
+        size={size}
+        color={color}
+      />
+    );
   }
   if (kind === 'wallet') {
     return (
@@ -44,12 +64,36 @@ function TabGlyph({ kind, color, active }) {
       />
     );
   }
-  return <Feather name="user" size={size} color={color} />;
+  return (
+    <MaterialDesignIcons
+      name={active ? 'account' : 'account-outline'}
+      size={size}
+      color={color}
+    />
+  );
 }
 
 export default function HomeTabBar({ state, descriptors, navigation }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+    const showSub = Keyboard.addListener(showEvent, () => setKeyboardVisible(true));
+    const hideSub = Keyboard.addListener(hideEvent, () => setKeyboardVisible(false));
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  if (isKeyboardVisible) {
+    return null;
+  }
 
   return (
     <View

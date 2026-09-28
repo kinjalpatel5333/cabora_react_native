@@ -7,7 +7,6 @@ import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
 import createStyles from './rideCategoryStyle';
-import colors from '../../config/color';
 
 const PROMO_OFF = 50;
 
@@ -38,23 +37,23 @@ export const CATEGORY_LISTS = {
         id: 'cab-sedan',
         name: 'Cab Sedan',
         seats: 4,
-        blurb: 'Extra comfort',
-        price: 920,
+        blurb: 'Plush rides',
+        price: 895,
         icon: 'car-side',
       },
       {
         id: 'cab-xl',
         name: 'Cab XL',
         seats: 6,
-        blurb: 'More space',
+        blurb: 'Spacious rides',
         price: 1133,
-        icon: 'van-passenger',
+        icon: 'car-estate',
       },
     ],
     bookAny: {
       id: 'book-any',
       name: 'Book Any',
-      seats: '4-6',
+      seats: '4 – 6',
       blurb: 'Fastest match',
       priceMin: 736,
       priceMax: 1133,
@@ -96,7 +95,7 @@ export const CATEGORY_LISTS = {
     bookAny: {
       id: 'book-any',
       name: 'Book Any',
-      seats: '2-3',
+      seats: '2 – 3',
       blurb: 'Fastest match',
       priceMin: 72,
       priceMax: 118,
@@ -148,22 +147,19 @@ export const CATEGORY_LISTS = {
   },
 };
 
-function RideGlyph({icon, color, size = 24}) {
-  return <MaterialDesignIcons name={icon} size={size} color={color} />;
-}
-
 export default function RideCategoryModal({
   visible,
   onClose,
   categoryId = 'cab',
+  routeSummary = '14.2 km · 38 min · via Airport Rd',
   promoCode = 'CABORA50',
   paymentLabel = 'UPI · you@okaxis',
   onChangePayment,
-  onBook,
+  onProceed,
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const {colors: themeColors} = useApp();
   const category = CATEGORY_LISTS[categoryId] || CATEGORY_LISTS.cab;
 
   const [selectedId, setSelectedId] = useState(category.bookAny.id);
@@ -190,15 +186,13 @@ export default function RideCategoryModal({
   const isBookAny = selectedId === category.bookAny.id;
 
   const totalLabel = isBookAny
-    ? `₹${category.bookAny.priceMin - PROMO_OFF} – ₹${
-        category.bookAny.priceMax - PROMO_OFF
-      }`
-    : `₹${Math.max(0, (selectedRide.price || 0) - PROMO_OFF)}`;
+    ? `₹${category.bookAny.priceMin} – ₹${category.bookAny.priceMax}`
+    : `₹${selectedRide.price || 0}`;
 
   const bookLabel = isBookAny
     ? `Book ${
         category.rides.find(r => r.id === chips[chips.length - 1])?.name ||
-        category.rides[0].name
+        'Cab Sedan'
       }`
     : `Book ${selectedRide.name}`;
 
@@ -218,7 +212,7 @@ export default function RideCategoryModal({
   const sheetMaxH = Dimensions.get('window').height * 0.78;
   const {sheetTY, panHandlers, toggle, expanded, onSheetLayout} =
     useDraggableSheet({
-      peekHeight: 220,
+      peekHeight: 240,
       visible,
     });
 
@@ -230,8 +224,37 @@ export default function RideCategoryModal({
       onRequestClose={onClose}
       statusBarTranslucent>
       <View style={styles.root} pointerEvents="box-none">
-        <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.backdrop}
+          onPress={onClose}
+        />
 
+        {/* Top bar with back button & route pill over map */}
+        <View style={[styles.topBar, {top: insets.top + 10}]}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            onPress={onClose}
+            hitSlop={10}
+            style={styles.backBtn}>
+            <Feather name="arrow-left" size={22} color={themeColors.text} />
+          </TouchableOpacity>
+
+          <View style={styles.routePill}>
+            <MaterialDesignIcons
+              name="directions-fork"
+              size={18}
+              color={themeColors.orange[500]}
+            />
+            <Text style={styles.routePillText} numberOfLines={1}>
+              {routeSummary}
+            </Text>
+          </View>
+        </View>
+
+        {/* Bottom Sheet */}
         <Animated.View
           onLayout={onSheetLayout}
           style={[
@@ -243,7 +266,8 @@ export default function RideCategoryModal({
             },
           ]}>
           <View {...panHandlers}>
-            <TouchableOpacity activeOpacity={0.7}
+            <TouchableOpacity
+              activeOpacity={0.7}
               onPress={toggle}
               accessibilityRole="button"
               accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
@@ -252,6 +276,7 @@ export default function RideCategoryModal({
             </TouchableOpacity>
           </View>
 
+          {/* Header */}
           <View style={styles.headerRow}>
             <Text style={styles.title}>{category.title}</Text>
             <View style={styles.statsRow}>
@@ -259,12 +284,12 @@ export default function RideCategoryModal({
                 <MaterialDesignIcons
                   name="map-marker-path"
                   size={15}
-                  color={colors.muted}
+                  color={themeColors.textMuted}
                 />
                 <Text style={styles.statText}>{category.distanceKm}</Text>
               </View>
               <View style={styles.statItem}>
-                <Feather name="clock" size={14} color={colors.muted} />
+                <Feather name="clock" size={14} color={themeColors.textMuted} />
                 <Text style={styles.statText}>{category.durationMins}</Text>
               </View>
             </View>
@@ -277,24 +302,39 @@ export default function RideCategoryModal({
             bounces={false}
             style={styles.list}
             contentContainerStyle={styles.listContent}>
+            {/* Solo Rides */}
             {category.rides.map(ride => {
-              const active = selectedId === ride.id;
-              const tint = active ? colors.orange[500] : colors.text;
+              const active = !isBookAny && selectedId === ride.id;
               return (
-                <TouchableOpacity activeOpacity={0.7}
+                <TouchableOpacity
+                  activeOpacity={0.85}
                   key={ride.id}
                   onPress={() => setSelectedId(ride.id)}
-                  style={[styles.rideRow, active && styles.rideRowActive]}>
+                  style={[
+                    styles.rideRow,
+                    active && styles.rideRowActive,
+                  ]}>
                   <View
-                    style={[styles.rideIcon, active && styles.rideIconActive]}>
-                    <RideGlyph icon={ride.icon} color={tint} />
+                    style={[
+                      styles.rideIconBox,
+                      active && styles.rideIconBoxActive,
+                    ]}>
+                    <MaterialDesignIcons
+                      name={ride.icon}
+                      size={24}
+                      color={active ? themeColors.orange[500] : themeColors.text}
+                    />
                   </View>
                   <View style={styles.rideCopy}>
                     <Text style={styles.rideName}>{ride.name}</Text>
                     <View style={styles.rideMetaRow}>
-                      <Feather name="user" size={12} color={colors.muted} />
-                      <Text style={styles.rideMeta}>
-                        {ride.seats} · {ride.blurb}
+                      <MaterialDesignIcons
+                        name="account-multiple"
+                        size={14}
+                        color={themeColors.textMuted}
+                      />
+                      <Text style={styles.rideMetaText}>
+                        {ride.seats}   {ride.blurb}
                       </Text>
                     </View>
                   </View>
@@ -303,60 +343,67 @@ export default function RideCategoryModal({
               );
             })}
 
-            <TouchableOpacity activeOpacity={0.7}
+            {/* Book Any Card */}
+            <TouchableOpacity
+              activeOpacity={0.85}
               onPress={() => setSelectedId(category.bookAny.id)}
               style={[
                 styles.bookAnyCard,
                 isBookAny && styles.bookAnyCardActive,
               ]}>
               <View style={styles.bookAnyTop}>
-                <View
-                  style={[
-                    styles.rideIcon,
-                    isBookAny && styles.rideIconActive,
-                  ]}>
-                  <RideGlyph
-                    icon={category.bookAny.icon}
-                    color={
-                      isBookAny ? colors.orange[500] : colors.text
-                    }
+                <View style={styles.bookAnyIconBox}>
+                  <MaterialDesignIcons
+                    name={category.bookAny.icon}
+                    size={24}
+                    color={themeColors.orange[500]}
                   />
                 </View>
-                <View style={styles.rideCopy}>
-                  <Text style={styles.rideName}>{category.bookAny.name}</Text>
-                  <View style={styles.rideMetaRow}>
-                    <Feather name="user" size={12} color={colors.muted} />
-                    <Text style={styles.rideMeta}>
+                <View style={styles.bookAnyCopy}>
+                  <Text style={styles.bookAnyTitle}>{category.bookAny.name}</Text>
+                  <View style={styles.bookAnyMetaRow}>
+                    <MaterialDesignIcons
+                      name="account-multiple"
+                      size={14}
+                      color={themeColors.textMuted}
+                    />
+                    <Text style={styles.bookAnyMetaSeats}>
                       {category.bookAny.seats}
                     </Text>
-                    <View style={styles.bookAnyBadge}>
-                      <Text style={styles.bookAnyBadgeText}>
-                        {category.bookAny.blurb}
-                      </Text>
-                    </View>
+                    <Text style={styles.bookAnyBlurb}>
+                      {category.bookAny.blurb}
+                    </Text>
                   </View>
                 </View>
-                <Text style={styles.ridePrice}>
+                <Text style={styles.bookAnyPrice}>
                   ₹{category.bookAny.priceMin} – ₹{category.bookAny.priceMax}
                 </Text>
               </View>
 
-              <View style={styles.chipRow}>
+              {/* Chips Grid */}
+              <View style={styles.chipsGrid}>
                 {category.rides.map(ride => {
                   const on = chips.includes(ride.id);
                   return (
-                    <TouchableOpacity activeOpacity={0.7}
+                    <TouchableOpacity
+                      activeOpacity={0.8}
                       key={ride.id}
                       onPress={() => toggleChip(ride.id)}
-                      style={[styles.chip, on && styles.chipOn]}>
-                      <Feather
-                        name={on ? 'check' : 'plus'}
-                        size={12}
-                        color={on ? colors.orange[500] : colors.muted}
+                      style={[
+                        styles.chipItem,
+                        on && styles.chipItemActive,
+                      ]}>
+                      <MaterialDesignIcons
+                        name={on ? 'check-circle-outline' : 'plus'}
+                        size={15}
+                        color={on ? themeColors.orange[500] : themeColors.textMuted}
                       />
                       <Text
-                        style={[styles.chipText, on && styles.chipTextOn]}>
-                        {on ? ride.name : `+ ${ride.name}`}
+                        style={[
+                          styles.chipText,
+                          on && styles.chipTextActive,
+                        ]}>
+                        {ride.name}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -365,25 +412,30 @@ export default function RideCategoryModal({
             </TouchableOpacity>
           </ScrollView>
 
+          {/* Payment Method */}
           <View style={styles.metaRow}>
             <View style={styles.metaIcon}>
               <MaterialDesignIcons
                 name="currency-inr"
                 size={18}
-                color={colors.text}
+                color={themeColors.text}
               />
             </View>
             <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
               {paymentLabel}
             </Text>
-            <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={onChangePayment}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              hitSlop={8}
+              onPress={onChangePayment}>
               <Text style={styles.changeText}>Change</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.metaRow, {borderTopWidth: 0, paddingTop: 0}]}>
+          {/* Promo Code Applied */}
+          <View style={[styles.metaRow, styles.metaRowPromo]}>
             <View style={[styles.metaIcon, styles.metaIconPromo]}>
-              <Feather name="percent" size={16} color={colors.green[600]} />
+              <Feather name="percent" size={15} color={themeColors.green[600]} />
             </View>
             <Text
               style={[styles.metaText, styles.metaTextPromo, styles.metaCopy]}
@@ -393,26 +445,28 @@ export default function RideCategoryModal({
             <Text style={styles.promoAmount}>- ₹{PROMO_OFF}</Text>
           </View>
 
+          {/* Footer with Total and CTA */}
           <View style={styles.footer}>
             <View style={styles.totalCol}>
               <Text style={styles.totalLabel}>TOTAL</Text>
               <Text style={styles.totalValue}>{totalLabel}</Text>
             </View>
-            <TouchableOpacity activeOpacity={0.7}
+            <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.bookBtn}
               onPress={() => {
                 const name = isBookAny
                   ? category.rides.find(r => chips.includes(r.id))?.name ||
-                    selectedRide.name
+                    'Cab Sedan'
                   : selectedRide.name;
                 const price = isBookAny
                   ? category.bookAny.priceMin
                   : selectedRide.price;
-                onBook?.({
+                onProceed?.({
                   rideName: name,
                   rideId: selectedId,
                   categoryId,
-                  total: Math.max(0, price - PROMO_OFF),
+                  total: price,
                   chips: isBookAny ? chips : undefined,
                 });
               }}>

@@ -1,16 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { NativeModules } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import { checkInternet } from '../utils/network';
 import { AppStatusModal } from '../components';
-
-let NetInfo = null;
-if (NativeModules.RNCNetInfo) {
-  try {
-    NetInfo = require('@react-native-community/netinfo').default;
-  } catch {
-    NetInfo = null;
-  }
-}
 
 const NetworkContext = createContext({
   isConnected: true,
@@ -21,42 +12,48 @@ export function NetworkProvider({ children, enableGlobalModal = true }) {
   const [isConnected, setIsConnected] = useState(true);
 
   const checkConnection = useCallback(async () => {
-    if (NetInfo) {
-      try {
-        const state = await NetInfo.fetch();
-        if (state.isConnected !== null && state.isConnected !== undefined) {
-          setIsConnected(state.isConnected);
-          return state.isConnected;
-        }
-      } catch {
-        // fallback
+    try {
+      const state = await NetInfo.fetch();
+      if (state && typeof state.isConnected === 'boolean') {
+        setIsConnected(state.isConnected);
+        return state.isConnected;
       }
+    } catch {
+      // fallback
     }
-    const reachable = await checkInternet(3000);
+    const reachable = await checkInternet(4000);
     setIsConnected(reachable);
     return reachable;
   }, []);
 
   useEffect(() => {
-    if (!NetInfo) {
-      return undefined;
-    }
-
     // Initial fetch to sync state
-    NetInfo.fetch().then(state => {
-      if (state.isConnected !== null && state.isConnected !== undefined) {
-        setIsConnected(state.isConnected);
-      }
-    }).catch(() => {});
+    NetInfo.fetch()
+      .then(state => {
+        if (state && state.isConnected === false) {
+          setIsConnected(false);
+        } else {
+          setIsConnected(true);
+        }
+      })
+      .catch(() => {
+        setIsConnected(true);
+      });
 
     // Listen for live connection changes
     const unsubscribe = NetInfo.addEventListener(state => {
-      if (state.isConnected !== null && state.isConnected !== undefined) {
-        setIsConnected(state.isConnected);
+      if (state && state.isConnected === false) {
+        setIsConnected(false);
+      } else if (state && state.isConnected === true) {
+        setIsConnected(true);
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
   }, []);
 
   return (
@@ -64,7 +61,7 @@ export function NetworkProvider({ children, enableGlobalModal = true }) {
       {children}
       {enableGlobalModal && (
         <AppStatusModal
-          visible={!isConnected}
+          visible={isConnected === false}
           type="offline"
           onRetry={checkConnection}
         />

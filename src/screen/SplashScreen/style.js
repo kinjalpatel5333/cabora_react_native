@@ -3,16 +3,10 @@ import { StyleSheet } from 'react-native';
 export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
-      ...StyleSheet.absoluteFillObject,
+      flex: 1,
+      width: '100%',
+      height: '100%',
       backgroundColor: colors.navy[950],
-    },
-    bottomFill: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: colors.navy[950],
-      zIndex: 0,
     },
     glow: {
       position: 'absolute',

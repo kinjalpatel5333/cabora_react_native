@@ -441,14 +441,27 @@ export const fetchDriverProfile = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   'auth/logout',
-  async (payload = { deviceId: 'device_123' }) => {
+  async (payload = { deviceId: 'device_123' }, { getState }) => {
     try {
-      await logoutApi(payload || { deviceId: 'device_123' });
+      const state = getState();
+      const storedToken = await storageGetItem(STORAGE_KEYS.token).catch(() => null);
+      const activeToken =
+        state?.auth?.token ||
+        getAuthToken() ||
+        storedToken;
+
+      if (activeToken && !String(activeToken).startsWith('local-token-')) {
+        const apiCall = logoutApi(payload || { deviceId: 'device_123' }, activeToken).catch(err => {
+          console.warn('Backend logout notice:', err);
+        });
+        const timeout = new Promise(resolve => setTimeout(resolve, 2000));
+        await Promise.race([apiCall, timeout]);
+      }
     } catch (err) {
-      console.warn('Backend logout warning (proceeding with local session cleanup):', err);
+      console.warn('Backend logout warning:', err);
     } finally {
-      await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]);
       setAuthToken(null);
+      await storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]).catch(() => {});
     }
     return null;
   },
@@ -460,6 +473,15 @@ const authSlice = createSlice({
   reducers: {
     clearAuthError(state) {
       state.error = null;
+    },
+    logoutNow(state) {
+      state.user = null;
+      state.token = null;
+      state.error = null;
+      state.loading = false;
+      state.bootstrapped = true;
+      setAuthToken(null);
+      storageRemoveMultiple([STORAGE_KEYS.token, STORAGE_KEYS.user]).catch(() => {});
     },
     setUser(state, action) {
       if (action.payload) {
@@ -559,14 +581,30 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload || 'Sign up failed';
       })
-      // logout
+      // logout - clean auth state immediately on all states
+      .addCase(logoutUser.pending, state => {
+        state.user = null;
+        state.token = null;
+        state.error = null;
+        state.loading = false;
+        state.bootstrapped = true;
+      })
       .addCase(logoutUser.fulfilled, state => {
         state.user = null;
         state.token = null;
         state.error = null;
+        state.loading = false;
+        state.bootstrapped = true;
+      })
+      .addCase(logoutUser.rejected, state => {
+        state.user = null;
+        state.token = null;
+        state.error = null;
+        state.loading = false;
+        state.bootstrapped = true;
       });
   },
 });
 
-export const {clearAuthError, setUser} = authSlice.actions;
+export const {clearAuthError, logoutNow, setUser} = authSlice.actions;
 export default authSlice.reducer;

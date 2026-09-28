@@ -92,7 +92,7 @@ export default function createStyles(colors) {
       alignSelf: 'flex-start',
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: isDark ? colors.navy[750] : '#FFFFFF',
       borderRadius: 20,
       paddingHorizontal: 16,
       paddingVertical: 8,
@@ -106,7 +106,7 @@ export default function createStyles(colors) {
     earnedBadgeText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 13,
-      color: '#111827',
+      color: isDark ? colors.white : '#111827',
       marginLeft: 8,
     },
 

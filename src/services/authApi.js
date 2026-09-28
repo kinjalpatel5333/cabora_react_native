@@ -145,17 +145,26 @@ export function signupApi(payload) {
  * User logout
  * @param {Object} [payload]
  * @param {string} [payload.deviceId='device_123']
+ * @param {string} [token]
  * @returns {Promise<any>}
  */
-export async function logoutApi(payload = { deviceId: 'device_123' }) {
+export async function logoutApi(payload = { deviceId: 'device_123' }, token) {
   const body = payload || { deviceId: 'device_123' };
+  const currentToken = token;
+
+  const config = (currentToken && !String(currentToken).startsWith('local-token-'))
+    ? { headers: { Authorization: `Bearer ${currentToken}` } }
+    : undefined;
 
   console.log('\n==========================================');
   console.log(`📤 [API REQUEST] POST ${AUTH_ENDPOINTS.LOGOUT}`);
   console.log(`📍 Payload:`, body);
+  if (config?.headers?.Authorization) {
+    console.log(`🔑 Auth Token Attached`);
+  }
   console.log('==========================================');
 
-  const response = await apiPost(AUTH_ENDPOINTS.LOGOUT, body);
+  const response = await apiPost(AUTH_ENDPOINTS.LOGOUT, body, config);
 
   console.log('\n==========================================');
   console.log('📥 [API RESPONSE] Logout Success:');

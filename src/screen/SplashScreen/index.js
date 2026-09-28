@@ -1,11 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, Dimensions, Image, ImageBackground, Linking, Text, useWindowDimensions, View} from 'react-native';
+import {Animated, Dimensions, Image, ImageBackground, Linking, StatusBar, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {images} from '../../assets';
 import {AppStatusModal} from '../../components';
 import {APP_MARKET, APP_VERSION, STORE_URL} from '../../config/setting';
 import useThemedStyles from '../../components/useThemedStyles';
-import {bottomSafePad} from '../../utils/safeArea';
 import createStyles from './style';
 
 /** Default is loading. Set one other flag to true to show that screen. */
@@ -46,15 +45,9 @@ export default function SplashScreen({
   onCheckAgain,
 }) {
   const insets = useSafeAreaInsets();
-  const {width: windowWidth, height: windowHeight} = useWindowDimensions();
-  const screen = Dimensions.get('screen');
   const styles = useThemedStyles(createStyles);
   const status = statusProp || statusFromFlags();
   const progress = useRef(new Animated.Value(0.12)).current;
-
-  // Full device screen — covers gesture/nav inset so white strip doesn't show under navy.
-  const pageWidth = screen.width || windowWidth;
-  const pageHeight = screen.height || windowHeight;
 
   useEffect(() => {
     if (status !== 'loading') {
@@ -112,18 +105,18 @@ export default function SplashScreen({
       source={images.splashGradient}
       resizeMode="cover"
       fadeDuration={0}
-      style={[styles.root, {width: pageWidth, height: pageHeight}]}>
-      {/* Matching navy under gesture bar */}
-      <View
-        pointerEvents="none"
-        style={[styles.bottomFill, {height: Math.max(insets.bottom, 24)}]}
+      style={styles.root}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
       />
       <View
         style={[
           styles.content,
           {
-            paddingTop: insets.top,
-            paddingBottom: bottomSafePad(insets),
+            paddingTop: Math.max(insets.top, 20),
+            paddingBottom: Math.max(insets.bottom, 16) + 6,
           },
         ]}>
         <View
@@ -195,7 +188,7 @@ export default function SplashScreen({
             />
           )}
           <Text style={styles.version}>
-            v{APP_VERSION} · {APP_MARKET}
+            v {APP_VERSION} · {APP_MARKET}
           </Text>
         </View>
       </View>

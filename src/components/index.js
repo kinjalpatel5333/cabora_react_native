@@ -6,7 +6,7 @@ export { default as SearchField } from './SearchField';
 export { default as Chip } from './Chip';
 export { default as Toggle } from './Toggle';
 export { default as StatusBadge } from './StatusBadge';
-export { default as Toast, ToastProvider, useToast } from './Toast';
+export { default as Toast, ToastProvider, ToastHost, useToast } from './Toast';
 export { default as Icon } from './Icon';
 export { default as MapBackdrop } from './MapBackdrop';
 export { default as ConfirmDialog } from './ConfirmDialog';

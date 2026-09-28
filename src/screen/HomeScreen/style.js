@@ -129,6 +129,13 @@ export default function createStyles(colors) {
       borderColor: colors.border,
       alignItems: 'center',
       justifyContent: 'center',
+      overflow: 'hidden',
+    },
+    avatarImage: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 22,
+      resizeMode: 'cover',
     },
     avatarText: {
       fontFamily: colors.fonts.sora.extraBold,
