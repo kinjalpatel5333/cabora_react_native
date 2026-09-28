@@ -526,19 +526,19 @@ export default function createStyles(colors) {
     },
     vehicleCardActive: {
       borderColor: colors.orange[500],
-      backgroundColor: colors.orange.subtleBg,
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange.subtleBg,
     },
     vehicleIconWrap: {
       width: 40,
       height: 40,
       borderRadius: 12,
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.isDark ? colors.gray[800] : colors.gray[100],
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 10,
     },
     vehicleIconWrapActive: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.alpha.orange30 : colors.white,
     },
     vehicleName: {
       fontFamily: colors.fonts.sora.bold,
@@ -548,7 +548,7 @@ export default function createStyles(colors) {
     vehicleMeta: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 11,
-      color: colors.gray[500],
+      color: colors.isDark ? colors.gray[300] : colors.gray[500],
       marginTop: 2,
     },
     vehicleCheckMark: {
@@ -581,7 +581,7 @@ export default function createStyles(colors) {
       width: 64,
       height: 64,
       borderRadius: 14,
-      backgroundColor: '#F1F5F9',
+      backgroundColor: colors.isDark ? colors.gray[800] : '#F1F5F9',
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 14,
@@ -590,7 +590,7 @@ export default function createStyles(colors) {
       width: 64,
       height: 84,
       borderRadius: 14,
-      backgroundColor: '#F1F5F9',
+      backgroundColor: colors.isDark ? colors.gray[800] : '#F1F5F9',
       justifyContent: 'center',
       paddingHorizontal: 8,
       marginRight: 14,
@@ -604,14 +604,14 @@ export default function createStyles(colors) {
       width: 44,
       height: 24,
       borderRadius: 6,
-      backgroundColor: '#CBD5E1',
+      backgroundColor: colors.isDark ? colors.gray[700] : '#CBD5E1',
       alignItems: 'center',
       justifyContent: 'center',
     },
     plateIllustrationText: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 11,
-      color: '#1E293B',
+      color: colors.isDark ? colors.gray[100] : '#1E293B',
     },
     docRowCopy: {
       flex: 1,
@@ -625,26 +625,26 @@ export default function createStyles(colors) {
     docRowMeta: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
-      color: colors.gray[500],
+      color: colors.isDark ? colors.gray[300] : colors.gray[500],
       marginBottom: 2,
     },
     docRowMetaSub: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 11.5,
-      color: colors.gray[400],
+      color: colors.isDark ? colors.gray[400] : colors.gray[400],
       marginBottom: 4,
     },
     statusPillRequired: {
-      backgroundColor: '#F1F5F9',
+      backgroundColor: colors.isDark ? colors.gray[800] : '#F1F5F9',
       paddingHorizontal: 12,
-      paddingVertical: 4,
+      paddingVertical: 6,
       borderRadius: 12,
       alignSelf: 'flex-start',
     },
     statusPillRequiredText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 11,
-      color: '#64748B',
+      color: colors.isDark ? colors.gray[300] : '#64748B',
     },
     docRowFooter: {
       flexDirection: 'row',
@@ -659,7 +659,7 @@ export default function createStyles(colors) {
       gap: 8,
     },
     btnPillOrange: {
-      backgroundColor: '#FFF7ED',
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : '#FFF7ED',
       paddingHorizontal: 14,
       paddingVertical: 6,
       borderRadius: 12,
@@ -667,7 +667,7 @@ export default function createStyles(colors) {
     btnPillOrangeText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      color: '#EA580C',
+      color: colors.orange[500],
     },
     docRowAction: {
       flexDirection: 'row',
@@ -683,19 +683,19 @@ export default function createStyles(colors) {
     successSubtext: {
       fontFamily: colors.fonts.sora.medium,
       fontSize: 13,
-      color: '#15803D',
+      color: colors.isDark ? colors.green[400] : '#15803D',
     },
 
     // Expiry Notice Box (Amber)
     amberNoticeBox: {
       flexDirection: 'row',
       alignItems: 'flex-start',
-      backgroundColor: '#FFFBEB',
+      backgroundColor: colors.isDark ? colors.alpha.amber15 : '#FFFBEB',
       borderRadius: 16,
       padding: 16,
       marginBottom: 20,
       borderWidth: 1,
-      borderColor: '#FDE68A',
+      borderColor: colors.isDark ? colors.alpha.amber30 : '#FDE68A',
     },
     amberNoticeCopy: {
       flex: 1,
@@ -703,13 +703,13 @@ export default function createStyles(colors) {
     amberNoticeTitle: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 13.5,
-      color: '#78350F',
+      color: colors.isDark ? colors.amber[300] : '#78350F',
       marginBottom: 2,
     },
     amberNoticeText: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 12.5,
-      color: '#92400E',
+      color: colors.isDark ? colors.gray[300] : '#92400E',
       lineHeight: 17,
     },
 
@@ -717,18 +717,18 @@ export default function createStyles(colors) {
     bankBranchCard: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.green.mint,
+      backgroundColor: colors.isDark ? colors.alpha.green15 : colors.green.mint,
       borderRadius: 16,
       padding: 14,
       marginBottom: 16,
       borderWidth: 1,
-      borderColor: colors.green[200],
+      borderColor: colors.isDark ? colors.alpha.green30 : colors.green[200],
     },
     bankBranchIconWrap: {
       width: 44,
       height: 44,
       borderRadius: 12,
-      backgroundColor: colors.white,
+      backgroundColor: colors.isDark ? colors.alpha.green20 : colors.white,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 12,
@@ -736,18 +736,18 @@ export default function createStyles(colors) {
     bankBranchTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       fontSize: 14,
-      color: colors.text,
+      color: colors.isDark ? colors.green[300] : colors.gray[900],
     },
     bankBranchSub: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
-      color: colors.gray[600],
+      color: colors.isDark ? colors.gray[300] : colors.gray[600],
       marginTop: 2,
     },
     bankBranchVerified: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      color: colors.green[700],
+      color: colors.isDark ? colors.green[400] : colors.green[700],
       marginTop: 2,
     },
 
@@ -766,7 +766,7 @@ export default function createStyles(colors) {
       width: 44,
       height: 44,
       borderRadius: 14,
-      backgroundColor: colors.green.mint,
+      backgroundColor: colors.isDark ? colors.alpha.green20 : colors.green.mint,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 12,
@@ -782,7 +782,7 @@ export default function createStyles(colors) {
     reviewMeta: {
       fontFamily: colors.fonts.sora.regular,
       fontSize: 12,
-      color: colors.gray[500],
+      color: colors.isDark ? colors.gray[400] : colors.gray[500],
       marginTop: 2,
     },
     reviewRight: {
@@ -792,10 +792,10 @@ export default function createStyles(colors) {
     reviewCountText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 11,
-      color: colors.green[700],
+      color: colors.isDark ? colors.green[400] : colors.green[700],
     },
     editPillBtn: {
-      backgroundColor: colors.gray[100],
+      backgroundColor: colors.isDark ? colors.gray[800] : colors.gray[100],
       paddingHorizontal: 12,
       paddingVertical: 4,
       borderRadius: 12,
@@ -803,7 +803,7 @@ export default function createStyles(colors) {
     editPillText: {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 12,
-      color: colors.gray[700],
+      color: colors.isDark ? colors.gray[300] : colors.gray[700],
     },
     confirmCheckboxCard: {
       backgroundColor: colors.card,
@@ -822,7 +822,7 @@ export default function createStyles(colors) {
       height: 22,
       borderRadius: 6,
       borderWidth: 1.5,
-      borderColor: colors.gray[400],
+      borderColor: colors.isDark ? colors.gray[500] : colors.gray[400],
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 12,
@@ -849,12 +849,12 @@ export default function createStyles(colors) {
     verifyInfoBox: {
       flexDirection: 'row',
       alignItems: 'flex-start',
-      backgroundColor: colors.orange.subtleBg,
+      backgroundColor: colors.isDark ? colors.alpha.orange15 : colors.orange.subtleBg,
       borderRadius: 14,
       padding: 14,
       marginBottom: 20,
       borderWidth: 1,
-      borderColor: colors.amber[200],
+      borderColor: colors.isDark ? colors.alpha.orange30 : colors.amber[200],
     },
     verifyInfoText: {
       fontFamily: colors.fonts.sora.medium,

@@ -1344,25 +1344,25 @@ export default function DriverRegistrationScreen({ navigation, route }) {
                   <MaterialDesignIcons
                     name="motorbike"
                     size={22}
-                    color={active ? colors.orange[500] : colors.gray[600]}
+                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
                   />
                 ) : vt.icon === 'rickshaw' ? (
                   <MaterialDesignIcons
                     name="rickshaw"
                     size={22}
-                    color={active ? colors.orange[500] : colors.gray[600]}
+                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
                   />
                 ) : vt.icon === 'car-hatchback' ? (
                   <MaterialDesignIcons
                     name="car-hatchback"
                     size={22}
-                    color={active ? colors.orange[500] : colors.gray[600]}
+                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
                   />
                 ) : (
                   <MaterialDesignIcons
                     name="car-side"
                     size={22}
-                    color={active ? colors.orange[500] : colors.gray[600]}
+                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
                   />
                 )}
               </View>
@@ -1804,7 +1804,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? Math.max(insets.top, 16) + 54 : 0}>
         {step <= 5 ? (
           <View style={styles.progressSection}>
