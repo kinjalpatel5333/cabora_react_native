@@ -1,26 +1,25 @@
-import React, {useCallback, useState} from 'react';
-import {Image, Modal, RefreshControl, ScrollView, Text, View, TouchableOpacity} from 'react-native';
-import {Feather} from '@react-native-vector-icons/feather/static';
-import {MaterialDesignIcons} from '@react-native-vector-icons/material-design-icons/static';
-import {useFocusEffect} from '@react-navigation/native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {images} from '../../assets';
-import {useToast} from '../../components/Toast';
+import React, { useCallback, useState } from 'react';
+import { Image, Modal, RefreshControl, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
+import { useFocusEffect } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button, ConfirmDialog, Screen } from '../../components';
+import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
-import {useApp} from '../../context/AppContext';
-import {useSidebar} from '../../context/SidebarContext';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {fetchPassengerProfile, fetchUserProfile, logoutUser} from '../../redux/slices/authSlice';
-import {formatImageUrl} from '../../utils/user';
+import { useApp } from '../../context/AppContext';
+import { useSidebar } from '../../context/SidebarContext';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchPassengerProfile, fetchUserProfile, logoutUser } from '../../redux/slices/authSlice';
+import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
-import colors from '../../config/color';
 
-function CustomToggle({value, onToggle, label, styles}) {
+function CustomToggle({ value, onToggle, label, styles }) {
   return (
     <TouchableOpacity activeOpacity={0.7}
       onPress={() => onToggle(!value)}
       accessibilityRole="switch"
-      accessibilityState={{checked: value}}
+      accessibilityState={{ checked: value }}
       accessibilityLabel={label}
       style={[
         styles.toggleTrack,
@@ -36,18 +35,19 @@ function CustomToggle({value, onToggle, label, styles}) {
   );
 }
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({ navigation }) {
   const insets = useSafeAreaInsets();
-  const {isDark, toggleTheme, colors} = useApp();
-  const {openDrawer} = useSidebar();
+  const { isDark, toggleTheme, colors } = useApp();
+  const { openDrawer } = useSidebar();
   const styles = useThemedStyles(createStyles);
 
-  const {showToast} = useToast();
+  const { showToast } = useToast();
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.auth.user);
 
   const [activeRole, setActiveRole] = useState(user?.role || 'passenger');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [preferences, setPreferences] = useState({
     notifications: true,
@@ -75,7 +75,7 @@ export default function ProfileScreen({navigation}) {
   };
 
   const togglePref = key => {
-    setPreferences(prev => ({...prev, [key]: !prev[key]}));
+    setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   const userRoles = Array.isArray(user?.roles)
@@ -91,8 +91,8 @@ export default function ProfileScreen({navigation}) {
   const displayName = user?.name || user?.fullName || 'User';
   const displayPhone = user?.phone || user?.mobile
     ? (String(user.phone || user.mobile).startsWith('+')
-        ? String(user.phone || user.mobile)
-        : `+91 ${String(user.phone || user.mobile)}`)
+      ? String(user.phone || user.mobile)
+      : `+91 ${String(user.phone || user.mobile)}`)
     : '+91 98765 43210';
   const displayEmail = user?.email || 'user@example.com';
   const displayPhoto = formatImageUrl(user?.photo || user?.profilePhoto || user?.avatar);
@@ -107,7 +107,7 @@ export default function ProfileScreen({navigation}) {
 
   return (
     <View style={styles.root}>
-      <View style={[styles.hero, {paddingTop: Math.max(insets.top, 24) + 16}]}>
+      <View style={[styles.hero, { paddingTop: Math.max(insets.top, 24) + 16 }]}>
         {/* Real Ambient Corner Orange Glow Image */}
         <Image
           source={images.loginGlow}
@@ -129,7 +129,7 @@ export default function ProfileScreen({navigation}) {
           <View style={styles.avatarRing}>
             <View style={styles.avatarInner}>
               {displayPhoto ? (
-                <Image source={{uri: displayPhoto}} style={styles.avatarPhoto} />
+                <Image source={{ uri: displayPhoto }} style={styles.avatarPhoto} />
               ) : (
                 <Text style={styles.avatarInitials}>{initials}</Text>
               )}
@@ -188,7 +188,7 @@ export default function ProfileScreen({navigation}) {
               ]}
               onPress={() => {
                 setActiveRole('driver');
-                showToast({type: 'info', message: 'Switching to Driver mode'});
+                showToast({ type: 'info', message: 'Switching to Driver mode' });
               }}
               accessibilityRole="button"
               accessibilityLabel="Driver mode">
@@ -224,7 +224,7 @@ export default function ProfileScreen({navigation}) {
         }
         contentContainerStyle={[
           styles.scroll,
-          {paddingBottom: Math.max(insets.bottom, 16) + 90},
+          { paddingBottom: Math.max(insets.bottom, 16) + 90 },
         ]}>
         <Text style={styles.sectionLabel}>ACCOUNT</Text>
         <View style={styles.card}>
@@ -245,7 +245,7 @@ export default function ProfileScreen({navigation}) {
 
           <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
-            onPress={() => showToast({type: 'info', message: 'Language'})}
+            onPress={() => showToast({ type: 'info', message: 'Language' })}
             accessibilityRole="button"
             accessibilityLabel="Language">
             <View style={styles.rowIconBox}>
@@ -327,14 +327,14 @@ export default function ProfileScreen({navigation}) {
 
           <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
-            onPress={() => dispatch(logoutUser())}
+            onPress={() => setShowLogoutModal(true)}
             accessibilityRole="button"
             accessibilityLabel="Log out">
-            <View style={[styles.rowIconBox, {backgroundColor: colors.alpha.red10}]}>
+            <View style={[styles.rowIconBox, { backgroundColor: colors.alpha.red10 }]}>
               <Feather name="log-out" size={18} color={colors.red[600]} />
             </View>
             <View style={styles.rowBody}>
-              <Text style={[styles.rowTitle, {color: colors.red[600]}]}>
+              <Text style={[styles.rowTitle, { color: colors.red[600] }]}>
                 Log out
               </Text>
               <Text style={styles.rowSub}>Sign out of your account</Text>
@@ -351,7 +351,7 @@ export default function ProfileScreen({navigation}) {
               <Feather name="trash-2" size={18} color={colors.danger} />
             </View>
             <View style={styles.rowBody}>
-              <Text style={[styles.rowTitle, {color: colors.danger}]}>
+              <Text style={[styles.rowTitle, { color: colors.danger }]}>
                 Delete your account
               </Text>
               <Text style={styles.rowSub}>Permanent removal of data</Text>
@@ -425,6 +425,20 @@ export default function ProfileScreen({navigation}) {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
+
+      <ConfirmDialog
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        variant="danger"
+        title="Log out"
+        message="Are you sure you want to log out of your account?"
+        confirmLabel="Log out"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          setShowLogoutModal(false);
+          dispatch(logoutUser());
+        }}
+      />
     </View>
   );
 }
