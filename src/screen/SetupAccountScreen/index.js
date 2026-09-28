@@ -1,6 +1,6 @@
 import { PASSENGER_SETUP_ACCOUNT_ROLES, SETUP_ACCOUNT_STRINGS } from '../../config/staticData';
 import React, { useCallback, useMemo, useState } from 'react';
-import { Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { BackHandler, Linking, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
@@ -22,7 +22,11 @@ const SUPPORT_URL = SETUP_ACCOUNT_STRINGS.SUPPORT_URL;
 const ROLES = PASSENGER_SETUP_ACCOUNT_ROLES;
 
 function RoleIcon({ id, selected, colors }) {
-  const color = selected ? colors.orange[500] : colors.navy[800];
+  const color = selected
+    ? colors.orange[500]
+    : colors.isDark
+      ? colors.gray[300]
+      : colors.gray[600];
   if (id === 'driver') {
     return (
       <MaterialDesignIcons name="car-hatchback" size={22} color={color} />
@@ -60,6 +64,18 @@ export default function SetupAccountScreen({ navigation, route }) {
         StatusBar.setBackgroundColor?.('transparent');
         StatusBar.setTranslucent?.(true);
       }
+
+      const onBackPress = () => {
+        // Prevent going back to OTP / Login screen after verifying OTP
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      return () => subscription.remove();
     }, [colors.isDark]),
   );
 
@@ -236,7 +252,7 @@ export default function SetupAccountScreen({ navigation, route }) {
         })}
 
         <View style={styles.note}>
-          <MaterialDesignIcons name="shield-check-outline" size={18} color={colors.navy[700]} />
+          <MaterialDesignIcons name="shield-check-outline" size={18} color={colors.isDark ? colors.gray[300] : colors.navy[700]} />
           <Text style={styles.noteText}>
             {SETUP_ACCOUNT_STRINGS.DRIVER_NOTE}
           </Text>
