@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { Lucide } from '@react-native-vector-icons/lucide/static';
 import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { images } from '../../assets';
-import { Toggle } from '../../components';
+import { ConfirmDialog, Toggle } from '../../components';
 import { useSidebar } from '../../context/SidebarContext';
 import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch } from '../../redux/hooks';
@@ -110,7 +110,14 @@ export default function DrawerContent() {
   const isDriver = role === 'driver';
   const links = isDriver ? DRIVER_LINKS : PASSENGER_LINKS;
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutModal(false);
     closeDrawer();
     dispatch(logoutUser());
   };
@@ -243,6 +250,17 @@ export default function DrawerContent() {
         {/* App Version */}
         <Text style={styles.versionText}>v {APP_VERSION}</Text>
       </View>
+
+      <ConfirmDialog
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        variant="danger"
+        title="Log out"
+        message="Are you sure you want to log out of your account?"
+        confirmLabel="Log out"
+        cancelLabel="Cancel"
+        onConfirm={confirmLogout}
+      />
     </View>
   );
 }
