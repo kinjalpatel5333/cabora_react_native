@@ -73,6 +73,19 @@ function formatImageUrl(url) {
   return `${BASE_URL}${cleanPath}`;
 }
 
+function formatInsurancePolicyNumber(text) {
+  if (!text) return '';
+  const clean = text.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  const parts = [];
+  if (clean.length > 0) parts.push(clean.slice(0, 2));
+  if (clean.length > 2) parts.push(clean.slice(2, 6));
+  if (clean.length > 6) parts.push(clean.slice(6, 10));
+  if (clean.length > 10) parts.push(clean.slice(10, 14));
+  if (clean.length > 14) parts.push(clean.slice(14, 18));
+  if (clean.length > 18) parts.push(clean.slice(18, 22));
+  return parts.join('-');
+}
+
 export default function DriverRegistrationScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
   const { colors } = useApp();
@@ -1536,11 +1549,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         <View style={styles.inputWrap}>
           <TextInput
             value={policyNumber}
-            onChangeText={setPolicyNumber}
+            onChangeText={text => setPolicyNumber(formatInsurancePolicyNumber(text))}
             placeholder="OD-2026-4471-9920-3318"
             placeholderTextColor={colors.gray[400]}
+            autoCapitalize="characters"
+            maxLength={25}
             style={styles.textInput}
-            onFocus={() => handleInputFocus(50)}
+            onFocus={() => handleInputFocus(20)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Comprehensive or third-party, in the owner's name</Text>
