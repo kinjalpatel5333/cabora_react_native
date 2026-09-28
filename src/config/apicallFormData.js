@@ -1,7 +1,6 @@
-import {BASE_URL} from './setting';
-import {getAuthToken} from './apicall';
+import apiClient, {getAuthToken} from './apicall';
+import {BASE_URL, STORAGE_KEYS} from './setting';
 import {storageGetItem} from '../utils/storage';
-import {STORAGE_KEYS} from './setting';
 
 async function getValidToken() {
   let token = getAuthToken();
@@ -17,75 +16,71 @@ async function getValidToken() {
 }
 
 export async function apiPostFormData(path, formData) {
-  const headers = {
-    Accept: 'application/json',
-  };
   const token = await getValidToken();
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+  };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const cleanBase = (BASE_URL || '').endsWith('/')
-    ? BASE_URL.slice(0, -1)
-    : BASE_URL;
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  const fullUrl = `${cleanBase}${cleanPath}`;
+  console.log(`🚀 [API POST FormData] URL: ${BASE_URL}${cleanPath}`);
+  console.log(`🔑 [API POST FormData] Token: ${token ? `${token.substring(0, 20)}...` : 'NONE'}`);
 
-  console.log(`🚀 [API POST FormData] URL: ${fullUrl}`);
-
-  const res = await fetch(fullUrl, {
-    method: 'POST',
-    headers,
-    body: formData,
-  });
-
-  const data = await res.json().catch(() => ({}));
-  console.log(`📥 [API POST FormData] Status: ${res.status}`, data);
-
-  if (!res.ok) {
-    console.error(`❌ [API POST FormData] Error ${res.status}:`, data);
+  try {
+    const res = await apiClient.post(cleanPath, formData, {
+      headers,
+      transformRequest: (data, headers) => {
+        // Retain FormData object as-is for React Native XMLHttpRequest
+        return data;
+      },
+    });
+    console.log(`📥 [API POST FormData] Status: ${res.status}`, res.data);
+    return res.data;
+  } catch (error) {
+    const errorData = error?.data || error?.response?.data || {};
+    const status = error?.status || error?.response?.status || 500;
+    console.error(`❌ [API POST FormData] Error ${status}:`, errorData);
     throw {
-      status: res.status,
-      message: data.message || data.error || 'Upload failed',
-      data,
+      status,
+      message: errorData.message || errorData.error || error?.message || 'Upload failed',
+      data: errorData,
     };
   }
-  return data;
 }
 
 export async function apiPutFormData(path, formData) {
-  const headers = {
-    Accept: 'application/json',
-  };
   const token = await getValidToken();
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+  };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const cleanBase = (BASE_URL || '').endsWith('/')
-    ? BASE_URL.slice(0, -1)
-    : BASE_URL;
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  const fullUrl = `${cleanBase}${cleanPath}`;
+  console.log(`🚀 [API PUT FormData] URL: ${BASE_URL}${cleanPath}`);
+  console.log(`🔑 [API PUT FormData] Token: ${token ? `${token.substring(0, 20)}...` : 'NONE'}`);
 
-  console.log(`🚀 [API PUT FormData] URL: ${fullUrl}`);
-
-  const res = await fetch(fullUrl, {
-    method: 'PUT',
-    headers,
-    body: formData,
-  });
-
-  const data = await res.json().catch(() => ({}));
-  console.log(`📥 [API PUT FormData] Status: ${res.status}`, data);
-
-  if (!res.ok) {
-    console.error(`❌ [API PUT FormData] Error ${res.status}:`, data);
+  try {
+    const res = await apiClient.put(cleanPath, formData, {
+      headers,
+      transformRequest: (data, headers) => {
+        // Retain FormData object as-is for React Native XMLHttpRequest
+        return data;
+      },
+    });
+    console.log(`📥 [API PUT FormData] Status: ${res.status}`, res.data);
+    return res.data;
+  } catch (error) {
+    const errorData = error?.data || error?.response?.data || {};
+    const status = error?.status || error?.response?.status || 500;
+    console.error(`❌ [API PUT FormData] Error ${status}:`, errorData);
     throw {
-      status: res.status,
-      message: data.message || data.error || 'Upload failed',
-      data,
+      status,
+      message: errorData.message || errorData.error || error?.message || 'Upload failed',
+      data: errorData,
     };
   }
-  return data;
 }

@@ -143,7 +143,7 @@ export function parseDateString(dateStr) {
   }
 
   const d = new Date(str);
-  return isNaN(d.getTime()) ? new Date() : d;
+  return isNaN(d.getTime()) ? null : d;
 }
 
 /**
@@ -166,8 +166,12 @@ export function formatDateToUi(dateObj) {
  */
 export function formatDateToApi(dateInput) {
   if (!dateInput) return '';
+  const str = String(dateInput).trim();
+  if (str.includes('DD') || str.includes('MM') || str.includes('YYYY')) {
+    return '';
+  }
   const d = typeof dateInput === 'string' ? parseDateString(dateInput) : dateInput;
-  if (!d || isNaN(d.getTime())) return String(dateInput);
+  if (!d || isNaN(d.getTime())) return '';
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');

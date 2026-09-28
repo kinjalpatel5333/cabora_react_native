@@ -60,7 +60,7 @@ export const bootstrapAuth = createAsyncThunk('auth/bootstrap', async () => {
         }
       } catch (meErr) {
         console.warn('bootstrapAuth getMeApi error:', meErr);
-        if (meErr?.status === 401) {
+        if (meErr?.status === 401 || meErr?.status === 403) {
           token = null;
           user = null;
           setAuthToken(null);
