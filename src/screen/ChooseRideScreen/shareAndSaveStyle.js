@@ -89,28 +89,11 @@ export default function createStyles(colors) {
       fontSize: 22,
       letterSpacing: -0.3,
     },
-    statsRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 16,
-      marginTop: 4,
-    },
-    statItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-    },
-    statText: {
-      fontFamily: colors.fonts.sora.medium,
+    subtitle: {
+      fontFamily: colors.fonts.sora.regular,
       color: colors.textMuted,
-      fontSize: 13,
-    },
-    sectionLabel: {
-      fontFamily: colors.fonts.sora.bold,
-      color: colors.textMuted,
-      fontSize: 11,
-      letterSpacing: 1,
-      marginBottom: 10,
+      fontSize: 13.5,
+      marginTop: 3,
     },
     list: {
       flexGrow: 0,
@@ -120,152 +103,197 @@ export default function createStyles(colors) {
       paddingBottom: 10,
     },
 
-    // Ride Rows
-    rideRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: colors.surface,
-      borderRadius: 16,
-      paddingVertical: 12,
-      paddingHorizontal: 12,
-      marginBottom: 10,
-      borderWidth: 1.5,
-      borderColor: 'transparent',
-    },
-    rideRowActive: {
-      borderColor: colors.orange[500],
-      backgroundColor: colors.isDark ? colors.navy.cardBg : '#FFFDFB',
-    },
-    rideIconBox: {
-      width: 42,
-      height: 42,
-      borderRadius: 12,
-      backgroundColor: colors.card,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginRight: 12,
-    },
-    rideIconBoxActive: {
-      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
-    },
-    rideCopy: {
-      flex: 1,
-      minWidth: 0,
-    },
-    rideName: {
-      fontFamily: colors.fonts.sora.bold,
-      color: colors.text,
-      fontSize: 15,
-    },
-    rideMetaRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 5,
-      marginTop: 2,
-    },
-    rideMetaText: {
-      fontFamily: colors.fonts.sora.regular,
-      color: colors.textMuted,
-      fontSize: 12.5,
-    },
-    ridePrice: {
-      fontFamily: colors.fonts.sora.extraBold,
-      color: colors.text,
-      fontSize: 16.5,
-      marginLeft: 8,
-    },
-
-    // Book Any Card
-    bookAnyCard: {
+    // Featured Pool Card
+    poolCard: {
       borderWidth: 1.5,
       borderColor: colors.border,
       borderRadius: 18,
       padding: 14,
       backgroundColor: colors.card,
-      marginBottom: 10,
+      marginBottom: 16,
     },
-    bookAnyCardActive: {
+    poolCardActive: {
       borderWidth: 2,
       borderColor: colors.orange[500],
       backgroundColor: colors.isDark ? colors.navy.cardBg : '#FFFDFB',
     },
-    bookAnyTop: {
+    poolTopRow: {
       flexDirection: 'row',
       alignItems: 'center',
     },
-    bookAnyIconBox: {
+    poolIconBox: {
+      width: 46,
+      height: 46,
+      borderRadius: 14,
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    poolCopy: {
+      flex: 1,
+      minWidth: 0,
+    },
+    poolTitle: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.text,
+      fontSize: 16,
+    },
+    poolSub: {
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.textMuted,
+      fontSize: 12.5,
+      marginTop: 2,
+    },
+    poolPriceCol: {
+      alignItems: 'flex-end',
+      marginLeft: 8,
+    },
+    poolPrice: {
+      fontFamily: colors.fonts.sora.extraBold,
+      color: colors.orange[600],
+      fontSize: 20,
+    },
+    poolSaveText: {
+      fontFamily: colors.fonts.sora.semiBold,
+      color: colors.green[600],
+      fontSize: 12,
+      marginTop: 1,
+    },
+    poolDivider: {
+      height: 1,
+      backgroundColor: colors.isDark ? colors.border : '#FED7AA',
+      marginVertical: 12,
+    },
+    seatsLabel: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.isDark ? colors.orange[400] : colors.orange[800],
+      fontSize: 11,
+      letterSpacing: 0.8,
+      marginBottom: 8,
+    },
+    seatsRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    seatChip: {
+      paddingHorizontal: 16,
+      paddingVertical: 7,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.surface,
+      marginRight: 10,
+    },
+    seatChipActive: {
+      borderWidth: 1.5,
+      borderColor: colors.orange[500],
+      backgroundColor: colors.card,
+    },
+    seatChipText: {
+      fontFamily: colors.fonts.sora.medium,
+      color: colors.textMuted,
+      fontSize: 13,
+    },
+    seatChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.text,
+    },
+    detourNoteRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      marginTop: 10,
+    },
+    detourNoteText: {
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.isDark ? colors.orange[400] : colors.orange[800],
+      fontSize: 12,
+      flex: 1,
+    },
+
+    // Or Ride Alone section
+    sectionLabel: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.textMuted,
+      fontSize: 11,
+      letterSpacing: 1,
+      marginBottom: 10,
+    },
+    soloCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1.5,
+      borderColor: colors.border,
+      borderRadius: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+      backgroundColor: colors.card,
+      marginBottom: 10,
+    },
+    soloCardActive: {
+      borderColor: colors.orange[500],
+      borderWidth: 2,
+      backgroundColor: colors.isDark ? colors.navy.cardBg : '#FFFDFB',
+    },
+    soloIconBox: {
       width: 42,
       height: 42,
       borderRadius: 12,
-      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
+      backgroundColor: colors.surface,
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: 12,
     },
-    bookAnyCopy: {
+    soloIconBoxActive: {
+      backgroundColor: colors.isDark ? colors.alpha.orange20 : colors.orange[100],
+    },
+    soloCopy: {
       flex: 1,
       minWidth: 0,
     },
-    bookAnyTitle: {
+    soloTitle: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.text,
       fontSize: 15,
     },
-    bookAnyMetaRow: {
+    soloMetaRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 5,
+      gap: 4,
       marginTop: 2,
     },
-    bookAnyMetaSeats: {
+    soloMeta: {
       fontFamily: colors.fonts.sora.medium,
       color: colors.textMuted,
-      fontSize: 12,
+      fontSize: 12.5,
     },
-    bookAnyBlurb: {
-      fontFamily: colors.fonts.sora.medium,
-      color: colors.isDark ? colors.orange[400] : colors.orange[700],
-      fontSize: 12,
-      marginLeft: 4,
-    },
-    bookAnyPrice: {
+    soloPrice: {
       fontFamily: colors.fonts.sora.extraBold,
-      color: colors.orange[600],
-      fontSize: 16,
+      color: colors.text,
+      fontSize: 17,
       marginLeft: 8,
     },
 
-    // Chips Grid (2 columns)
-    chipsGrid: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 8,
-      marginTop: 12,
-    },
-    chipItem: {
+    // Time restriction banner
+    infoBanner: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 6,
-      width: '48.5%',
+      gap: 8,
+      backgroundColor: colors.isDark ? colors.alpha.blue20_59 : '#EFF6FF',
       borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 20,
-      paddingVertical: 7,
-      paddingHorizontal: 10,
-      backgroundColor: colors.surface,
+      borderColor: colors.isDark ? colors.blue[800] : '#BFDBFE',
+      borderRadius: 14,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      marginTop: 4,
+      marginBottom: 8,
     },
-    chipItemActive: {
-      borderColor: colors.orange[500],
-      backgroundColor: colors.card,
-    },
-    chipText: {
-      fontFamily: colors.fonts.sora.medium,
-      color: colors.textMuted,
-      fontSize: 12,
-    },
-    chipTextActive: {
-      fontFamily: colors.fonts.sora.bold,
-      color: colors.isDark ? colors.orange[400] : colors.orange[800],
+    infoBannerText: {
+      fontFamily: colors.fonts.sora.regular,
+      color: colors.isDark ? colors.blue[300] : colors.blue[800],
+      fontSize: 12.5,
+      flex: 1,
     },
 
     // Bottom Payment Rows
@@ -323,7 +351,7 @@ export default function createStyles(colors) {
       borderTopColor: colors.border,
     },
     totalCol: {
-      minWidth: 100,
+      minWidth: 80,
     },
     totalLabel: {
       fontFamily: colors.fonts.sora.bold,
@@ -334,7 +362,7 @@ export default function createStyles(colors) {
     totalValue: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 18,
+      fontSize: 22,
       marginTop: 1,
     },
     bookBtn: {

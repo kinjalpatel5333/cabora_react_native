@@ -163,7 +163,6 @@ export default function PersonalDetailsScreen({ navigation, route }) {
     initialExtracted.photo || currentUser?.photo || currentUser?.profilePhoto || currentUser?.avatar || null,
   );
   const [photoAsset, setPhotoAsset] = useState(null);
-  const [emailVerified, setEmailVerified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
@@ -199,12 +198,23 @@ export default function PersonalDetailsScreen({ navigation, route }) {
   useEffect(() => {
     if (currentUser) {
       const p = extractUserProfile(currentUser, currentUser.phone || currentUser.mobile);
-      if (p.name) setName(p.name);
-      if (p.dob) setDob(convertDobToUi(p.dob));
-      if (p.gender) setGender((p.gender || '').toLowerCase());
-      if (p.email) setEmail(p.email);
-      if (p.mobile || p.phone) setPhone(p.mobile || p.phone);
-      if (p.photo || p.profilePhoto) setPhoto(p.photo || p.profilePhoto);
+      const activeName = p.name || currentUser.name || currentUser.fullName || '';
+      if (activeName) setName(activeName);
+
+      const activeDob = p.dob || currentUser.dob || '';
+      if (activeDob) setDob(convertDobToUi(activeDob));
+
+      const activeGender = p.gender || currentUser.gender || '';
+      if (activeGender) setGender(activeGender.toLowerCase());
+
+      const activeEmail = p.email || currentUser.email || '';
+      if (activeEmail) setEmail(activeEmail);
+
+      const activePhone = p.mobile || p.phone || currentUser.mobile || currentUser.phone || '';
+      if (activePhone) setPhone(activePhone);
+
+      const activePhoto = p.photo || p.profilePhoto || currentUser.photo || currentUser.profilePhoto || currentUser.avatar || null;
+      if (activePhoto) setPhoto(activePhoto);
     }
   }, [currentUser]);
 
@@ -333,19 +343,6 @@ export default function PersonalDetailsScreen({ navigation, route }) {
     } finally {
       setIsSaving(false);
     }
-  };
-
-  const handleChangePhone = () => {
-    showToast({ type: 'info', message: 'Phone number cannot be changed here' });
-  };
-
-  const handleVerifyEmail = () => {
-    if (!email.trim()) {
-      showToast({ type: 'error', message: 'Please enter a valid email' });
-      return;
-    }
-    setEmailVerified(true);
-    showToast({ type: 'success', message: 'Verification link sent to ' + email });
   };
 
   return (
@@ -516,14 +513,6 @@ export default function PersonalDetailsScreen({ navigation, route }) {
                   </Text>
                 </View>
               </View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={handleChangePhone}
-                style={styles.chipButton}
-                accessibilityRole="button"
-                accessibilityLabel="Change phone number">
-                <Text style={styles.chipButtonText}>Change</Text>
-              </TouchableOpacity>
             </View>
           </View>
 
@@ -559,16 +548,12 @@ export default function PersonalDetailsScreen({ navigation, route }) {
                 }}
                 onBlur={() => setFocusedInput(null)}
               />
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={handleVerifyEmail}
-                style={styles.chipButton}
-                accessibilityRole="button"
-                accessibilityLabel="Verify email">
-                <Text style={styles.chipButtonText}>
-                  {emailVerified ? 'Verified' : 'Verify'}
-                </Text>
-              </TouchableOpacity>
+              {Boolean(email && email.trim()) && (
+                <View style={styles.verifiedBadge}>
+                  <Feather name="check-circle" size={13} color="#10B981" />
+                  <Text style={styles.verifiedBadgeText}>Verified</Text>
+                </View>
+              )}
             </TouchableOpacity>
             <Text style={styles.helperText}>
               Add it to get receipts and GST invoices by email

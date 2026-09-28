@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {storageGetItem, storageSetItem} from '../../utils/storage';
 import {STORAGE_KEYS} from '../../config/setting';
+import {logoutUser} from './authSlice';
 
 const initialState = {
   walkthroughSeen: false,
@@ -83,6 +84,18 @@ const appSlice = createSlice({
       })
       .addCase(setNotificationsEnabled.fulfilled, (state, action) => {
         state.notifications = action.payload;
+      })
+      .addCase(logoutUser.pending, state => {
+        state.locationResolved = false;
+        state.locationMode = null;
+      })
+      .addCase(logoutUser.fulfilled, state => {
+        state.locationResolved = false;
+        state.locationMode = null;
+      })
+      .addCase(logoutUser.rejected, state => {
+        state.locationResolved = false;
+        state.locationMode = null;
       });
   },
 });

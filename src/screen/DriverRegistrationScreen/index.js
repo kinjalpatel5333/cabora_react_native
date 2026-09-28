@@ -780,12 +780,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             <Text style={styles.mobileNumber}>{country.dialCode} {mobileNum}</Text>
             <Text style={styles.mobileSub}>Mobile number · verified at sign-in</Text>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => setIsMobileVerified(false)}
-            style={styles.verifiedPill}>
+          <View style={styles.verifiedPill}>
             <Text style={styles.verifiedPillText}>Verified</Text>
-          </TouchableOpacity>
+          </View>
         </View>
       )}
 

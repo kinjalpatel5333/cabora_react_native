@@ -242,6 +242,10 @@ export default function createStyles(colors) {
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: colors.border,
     },
+    metaRowPromo: {
+      borderTopWidth: 0,
+      paddingTop: 0,
+    },
     metaIcon: {
       width: 34,
       height: 34,

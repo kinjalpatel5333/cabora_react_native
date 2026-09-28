@@ -210,6 +210,20 @@ export default function createStyles(colors) {
       color: colors.primary,
       fontSize: 13,
     },
+    verifiedBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.isDark ? 'rgba(16, 185, 129, 0.15)' : (colors.green?.mint || '#D1FAE5'),
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 12,
+      gap: 4,
+    },
+    verifiedBadgeText: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.green?.[700] || '#059669',
+      fontSize: 12,
+    },
     securityBanner: {
       flexDirection: 'row',
       alignItems: 'center',

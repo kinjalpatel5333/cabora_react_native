@@ -1,6 +1,15 @@
 import { PASSENGER_SERVICES_RIDE_NOW, PASSENGER_SERVICES_PLAN_AHEAD } from '../../config/staticData';
-import React, {useMemo, useState} from 'react';
-import {Dimensions, ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import React, {useMemo, useRef, useState} from 'react';
+import {
+  Dimensions,
+  Keyboard,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Feather} from '@react-native-vector-icons/feather/static';
 import {Lucide} from '@react-native-vector-icons/lucide/static';
@@ -14,7 +23,6 @@ import {getHomeTabBarInset} from '../../navigation/homeTabBarMetrics';
 import ScheduleRideModal from '../ChooseRideScreen/ScheduleRideModal';
 import PaymentOffersModal from '../ChooseRideScreen/PaymentOffersModal';
 import createStyles from './style';
-import colors from '../../config/color';
 
 const SCREEN_W = Dimensions.get('window').width;
 const H_PAD = 20;
@@ -53,6 +61,9 @@ export default function ServicesScreen() {
 
   const {showToast} = useToast();
   const [query, setQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchInputRef = useRef(null);
+
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState({
@@ -61,6 +72,10 @@ export default function ServicesScreen() {
   });
   const tabInset = getHomeTabBarInset(insets);
 
+  const dismissSearch = () => {
+    Keyboard.dismiss();
+    searchInputRef.current?.blur();
+  };
 
   const rideItems = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -100,6 +115,7 @@ export default function ServicesScreen() {
   }, [query]);
 
   const onSelectService = (label, id) => {
+    dismissSearch();
     if (id === 'schedule') {
       setScheduleOpen(true);
       return;
@@ -125,52 +141,82 @@ export default function ServicesScreen() {
   };
 
   return (
-    <View style={styles.root}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={[
-          styles.scroll,
-          {
-            paddingTop: insets.top + 8,
-            paddingBottom: tabInset + 20,
-          },
-        ]}>
-        <View style={styles.headerRow}>
-          <View style={styles.headerCopy}>
-            <Text style={styles.title}>All services</Text>
-            <Text style={styles.subtitle}>
-              Everything Cabora can do in your city
-            </Text>
-          </View>
+    <TouchableWithoutFeedback onPress={dismissSearch} accessible={false}>
+      <View style={styles.root}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          onScrollBeginDrag={dismissSearch}
+          contentContainerStyle={[
+            styles.scroll,
+            {
+              paddingTop: insets.top + 8,
+              paddingBottom: tabInset + 20,
+            },
+          ]}>
+          <TouchableWithoutFeedback onPress={dismissSearch} accessible={false}>
+            <View style={styles.headerRow}>
+              <View style={styles.headerCopy}>
+                <Text style={styles.title}>All services</Text>
+                <Text style={styles.subtitle}>
+                  Everything Cabora can do in your city
+                </Text>
+              </View>
 
-
-          <View>
-            <TouchableOpacity activeOpacity={0.7}
-              style={styles.bellBtn}
-              accessibilityRole="button"
-              accessibilityLabel="Notifications"
-              onPress={() => navigation.navigate('Notifications')}>
-              <Feather name="bell" size={20} color={colors.white} />
-            </TouchableOpacity>
-            <View style={styles.badge} pointerEvents="none">
-              <Text style={styles.badgeText}>3</Text>
+              <View>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.bellBtn}
+                  accessibilityRole="button"
+                  accessibilityLabel="Notifications"
+                  onPress={() => {
+                    dismissSearch();
+                    navigation.navigate('Notifications');
+                  }}>
+                  <Feather name="bell" size={20} color={colors.white} />
+                </TouchableOpacity>
+                <View style={styles.badge} pointerEvents="none">
+                  <Text style={styles.badgeText}>3</Text>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
 
-        <View style={styles.searchBox}>
-          <Feather name="search" size={18} color={colors.textMuted} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Search a service"
-            placeholderTextColor={colors.textMuted}
-            style={styles.searchInput}
-            returnKeyType="search"
-            clearButtonMode="while-editing"
-          />
-        </View>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => searchInputRef.current?.focus()}
+            style={[
+              styles.searchBox,
+              isSearchFocused && styles.searchBoxFocused,
+            ]}>
+            <Feather
+              name="search"
+              size={18}
+              color={isSearchFocused ? colors.primary : colors.textMuted}
+            />
+            <TextInput
+              ref={searchInputRef}
+              value={query}
+              onChangeText={setQuery}
+              placeholder="Search a service"
+              placeholderTextColor={colors.textMuted}
+              style={styles.searchInput}
+              returnKeyType="search"
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+              onSubmitEditing={dismissSearch}
+            />
+            {query.length > 0 && (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setQuery('')}
+                style={styles.clearBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Clear search">
+                <Feather name="x-circle" size={17} color={colors.textMuted} />
+              </TouchableOpacity>
+            )}
+          </TouchableOpacity>
 
         {rideItems.length > 0 ? (
           <View style={styles.section}>
@@ -300,5 +346,6 @@ export default function ServicesScreen() {
         }}
       />
     </View>
+  </TouchableWithoutFeedback>
   );
 }

@@ -7,13 +7,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import useDraggableSheet from '../../hooks/useDraggableSheet';
-import {estimateRideApi} from '../../services/rideApi';
 import BookForSomeoneElseModal from './BookForSomeoneElseModal';
 import PaymentOffersModal from './PaymentOffersModal';
 import RideCategoryModal, {categoryFromRideId} from './RideCategoryModal';
 import ScheduleRideModal from './ScheduleRideModal';
+import ShareAndSaveModal from './ShareAndSaveModal';
 import createStyles from './style';
-import colors from '../../config/color';
 import {ToastHost} from '../../components';
 
 const PROMO_OFF = 50;
@@ -35,14 +34,14 @@ export default function ChooseRideModal({
 }) {
   const insets = useSafeAreaInsets();
   const styles = useThemedStyles(createStyles);
-  const {colors} = useApp();
+  const {colors: themeColors} = useApp();
   const [selectedId, setSelectedId] = useState('sedan');
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [shareAndSaveOpen, setShareAndSaveOpen] = useState(false);
+  const [selectedCategoryRide, setSelectedCategoryRide] = useState('cab-sedan');
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [bookForSomeoneOpen, setBookForSomeoneOpen] = useState(false);
-  const [estimateData, setEstimateData] = useState(null);
-  const [loadingEstimate, setLoadingEstimate] = useState(false);
   const [scheduledVehicle, setScheduledVehicle] = useState({
     name: 'Comfort',
     price: 1640,
@@ -58,33 +57,15 @@ export default function ChooseRideModal({
       setSelectedId('sedan');
       setPaymentOpen(false);
       setCategoryOpen(false);
+      setShareAndSaveOpen(false);
+      setSelectedCategoryRide('cab-sedan');
       setScheduleOpen(false);
       setBookForSomeoneOpen(false);
       setScheduledVehicle({name: 'Comfort', price: 1640});
       setCategoryId('cab');
       setPaymentMethod({id: 'upi', label: 'UPI • you@okaxis'});
-
-      // Fetch live estimate from backend
-      setLoadingEstimate(true);
-      estimateRideApi({
-        pickup: typeof pickup === 'string' ? { address: pickup, lat: 23.03, lng: 72.52 } : pickup,
-        destination: typeof drop === 'string' ? { address: drop, lat: 19.076, lng: 72.8777 } : drop,
-        vehicleTypeId: selectedId || 'vt_1',
-        promoCode: promoCode || 'WELCOME10',
-      })
-        .then(res => {
-          if (res) {
-            setEstimateData(res?.data || res);
-          }
-        })
-        .catch(err => {
-          console.warn('estimateRideApi error:', err);
-        })
-        .finally(() => {
-          setLoadingEstimate(false);
-        });
     }
-  }, [visible, pickup, drop, promoCode, selectedId]);
+  }, [visible]);
 
   const openCategory = rideId => {
     setSelectedId(rideId);
@@ -105,6 +86,8 @@ export default function ChooseRideModal({
       visible,
     });
 
+  const isSubScreenOpen = categoryOpen || shareAndSaveOpen;
+
   return (
     <Modal
       visible={visible}
@@ -115,165 +98,178 @@ export default function ChooseRideModal({
       <View style={styles.root} pointerEvents="box-none">
         <TouchableOpacity activeOpacity={0.7} style={styles.backdrop} onPress={onClose} />
 
-        <View style={[styles.routeSummary, {top: insets.top + 10}]}>
-          <MaterialDesignIcons
-            name="map-marker-path"
-            size={18}
-            color={colors.orange[500]}
-          />
-          <Text style={styles.routeSummaryText} numberOfLines={1}>
-            {routeSummary}
-          </Text>
-        </View>
-
-        <View style={styles.routePreview} pointerEvents="none">
-          <View style={styles.routeLine} />
-          <View style={styles.routeDotStart} />
-          <View style={styles.routePinEnd}>
-            <MaterialDesignIcons
-              name="map-marker"
-              size={36}
-              color={colors.text}
-            />
-          </View>
-        </View>
-
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Recenter map"
-          style={[styles.locateFab, {bottom: sheetMaxH + 12}]}>
-          <MaterialDesignIcons
-            name="crosshairs-gps"
-            size={22}
-            color={colors.text}
-          />
-        </TouchableOpacity>
-
-        <Animated.View
-          onLayout={onSheetLayout}
-          style={[
-            styles.sheet,
-            {
-              maxHeight: sheetMaxH,
-              paddingBottom: Math.max(insets.bottom, 10) + 8,
-              transform: [{translateY: sheetTY}],
-            },
-          ]}>
-          <View {...panHandlers}>
-            <TouchableOpacity activeOpacity={0.7}
-              onPress={toggle}
-              accessibilityRole="button"
-              accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
-              style={styles.grabberHit}>
-              <View style={styles.grabber} />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.headerRow}>
-            <Text style={styles.title}>Choose a ride</Text>
-            <TouchableOpacity activeOpacity={0.7}
-              style={styles.scheduleBtn}
-              onPress={() => setScheduleOpen(true)}>
-              <Feather name="calendar" size={15} color={colors.text} />
-              <Text style={styles.scheduleText}>Schedule</Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            style={styles.list}
-            contentContainerStyle={styles.listContent}>
-            {RIDES.map(ride => {
-              const active = ride.id === selectedId;
-              const iconColor = active
-                ? colors.orange[500]
-                : colors.text;
-              return (
-                <TouchableOpacity activeOpacity={0.7}
-                  key={ride.id}
-                  onPress={() => openCategory(ride.id)}
-                  style={[styles.rideCard, active && styles.rideCardActive]}>
-                  <View
-                    style={[
-                      styles.rideIconWrap,
-                      active && styles.rideIconActive,
-                    ]}>
-                    <RideIcon icon={ride.icon} color={iconColor} />
-                  </View>
-                  <View style={styles.rideCopy}>
-                    <View style={styles.rideTitleRow}>
-                      <Text style={styles.rideTitle}>{ride.name}</Text>
-                      {ride.badge ? (
-                        <View style={styles.badge}>
-                          <Text style={styles.badgeText}>{ride.badge}</Text>
-                        </View>
-                      ) : null}
-                    </View>
-                    <Text style={styles.rideMeta}>
-                      {ride.seats} seat{ride.seats > 1 ? 's' : ''} •{' '}
-                      {ride.awayMin} min away
-                    </Text>
-                  </View>
-                  <View style={styles.ridePriceCol}>
-                    <Text style={styles.ridePrice}>₹{ride.price}</Text>
-                    <Text style={styles.rideEta}>{ride.eta}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-
-          <View style={styles.metaRow}>
-            <View style={styles.metaIcon}>
+        {!isSubScreenOpen && (
+          <>
+            <View style={[styles.routeSummary, {top: insets.top + 10}]}>
               <MaterialDesignIcons
-                name="currency-inr"
+                name="map-marker-path"
                 size={18}
-                color={colors.text}
+                color={themeColors.orange[500]}
               />
+              <Text style={styles.routeSummaryText} numberOfLines={1}>
+                {routeSummary}
+              </Text>
             </View>
-            <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
-              {paymentMethod.label}
-            </Text>
-            <TouchableOpacity activeOpacity={0.7} hitSlop={8} onPress={() => setPaymentOpen(true)}>
-              <Text style={styles.changeText}>Change</Text>
+
+            <View style={styles.routePreview} pointerEvents="none">
+              <View style={styles.routeLine} />
+              <View style={styles.routeDotStart} />
+              <View style={styles.routePinEnd}>
+                <MaterialDesignIcons
+                  name="map-marker"
+                  size={36}
+                  color={themeColors.text}
+                />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Recenter map"
+              style={[styles.locateFab, {bottom: sheetMaxH + 12}]}>
+              <MaterialDesignIcons
+                name="crosshairs-gps"
+                size={22}
+                color={themeColors.text}
+              />
             </TouchableOpacity>
-          </View>
 
-          <View style={[styles.metaRow, {borderTopWidth: 0, paddingTop: 0}]}>
-            <View style={[styles.metaIcon, styles.metaIconPromo]}>
-              <Feather name="percent" size={16} color={colors.green[600]} />
-            </View>
-            <Text
-              style={[styles.metaText, styles.metaTextPromo, styles.metaCopy]}
-              numberOfLines={1}>
-              {promoCode} applied
-            </Text>
-            <Text style={styles.promoAmount}>- ₹{PROMO_OFF}</Text>
-          </View>
+            <Animated.View
+              onLayout={onSheetLayout}
+              style={[
+                styles.sheet,
+                {
+                  maxHeight: sheetMaxH,
+                  paddingBottom: Math.max(insets.bottom, 10) + 8,
+                  transform: [{translateY: sheetTY}],
+                },
+              ]}>
+              <View {...panHandlers}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={toggle}
+                  accessibilityRole="button"
+                  accessibilityLabel={expanded ? 'Collapse sheet' : 'Expand sheet'}
+                  style={styles.grabberHit}>
+                  <View style={styles.grabber} />
+                </TouchableOpacity>
+              </View>
 
-          <View style={styles.footer}>
-            <View style={styles.totalCol}>
-              <Text style={styles.totalLabel}>TOTAL</Text>
-              <Text style={styles.totalValue}>₹{total}</Text>
-            </View>
-            <TouchableOpacity activeOpacity={0.7}
-              style={styles.bookBtn}
-              onPress={() => openCategory(selectedId)}>
-              <Text style={styles.bookText}>Book {selected.name}</Text>
+              <View style={styles.headerRow}>
+                <Text style={styles.title}>Choose a ride</Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.scheduleBtn}
+                  onPress={() => setScheduleOpen(true)}>
+                  <Feather name="calendar" size={15} color={themeColors.text} />
+                  <Text style={styles.scheduleText}>Schedule</Text>
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+                style={styles.list}
+                contentContainerStyle={styles.listContent}>
+                {RIDES.map(ride => {
+                  const active = ride.id === selectedId;
+                  const iconColor = active
+                    ? themeColors.orange[500]
+                    : themeColors.text;
+                  return (
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      key={ride.id}
+                      onPress={() => openCategory(ride.id)}
+                      style={[styles.rideCard, active && styles.rideCardActive]}>
+                      <View
+                        style={[
+                          styles.rideIconWrap,
+                          active && styles.rideIconActive,
+                        ]}>
+                        <RideIcon icon={ride.icon} color={iconColor} />
+                      </View>
+                      <View style={styles.rideCopy}>
+                        <View style={styles.rideTitleRow}>
+                          <Text style={styles.rideTitle}>{ride.name}</Text>
+                          {ride.badge ? (
+                            <View style={styles.badge}>
+                              <Text style={styles.badgeText}>{ride.badge}</Text>
+                            </View>
+                          ) : null}
+                        </View>
+                        <Text style={styles.rideMeta}>
+                          {ride.seats} seat{ride.seats > 1 ? 's' : ''} •{' '}
+                          {ride.awayMin} min away
+                        </Text>
+                      </View>
+                      <View style={styles.ridePriceCol}>
+                        <Text style={styles.ridePrice}>₹{ride.price}</Text>
+                        <Text style={styles.rideEta}>{ride.eta}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+
+              <View style={styles.metaRow}>
+                <View style={styles.metaIcon}>
+                  <MaterialDesignIcons
+                    name="currency-inr"
+                    size={18}
+                    color={themeColors.text}
+                  />
+                </View>
+                <Text style={[styles.metaText, styles.metaCopy]} numberOfLines={1}>
+                  {paymentMethod.label}
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  hitSlop={8}
+                  onPress={() => setPaymentOpen(true)}>
+                  <Text style={styles.changeText}>Change</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={[styles.metaRow, styles.metaRowPromo]}>
+                <View style={[styles.metaIcon, styles.metaIconPromo]}>
+                  <Feather name="percent" size={16} color={themeColors.green[600]} />
+                </View>
+                <Text
+                  style={[styles.metaText, styles.metaTextPromo, styles.metaCopy]}
+                  numberOfLines={1}>
+                  {promoCode} applied
+                </Text>
+                <Text style={styles.promoAmount}>- ₹{PROMO_OFF}</Text>
+              </View>
+
+              <View style={styles.footer}>
+                <View style={styles.totalCol}>
+                  <Text style={styles.totalLabel}>TOTAL</Text>
+                  <Text style={styles.totalValue}>₹{total}</Text>
+                </View>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.bookBtn}
+                  onPress={() => openCategory(selectedId)}>
+                  <Text style={styles.bookText}>Book {selected.name}</Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
+
+            {/* Above sheet so taps always register */}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Go back"
+              onPress={onClose}
+              hitSlop={12}
+              style={[styles.backBtn, {top: insets.top + 8}]}>
+              <Feather name="arrow-left" size={22} color={themeColors.text} />
             </TouchableOpacity>
-          </View>
-        </Animated.View>
-
-        {/* Above sheet so taps always register */}
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={onClose}
-          hitSlop={12}
-          style={[styles.backBtn, {top: insets.top + 8}]}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
+          </>
+        )}
 
         <PaymentOffersModal
           visible={paymentOpen}
@@ -285,15 +281,37 @@ export default function ChooseRideModal({
           }}
         />
 
+        {/* 1st Category Level Modal: "Choose a ride" with Cab Mini, Cab Priority, Cab Sedan, Cab XL, Book Any */}
         <RideCategoryModal
           visible={categoryOpen}
           onClose={() => setCategoryOpen(false)}
           categoryId={categoryId}
+          routeSummary={routeSummary.replace('•', '·')}
+          promoCode={promoCode}
+          paymentLabel={paymentMethod.label.replace('•', '·')}
+          onChangePayment={() => setPaymentOpen(true)}
+          onProceed={payload => {
+            setCategoryOpen(false);
+            setSelectedCategoryRide(payload?.rideId || 'pool');
+            setShareAndSaveOpen(true);
+          }}
+        />
+
+        {/* 2nd Level Modal: "Share and save" (Cabora Pool Screen) */}
+        <ShareAndSaveModal
+          visible={shareAndSaveOpen}
+          onClose={() => {
+            setShareAndSaveOpen(false);
+            setCategoryOpen(true);
+          }}
+          categoryId={categoryId}
+          initialSelectedId={selectedCategoryRide}
+          routeSummary={routeSummary.replace('•', '·')}
           promoCode={promoCode}
           paymentLabel={paymentMethod.label.replace('•', '·')}
           onChangePayment={() => setPaymentOpen(true)}
           onBook={payload => {
-            setCategoryOpen(false);
+            setShareAndSaveOpen(false);
             onBook?.({
               ...payload,
               pickup,

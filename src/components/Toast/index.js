@@ -163,6 +163,13 @@ export function ToastProvider({children}) {
   const styles = useThemedStyles(createStyles);
   const timers = useRef({});
 
+  useEffect(() => {
+    return () => {
+      Object.values(timers.current).forEach(t => clearTimeout(t));
+      timers.current = {};
+    };
+  }, []);
+
   const hideToast = useCallback(id => {
     setToasts(current => current.filter(item => item.id !== id));
     if (timers.current[id]) {
@@ -176,8 +183,13 @@ export function ToastProvider({children}) {
       if (!message) {
         return;
       }
+      // Clear any previous active toast timers
+      Object.values(timers.current).forEach(t => clearTimeout(t));
+      timers.current = {};
+
       const id = `${Date.now()}-${Math.random()}`;
-      setToasts(current => [...current.slice(-2), {id, type, message}]);
+      // Replace immediately so only the latest toast is visible
+      setToasts([{id, type, message}]);
       timers.current[id] = setTimeout(() => hideToast(id), duration);
     },
     [hideToast],

@@ -19,6 +19,9 @@ import createStyles from './style';
 import colors from '../../config/color';
 
 
+import {storageSetItem} from '../../utils/storage';
+import {STORAGE_KEYS} from '../../config/setting';
+
 function formatDob(text) {
   const digits = text.replace(/\D/g, '').slice(0, 8);
   if (digits.length <= 2) {
@@ -167,10 +170,35 @@ export default function CompleteProfileScreen({navigation, route}) {
   };
 
   const onStartRiding = async () => {
-    if (!fullName.trim()) {
+    if (!fullName || !fullName.trim()) {
       Alert.alert(
-        'Full name required',
+        'Full Name Required',
         'Please enter your full name to complete your profile.',
+      );
+      return;
+    }
+
+    if (!dob || !dob.trim()) {
+      Alert.alert(
+        'Date of Birth Required',
+        'Please select your date of birth to continue.',
+      );
+      return;
+    }
+
+    if (!email || !email.trim()) {
+      Alert.alert(
+        'Email Required',
+        'Please enter your email address to continue.',
+      );
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      Alert.alert(
+        'Invalid Email',
+        'Please enter a valid email address (e.g. name@example.com).',
       );
       return;
     }
@@ -224,13 +252,31 @@ export default function CompleteProfileScreen({navigation, route}) {
       const finalName =
         updatedUser?.name || updatedUser?.fullName || fullName.trim();
       const finalEmail =
-        updatedUser?.email || email.trim() || `${phone}@cabora.local`;
-      const finalDob = updatedUser?.dob || dob.trim() || undefined;
+        updatedUser?.email || email.trim();
+      const finalDob = updatedUser?.dob || apiDob || dob.trim();
       const finalPhoto =
         updatedUser?.profilePhoto ||
         updatedUser?.photo ||
+        photoAsset?.uri ||
         photoUri ||
-        undefined;
+        '';
+
+      const userObject = {
+        ...(updatedUser || {}),
+        name: finalName,
+        fullName: finalName,
+        email: finalEmail,
+        dob: finalDob,
+        photo: finalPhoto,
+        profilePhoto: finalPhoto,
+        avatar: finalPhoto,
+        gender: updatedUser?.gender || gender || '',
+        mobile: phone,
+        phone: phone,
+        role,
+      };
+
+      await storageSetItem(STORAGE_KEYS.user, JSON.stringify(userObject)).catch(() => {});
 
       // Complete session state in Redux
       await dispatch(
@@ -243,6 +289,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           photo: finalPhoto,
           gender: updatedUser?.gender || gender || '',
           token: route?.params?.token,
+          user: userObject,
         }),
       ).unwrap();
     } catch (err) {
@@ -366,7 +413,9 @@ export default function CompleteProfileScreen({navigation, route}) {
 
             {/* Email */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>Email</Text>
+              <Text style={styles.label}>
+                Email <Text style={styles.requiredStar}>*</Text>
+              </Text>
               <TextInput
                 value={email}
                 onChangeText={setEmail}
