@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchPassengerProfile, fetchUserProfile, logoutUser } from '../../redux/slices/authSlice';
 import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
+import images from '../../assets';
 
 function CustomToggle({ value, onToggle, label, styles }) {
   return (
@@ -309,7 +310,7 @@ export default function ProfileScreen({ navigation }) {
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
           </TouchableOpacity>
 
-          <View style={[styles.rowItem, styles.rowBorder]}>
+          {/* <View style={[styles.rowItem, styles.rowBorder]}>
             <View style={styles.rowIconBox}>
               <Feather name="moon" size={18} color={colors.isDark ? colors.primary : colors.navy.textDark} />
             </View>
@@ -323,8 +324,8 @@ export default function ProfileScreen({ navigation }) {
               label="Dark mode"
               styles={styles}
             />
-          </View>
-
+          </View> */}
+          {/* 
           <TouchableOpacity activeOpacity={0.7}
             style={[styles.rowItem, styles.rowBorder]}
             onPress={() => setShowLogoutModal(true)}
@@ -340,7 +341,7 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.rowSub}>Sign out of your account</Text>
             </View>
             <Feather name="chevron-right" size={18} color={colors.textMuted} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity activeOpacity={0.7}
             style={styles.rowItem}

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   Platform,
@@ -23,6 +24,7 @@ import { formatImageUrl } from '../../utils/user';
 import createStyles from './style';
 
 import { DRIVER_DOCUMENTS_LIST as DEFAULT_DOCUMENTS_LIST } from '../../config/staticData';
+import { useToast } from '../../components';
 
 export default function UploadDocumentsScreen({ navigation }) {
   const insets = useSafeAreaInsets();
@@ -32,10 +34,13 @@ export default function UploadDocumentsScreen({ navigation }) {
   const authUser = useAppSelector(state => state.auth.user);
   const driverKycData = useAppSelector(state => state.driver.kycData);
   const kycData = driverKycData || authUser?.driver || authUser;
+  const { showToast } = useToast();
 
-  console.log("driverKycData", driverKycData)
+  console.log('driverKycData', driverKycData);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -49,8 +54,6 @@ export default function UploadDocumentsScreen({ navigation }) {
     }, [colors.isDark, dispatch]),
   );
 
-
-
   // Parse overall KYC / Platform Status
   const platform = kycData?.platform || {};
   const kycStatusRaw = String(
@@ -61,10 +64,6 @@ export default function UploadDocumentsScreen({ navigation }) {
     kycStatusRaw === 'APPROVED' || kycStatusRaw === 'VERIFIED';
   const isRejectedAll =
     kycStatusRaw === 'REJECTED' || kycStatusRaw === 'FAILED';
-  const isPendingAll =
-    kycStatusRaw === 'PENDING' ||
-    kycStatusRaw === 'UNDER_REVIEW' ||
-    kycStatusRaw === 'IN_REVIEW';
 
   const rejectionReason =
     platform.rejectionReason ||
@@ -85,140 +84,183 @@ export default function UploadDocumentsScreen({ navigation }) {
     const payout = kycData?.payout || driverObj?.payout || {};
     const documents = kycData?.documents || driverObj?.documents || [];
     const completedSteps = kycData?.completedSteps || driverObj?.completedSteps || [];
+    const platformObj = kycData?.platform || driverObj?.platform || {};
 
     const isStepDone = stepKey =>
       Array.isArray(completedSteps) &&
       completedSteps.some(s => (s.key === stepKey || s.step === stepKey) && (s.isCompleted !== false));
 
-    // Helper to find document status in documents array
-    const findDocStatus = types => {
-      const matched = documents.find(d => types.includes(d.documentType));
-      return matched?.status?.toUpperCase() || null;
-    };
+    const getDocStatusAndUrl = (types, stepObj, stepKey, fallbackUrl) => {
+      const docs = Array.isArray(documents) ? documents.filter(d => types.includes(d?.documentType)) : [];
+      const foundDoc = docs[0];
+      const docStatusRaw = foundDoc?.status?.toUpperCase() || null;
+      let url = foundDoc?.fileUrl || fallbackUrl || null;
 
-    const findDocUrl = types => {
-      const matched = documents.find(d => types.includes(d.documentType));
-      return matched?.fileUrl || null;
+      let statusKey = 'pending';
+      let statusLabel = 'Pending';
+
+      if (docStatusRaw === 'APPROVED' || docStatusRaw === 'VERIFIED') {
+        statusKey = 'approved';
+        statusLabel = 'Approved';
+      } else if (docStatusRaw === 'REJECTED' || docStatusRaw === 'FAILED') {
+        statusKey = 'rejected';
+        statusLabel = 'Rejected';
+      } else if (docStatusRaw === 'PENDING' || docStatusRaw === 'SUBMITTED' || docStatusRaw === 'UNDER_REVIEW' || docStatusRaw === 'IN_REVIEW') {
+        statusKey = 'pending';
+        statusLabel = 'Pending';
+      } else {
+        // Not explicitly listed in documents array
+        const stepDone = stepObj?.isCompleted || isStepDone(stepKey) || Boolean(fallbackUrl);
+        const overallStatus = String(platformObj.kycStatus || platformObj.onboardingStatus || kycData?.status || '').toUpperCase();
+
+        if (stepDone) {
+          if (overallStatus === 'APPROVED' || overallStatus === 'VERIFIED') {
+            statusKey = 'approved';
+            statusLabel = 'Approved';
+          } else {
+            statusKey = 'pending';
+            statusLabel = 'Pending';
+          }
+        } else {
+          statusKey = 'pending';
+          statusLabel = 'Pending';
+        }
+      }
+
+      return {
+        status: statusKey,
+        statusLabel,
+        fileUrl: formatImageUrl(url),
+      };
     };
 
     // 1. Driving Licence
-    const dlStatus =
-      findDocStatus(['DRIVING_LICENCE_FRONT', 'DRIVING_LICENCE_BACK']) ||
-      (drivingLicence?.isCompleted || isStepDone('DRIVING_LICENCE') || isStepDone(2) || drivingLicence?.drivingLicenceNumber
-        ? 'APPROVED'
-        : 'PENDING');
-    const dlUrl =
-      drivingLicence?.dlFront ||
-      findDocUrl(['DRIVING_LICENCE_FRONT', 'DRIVING_LICENCE_BACK']);
+    const dlInfo = getDocStatusAndUrl(
+      ['DRIVING_LICENCE_FRONT', 'DRIVING_LICENCE_BACK', 'DRIVING_LICENCE'],
+      drivingLicence,
+      'DRIVING_LICENCE',
+      drivingLicence?.dlFront || drivingLicence?.dlBack,
+    );
 
     // 2. RC / Registration Certificate
-    const rcStatus =
-      findDocStatus(['VEHICLE_RC', 'RC']) ||
-      (vehicle?.isCompleted || isStepDone('VEHICLE') || isStepDone(3) || vehicle?.registrationNumber
-        ? 'APPROVED'
-        : 'PENDING');
-    const rcUrl = vehicle?.rcDocument || findDocUrl(['VEHICLE_RC', 'RC']);
+    const rcInfo = getDocStatusAndUrl(
+      ['VEHICLE_RC', 'RC'],
+      vehicle,
+      'VEHICLE',
+      vehicle?.rcDocument,
+    );
 
     // 3. Profile Photo
-    const photoStatus =
-      findDocStatus(['PROFILE_PHOTO']) ||
-      (personal?.isCompleted || isStepDone('PERSONAL') || isStepDone(1) || personal?.profilePhoto
-        ? 'APPROVED'
-        : 'PENDING');
-    const photoUrl =
-      personal?.profilePhoto || findDocUrl(['PROFILE_PHOTO']);
+    const photoInfo = getDocStatusAndUrl(
+      ['PROFILE_PHOTO'],
+      personal,
+      'PERSONAL',
+      personal?.profilePhoto,
+    );
 
     // 4. Insurance Policy
-    const insuranceStatus =
-      findDocStatus(['VEHICLE_INSURANCE', 'INSURANCE']) ||
-      (insurance?.isCompleted || isStepDone('INSURANCE') || isStepDone(4) || insurance?.insurancePolicyNumber
-        ? 'APPROVED'
-        : 'PENDING');
-    const insuranceUrl =
-      insurance?.insuranceDocument ||
-      findDocUrl(['VEHICLE_INSURANCE', 'INSURANCE']);
+    const insuranceInfo = getDocStatusAndUrl(
+      ['VEHICLE_INSURANCE', 'INSURANCE'],
+      insurance,
+      'INSURANCE',
+      insurance?.insuranceDocument,
+    );
 
     // 5. Bank Passbook / Payout
-    const bankStatus =
-      payout?.isCompleted || isStepDone('PAYOUT') || isStepDone(5) || payout?.bankAccountNumber
-        ? 'APPROVED'
-        : 'PENDING';
-    const bankUrl = payout?.passbookDocument || null;
+    const bankInfo = getDocStatusAndUrl(
+      ['BANK_PASSBOOK', 'PAYOUT', 'PASSBOOK'],
+      payout,
+      'PAYOUT',
+      payout?.passbookDocument,
+    );
 
     return [
       {
         id: 'dl',
         title: 'Driving licence',
         sub:
-          dlStatus === 'APPROVED'
+          dlInfo.status === 'approved'
             ? `Approved · ${drivingLicence?.drivingLicenceNumber || 'DL Verified'}`
-            : dlStatus === 'REJECTED'
+            : dlInfo.status === 'rejected'
               ? 'Licence details invalid or blurred'
-              : 'Licence verification pending',
-        status: dlStatus === 'APPROVED' ? 'approved' : dlStatus === 'REJECTED' ? 'rejected' : 'pending',
-        statusLabel: dlStatus === 'APPROVED' ? 'Approved' : dlStatus === 'REJECTED' ? 'Rejected' : 'Pending',
+              : dlInfo.fileUrl
+                ? `Submitted · ${drivingLicence?.drivingLicenceNumber || 'Licence under review'}`
+                : 'Licence verification pending',
+        status: dlInfo.status,
+        statusLabel: dlInfo.statusLabel,
         icon: 'file-text',
-        fileUrl: formatImageUrl(dlUrl),
+        fileUrl: dlInfo.fileUrl,
         fileName: 'driving_licence.jpg',
       },
       {
         id: 'rc',
         title: 'Registration certificate',
         sub:
-          rcStatus === 'APPROVED'
+          rcInfo.status === 'approved'
             ? `Approved · Plate: ${vehicle?.registrationNumber || vehicle?.numberPlate || 'RC Verified'}`
-            : rcStatus === 'REJECTED'
+            : rcInfo.status === 'rejected'
               ? 'RC image unreadable'
-              : 'RC verification pending',
-        status: rcStatus === 'APPROVED' ? 'approved' : rcStatus === 'REJECTED' ? 'rejected' : 'pending',
-        statusLabel: rcStatus === 'APPROVED' ? 'Approved' : rcStatus === 'REJECTED' ? 'Rejected' : 'Pending',
+              : rcInfo.fileUrl
+                ? `Submitted · Plate: ${vehicle?.registrationNumber || vehicle?.numberPlate || 'RC under review'}`
+                : 'RC verification pending',
+        status: rcInfo.status,
+        statusLabel: rcInfo.statusLabel,
         icon: 'file-text',
-        fileUrl: formatImageUrl(rcUrl),
+        fileUrl: rcInfo.fileUrl,
         fileName: 'vehicle_rc.jpg',
       },
       {
         id: 'photo',
         title: 'Profile photo',
         sub:
-          photoStatus === 'APPROVED'
+          photoInfo.status === 'approved'
             ? 'Approved · Clear headshot verified'
-            : photoStatus === 'REJECTED'
+            : photoInfo.status === 'rejected'
               ? 'Photo blurry — face not clear'
-              : 'Profile photo pending',
-        status: photoStatus === 'APPROVED' ? 'approved' : photoStatus === 'REJECTED' ? 'rejected' : 'pending',
-        statusLabel: photoStatus === 'APPROVED' ? 'Approved' : photoStatus === 'REJECTED' ? 'Rejected' : 'Pending',
+              : photoInfo.fileUrl
+                ? 'Submitted · Photo under review'
+                : 'Profile photo pending',
+        status: photoInfo.status,
+        statusLabel: photoInfo.statusLabel,
         icon: 'camera',
-        fileUrl: formatImageUrl(photoUrl),
+        fileUrl: photoInfo.fileUrl,
         fileName: 'profile_photo.jpg',
       },
       {
         id: 'insurance',
         title: 'Insurance policy',
         sub:
-          insuranceStatus === 'APPROVED'
+          insuranceInfo.status === 'approved'
             ? `Approved · Policy #${insurance?.insurancePolicyNumber || 'Valid'}`
-            : insuranceStatus === 'REJECTED'
+            : insuranceInfo.status === 'rejected'
               ? 'Insurance expired — please re-upload'
-              : 'Insurance verification pending',
-        status: insuranceStatus === 'APPROVED' ? 'approved' : insuranceStatus === 'REJECTED' ? 'rejected' : 'pending',
-        statusLabel: insuranceStatus === 'APPROVED' ? 'Approved' : insuranceStatus === 'REJECTED' ? 'Rejected' : 'Pending',
+              : insuranceInfo.fileUrl
+                ? `Submitted · Policy #${insurance?.insurancePolicyNumber || 'Under review'}`
+                : 'Insurance verification pending',
+        status: insuranceInfo.status,
+        statusLabel: insuranceInfo.statusLabel,
         icon: 'shield',
-        fileUrl: formatImageUrl(insuranceUrl),
+        fileUrl: insuranceInfo.fileUrl,
         fileName: 'insurance_policy.jpg',
       },
       {
         id: 'bank',
         title: 'Bank passbook',
         sub:
-          bankStatus === 'APPROVED'
+          bankInfo.status === 'approved'
             ? `Approved · A/C ${payout?.bankAccountNumber || 'Verified'}`
-            : bankStatus === 'REJECTED'
+            : bankInfo.status === 'rejected'
               ? 'Bank details unreadable'
-              : 'Add your passbook or cheque',
-        status: bankStatus === 'APPROVED' ? 'approved' : bankStatus === 'REJECTED' ? 'rejected' : 'pending',
-        statusLabel: bankStatus === 'APPROVED' ? 'Approved' : bankStatus === 'REJECTED' ? 'Rejected' : 'Pending',
+              : payout?.bankAccountNumber || bankInfo.fileUrl
+                ? `Pending approval from bank · A/C ${payout?.bankAccountNumber || 'Submitted'}`
+                : 'Add your passbook or cheque',
+        status: bankInfo.status,
+        statusLabel:
+          bankInfo.status === 'pending' && (payout?.bankAccountNumber || bankInfo.fileUrl)
+            ? 'Pending approval'
+            : bankInfo.statusLabel,
         icon: 'credit-card',
-        fileUrl: formatImageUrl(bankUrl),
+        fileUrl: bankInfo.fileUrl,
         fileName: 'bank_passbook.jpg',
       },
     ];
@@ -239,6 +281,8 @@ export default function UploadDocumentsScreen({ navigation }) {
 
   const handleUploadDoc = doc => {
     if (doc.fileUrl) {
+      setImageError(false);
+      setImageLoading(true);
       setPreviewImageUrl(doc.fileUrl);
       return;
     }
@@ -277,6 +321,12 @@ export default function UploadDocumentsScreen({ navigation }) {
     } else {
       navigation.navigate('DriverVerificationStatus');
     }
+  };
+
+  const handleClosePreview = () => {
+    setPreviewImageUrl(null);
+    setImageError(false);
+    setImageLoading(false);
   };
 
   return (
@@ -469,14 +519,31 @@ export default function UploadDocumentsScreen({ navigation }) {
                       style={styles.reuploadBtn}>
                       <Text style={styles.reuploadBtnText}>Re-upload</Text>
                     </TouchableOpacity>
-                  ) : (
+                  ) : doc.fileUrl ? (
                     <TouchableOpacity
-                      activeOpacity={0.8}
+                      activeOpacity={0.7}
                       accessibilityRole="button"
+                      accessibilityLabel={`View ${doc.title}`}
                       onPress={() => handleUploadDoc(doc)}
-                      style={styles.uploadBtn}>
-                      <Text style={styles.uploadBtnText}>Upload</Text>
+                      style={styles.eyeBtn}>
+                      <Feather name="eye" size={20} color={colors.gray[500]} />
                     </TouchableOpacity>
+                  ) : (
+                    // <TouchableOpacity
+                    //   activeOpacity={0.8}
+                    //   accessibilityRole="button"
+                    //   onPress={() => handleUploadDoc(doc)}
+                    //   style={styles.uploadBtn}>
+                    //   <Text style={styles.uploadBtnText}>Upload</Text>
+                    // </TouchableOpacity>
+                    //  <TouchableOpacity
+                    //   activeOpacity={0.8}
+                    //   accessibilityRole="button"
+                    //   onPress={() => handleUploadDoc(doc)}
+                    //   style={styles.uploadBtn}>
+                    //   <Text style={styles.uploadBtnText}></Text>
+                    // </TouchableOpacity>
+                    <></>
                   )}
                 </View>
               </View>
@@ -499,101 +566,162 @@ export default function UploadDocumentsScreen({ navigation }) {
           </View>
         ) : (
           <View style={styles.amberNoticeCard}>
-            <AntDesign
-              name="exclamation-circle"
+            <Feather
+              name="info"
               size={18}
-              color="#D97706"
+              color={colors.amber[700]}
               style={{ marginTop: 2, marginRight: 10 }}
             />
             <Text style={styles.amberNoticeText}>
-              Re-upload any expired pages or add missing documents to finish verification.
+              All documents must be valid and legible to start driving with Cabora. Verification usually takes 24–48 hours.
             </Text>
           </View>
         )}
-
       </ScrollView>
 
-      {/* KYC OVERALL STATUS MODAL (APPROVED / REJECTED / PENDING) */}
+      {/* Status Modal (When all approved or tapped top card) */}
       <Modal
         visible={showStatusModal}
         transparent
         animationType="fade"
         onRequestClose={() => setShowStatusModal(false)}>
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            {isApprovedAll ? (
-              <>
-                <View style={[styles.statusIconContainer, styles.iconApproved]}>
-                  <AntDesign name="check-circle" size={34} color="#16A34A" />
-                </View>
-                <Text style={styles.modalTitle}>KYC Verification Approved 🎉</Text>
-                <Text style={styles.modalSub}>
-                  Congratulations! All your submitted documents have been verified and approved by the Cabora team. You are ready to go online and receive rides!
-                </Text>
-                <View style={[styles.modalBadge, styles.modalBadgeApproved]}>
-                  <Text style={styles.modalBadgeTextApproved}>● APPROVED & ACTIVE</Text>
-                </View>
-              </>
-            ) : isRejectedAll ? (
-              <>
-                <View style={[styles.statusIconContainer, styles.iconRejected]}>
-                  <Feather name="lock" size={32} color="#DC2626" />
-                </View>
-                <Text style={styles.modalTitle}>KYC Verification Rejected</Text>
-                <Text style={styles.modalSub}>
-                  {rejectionReason}
-                </Text>
-                <View style={[styles.modalBadge, styles.modalBadgeRejected]}>
-                  <Text style={styles.modalBadgeTextRejected}>● ACTION REQUIRED</Text>
-                </View>
-              </>
-            ) : (
-              <>
-                <View style={[styles.statusIconContainer, styles.iconPending]}>
-                  <Feather name="clock" size={32} color="#D97706" />
-                </View>
-                <Text style={styles.modalTitle}>Verification In Review</Text>
-                <Text style={styles.modalSub}>
-                  Your submitted documents are currently under review by our verification team. Approval usually takes up to 24 hours.
-                </Text>
-                <View style={[styles.modalBadge, styles.modalBadgePending]}>
-                  <Text style={styles.modalBadgeTextPending}>● UNDER REVIEW</Text>
-                </View>
-              </>
-            )}
+          <View style={styles.modalCard}>
+            <View
+              style={[
+                styles.modalBadge,
+                isApprovedAll || approvedCount === 5
+                  ? { backgroundColor: '#DCFCE7' }
+                  : { backgroundColor: '#FEF3C7' },
+              ]}>
+              <Feather
+                name={isApprovedAll || approvedCount === 5 ? 'check-circle' : 'clock'}
+                size={36}
+                color={
+                  isApprovedAll || approvedCount === 5
+                    ? colors.green[600]
+                    : colors.amber[600]
+                }
+              />
+            </View>
+
+            <Text style={styles.modalTitle}>
+              {isApprovedAll || approvedCount === 5
+                ? 'All Documents Verified!'
+                : 'Verification in Progress'}
+            </Text>
+
+            <Text style={styles.modalSub}>
+              {isApprovedAll || approvedCount === 5
+                ? 'Your documents have been approved by the admin team. You can now go online and accept ride requests.'
+                : `${approvedCount} of 5 documents approved. Our team is currently reviewing the remaining documents.`}
+            </Text>
 
             <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setShowStatusModal(false)}
+              activeOpacity={0.85}
+              onPress={() => {
+                setShowStatusModal(false);
+                if (isApprovedAll || approvedCount === 5) {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'DriverHome' }],
+                  });
+                }
+              }}
               style={styles.modalBtn}>
               <Text style={styles.modalBtnText}>
-                {isApprovedAll ? 'Awesome!' : isRejectedAll ? 'Review Documents' : 'Got it'}
+                {isApprovedAll || approvedCount === 5
+                  ? 'Go to Dashboard'
+                  : 'Got it'}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      {/* DOCUMENT IMAGE PREVIEW MODAL */}
+      {/* Document Image Preview Modal */}
       <Modal
         visible={Boolean(previewImageUrl)}
         transparent
-        animationType="slide"
-        onRequestClose={() => setPreviewImageUrl(null)}>
-        <View style={styles.previewOverlay}>
+        animationType="fade"
+        onRequestClose={handleClosePreview}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={handleClosePreview}
+          style={styles.previewOverlay}>
           <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => setPreviewImageUrl(null)}
-            style={styles.previewCloseBtn}>
-            <Feather name="x" size={24} color="#FFFFFF" />
+            activeOpacity={1}
+            onPress={() => {}}
+            style={styles.previewCard}>
+            {/* Modal Header */}
+            <View style={styles.previewHeader}>
+              <Text style={styles.previewTitle}>Document Preview</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={handleClosePreview}
+                style={styles.previewCloseBtn}>
+                <AntDesign name="close" size={16} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            {/* Image Box */}
+            <View style={styles.previewImageContainer}>
+              {imageLoading && (
+                <ActivityIndicator
+                  size="large"
+                  color={colors.primary || '#FF7A00'}
+                  style={{ position: 'absolute' }}
+                />
+              )}
+
+              {imageError ? (
+                <View style={{ alignItems: 'center', paddingHorizontal: 16 }}>
+                  <Feather name="alert-circle" size={38} color="#F87171" />
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontFamily: colors.fonts.sora.bold,
+                      fontSize: 14,
+                      marginTop: 8,
+                    }}>
+                    Unable to Load Image
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.gray[500],
+                      fontFamily: colors.fonts.sora.regular,
+                      fontSize: 12,
+                      textAlign: 'center',
+                      marginTop: 4,
+                      lineHeight: 16,
+                    }}>
+                    The document image could not be fetched from the server.
+                  </Text>
+                </View>
+              ) : previewImageUrl ? (
+                <Image
+                  source={{ uri: previewImageUrl }}
+                  style={styles.previewImage}
+                  resizeMode="contain"
+                  onLoadStart={() => {
+                    setImageLoading(true);
+                    setImageError(false);
+                  }}
+                  onLoadEnd={() => setImageLoading(false)}
+                  onError={e => {
+                    console.log(
+                      'Image preview load error:',
+                      e.nativeEvent?.error,
+                      previewImageUrl,
+                    );
+                    setImageLoading(false);
+                    setImageError(true);
+                  }}
+                />
+              ) : null}
+            </View>
           </TouchableOpacity>
-          {previewImageUrl ? (
-            <Image
-              source={{ uri: previewImageUrl }}
-              style={styles.previewImage}
-            />
-          ) : null}
-        </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
