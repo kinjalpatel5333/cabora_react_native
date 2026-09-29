@@ -5,9 +5,11 @@ export function getTabBarBottomPadding() {
 
 export function getHomeTabBarContentHeight() {
   // outer pill pad + active chip (icon + label)
-  return 64;
+  return 62;
 }
 
-export function getHomeTabBarInset() {
-  return getHomeTabBarContentHeight();
+export function getHomeTabBarInset(insets) {
+  const bottomInset = insets?.bottom || 0;
+  const bottomMargin = bottomInset > 0 ? bottomInset + 6 : 10;
+  return getHomeTabBarContentHeight() + bottomMargin + 12;
 }
