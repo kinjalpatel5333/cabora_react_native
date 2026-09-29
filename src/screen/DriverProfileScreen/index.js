@@ -127,9 +127,11 @@ export default function DriverProfileScreen() {
             pointerEvents="none"
           />
 
-          <TouchableOpacity activeOpacity={0.7}
+          <TouchableOpacity
+            activeOpacity={0.65}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
+            hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
             onPress={openDrawer}
             style={styles.menuBtn}>
             <Feather name="menu" size={20} color={colors.white} />

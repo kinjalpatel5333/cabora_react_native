@@ -654,8 +654,8 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         const birthDate = parseDateString(dob);
         const today = new Date();
         const age = calculateAge(dob);
-        if (birthDate > today || age < 18) {
-          stepErrors.dob = 'You must be 18 years or older to register as a driver';
+        if (birthDate > today || age < 10) {
+          stepErrors.dob = 'You must be 10 years or older to register as a driver';
         }
       }
       if (!mobileNum.trim() || mobileNum.replace(/\s+/g, '').length < 10) {
@@ -1035,7 +1035,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           error={errors.dob}
           fieldStyle={errors.dob && { borderColor: colors.red[500], borderWidth: 1.5 }}
           onPress={() => setDobPickerVisible(true)}
-          hint={errors.dob ? undefined : "You must be 18 or older to drive on Cabora"}
+          hint={errors.dob ? undefined : "You must be 10 or older to drive on Cabora"}
           containerStyle={{ marginBottom: 0 }}
         />
       </View>
@@ -1967,7 +1967,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           if (dateStr) clearError('dob');
         }}
         value={dob}
-        maxYear={new Date().getFullYear() - 18}
+        maxYear={new Date().getFullYear() - 10}
         title="Select Date of Birth"
       />
 

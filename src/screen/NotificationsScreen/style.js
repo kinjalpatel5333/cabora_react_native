@@ -32,8 +32,8 @@ export default function createStyles(colors) {
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 26,
-      letterSpacing: -0.5,
+      fontSize: 20,
+      letterSpacing: -0.4,
     },
     markAllBtn: {
       paddingVertical: 6,

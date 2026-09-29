@@ -33,6 +33,7 @@ import {extractUserProfile} from '../../utils/user';
 import createStyles from './style';
 import {storageSetItem} from '../../utils/storage';
 import {STORAGE_KEYS} from '../../config/setting';
+import {calculateAge} from '../../utils/dateUtils';
 
 function convertDobToApi(dobString) {
   if (!dobString) {
@@ -233,6 +234,16 @@ export default function CompleteProfileScreen({navigation, route}) {
         type: 'danger',
         title: 'Date of Birth Required',
         message: 'Please select your date of birth to continue.',
+      });
+      return;
+    }
+
+    const age = calculateAge(dob.trim());
+    if (age < 10) {
+      showToast({
+        type: 'danger',
+        title: 'Invalid Age',
+        message: 'You must be 10 years or older to continue.',
       });
       return;
     }
@@ -556,6 +567,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           }
         }}
         value={dob}
+        maxYear={new Date().getFullYear() - 10}
         title="Select Date of Birth"
       />
     </View>

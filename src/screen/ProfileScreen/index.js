@@ -114,12 +114,14 @@ export default function ProfileScreen({ navigation }) {
           source={images.loginGlow}
           style={styles.glow}
           resizeMode="cover"
+          pointerEvents="none"
         />
 
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={0.65}
           accessibilityRole="button"
           accessibilityLabel="Open menu"
+          hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           onPress={openDrawer}
           style={styles.menuBtn}>
           <Feather name="menu" size={22} color={colors.white} />

@@ -44,7 +44,7 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 28,
+      fontSize: 24,
       letterSpacing: -0.4,
     },
     meta: {
@@ -270,7 +270,7 @@ export default function createStyles(colors) {
     },
     otpBadgeText: {
       fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 28,
+      fontSize: 24,
       color: colors.primary,
       letterSpacing: 6,
     },

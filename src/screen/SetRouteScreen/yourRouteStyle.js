@@ -241,7 +241,7 @@ export default function createStyles(colors) {
     fareValue: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 28,
+      fontSize: 24,
       marginTop: 2,
     },
     fareHint: {

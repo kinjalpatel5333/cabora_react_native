@@ -198,7 +198,7 @@ export default function createStyles(colors) {
     codeValue: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 28,
+      fontSize: 24,
       letterSpacing: 6,
     },
     codeHint: {
