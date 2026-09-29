@@ -36,7 +36,7 @@ export default function createStyles(colors) {
     },
     headerTitle: {
       fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 28,
+      fontSize: 24,
       color: colors.text,
     },
     statementBtn: {

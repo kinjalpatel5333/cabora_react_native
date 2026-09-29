@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Animated, Easing, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useSidebar } from '../../context/SidebarContext';
 import useThemedStyles from '../../components/useThemedStyles';
 import DrawerContent from '../DrawerContent';
@@ -12,18 +12,37 @@ export default function Sidebar() {
   const overlay = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: open ? 0 : -DRAWER_WIDTH,
-        duration: 220,
-        useNativeDriver: true,
-      }),
-      Animated.timing(overlay, {
-        toValue: open ? 1 : 0,
-        duration: 220,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    if (open) {
+      Animated.parallel([
+        Animated.timing(translateX, {
+          toValue: 0,
+          duration: 260,
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+          useNativeDriver: true,
+        }),
+        Animated.timing(overlay, {
+          toValue: 1,
+          duration: 240,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(translateX, {
+          toValue: -DRAWER_WIDTH,
+          duration: 220,
+          easing: Easing.bezier(0.25, 1, 0.5, 1),
+          useNativeDriver: true,
+        }),
+        Animated.timing(overlay, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
   }, [open, overlay, translateX]);
 
   return (

@@ -58,9 +58,27 @@ export default function DriverProfileScreen() {
   const vehicleIcon = isBike ? 'motorbike' : 'car-hatchback';
 
   // KYC status
-  const kycStatus = (kycData?.platform?.kycStatus || 'APPROVED').toUpperCase();
+  const kycStatus = (kycData?.platform?.kycStatus || user?.driver?.kycStatus || user?.kycStatus || 'APPROVED').toUpperCase();
   const isApproved = kycStatus === 'APPROVED';
-  const isPending = kycStatus === 'PENDING' || kycStatus === 'SUBMITTED' || kycStatus === 'IN_REVIEW';
+  const isPending = kycStatus === 'PENDING' || kycStatus === 'SUBMITTED' || kycStatus === 'IN_REVIEW' || kycStatus === 'UNDER_REVIEW';
+
+  const kycBgColor = isApproved
+    ? (colors.isDark ? colors.alpha.green18 : colors.green[100] || '#DCFCE7')
+    : isPending
+      ? (colors.isDark ? colors.alpha.amber18 : colors.amber[100] || '#FEF3C7')
+      : (colors.isDark ? colors.alpha.red18 : colors.red[100] || '#FEE2E2');
+
+  const kycTextColor = isApproved
+    ? (colors.green[700] || '#15803D')
+    : isPending
+      ? (colors.amber[800] || '#92400E')
+      : (colors.red[700] || '#B91C1C');
+
+  const kycIconColor = isApproved
+    ? (colors.green[600] || '#16A34A')
+    : isPending
+      ? (colors.amber[600] || '#D97706')
+      : (colors.red[600] || '#DC2626');
 
   const completedDocsCount = [
     kycData?.personal?.isCompleted,
@@ -127,18 +145,21 @@ export default function DriverProfileScreen() {
             pointerEvents="none"
           />
 
-          <TouchableOpacity activeOpacity={0.7}
+          <TouchableOpacity
+            activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             onPress={openDrawer}
-            style={styles.menuBtn}>
+            hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}
+            pressRetentionOffset={{ top: 24, bottom: 24, left: 24, right: 24 }}
+            style={[styles.menuBtn, { zIndex: 20 }]}>
             <Feather name="menu" size={20} color={colors.white} />
           </TouchableOpacity>
 
           <View style={styles.profileRow}>
             <View style={styles.avatarCircle}>
               {driverPhoto ? (
-                <Image source={{ uri: driverPhoto }} style={{ width: 56, height: 56, borderRadius: 28 }} />
+                <Image source={{ uri: driverPhoto }} style={{ width: 56, height: 56, borderRadius: 28 }} resizeMode="cover" />
               ) : (
                 <Text style={styles.avatarText}>{driverInitials}</Text>
               )}
@@ -146,18 +167,18 @@ export default function DriverProfileScreen() {
 
             <View style={styles.profileInfo}>
               <View style={styles.nameRow}>
-                <Text style={styles.nameText}>{driverName}</Text>
+                <Text style={styles.nameText} numberOfLines={1}>{driverName}</Text>
                 <MaterialDesignIcons
                   name="check-decagram"
                   size={18}
                   color={isApproved ? colors.green[550] : colors.amber[500]}
                 />
               </View>
-              <Text style={styles.statsText}>
+              <Text style={styles.statsText} numberOfLines={1}>
                 {user?.rating ? `${user.rating} ★` : '4.92 ★'} · {user?.totalTrips ? `${user.totalTrips} trips` : '2,140 trips'} · driving active
               </Text>
               {(driverMobile || driverEmail) ? (
-                <Text style={styles.contactText}>
+                <Text style={styles.contactText} numberOfLines={1} ellipsizeMode="tail">
                   {[driverMobile, driverEmail].filter(Boolean).join(' · ')}
                 </Text>
               ) : null}
@@ -172,13 +193,13 @@ export default function DriverProfileScreen() {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.kycBanner}>
+          <View style={[styles.kycBanner, { backgroundColor: kycBgColor }]}>
             <AntDesign
               name={isApproved ? "check-circle" : isPending ? "clockcircleo" : "exclamationcircleo"}
               size={14}
-              color={isApproved ? (colors.green[350] || colors.green[400]) : isPending ? colors.amber[400] : colors.red[400]}
+              color={kycIconColor}
             />
-            <Text style={styles.kycText}>
+            <Text style={[styles.kycText, { color: kycTextColor }]}>
               {isApproved ? 'KYC approved · Account active' : isPending ? 'KYC under review' : 'KYC action required'}
             </Text>
           </View>
@@ -196,9 +217,9 @@ export default function DriverProfileScreen() {
                   color={colors.text}
                 />
               </View>
-              <View>
-                <Text style={styles.vehicleTitle}>{vehicleTitle}</Text>
-                <Text style={styles.vehicleSub}>{vehicleSub}</Text>
+              <View style={{ flex: 1, minWidth: 0, marginRight: 8 }}>
+                <Text style={styles.vehicleTitle} numberOfLines={1}>{vehicleTitle}</Text>
+                <Text style={styles.vehicleSub} numberOfLines={1}>{vehicleSub}</Text>
               </View>
             </View>
             <View style={styles.platePill}>
