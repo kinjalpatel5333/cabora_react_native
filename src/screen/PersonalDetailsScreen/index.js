@@ -24,24 +24,13 @@ import { useToast } from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import { useApp } from '../../context/AppContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchDriverProfile, fetchPassengerProfile, fetchUserProfile, setUser } from '../../redux/slices/authSlice';
+import { fetchDriverProfile, fetchPassengerProfile, setUser } from '../../redux/slices/authSlice';
 import { updatePassengerProfileApi } from '../../services/userApi';
 import { updateDriverProfileApi } from '../../services/driverApi';
-import { extractUserProfile, formatImageUrl } from '../../utils/user';
+import { extractUserProfile } from '../../utils/user';
 import { storageSetItem } from '../../utils/storage';
 import { STORAGE_KEYS } from '../../config/setting';
 import createStyles from './style';
-
-function formatDob(text) {
-  const digits = text.replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 2) {
-    return digits;
-  }
-  if (digits.length <= 4) {
-    return `${digits.slice(0, 2)} / ${digits.slice(2)}`;
-  }
-  return `${digits.slice(0, 2)} / ${digits.slice(2, 4)} / ${digits.slice(4, 8)}`;
-}
 
 function convertDobToApi(dobString) {
   if (!dobString) {
@@ -54,7 +43,7 @@ function convertDobToApi(dobString) {
   if (str.includes('T') && /^\d{4}-\d{2}-\d{2}/.test(str)) {
     return str.split('T')[0];
   }
-  const slashParts = str.replace(/\s+/g, '').split(/[\/\-]/);
+  const slashParts = str.replace(/\s+/g, '').split(/[/\-]/);
   if (slashParts.length === 3) {
     if (slashParts[0].length === 2 && slashParts[1].length === 2 && slashParts[2].length === 4) {
       const [day, month, year] = slashParts;
@@ -162,10 +151,12 @@ export default function PersonalDetailsScreen({ navigation, route }) {
   const [photo, setPhoto] = useState(
     initialExtracted.photo || currentUser?.photo || currentUser?.profilePhoto || currentUser?.avatar || null,
   );
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [photoAsset, setPhotoAsset] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const hasInitialSyncedRef = useRef(false);
+  const photoAssetRef = useRef(null);
 
   useEffect(() => {
     const showSub = Keyboard.addListener(
@@ -198,23 +189,32 @@ export default function PersonalDetailsScreen({ navigation, route }) {
   useEffect(() => {
     if (currentUser) {
       const p = extractUserProfile(currentUser, currentUser.phone || currentUser.mobile);
-      const activeName = p.name || currentUser.name || currentUser.fullName || '';
-      if (activeName) setName(activeName);
+      if (!hasInitialSyncedRef.current) {
+        hasInitialSyncedRef.current = true;
+        const activeName = p.name || currentUser.name || currentUser.fullName || '';
+        if (activeName) setName(activeName);
 
-      const activeDob = p.dob || currentUser.dob || '';
-      if (activeDob) setDob(convertDobToUi(activeDob));
+        const activeDob = p.dob || currentUser.dob || '';
+        if (activeDob) setDob(convertDobToUi(activeDob));
 
-      const activeGender = p.gender || currentUser.gender || '';
-      if (activeGender) setGender(activeGender.toLowerCase());
+        const activeGender = p.gender || currentUser.gender || '';
+        if (activeGender) setGender(activeGender.toLowerCase());
 
-      const activeEmail = p.email || currentUser.email || '';
-      if (activeEmail) setEmail(activeEmail);
+        const activeEmail = p.email || currentUser.email || '';
+        if (activeEmail) setEmail(activeEmail);
 
-      const activePhone = p.mobile || p.phone || currentUser.mobile || currentUser.phone || '';
-      if (activePhone) setPhone(activePhone);
+        const activePhone = p.mobile || p.phone || currentUser.mobile || currentUser.phone || '';
+        if (activePhone) setPhone(activePhone);
 
-      const activePhoto = p.photo || p.profilePhoto || currentUser.photo || currentUser.profilePhoto || currentUser.avatar || null;
-      if (activePhoto) setPhoto(activePhoto);
+        const activePhoto = p.photo || p.profilePhoto || currentUser.photo || currentUser.profilePhoto || currentUser.avatar || null;
+        if (activePhoto && !photoAssetRef.current) setPhoto(activePhoto);
+      } else {
+        // If not locally changed, keep synced with server photo
+        const activePhoto = p.photo || p.profilePhoto || currentUser.photo || currentUser.profilePhoto || currentUser.avatar || null;
+        if (activePhoto && !photoAssetRef.current) {
+          setPhoto(activePhoto);
+        }
+      }
     }
   }, [currentUser]);
 
@@ -244,6 +244,7 @@ export default function PersonalDetailsScreen({ navigation, route }) {
 
       if (result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
+        photoAssetRef.current = asset;
         setPhotoAsset(asset);
         setPhoto(asset.uri);
       }
@@ -376,7 +377,12 @@ export default function PersonalDetailsScreen({ navigation, route }) {
           ]}>
           {/* Avatar Section */}
           <View style={styles.avatarSection}>
-            <View style={styles.avatarContainer}>
+            <TouchableOpacity
+              activeOpacity={0.85}
+              style={styles.avatarContainer}
+              onPress={handleChangePhoto}
+              accessibilityRole="button"
+              accessibilityLabel="Change photo">
               {photo ? (
                 <Image source={{ uri: photo }} style={styles.avatarImage} />
               ) : (
@@ -386,15 +392,10 @@ export default function PersonalDetailsScreen({ navigation, route }) {
                   color={colors.textMuted}
                 />
               )}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.cameraBadge}
-                onPress={handleChangePhoto}
-                accessibilityRole="button"
-                accessibilityLabel="Take photo">
+              <View style={styles.cameraBadge}>
                 <Feather name="camera" size={14} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={handleChangePhoto}

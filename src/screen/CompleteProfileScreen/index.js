@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
-  Alert,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -22,6 +21,7 @@ import {
 } from '../../utils/cameraPermission';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, DatePickerInput, DatePickerModal} from '../../components';
+import {useToast} from '../../components/Toast';
 import useThemedStyles from '../../components/useThemedStyles';
 import {useApp} from '../../context/AppContext';
 import {getMeApi, updatePassengerProfileApi} from '../../config';
@@ -72,6 +72,7 @@ export default function CompleteProfileScreen({navigation, route}) {
   const {colors: themeColors} = useApp();
   const dispatch = useAppDispatch();
   const { user: authUser } = useAuth();
+  const {showToast} = useToast();
 
   useFocusEffect(
     useCallback(() => {
@@ -111,6 +112,7 @@ export default function CompleteProfileScreen({navigation, route}) {
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [focusedField, setFocusedField] = useState(null);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollViewRef = useRef(null);
@@ -215,6 +217,8 @@ export default function CompleteProfileScreen({navigation, route}) {
   };
 
   const onStartRiding = async () => {
+    const newErrors = {};
+
     if (!fullName || !fullName.trim()) {
       showToast({
         type: 'danger',
@@ -252,6 +256,7 @@ export default function CompleteProfileScreen({navigation, route}) {
       return;
     }
 
+    setErrors({});
     setLoading(true);
     try {
       // Build FormData for multipart/form-data PUT /api/v1/passenger/profile
@@ -385,12 +390,15 @@ export default function CompleteProfileScreen({navigation, route}) {
         keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}>
         <ScrollView
           ref={scrollViewRef}
+          bounces={false}
+          alwaysBounceVertical={false}
+          overScrollMode="never"
           contentContainerStyle={[
             styles.scroll,
             {
               paddingBottom:
                 Math.max(insets.bottom, 20) +
-                (keyboardHeight > 0 ? keyboardHeight + 30 : 100),
+                (keyboardHeight > 0 ? keyboardHeight + 60 : 100),
             },
           ]}
           showsVerticalScrollIndicator={false}
@@ -430,25 +438,35 @@ export default function CompleteProfileScreen({navigation, route}) {
           <View style={styles.form}>
             {/* Full name */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, errors.fullName && styles.labelError]}>
                 Full name <Text style={styles.requiredStar}>*</Text>
               </Text>
               <TextInput
                 value={fullName}
-                onChangeText={setFullName}
+                onChangeText={text => {
+                  setFullName(text);
+                  if (errors.fullName) {
+                    setErrors(prev => ({...prev, fullName: null}));
+                  }
+                }}
                 placeholder="Ananya Shah"
                 placeholderTextColor={themeColors.textMuted}
                 style={[
                   styles.input,
                   focusedField === 'fullName' && styles.inputFocused,
+                  errors.fullName && styles.inputError,
                 ]}
                 onFocus={() => setFocusedField('fullName')}
                 onBlur={() => setFocusedField(null)}
                 autoCapitalize="words"
               />
-              <Text style={styles.caption}>
-                Your first name is what drivers see
-              </Text>
+              {errors.fullName ? (
+                <Text style={styles.errorText}>{errors.fullName}</Text>
+              ) : (
+                <Text style={styles.caption}>
+                  Your first name is what drivers see
+                </Text>
+              )}
             </View>
 
             {/* Date of birth */}
@@ -456,20 +474,26 @@ export default function CompleteProfileScreen({navigation, route}) {
               <DatePickerInput
                 label="Date of birth *"
                 value={dob}
-                placeholder="14 Mar 1994"
+                placeholder="DD / MM / YYYY"
+                error={errors.dob}
                 onPress={() => setDobPickerVisible(true)}
-                hint="Never shown to drivers — used for age-restricted offers"
+                hint={errors.dob ? undefined : "Never shown to drivers — used for age-restricted offers"}
               />
             </View>
 
             {/* Email */}
             <View style={styles.fieldGroup}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, errors.email && styles.labelError]}>
                 Email <Text style={styles.requiredStar}>*</Text>
               </Text>
               <TextInput
                 value={email}
-                onChangeText={setEmail}
+                onChangeText={text => {
+                  setEmail(text);
+                  if (errors.email) {
+                    setErrors(prev => ({...prev, email: null}));
+                  }
+                }}
                 placeholder="name@example.com"
                 placeholderTextColor={themeColors.textMuted}
                 keyboardType="email-address"
@@ -478,6 +502,7 @@ export default function CompleteProfileScreen({navigation, route}) {
                 style={[
                   styles.input,
                   focusedField === 'email' && styles.inputFocused,
+                  errors.email && styles.inputError,
                 ]}
                 onFocus={() => {
                   setFocusedField('email');
@@ -487,6 +512,9 @@ export default function CompleteProfileScreen({navigation, route}) {
                 }}
                 onBlur={() => setFocusedField(null)}
               />
+              {errors.email ? (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              ) : null}
             </View>
 
             {/* Verified Phone Badge */}
@@ -521,7 +549,12 @@ export default function CompleteProfileScreen({navigation, route}) {
       <DatePickerModal
         visible={dobPickerVisible}
         onClose={() => setDobPickerVisible(false)}
-        onSelectDate={dateStr => setDob(dateStr)}
+        onSelectDate={dateStr => {
+          setDob(dateStr);
+          if (errors.dob) {
+            setErrors(prev => ({...prev, dob: null}));
+          }
+        }}
         value={dob}
         title="Select Date of Birth"
       />

@@ -238,6 +238,12 @@ export default function OtpScreen({ navigation, route }) {
         return;
       }
 
+      const isComplete =
+        verifiedResponseData?.isComplete ??
+        verifiedUser?.isComplete ??
+        verifiedResponseData?.user?.isComplete ??
+        verifiedResponseData?.driver?.isComplete;
+
       // If token and role (DRIVER/PASSENGER) exist, log user in via Redux directly
       if (token && (role === 'driver' || role === 'passenger')) {
         try {
@@ -246,8 +252,12 @@ export default function OtpScreen({ navigation, route }) {
               phone: verifiedUser?.mobile || verifiedUser?.phone || phone,
               role,
               token,
-              user: verifiedUser,
-              isOnBoarding: isOnBoarding === true,
+              user: {
+                ...(verifiedResponseData?.user || verifiedUser || {}),
+                isComplete,
+                isOnBoarding: isComplete === false ? true : (isOnBoarding === true),
+              },
+              isOnBoarding: isComplete === false ? true : (isOnBoarding === true),
             }),
           ).unwrap();
           return;

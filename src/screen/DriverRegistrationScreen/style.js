@@ -9,7 +9,7 @@ export default function createStyles(colors) {
     header: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       paddingHorizontal: 16,
       paddingBottom: 14,
       borderBottomWidth: 1,
@@ -27,6 +27,7 @@ export default function createStyles(colors) {
       fontFamily: colors.fonts.sora.bold,
       fontSize: 18,
       color: colors.text,
+      textAlign: 'center',
     },
 
     // Progress Header
@@ -109,8 +110,8 @@ export default function createStyles(colors) {
       justifyContent: 'space-between',
       backgroundColor: colors.card,
       borderRadius: 16,
-      padding: 16,
-      marginBottom: 16,
+      padding: 14,
+      marginBottom: 14,
       borderWidth: 1,
       borderColor: colors.border,
     },
@@ -152,7 +153,7 @@ export default function createStyles(colors) {
 
     // Input fields
     fieldGroup: {
-      marginBottom: 20,
+      marginBottom: 14,
     },
     labelRow: {
       flexDirection: 'row',
@@ -203,7 +204,7 @@ export default function createStyles(colors) {
       backgroundColor: colors.card,
       borderRadius: 16,
       padding: 14,
-      marginBottom: 20,
+      marginBottom: 14,
       borderWidth: 1,
       borderColor: colors.border,
     },

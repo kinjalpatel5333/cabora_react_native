@@ -15,9 +15,7 @@ export default function createStyles(colors) {
       justifyContent: 'center',
       paddingHorizontal: 16,
       paddingVertical: 14,
-      backgroundColor: colors.card,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: colors.border,
+      backgroundColor: 'transparent',
     },
     headerTitle: {
       fontFamily: colors.fonts.sora.bold,
@@ -116,6 +114,9 @@ export default function createStyles(colors) {
       color: colors.text,
       marginBottom: 8,
     },
+    labelError: {
+      color: colors.danger || colors.red?.[500] || '#EF4444',
+    },
     requiredStar: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.danger || colors.red?.[500] || '#EF4444',
@@ -133,6 +134,10 @@ export default function createStyles(colors) {
     },
     inputFocused: {
       borderColor: colors.orange[500],
+    },
+    inputError: {
+      borderColor: colors.danger || colors.red?.[500] || '#EF4444',
+      borderWidth: 1.2,
     },
     inputIconWrapper: {
       flexDirection: 'row',
@@ -158,6 +163,13 @@ export default function createStyles(colors) {
       marginTop: 6,
       lineHeight: 17,
     },
+    errorText: {
+      fontFamily: colors.fonts.sora.regular,
+      fontSize: 12.5,
+      color: colors.danger || colors.red?.[500] || '#EF4444',
+      marginTop: 6,
+      lineHeight: 17,
+    },
     verifiedPhoneBox: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -179,11 +191,9 @@ export default function createStyles(colors) {
       color: colors.textMuted,
     },
     footer: {
-      backgroundColor: colors.card,
+      backgroundColor: 'transparent',
       paddingHorizontal: 20,
-      paddingTop: 14,
-      borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colors.border,
+      paddingTop: 10,
     },
     startBtn: {
       height: 54,

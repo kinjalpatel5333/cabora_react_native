@@ -51,12 +51,28 @@ export default function DriverStack() {
   const { user } = useAuth();
   const { colors } = useApp();
   const locationResolved = useAppSelector(state => state.app.locationResolved);
-  const kycComplete = Boolean(
-    user?.kycComplete === true ||
-    user?.platform?.eligibleForRides === true ||
-    user?.driver?.onboardingCompleted === true ||
-    user?.driver?.platform?.eligibleForRides === true,
+  const isDriverExplicitlyIncomplete = Boolean(
+    user?.isComplete === false ||
+    user?.driver?.isComplete === false ||
+    user?.isCompleted === false ||
+    user?.driver?.isCompleted === false ||
+    user?.driver?.onboardingCompleted === false ||
+    user?.kycComplete === false ||
+    user?.isOnBoarding === true
   );
+
+  const kycComplete =
+    !isDriverExplicitlyIncomplete &&
+    Boolean(
+      user?.isComplete === true ||
+      user?.driver?.isComplete === true ||
+      user?.isCompleted === true ||
+      user?.driver?.isCompleted === true ||
+      user?.kycComplete === true ||
+      user?.platform?.eligibleForRides === true ||
+      user?.driver?.onboardingCompleted === true ||
+      user?.driver?.platform?.eligibleForRides === true,
+    );
 
   const kycStatus = String(
     user?.driver?.kycStatus || user?.platform?.kycStatus || user?.kycStatus || '',
@@ -64,10 +80,9 @@ export default function DriverStack() {
   const driverStatus = String(
     user?.driver?.status || user?.status || '',
   ).toLowerCase();
-  const completedStepsCount = user?.driver?.completedStepsCount;
-  const pendingStepsCount = user?.driver?.pendingStepsCount;
 
   const isSubmittedForReview =
+    !isDriverExplicitlyIncomplete &&
     (kycStatus === 'submitted' ||
       kycStatus === 'under_review' ||
       kycStatus === 'pending' ||

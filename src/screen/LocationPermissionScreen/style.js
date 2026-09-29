@@ -4,51 +4,12 @@ export default function createStyles(colors) {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: colors.map.land,
+      backgroundColor: colors.background,
     },
-    map: {
+    mapImage: {
       ...StyleSheet.absoluteFillObject,
-    },
-    mapRoadH: {
-      position: 'absolute',
-      height: 10,
-      left: 0,
-      right: 0,
-      backgroundColor: colors.map.road,
-    },
-    mapRoadV: {
-      position: 'absolute',
-      width: 10,
-      top: 0,
-      bottom: 0,
-      backgroundColor: colors.map.road,
-    },
-    mapRoadAlt: {
-      backgroundColor: colors.map.roadAlt,
-    },
-    mapLabel: {
-      fontFamily: colors.fonts.sora.bold,
-      position: 'absolute',
-      color: colors.muted,
-      fontSize: 11,
-      letterSpacing: 1.2,
-    },
-    water: {
-      position: 'absolute',
-      backgroundColor: colors.map.water,
-      borderRadius: 40,
-      opacity: 0.7,
-    },
-    park: {
-      position: 'absolute',
-      backgroundColor: colors.map.park,
-      borderRadius: 16,
-      opacity: 0.85,
-    },
-    building: {
-      position: 'absolute',
-      backgroundColor: colors.map.building,
-      borderRadius: 6,
+      width: '100%',
+      height: '100%',
     },
     banner: {
       position: 'absolute',

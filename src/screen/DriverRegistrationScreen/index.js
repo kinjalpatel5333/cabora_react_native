@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -70,6 +71,22 @@ function formatImageUrl(url) {
   return `${BASE_URL}${cleanPath}`;
 }
 
+function formatInsurancePolicyNumber(rawText, prevText = '') {
+  if (!rawText) return '';
+  if (prevText && rawText.length < prevText.length && prevText.endsWith('-') && !rawText.endsWith('-')) {
+    return rawText;
+  }
+  const clean = rawText.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  const parts = [];
+  if (clean.length > 0) parts.push(clean.slice(0, 2));
+  if (clean.length > 2) parts.push(clean.slice(2, 6));
+  if (clean.length > 6) parts.push(clean.slice(6, 10));
+  if (clean.length > 10) parts.push(clean.slice(10, 14));
+  if (clean.length > 14) parts.push(clean.slice(14, 18));
+  if (clean.length > 18) parts.push(clean.slice(18, 22));
+  return parts.join('-');
+}
+
 function formatVehicleRegNumber(rawText, prevText = '') {
   if (!rawText) return '';
   if (prevText && rawText.length < prevText.length && prevText.endsWith(' ') && !rawText.endsWith(' ')) {
@@ -111,6 +128,57 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [restoringProgress, setRestoringProgress] = useState(true);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [focusedField, setFocusedField] = useState(null);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      e => {
+        setIsKeyboardVisible(true);
+        const h = e?.endCoordinates?.height || 300;
+        setKeyboardHeight(h);
+      },
+    );
+    const hideSub = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setIsKeyboardVisible(false);
+        setKeyboardHeight(0);
+        setFocusedField(null);
+      },
+    );
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  const handleInputFocus = (offset = null) => {
+    setFocusedField(offset);
+    setTimeout(() => {
+      if (typeof offset === 'number') {
+        mainScrollRef.current?.scrollTo({ y: offset, animated: true });
+      } else {
+        mainScrollRef.current?.scrollToEnd({ animated: true });
+      }
+    }, 120);
+  };
+
+  useEffect(() => {
+    if (keyboardHeight > 0 && focusedField) {
+      setTimeout(() => {
+        if (focusedField === 'email') {
+          mainScrollRef.current?.scrollToEnd({ animated: true });
+        } else if (typeof focusedField === 'number') {
+          mainScrollRef.current?.scrollTo({ y: focusedField, animated: true });
+        } else {
+          mainScrollRef.current?.scrollToEnd({ animated: true });
+        }
+      }, 100);
+    }
+  }, [keyboardHeight, focusedField]);
 
   useEffect(() => {
     mainScrollRef.current?.scrollTo({ y: 0, animated: false });
@@ -174,7 +242,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (cleanActiveName && !fullName) {
       setFullName(cleanActiveName);
     }
-  }, [authUser, route?.params?.mobile, route?.params?.name, profile?.mobile, profile?.name]);
+  }, [authUser, route?.params?.mobile, route?.params?.name, profile?.mobile, profile?.name, mobileNum, isMobileVerified, fullName]);
   const [email, setEmail] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [profilePhotoUri, setProfilePhotoUri] = useState(null);
@@ -450,6 +518,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     }
 
     restoreProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const insuranceExpiryInfo = useMemo(() => {
@@ -565,18 +634,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       });
     } catch (err) {
       console.warn('Gallery error:', err);
-    }
-  };
-
-  const handleHeaderBack = () => {
-    if (step > 1) {
-      setStep(prev => prev - 1);
-    } else {
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      } else {
-        navigation.navigate('SetupAccount');
-      }
     }
   };
 
@@ -967,6 +1024,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             placeholder="Rahul Mehta"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(50)}
           />
         </View>
         <Text style={styles.fieldSubtext}>As printed on your driving licence</Text>
@@ -980,6 +1038,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           fieldStyle={errors.dob && { borderColor: colors.red[500], borderWidth: 1.5 }}
           onPress={() => setDobPickerVisible(true)}
           hint="You must be 18 or older to drive on Cabora"
+          containerStyle={{ marginBottom: 0 }}
         />
       </View>
 
@@ -1018,6 +1077,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               keyboardType="phone-pad"
               maxLength={14}
               style={styles.mobileTextInputField}
+              onFocus={() => handleInputFocus(140)}
             />
 
             <TouchableOpacity
@@ -1074,6 +1134,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.textInput}
+            onFocus={() => handleInputFocus('email')}
+            onBlur={() => {
+              if (focusedField === 'email') setFocusedField(null);
+            }}
           />
         </View>
         <Text style={styles.fieldSubtext}>Optional — used for receipts and tax statements</Text>
@@ -1097,6 +1161,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             autoCapitalize="characters"
             maxLength={15}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(50)}
           />
         </View>
         <Text style={styles.fieldSubtext}>15 characters, no spaces — as printed on the card</Text>
@@ -1337,6 +1402,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             autoCapitalize="characters"
             maxLength={13}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(300)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Must match the RC exactly</Text>
@@ -1438,12 +1504,16 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           <TextInput
             value={policyNumber}
             onChangeText={text => {
-              setPolicyNumber(text);
-              if (text.trim()) clearError('policyNumber');
+              const formatted = formatInsurancePolicyNumber(text, policyNumber);
+              setPolicyNumber(formatted);
+              if (formatted.trim()) clearError('policyNumber');
             }}
             placeholder="OD-2026-4471-9920-3318"
             placeholderTextColor={colors.gray[400]}
+            autoCapitalize="characters"
+            maxLength={25}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(20)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Comprehensive or third-party, in the owner's name</Text>
@@ -1565,6 +1635,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             placeholder="Rahul Mehta"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(50)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Exactly as it appears in your bank records</Text>
@@ -1582,6 +1653,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             placeholder="•••• •••• 4417"
             placeholderTextColor={colors.gray[400]}
             style={styles.textInput}
+            onFocus={() => handleInputFocus(130)}
           />
         </View>
         <Text style={styles.fieldSubtext}>Re-checked with a ₹1 test transfer</Text>
@@ -1602,6 +1674,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             autoCapitalize="characters"
             maxLength={11}
             style={styles.textInput}
+            onFocus={() => handleInputFocus()}
           />
           {isIfscValid && <AntDesign name="check-circle" size={18} color="#16A34A" />}
         </View>
@@ -1754,23 +1827,14 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
 
       <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-          onPress={handleHeaderBack}
-          style={styles.headerBtn}>
-          <Feather name="arrow-left" size={22} color={colors.text} />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>
           {step === 6 ? 'Review and submit' : 'Driver registration'}
         </Text>
-        <View style={styles.headerBtn} />
       </View>
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? Math.max(insets.top, 16) + 54 : 0}>
         {step <= 5 ? (
           <View style={styles.progressSection}>
@@ -1802,7 +1866,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
         <ScrollView
           ref={mainScrollRef}
-          contentContainerStyle={[styles.scroll, { paddingBottom: 36 }]}
+          bounces={false}
+          alwaysBounceVertical={false}
+          overScrollMode="never"
+          contentContainerStyle={[
+            styles.scroll,
+            { paddingBottom: keyboardHeight > 0 ? keyboardHeight + 80 : 36 },
+          ]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag">
@@ -1814,26 +1884,28 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           {step === 6 && renderStep6Review()}
         </ScrollView>
 
-        <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-          {step > 1 && step <= 5 && (
+        {!isKeyboardVisible && (
+          <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+            {step > 1 && step <= 5 && (
+              <Button
+                title="Back"
+                variant="outline"
+                fullWidth={false}
+                style={styles.btnBack}
+                onPress={handlePrevStep}
+              />
+            )}
             <Button
-              title="Back"
-              variant="outline"
+              title={step === 6 ? 'Submit for verification' : currentStepData.btnLabel}
+              variant="primary"
               fullWidth={false}
-              style={styles.btnBack}
-              onPress={handlePrevStep}
+              loading={loading}
+              disabled={loading || (step === 6 && !termsConfirmed)}
+              style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
+              onPress={handleNextStep}
             />
-          )}
-          <Button
-            title={step === 6 ? 'Submit for verification' : currentStepData.btnLabel}
-            variant="primary"
-            fullWidth={false}
-            loading={loading}
-            disabled={loading || (step === 6 && !termsConfirmed)}
-            style={step > 1 && step <= 5 ? styles.btnNext : styles.btnNextFull}
-            onPress={handleNextStep}
-          />
-        </View>
+          </View>
+        )}
       </KeyboardAvoidingView>
 
       <DatePickerModal
