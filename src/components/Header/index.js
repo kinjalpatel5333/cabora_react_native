@@ -63,6 +63,7 @@ export default function Header({
           accessibilityRole="button"
           accessibilityLabel="Go back"
           onPress={handleBack}
+          hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           style={styles.iconBtn}>
           <Feather name="arrow-left" size={22} color={colors.text} />
         </TouchableOpacity>
@@ -76,6 +77,7 @@ export default function Header({
           accessibilityLabel="Open menu"
           hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           onPress={handleMenu}
+          hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           style={styles.iconBtn}>
           <Feather name="menu" size={22} color={colors.text} />
         </TouchableOpacity>

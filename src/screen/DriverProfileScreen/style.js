@@ -145,6 +145,7 @@ export default function createStyles(colors) {
       alignItems: 'center',
       gap: 12,
       flex: 1,
+      marginRight: 8,
     },
     vehicleIconBox: {
       width: 44,
@@ -172,6 +173,7 @@ export default function createStyles(colors) {
       borderRadius: 8,
       paddingHorizontal: 10,
       paddingVertical: 6,
+      flexShrink: 0,
     },
     plateText: {
       fontFamily: colors.fonts.sora.extraBold,
