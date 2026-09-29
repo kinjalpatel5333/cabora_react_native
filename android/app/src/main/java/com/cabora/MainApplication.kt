@@ -1,6 +1,8 @@
 package com.cabora
 
 import android.app.Application
+import android.content.Context
+import android.content.res.Configuration
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
@@ -8,6 +10,18 @@ import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 
 class MainApplication : Application(), ReactApplication {
+
+  override fun attachBaseContext(base: Context) {
+    val config = Configuration(base.resources.configuration)
+    config.fontScale = 1.0f
+    val context = base.createConfigurationContext(config)
+    super.attachBaseContext(context)
+  }
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    newConfig.fontScale = 1.0f
+    super.onConfigurationChanged(newConfig)
+  }
 
   override val reactHost: ReactHost by lazy {
     getDefaultReactHost(

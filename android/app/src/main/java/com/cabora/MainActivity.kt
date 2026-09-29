@@ -1,5 +1,7 @@
 package com.cabora
 
+import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.WindowManager
@@ -11,6 +13,25 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnable
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
 class MainActivity : ReactActivity() {
+
+  override fun attachBaseContext(newBase: Context) {
+    val config = Configuration(newBase.resources.configuration)
+    config.fontScale = 1.0f
+    val context = newBase.createConfigurationContext(config)
+    super.attachBaseContext(context)
+  }
+
+  override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+    if (overrideConfiguration != null) {
+      overrideConfiguration.fontScale = 1.0f
+    }
+    super.applyOverrideConfiguration(overrideConfiguration)
+  }
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    newConfig.fontScale = 1.0f
+    super.onConfigurationChanged(newConfig)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
