@@ -1816,7 +1816,8 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             fontFamily: colors.fonts.sora.medium,
             color: colors.textSecondary,
           }}>
-          Restoring registration status...
+
+          Loading...
         </Text>
       </View>
     );
