@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -252,13 +252,10 @@ export default function UploadDocumentsScreen({ navigation }) {
             : bankInfo.status === 'rejected'
               ? 'Bank details unreadable'
               : payout?.bankAccountNumber || bankInfo.fileUrl
-                ? `Pending approval from bank · A/C ${payout?.bankAccountNumber || 'Submitted'}`
+                ? `Submitted · A/C ${payout?.bankAccountNumber || 'Verified'}`
                 : 'Add your passbook or cheque',
         status: bankInfo.status,
-        statusLabel:
-          bankInfo.status === 'pending' && (payout?.bankAccountNumber || bankInfo.fileUrl)
-            ? 'Pending approval'
-            : bankInfo.statusLabel,
+        statusLabel: 'Pending',
         icon: 'credit-card',
         fileUrl: bankInfo.fileUrl,
         fileName: 'bank_passbook.jpg',
@@ -585,18 +582,24 @@ export default function UploadDocumentsScreen({ navigation }) {
         transparent
         animationType="fade"
         onRequestClose={() => setShowStatusModal(false)}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => setShowStatusModal(false)}
+          style={styles.modalOverlay}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {}}
+            style={styles.modalCard}>
             <View
               style={[
-                styles.modalBadge,
+                styles.modalBadgeIcon,
                 isApprovedAll || approvedCount === 5
                   ? { backgroundColor: '#DCFCE7' }
                   : { backgroundColor: '#FEF3C7' },
               ]}>
               <Feather
                 name={isApprovedAll || approvedCount === 5 ? 'check-circle' : 'clock'}
-                size={36}
+                size={32}
                 color={
                   isApprovedAll || approvedCount === 5
                     ? colors.green[600]
@@ -635,8 +638,8 @@ export default function UploadDocumentsScreen({ navigation }) {
                   : 'Got it'}
               </Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
 
       {/* Document Image Preview Modal */}
@@ -651,7 +654,7 @@ export default function UploadDocumentsScreen({ navigation }) {
           style={styles.previewOverlay}>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => {}}
+            onPress={() => { }}
             style={styles.previewCard}>
             {/* Modal Header */}
             <View style={styles.previewHeader}>

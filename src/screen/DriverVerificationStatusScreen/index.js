@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Linking,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@react-native-vector-icons/ant-design/static';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,7 +21,8 @@ import {
   DRIVER_REJECTION_ITEMS as REJECTION_ITEMS,
 } from '../../config/staticData';
 import { Button, Header } from '../../components';
-import { getOnboardingStatusApi } from '../../services/driverApi';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
 
 const SUPPORT_URL = 'mailto:support@cabora.app';
 
@@ -29,53 +31,139 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
   const { colors } = useApp();
   const styles = useThemedStyles(createStyles);
   const { showToast } = useToast();
+  const dispatch = useAppDispatch();
+
+  const driverKycData = useAppSelector(state => state?.driver?.kycData);
+  const authUser = useAppSelector(state => state?.auth?.user);
+  const kycData = driverKycData || authUser?.driver || authUser;
 
   // Mode: 'in_progress' | 'rejected'
   const [statusMode, setStatusMode] = useState(route?.params?.mode || 'in_progress');
-  const [onboardingData, setOnboardingData] = useState(null);
-  const [timelineItems, setTimelineItems] = useState(TIMELINE);
-  const [checkingList, setCheckingList] = useState(CHECKING_ITEMS);
-  const [rejectionList, setRejectionList] = useState(REJECTION_ITEMS);
-  const [submittedDateStr, setSubmittedDateStr] = useState('Submitted 19 Sep 2026, 2:14 pm');
 
   const FIFTEEN_MINUTES_SEC = 15 * 60; // 15 minutes = 900 seconds
   const [redirectSeconds, setRedirectSeconds] = useState(FIFTEEN_MINUTES_SEC);
 
-  useEffect(() => {
-    async function fetchStatus() {
-      try {
-        const res = await getOnboardingStatusApi();
-        const payload = res?.data || res;
-        if (payload) {
-          setOnboardingData(payload);
-          const rawStatus = (payload.status || payload.onboardingStatus || '').toLowerCase();
-          if (rawStatus === 'rejected') {
-            setStatusMode('rejected');
-          } else if (rawStatus === 'approved') {
-            navigation.navigate('DriverTabs');
-          } else if (rawStatus === 'under_review' || rawStatus === 'in_progress' || rawStatus === 'pending') {
-            setStatusMode('in_progress');
-          }
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchDriverKycStatus()).catch(() => { });
+    }, [dispatch]),
+  );
 
-          if (payload.submittedAt) {
-            setSubmittedDateStr(`Submitted ${payload.submittedAt}`);
-          }
-          if (Array.isArray(payload.timeline) && payload.timeline.length > 0) {
-            setTimelineItems(payload.timeline);
-          }
-          if (Array.isArray(payload.checkingItems) && payload.checkingItems.length > 0) {
-            setCheckingList(payload.checkingItems);
-          }
-          if (Array.isArray(payload.rejectionItems) && payload.rejectionItems.length > 0) {
-            setRejectionList(payload.rejectionItems);
-          }
-        }
-      } catch (err) {
-        console.log('Onboarding status fetch offline:', err);
-      }
+  // Platform & KYC Status parsing
+  const platform = kycData?.platform || {};
+  const rawKycStatus = String(
+    platform.kycStatus || platform.onboardingStatus || kycData?.status || '',
+  ).toUpperCase();
+
+  const isApproved = rawKycStatus === 'APPROVED' || rawKycStatus === 'VERIFIED';
+  const isRejected = rawKycStatus === 'REJECTED' || rawKycStatus === 'FAILED';
+
+  useEffect(() => {
+    if (isApproved) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'DriverTabs' }],
+      });
+    } else if (isRejected) {
+      setStatusMode('rejected');
+    } else {
+      setStatusMode('in_progress');
     }
-    fetchStatus();
-  }, [navigation]);
+  }, [isApproved, isRejected, navigation]);
+
+  // Dynamic Timeline Items based on KYC Data
+  const timelineItems = useMemo(() => {
+    const completedCount = kycData?.completedStepsCount || 0;
+    const isSubmitted = completedCount > 0;
+
+    return [
+      {
+        id: '1',
+        title: 'Application submitted',
+        time: isSubmitted ? 'Submitted' : 'Pending',
+        status: isSubmitted ? 'done' : 'active',
+      },
+      {
+        id: '2',
+        title: 'Document authenticity',
+        time: isApproved ? 'Verified' : 'In review',
+        status: isApproved ? 'done' : 'active',
+      },
+      {
+        id: '3',
+        title: 'Vehicle and RC match',
+        time: isApproved ? 'Verified' : completedCount >= 3 ? 'In review' : 'Queued',
+        status: isApproved ? 'done' : completedCount >= 3 ? 'active' : 'pending',
+      },
+      {
+        id: '4',
+        title: 'Final approval',
+        time: isApproved ? 'Approved' : 'Queued',
+        status: isApproved ? 'done' : 'pending',
+      },
+    ];
+  }, [kycData, isApproved]);
+
+  // Dynamic Checking Items based on KYC Data
+  const checkingList = useMemo(() => {
+    const personalDone = Boolean(kycData?.personal?.isCompleted);
+    const dlDone = Boolean(kycData?.drivingLicence?.isCompleted);
+    const vehicleDone = Boolean(kycData?.vehicle?.isCompleted);
+    const insuranceDone = Boolean(kycData?.insurance?.isCompleted);
+    const payoutDone = Boolean(kycData?.payout?.isCompleted);
+
+    return [
+      {
+        id: 'personal',
+        title: 'Personal details',
+        status: personalDone ? 'verified' : 'checking',
+        pill: personalDone ? 'Verified' : 'Pending',
+      },
+      {
+        id: 'dl',
+        title: 'Driving licence',
+        status: dlDone ? 'verified' : 'checking',
+        pill: dlDone ? 'Verified' : 'Pending',
+      },
+      {
+        id: 'vehicle',
+        title: 'Vehicle & RC details',
+        status: vehicleDone ? 'verified' : 'checking',
+        pill: vehicleDone ? 'Verified' : 'Pending',
+      },
+      {
+        id: 'insurance',
+        title: 'Insurance policy',
+        status: insuranceDone ? 'verified' : 'checking',
+        pill: insuranceDone ? 'Verified' : 'Pending',
+      },
+      {
+        id: 'payout',
+        title: 'Bank & payout details',
+        status: payoutDone ? 'checking' : 'pending',
+        pill: 'Pending',
+      },
+    ];
+  }, [kycData]);
+
+  // Rejection Items parsing if any documents are rejected
+  const rejectionList = useMemo(() => {
+    const docs = Array.isArray(kycData?.documents) ? kycData.documents : [];
+    const rejectedDocs = docs.filter(
+      d => d?.status?.toUpperCase() === 'REJECTED' || d?.status?.toUpperCase() === 'FAILED',
+    );
+
+    if (rejectedDocs.length > 0) {
+      return rejectedDocs.map(d => ({
+        id: d.documentType,
+        title: String(d.documentType).replace('_', ' '),
+        reason: platform.rejectionReason || 'Document unreadable or invalid.',
+        btnLabel: 'Re-upload',
+      }));
+    }
+
+    return REJECTION_ITEMS;
+  }, [kycData, platform]);
 
   // 15-Minute Countdown Timer to auto-redirect to Driver Home (DriverTabs)
   useEffect(() => {
@@ -124,11 +212,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
     });
   };
 
-  const handleFixItem = item => {
-    navigation.navigate('UploadDocuments');
-  };
-
-  const handleFixAndResubmit = () => {
+  const handleFixItem = () => {
     navigation.navigate('UploadDocuments');
   };
 
@@ -142,7 +226,9 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.statusTitleProgress}>Verification in progress</Text>
-            <Text style={styles.statusSubtextProgress}>{submittedDateStr}</Text>
+            <Text style={styles.statusSubtextProgress}>
+              Submitted & awaiting verification
+            </Text>
           </View>
         </View>
 
@@ -153,7 +239,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
             <Text style={styles.pillLabel}>KYC status</Text>
             <View style={styles.pillValueReview}>
               <Text style={styles.pillValueReviewText}>
-                {onboardingData?.kycStatus || 'Under review'}
+                {platform?.kycStatus || kycData?.status || 'Under review'}
               </Text>
             </View>
           </View>
@@ -161,7 +247,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
             <Text style={styles.pillLabel}>Account status</Text>
             <View style={styles.pillValueGray}>
               <Text style={styles.pillValueGrayText}>
-                {onboardingData?.accountStatus || 'Pending activation'}
+                {platform?.accountStatus === 'ACTIVE' ? 'Active' : 'Pending activation'}
               </Text>
             </View>
           </View>
@@ -295,7 +381,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
       <View style={styles.infoCard}>
         <Feather name="bell" size={18} color="#64748B" style={{ marginRight: 12, marginTop: 1 }} />
         <Text style={styles.infoCardText}>
-          You do not need to wait here. We send a push and an SMS the moment your account is approved.
+          You do not need to wait here. We send a push notification the moment your account is approved.
         </Text>
       </View>
     </View>
@@ -314,7 +400,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
           <View style={{ flex: 1 }}>
             <Text style={styles.statusTitleRejected}>Verification rejected</Text>
             <Text style={styles.statusSubtextRejected}>
-              {onboardingData?.reviewedAt ? `Reviewed by Admin · ${onboardingData.reviewedAt}` : 'Reviewed by Admin · 19 Sep, 6:40 pm'}
+              Reviewed by Admin
             </Text>
           </View>
         </View>
@@ -351,7 +437,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
               <TouchableOpacity
                 activeOpacity={0.7}
                 accessibilityRole="button"
-                onPress={() => handleFixItem(item)}
+                onPress={handleFixItem}
                 style={styles.fixBtn}>
                 <Text style={styles.fixBtnText}>{item.btnLabel}</Text>
               </TouchableOpacity>
@@ -366,112 +452,38 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
         <View style={{ flex: 1 }}>
           <Text style={styles.everythingElseTitle}>Everything else was accepted</Text>
           <Text style={styles.everythingElseText}>
-            Personal details, licence front, vehicle, insurance and payout are all verified — you only need to replace the two items above.
+            Personal details, licence front, vehicle, insurance and payout are verified — you only need to review the items above.
           </Text>
         </View>
-      </View>
-
-      {/* What Happens Next Card */}
-      <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>WHAT HAPPENS NEXT</Text>
-        <View style={styles.nextStepsList}>
-          <View style={styles.nextStepRow}>
-            <Feather name="refresh-cw" size={16} color={colors.gray[600]} />
-            <Text style={styles.nextStepText}>Replace the two items and resubmit</Text>
-          </View>
-          <View style={styles.nextStepRow}>
-            <Feather name="eye" size={16} color={colors.gray[600]} />
-            <Text style={styles.nextStepText}>A reviewer looks at it again within 4 hours</Text>
-          </View>
-          <View style={styles.nextStepRow}>
-            <Feather name="check" size={16} color={colors.gray[600]} />
-            <Text style={styles.nextStepText}>Your dashboard unlocks the moment it clears</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Appeal Option */}
-      <View style={styles.appealBox}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Feather name="message-square" size={18} color={colors.gray[500]} style={{ marginRight: 10 }} />
-          <Text style={styles.appealText}>Think this is a mistake?</Text>
-        </View>
-        <TouchableOpacity activeOpacity={0.7} onPress={() => showToast({ type: 'info', message: 'Appeal request submitted to admin' })}>
-          <Text style={styles.appealBtnText}>Appeal</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
 
   return (
     <View style={styles.root}>
-      {/* Reusable Header Component */}
       <Header
         title="Verification status"
         showBack
-        showSupport
         onBackPress={handleBack}
-        onSupportPress={handleContactSupport}
+        rightIcon="headphone"
+        onRightIconPress={handleContactSupport}
       />
 
-      {/* Status Mode Toggle Bar (For testing in-progress vs rejected states) */}
-      {/* <View style={{ paddingHorizontal: 20, paddingTop: 14 }}>
-        <View style={styles.toggleBar}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => setStatusMode('in_progress')}
-            style={[styles.toggleTab, statusMode === 'in_progress' && styles.toggleTabActive]}>
-            <Text style={[styles.toggleTabText, statusMode === 'in_progress' && styles.toggleTabTextActive]}>
-              Under review
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => setStatusMode('rejected')}
-            style={[styles.toggleTab, statusMode === 'rejected' && styles.toggleTabActive]}>
-            <Text style={[styles.toggleTabText, statusMode === 'rejected' && styles.toggleTabTextActive]}>
-              Needs fixing
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View> */}
-
-      {/* Body Scroll View */}
       <ScrollView
         contentContainerStyle={[
           styles.scroll,
-          { paddingBottom: Math.max(insets.bottom, 12) + 80 },
+          { paddingBottom: Math.max(insets.bottom, 16) + 100 },
         ]}
         showsVerticalScrollIndicator={false}>
-        {statusMode === 'in_progress' ? renderInProgress() : renderRejected()}
+        {statusMode === 'rejected' ? renderRejected() : renderInProgress()}
       </ScrollView>
 
-      {/* Footer Navigation Bar */}
-      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-        {statusMode === 'in_progress' ? (
-          <Button
-            title="Contact support"
-            variant="outline"
-            onPress={handleContactSupport}
-          />
-        ) : (
-          <View style={styles.footerTwoBtns}>
-            <Button
-              title="Back"
-              variant="outline"
-              fullWidth={false}
-              style={styles.btnBack}
-              onPress={handleBack}
-            />
-            <Button
-              title="Fix and resubmit"
-              variant="primary"
-              fullWidth={false}
-              style={styles.btnFixSubmit}
-              onPress={handleFixAndResubmit}
-            />
-          </View>
-        )}
+      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 14) }]}>
+        <Button
+          title="Contact support"
+          variant="outline"
+          onPress={handleContactSupport}
+        />
       </View>
     </View>
   );
