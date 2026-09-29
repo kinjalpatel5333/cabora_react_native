@@ -79,7 +79,12 @@ const Input = forwardRef(function Input(
       onPress={isPressable ? handleFieldPress : undefined}
       style={[styles.wrap, containerStyle]}>
       {label ? (
-        <Text style={[styles.label, disabled && styles.labelDisabled]}>
+        <Text
+          style={[
+            styles.label,
+            disabled && styles.labelDisabled,
+            hasError && !disabled && { color: colors.danger || colors.red[500] || '#EF4444' },
+          ]}>
           {label}
         </Text>
       ) : null}

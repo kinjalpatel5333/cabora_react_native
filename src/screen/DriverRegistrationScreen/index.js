@@ -641,26 +641,31 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 1) {
       const stepErrors = {};
       if (!profilePhotoUri && !hasPhoto) {
-        stepErrors.profilePhoto = true;
+        stepErrors.profilePhoto = 'Profile photo is required';
       }
-      if (!fullName.trim() || fullName.trim().length < 3) {
-        stepErrors.fullName = true;
+      if (!fullName.trim()) {
+        stepErrors.fullName = 'Full name is required';
+      } else if (fullName.trim().length < 3) {
+        stepErrors.fullName = 'Please enter your complete full name (min 3 letters)';
       }
       if (!dob || dob.trim().length < 6) {
-        stepErrors.dob = true;
+        stepErrors.dob = 'Date of birth is required';
       } else {
         const birthDate = parseDateString(dob);
         const today = new Date();
         const age = calculateAge(dob);
         if (birthDate > today || age < 18) {
-          stepErrors.dob = true;
+          stepErrors.dob = 'You must be 18 years or older to register as a driver';
         }
       }
       if (!mobileNum.trim() || mobileNum.replace(/\s+/g, '').length < 10) {
-        stepErrors.mobileNum = true;
+        stepErrors.mobileNum = '10-digit mobile number is required';
       }
-      if (email && email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-        stepErrors.email = true;
+      const emailTrimmed = email ? email.trim() : '';
+      if (!emailTrimmed) {
+        stepErrors.email = 'Email address is required';
+      } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailTrimmed)) {
+        stepErrors.email = 'Please enter a valid email address (e.g. name@example.com)';
       }
       if (Object.keys(stepErrors).length > 0) {
         setErrors(prev => ({ ...prev, ...stepErrors }));
@@ -672,14 +677,16 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 2) {
       const stepErrors = {};
       const cleanDl = dlNumber.replace(/\s+/g, '').toUpperCase();
-      if (!cleanDl || cleanDl.length !== 15 || !/^[A-Z0-9]{15}$/.test(cleanDl)) {
-        stepErrors.dlNumber = true;
+      if (!cleanDl) {
+        stepErrors.dlNumber = 'Driving licence number is required';
+      } else if (cleanDl.length !== 15 || !/^[A-Z0-9]{15}$/.test(cleanDl)) {
+        stepErrors.dlNumber = 'Please enter a valid 15-character driving licence number';
       }
       if (!dlFrontUri && dlFrontStatus !== 'verified') {
-        stepErrors.dlFront = true;
+        stepErrors.dlFront = 'Front photo of driving licence is required';
       }
       if (!dlBackUri && dlBackStatus !== 'verified') {
-        stepErrors.dlBack = true;
+        stepErrors.dlBack = 'Back photo of driving licence is required';
       }
       if (Object.keys(stepErrors).length > 0) {
         setErrors(prev => ({ ...prev, ...stepErrors }));
@@ -691,16 +698,16 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 3) {
       const stepErrors = {};
       if (!selectedVehicle) {
-        stepErrors.selectedVehicle = true;
+        stepErrors.selectedVehicle = 'Please select a vehicle type';
       }
       if (!regNumber.trim() || regNumber.trim().length < 5) {
-        stepErrors.regNumber = true;
+        stepErrors.regNumber = 'Vehicle registration number is required (e.g. GJ 01 AB 1234)';
       }
       if (!plateUri && plateDocStatus !== 'uploaded') {
-        stepErrors.plateUri = true;
+        stepErrors.plateUri = 'Number plate photo is required';
       }
       if (!rcUri && rcDocStatus !== 'uploaded') {
-        stepErrors.rcUri = true;
+        stepErrors.rcUri = 'RC document photo is required';
       }
       if (Object.keys(stepErrors).length > 0) {
         setErrors(prev => ({ ...prev, ...stepErrors }));
@@ -712,13 +719,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 4) {
       const stepErrors = {};
       if (!policyNumber.trim() || policyNumber.trim().length < 5) {
-        stepErrors.policyNumber = true;
+        stepErrors.policyNumber = 'Insurance policy number is required';
       }
       if (!insuranceExpiry || insuranceExpiry.trim().length < 6 || !insuranceExpiryInfo.isValid) {
-        stepErrors.insuranceExpiry = true;
+        stepErrors.insuranceExpiry = 'Valid unexpired insurance expiry date is required';
       }
       if (!insuranceUri && insuranceDocStatus !== 'uploaded') {
-        stepErrors.insuranceUri = true;
+        stepErrors.insuranceUri = 'Insurance document photo is required';
       }
       if (Object.keys(stepErrors).length > 0) {
         setErrors(prev => ({ ...prev, ...stepErrors }));
@@ -730,13 +737,15 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 5) {
       const stepErrors = {};
       if (!accountHolder.trim()) {
-        stepErrors.accountHolder = true;
+        stepErrors.accountHolder = 'Account holder name is required';
       }
       if (!accountNumber.trim() || accountNumber.replace(/[\s•]/g, '').length < 4) {
-        stepErrors.accountNumber = true;
+        stepErrors.accountNumber = 'Bank account number is required';
       }
-      if (!ifscCode.trim() || ifscCode.trim().length < 4) {
-        stepErrors.ifscCode = true;
+      if (!ifscCode.trim()) {
+        stepErrors.ifscCode = 'IFSC code is required';
+      } else if (!isIfscValid) {
+        stepErrors.ifscCode = 'Please enter a valid 11-character IFSC code (e.g. HDFC0000342)';
       }
       if (Object.keys(stepErrors).length > 0) {
         setErrors(prev => ({ ...prev, ...stepErrors }));
@@ -992,7 +1001,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           )}
         </View>
         <View style={styles.avatarTextWrap}>
-          <Text style={styles.avatarTitle}>Profile photo *</Text>
+          <Text style={[styles.avatarTitle, errors.profilePhoto && { color: colors.red[500] || '#EF4444' }]}>Profile photo *</Text>
           <Text style={styles.avatarSub}>Face forward, no cap or sunglasses</Text>
         </View>
         <TouchableOpacity
@@ -1011,9 +1020,14 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
+      {errors.profilePhoto ? (
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+          {errors.profilePhoto}
+        </Text>
+      ) : null}
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Full name *</Text>
+        <Text style={[styles.fieldLabel, errors.fullName && { color: colors.red[500] || '#EF4444' }]}>Full name *</Text>
         <View style={[styles.inputWrap, errors.fullName && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={fullName}
@@ -1027,7 +1041,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(50)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>As printed on your driving licence</Text>
+        {errors.fullName ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.fullName}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>As printed on your driving licence</Text>
+        )}
       </View>
 
       <View style={styles.fieldGroup}>
@@ -1035,16 +1055,17 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           label="Date of birth *"
           value={dob}
           placeholder="DD / MM / YYYY"
+          error={errors.dob}
           fieldStyle={errors.dob && { borderColor: colors.red[500], borderWidth: 1.5 }}
           onPress={() => setDobPickerVisible(true)}
-          hint="You must be 18 or older to drive on Cabora"
+          hint={errors.dob ? undefined : "You must be 18 or older to drive on Cabora"}
           containerStyle={{ marginBottom: 0 }}
         />
       </View>
 
       {!isMobileVerified ? (
         <View style={styles.fieldGroup}>
-          <Text style={styles.fieldLabel}>Mobile number *</Text>
+          <Text style={[styles.fieldLabel, errors.mobileNum && { color: colors.red[500] || '#EF4444' }]}>Mobile number *</Text>
           <View style={[styles.mobileInputRow, errors.mobileNum && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
             <TouchableOpacity
               activeOpacity={0.7}
@@ -1103,7 +1124,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               <Text style={styles.verifyActionBtnText}>Verify</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.fieldSubtext}>We send an OTP to verify mobile ownership</Text>
+          {errors.mobileNum ? (
+            <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+              {errors.mobileNum}
+            </Text>
+          ) : (
+            <Text style={styles.fieldSubtext}>We send an OTP to verify mobile ownership</Text>
+          )}
         </View>
       ) : (
         <View style={styles.verifiedMobileCard}>
@@ -1121,7 +1148,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       )}
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Email</Text>
+        <Text style={[styles.fieldLabel, errors.email && { color: colors.red[500] || '#EF4444' }]}>Email *</Text>
         <View style={[styles.inputWrap, errors.email && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={email}
@@ -1140,7 +1167,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             }}
           />
         </View>
-        <Text style={styles.fieldSubtext}>Optional — used for receipts and tax statements</Text>
+        {errors.email ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.email}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>Optional — used for receipts and tax statements</Text>
+        )}
       </View>
     </View>
   );
@@ -1148,7 +1181,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const renderStep2 = () => (
     <View>
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Driving licence number *</Text>
+        <Text style={[styles.fieldLabel, errors.dlNumber && { color: colors.red[500] || '#EF4444' }]}>Driving licence number *</Text>
         <View style={[styles.inputWrap, errors.dlNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={dlNumber}
@@ -1164,7 +1197,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(50)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>15 characters, no spaces — as printed on the card</Text>
+        {errors.dlNumber ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.dlNumber}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>15 characters, no spaces — as printed on the card</Text>
+        )}
       </View>
       <View style={styles.twoColGrid}>
         <View style={[styles.docUploadBox, dlFrontUri && styles.docUploadBoxVerified, errors.dlFront && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
@@ -1182,7 +1221,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               </View>
             )}
           </View>
-          <Text style={styles.docTitle}>DL front *</Text>
+          <Text style={[styles.docTitle, errors.dlFront && { color: colors.red[500] || '#EF4444' }]}>DL front *</Text>
           <View style={styles.docActionRow}>
             {dlFrontUri ? (
               <View style={styles.statusPillVerified}>
@@ -1247,7 +1286,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               </View>
             )}
           </View>
-          <Text style={styles.docTitle}>DL back *</Text>
+          <Text style={[styles.docTitle, errors.dlBack && { color: colors.red[500] || '#EF4444' }]}>DL back *</Text>
           <View style={styles.docActionRow}>
             {dlBackUri || dlBackStatus === 'verified' ? (
               <View style={styles.statusPillVerified}>
@@ -1306,8 +1345,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </View>
       )}
 
-
-
       <View style={styles.checklistCard}>
         <Text style={styles.checklistHeader}>WHAT WE CHECK</Text>
         {CHECKLIST.map(item => {
@@ -1335,7 +1372,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   const renderStep3 = () => (
     <View>
-      <Text style={styles.fieldLabel}>Vehicle type *</Text>
+      <Text style={[styles.fieldLabel, errors.selectedVehicle && { color: colors.red[500] || '#EF4444' }]}>Vehicle type *</Text>
       <View style={[styles.vehicleGrid, errors.selectedVehicle && { borderColor: colors.red[500], borderWidth: 1.5, borderRadius: 16, padding: 4 }]}>
         {VEHICLE_TYPES.map(vt => {
           const active = selectedVehicle === vt.id;
@@ -1388,7 +1425,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Vehicle registration number *</Text>
+        <Text style={[styles.fieldLabel, errors.regNumber && { color: colors.red[500] || '#EF4444' }]}>Vehicle registration number *</Text>
         <View style={[styles.inputWrap, errors.regNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={regNumber}
@@ -1405,7 +1442,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(300)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>Must match the RC exactly</Text>
+        {errors.regNumber ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.regNumber}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>Must match the RC exactly</Text>
+        )}
       </View>
 
       <View style={[styles.docRowCard, (plateUri || plateDocStatus === 'uploaded') && styles.docRowCardVerified, errors.plateUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
@@ -1422,7 +1465,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           )}
         </View>
         <View style={styles.docRowCopy}>
-          <Text style={styles.docRowTitle}>Vehicle number plate *</Text>
+          <Text style={[styles.docRowTitle, errors.plateUri && { color: colors.red[500] || '#EF4444' }]}>Vehicle number plate *</Text>
           <Text style={styles.docRowMeta}>Photo of the rear plate, fully readable</Text>
           <View style={styles.docRowFooter}>
             {plateUri || plateDocStatus === 'uploaded' ? (
@@ -1451,6 +1494,11 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           </View>
         </View>
       </View>
+      {errors.plateUri ? (
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+          {errors.plateUri}
+        </Text>
+      ) : null}
 
       <View style={[styles.docRowCard, (rcUri || rcDocStatus === 'uploaded') && styles.docRowCardVerified, errors.rcUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
         <View style={styles.docRowThumb}>
@@ -1464,7 +1512,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           )}
         </View>
         <View style={styles.docRowCopy}>
-          <Text style={styles.docRowTitle}>RC document *</Text>
+          <Text style={[styles.docRowTitle, errors.rcUri && { color: colors.red[500] || '#EF4444' }]}>RC document *</Text>
           <Text style={styles.docRowMeta}>Registration certificate, front page</Text>
           <View style={styles.docRowFooter}>
             {rcUri || rcDocStatus === 'uploaded' ? (
@@ -1493,13 +1541,18 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           </View>
         </View>
       </View>
+      {errors.rcUri ? (
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+          {errors.rcUri}
+        </Text>
+      ) : null}
     </View>
   );
 
   const renderStep4 = () => (
     <View>
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Insurance policy number *</Text>
+        <Text style={[styles.fieldLabel, errors.policyNumber && { color: colors.red[500] || '#EF4444' }]}>Insurance policy number *</Text>
         <View style={[styles.inputWrap, errors.policyNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={policyNumber}
@@ -1516,7 +1569,13 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(20)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>Comprehensive or third-party, in the owner's name</Text>
+        {errors.policyNumber ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.policyNumber}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>Comprehensive or third-party, in the owner's name</Text>
+        )}
       </View>
 
       <View style={[styles.docRowCard, (insuranceUri || insuranceDocStatus === 'uploaded') && styles.docRowCardVerified, errors.insuranceUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
@@ -1537,7 +1596,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           )}
         </View>
         <View style={styles.docRowCopy}>
-          <Text style={styles.docRowTitle}>Insurance document *</Text>
+          <Text style={[styles.docRowTitle, errors.insuranceUri && { color: colors.red[500] || '#EF4444' }]}>Insurance document *</Text>
           <Text style={styles.docRowMeta}>
             {insuranceUri || insuranceDocStatus === 'uploaded'
               ? 'policy_od_2026.pdf · 1.8 MB'
@@ -1583,6 +1642,11 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           </View>
         </View>
       </View>
+      {errors.insuranceUri ? (
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+          {errors.insuranceUri}
+        </Text>
+      ) : null}
 
       <View style={styles.fieldGroup}>
         <DatePickerInput
@@ -1591,9 +1655,10 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           placeholder="DD / MM / YYYY"
           fieldStyle={errors.insuranceExpiry && { borderColor: colors.red[500], borderWidth: 1.5 }}
           error={
-            insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
+            errors.insuranceExpiry ||
+            (insuranceExpiryInfo.isSet && !insuranceExpiryInfo.isValid
               ? 'Policy has expired. Please select a valid future expiry date.'
-              : undefined
+              : undefined)
           }
           onPress={() => setInsurancePickerVisible(true)}
           success={
@@ -1624,7 +1689,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const renderStep5 = () => (
     <View>
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Account holder name *</Text>
+        <Text style={[styles.fieldLabel, errors.accountHolder && { color: colors.red[500] || '#EF4444' }]}>Account holder name *</Text>
         <View style={[styles.inputWrap, errors.accountHolder && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={accountHolder}
@@ -1638,11 +1703,17 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(50)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>Exactly as it appears in your bank records</Text>
+        {errors.accountHolder ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.accountHolder}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>Exactly as it appears in your bank records</Text>
+        )}
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>Bank account number *</Text>
+        <Text style={[styles.fieldLabel, errors.accountNumber && { color: colors.red[500] || '#EF4444' }]}>Bank account number *</Text>
         <View style={[styles.inputWrap, errors.accountNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={accountNumber}
@@ -1656,11 +1727,17 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onFocus={() => handleInputFocus(130)}
           />
         </View>
-        <Text style={styles.fieldSubtext}>Re-checked with a ₹1 test transfer</Text>
+        {errors.accountNumber ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.accountNumber}
+          </Text>
+        ) : (
+          <Text style={styles.fieldSubtext}>Re-checked with a ₹1 test transfer</Text>
+        )}
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>IFSC code *</Text>
+        <Text style={[styles.fieldLabel, errors.ifscCode && { color: colors.red[500] || '#EF4444' }]}>IFSC code *</Text>
         <View style={[styles.inputWrap, isIfscValid && styles.inputWrapSuccess, errors.ifscCode && { borderColor: colors.red[500], borderWidth: 1.5 }, { gap: 10 }]}>
           <TextInput
             value={ifscCode}
@@ -1678,7 +1755,11 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           />
           {isIfscValid && <AntDesign name="check-circle" size={18} color="#16A34A" />}
         </View>
-        {isIfscValid ? (
+        {errors.ifscCode ? (
+          <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4 }}>
+            {errors.ifscCode}
+          </Text>
+        ) : isIfscValid ? (
           <View style={styles.successSubtextRow}>
             <AntDesign name="check-circle" size={14} color="#16A34A" />
             <Text style={styles.successSubtext}>
