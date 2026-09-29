@@ -103,6 +103,9 @@ export default function Button({
           ) : null}
           {title ? (
             <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.8}
               style={[
                 styles.label,
                 size === 'sm' && styles.labelSm,

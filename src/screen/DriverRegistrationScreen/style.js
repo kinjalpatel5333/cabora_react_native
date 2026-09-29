@@ -899,7 +899,7 @@ export default function createStyles(colors) {
       gap: 12,
     },
     btnBack: {
-      flex: 1,
+      width: 90,
       height: 52,
     },
     btnBackText: {
@@ -908,7 +908,7 @@ export default function createStyles(colors) {
       color: colors.text,
     },
     btnNext: {
-      flex: 2,
+      flex: 1,
       height: 52,
     },
     btnNextFull: {
