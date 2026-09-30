@@ -787,7 +787,7 @@ export const PASSENGER_PAYMENT_OFFERS_METHODS = [
   },
   {
     id: 'wallet',
-    title: 'Cabora Wallet',
+    title: 'Wagvaa Wallet',
     subtitle: 'Balance ₹1,240.00',
     label: 'Wallet • ₹1,240',
     icon: 'wallet-outline',
@@ -878,7 +878,7 @@ export const PASSENGER_EMERGENCY_QUICK = [
   },
   {
     id: 'safety',
-    label: 'Cabora',
+    label: 'Wagvaa',
     sub: 'Safety',
     icon: 'headset',
     dial: null,
@@ -919,7 +919,7 @@ export const PASSENGER_TRIP_COMPLETED_FARE_ROWS = [
   { id: 'tax', label: 'Taxes & fees (GST 5%)', value: '₹13.90' },
   {
     id: 'promo',
-    label: 'Promo CABORA50',
+    label: 'Promo WAGVAA50',
     value: '- ₹50.00',
     promo: true,
   },
@@ -1610,9 +1610,9 @@ export const PASSENGER_SET_ROUTE_STOP_POOL = [
 ];
 
 export const SETUP_ACCOUNT_STRINGS = {
-  SUPPORT_URL: 'mailto:support@cabora.app',
+  SUPPORT_URL: 'mailto:support@wagvaa.app',
   HEADER_TITLE: 'Set up your account',
-  TITLE: 'How will you use Cabora?',
+  TITLE: 'How will you use Wagvaa?',
   SUBTITLE: 'You can add the other role later from your profile — one account holds both.',
   DRIVER_NOTE: 'Driver accounts need a licence, RC, insurance and a bank account before going online.',
   PICKED_LABEL: 'You picked',

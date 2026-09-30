@@ -35,7 +35,7 @@ const RESEND_SECONDS = 3 * 60; // 3 minutes = 180 seconds
 const EXPIRE_SECONDS = 3 * 60; // 3 minutes = 180 seconds
 const PAUSE_SECONDS = 15 * 60;
 const VERIFY_REDIRECT_MS = 1200;
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = 'mailto:support@wagvaa.app';
 
 function formatTimer(seconds) {
   const mins = Math.floor(seconds / 60);
@@ -143,7 +143,7 @@ export default function OtpScreen({ navigation, route }) {
     if (verified) {
       return {
         type: 'success',
-        text: 'Number verified. Taking you to Cabora...',
+        text: 'Number verified. Taking you to Wagvaa...',
       };
     }
     if (expired) {

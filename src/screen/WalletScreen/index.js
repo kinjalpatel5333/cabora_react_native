@@ -180,7 +180,7 @@ export default function WalletScreen() {
         <View style={styles.balanceCard}>
           <View style={styles.balanceDecor} />
           <View style={styles.balanceTop}>
-            <Text style={styles.balanceLabel}>CABORA WALLET</Text>
+            <Text style={styles.balanceLabel}>WAGVAA WALLET</Text>
             <MaterialDesignIcons
               name="wallet-outline"
               size={22}

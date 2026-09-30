@@ -34,7 +34,7 @@ export default function DriverIncentiveTrackerScreen() {
   const handleHelp = () => {
     showToast({
       title: 'Incentive Guidelines',
-      message: 'Bonuses are credited directly to your Cabora Wallet daily.',
+      message: 'Bonuses are credited directly to your Wagvaa Wallet daily.',
       type: 'info',
     });
   };

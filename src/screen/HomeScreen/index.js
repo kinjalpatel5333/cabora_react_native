@@ -663,11 +663,11 @@ export default function HomeScreen() {
                 onPress={() =>
                   showToast({
                     type: 'success',
-                    message: 'Code CABORA50 copied — 50% off next 3 rides',
+                    message: 'Code WAGVAA50 copied — 50% off next 3 rides',
                   })
                 }
                 accessibilityRole="button"
-                accessibilityLabel="Promo offer CABORA50">
+                accessibilityLabel="Promo offer WAGVAA50">
                 <View style={styles.promoIcon}>
                   <Lucide name="gift" size={22} color={colors.white} />
                 </View>
@@ -676,7 +676,7 @@ export default function HomeScreen() {
                     50% off your next 3 rides
                   </Text>
                   <Text style={styles.promoSub}>
-                    Use code CABORA50 · Ends Sunday
+                    Use code WAGVAA50 · Ends Sunday
                   </Text>
                 </View>
                 <Feather

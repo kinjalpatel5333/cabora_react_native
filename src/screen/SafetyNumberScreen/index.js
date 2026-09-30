@@ -220,7 +220,7 @@ export default function SafetyNumberScreen() {
             <View style={styles.infoBody}>
               <Text style={styles.infoTitle}>Trusted safety contact</Text>
               <Text style={styles.infoSub}>
-                Cabora will notify this contact via SMS and call when you trigger
+                Wagvaa will notify this contact via SMS and call when you trigger
                 an SOS or share your ride.
               </Text>
             </View>

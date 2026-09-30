@@ -66,7 +66,7 @@ export default function DriverCollectCashScreen() {
           </View>
 
           <View style={styles.cardRow}>
-            <Text style={styles.promoLabel}>Promo CABORA50</Text>
+            <Text style={styles.promoLabel}>Promo WAGVAA50</Text>
             <Text style={styles.promoValue}>− ₹50.00</Text>
           </View>
 
@@ -88,7 +88,7 @@ export default function DriverCollectCashScreen() {
           </View>
 
           <View style={styles.cardRow}>
-            <Text style={styles.earningLabel}>Cabora commission (18%)</Text>
+            <Text style={styles.earningLabel}>Wagvaa commission (18%)</Text>
             <Text style={styles.deductedValue}>− ₹43.47</Text>
           </View>
 

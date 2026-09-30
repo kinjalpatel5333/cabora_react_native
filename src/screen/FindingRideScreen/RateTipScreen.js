@@ -129,7 +129,7 @@ export default function RateTipScreen({
           How was your ride with {driverName}?
         </Text>
         <Text style={styles.subtitle}>
-          Your rating is anonymous and helps keep Cabora safe.
+          Your rating is anonymous and helps keep Wagvaa safe.
         </Text>
 
         <View style={styles.starsRow}>

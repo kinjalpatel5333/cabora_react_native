@@ -285,7 +285,7 @@ export default function AddCardScreen({ route }) {
               color={isDark ? colors.green[400] : '#059669'}
             />
             <Text style={styles.securityText}>
-              Cabora never sees your full card number — it is tokenised by the
+              Wagvaa never sees your full card number — it is tokenised by the
               gateway.
             </Text>
           </View>

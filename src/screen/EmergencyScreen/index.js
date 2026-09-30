@@ -212,7 +212,7 @@ export default function EmergencyScreen({
 
   const dial = number => {
     if (!number) {
-      showToast({type: 'info', message: 'Connecting to Cabora Safety…'});
+      showToast({type: 'info', message: 'Connecting to Wagvaa Safety…'});
       return;
     }
     Linking.openURL(`tel:${number}`).catch(() => {
@@ -283,7 +283,7 @@ export default function EmergencyScreen({
                   <Text style={styles.sosHoldHint}>Hold to alert</Text>
                 </TouchableOpacity>
                 <Text style={styles.sosHeadline}>
-                  Hold to alert Cabora safety
+                  Hold to alert Wagvaa safety
                 </Text>
                 <Text style={styles.sosBody}>
                   Press and hold for 3 seconds. We’ll share your live location,
@@ -381,7 +381,7 @@ export default function EmergencyScreen({
                   </View>
                   <View style={styles.statusCopy}>
                     <Text style={styles.statusTitle}>
-                      Live location shared with Cabora safety
+                      Live location shared with Wagvaa safety
                     </Text>
                     <Text style={styles.statusMeta}>
                       {alertTimes.location || '—'}

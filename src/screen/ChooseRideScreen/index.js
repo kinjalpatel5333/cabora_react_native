@@ -29,7 +29,7 @@ export default function ChooseRideModal({
   onClose,
   onBook,
   routeSummary = '14.2 km • 38 min • via Airport Rd',
-  promoCode = 'CABORA50',
+  promoCode = 'WAGVAA50',
   pickup = '12, Brigade Road, Ashok Nagar',
   drop = 'Kempegowda Intl. Airport, T2',
 }) {
@@ -44,7 +44,7 @@ export default function ChooseRideModal({
   const [selectedCategoryRide, setSelectedCategoryRide] = useState('cab-sedan');
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [bookForSomeoneOpen, setBookForSomeoneOpen] = useState(false);
-  const [appliedPromo, setAppliedPromo] = useState(promoCode || 'CABORA50');
+  const [appliedPromo, setAppliedPromo] = useState(promoCode || 'WAGVAA50');
   const [promoDiscount, setPromoDiscount] = useState(PROMO_OFF);
   const [scheduledVehicle, setScheduledVehicle] = useState({
     name: 'Comfort',
@@ -65,7 +65,7 @@ export default function ChooseRideModal({
       setSelectedCategoryRide('cab-sedan');
       setScheduleOpen(false);
       setBookForSomeoneOpen(false);
-      setAppliedPromo(promoCode || 'CABORA50');
+      setAppliedPromo(promoCode || 'WAGVAA50');
       setPromoDiscount(PROMO_OFF);
       setScheduledVehicle({name: 'Comfort', price: 1640});
       setCategoryId('cab');
