@@ -33,18 +33,18 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is used to set your pickup point and show nearby drivers.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Wagvaa uses the camera so you can photograph your driving documents.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Wagvaa.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is used to set your pickup point and show nearby drivers while you use Wagvaa.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Wagvaa uses the camera so you can photograph your driving documents.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Wagvaa uses your photo library so you can upload driving documents.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is used to set your pickup point and show nearby drivers.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Wagvaa may save a copy of documents you photograph.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wagvaa uses your photo library so you can upload driving documents.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
