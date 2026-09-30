@@ -150,7 +150,7 @@ export default function RideCategoryModal({
   onClose,
   categoryId = 'cab',
   routeSummary = '14.2 km · 38 min · via Airport Rd',
-  promoCode = 'CABORA50',
+  promoCode = 'WAGVAA50',
   promoDiscount = 50,
   paymentLabel = 'UPI · you@okaxis',
   onChangePayment,

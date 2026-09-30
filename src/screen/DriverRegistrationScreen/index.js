@@ -1058,7 +1058,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           error={errors.dob}
           fieldStyle={errors.dob && { borderColor: colors.red[500], borderWidth: 1.5 }}
           onPress={() => setDobPickerVisible(true)}
-          hint={errors.dob ? undefined : "You must be 18 or older to drive on Cabora"}
+          hint={errors.dob ? undefined : "You must be 18 or older to drive on Wagvaa"}
           containerStyle={{ marginBottom: 0 }}
         />
       </View>

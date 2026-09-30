@@ -37,7 +37,7 @@ const INITIAL_METHODS = [
   {
     id: 'wallet',
     type: 'wallet',
-    title: 'Cabora Wallet',
+    title: 'Wagvaa Wallet',
     subtitle: 'Balance ₹240 · auto-tops up below ₹100',
     badge: 'Active',
   },
@@ -293,7 +293,7 @@ export default function PaymentMethodsScreen() {
 
         {/* Footer note */}
         <Text style={styles.footerNote}>
-          Cabora never stores your full card number.
+          Wagvaa never stores your full card number.
         </Text>
       </ScrollView>
     </View>

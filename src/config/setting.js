@@ -19,7 +19,7 @@ export const DEMO_MODE = true;
 
 export const APP_VERSION = '1.0.0';
 export const APP_MARKET = 'Made for India';
-export const STORE_URL = 'https://cabora.app';
+export const STORE_URL = 'https://wagvaa.app';
 
 /** Flip these when the backend reports an app-level splash gate. */
 export const SPLASH = {

@@ -26,7 +26,7 @@ export default function PaymentOffersModal({
   visible,
   onClose,
   selectedId = 'upi',
-  promoCode = 'CABORA50',
+  promoCode = 'WAGVAA50',
   onSave,
   onRemovePromo,
   onOpenOffers,

@@ -56,7 +56,7 @@ export default function SignupScreen({navigation}) {
     <Screen>
       <View style={styles.hero}>
         <Image source={images.logo} style={styles.logo} />
-        <Text style={styles.kicker}>CABORA</Text>
+        <Text style={styles.kicker}>WAGVAA</Text>
         <Text style={styles.title}>Create account</Text>
         <Text style={styles.subtitle}>
           Sign up stores a local session. No API is called.

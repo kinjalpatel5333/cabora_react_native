@@ -184,7 +184,7 @@ export default function TripCompletedScreen({
                 <View style={styles.notChargedCopy}>
                   <Text style={styles.notChargedTitle}>You have not been charged</Text>
                   <Text style={styles.notChargedSub}>
-                    One attempt was made and declined by your bank. Cabora never retries a payment on its own, so there's no risk of paying twice.
+                    One attempt was made and declined by your bank. Wagvaa never retries a payment on its own, so there's no risk of paying twice.
                   </Text>
                 </View>
               </View>
@@ -200,7 +200,7 @@ export default function TripCompletedScreen({
               {/* PAY WITH Section Header */}
               <Text style={styles.payWithLabel}>PAY WITH</Text>
 
-              {/* Option 1: Cabora Wallet */}
+              {/* Option 1: Wagvaa Wallet */}
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => setSelectedMethod('wallet')}
@@ -222,7 +222,7 @@ export default function TripCompletedScreen({
                   />
                 </View>
                 <View style={styles.payOptionCopy}>
-                  <Text style={styles.payOptionTitle}>Cabora Wallet</Text>
+                  <Text style={styles.payOptionTitle}>Wagvaa Wallet</Text>
                   <Text style={styles.payOptionSub}>Balance ₹1,240.00 — covers this fare</Text>
                 </View>
                 {selectedMethod === 'wallet' ? (

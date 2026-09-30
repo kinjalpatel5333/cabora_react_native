@@ -47,7 +47,7 @@ export default function ReferEarnScreen() {
   const handleShareInvite = async () => {
     try {
       await Share.share({
-        message: `Use my referral code ${REFERRAL_CODE} to get ₹100 off your first ride on Cabora! Download now: https://cabora.app`,
+        message: `Use my referral code ${REFERRAL_CODE} to get ₹100 off your first ride on Wagvaa! Download now: https://wagvaa.app`,
       });
     } catch {
       showToast({
@@ -176,7 +176,7 @@ export default function ReferEarnScreen() {
             <View style={styles.stepTextWrap}>
               <Text style={styles.stepTitle}>Share your code</Text>
               <Text style={styles.stepSub}>
-                Send it to anyone who has not used Cabora
+                Send it to anyone who has not used Wagvaa
               </Text>
             </View>
           </View>

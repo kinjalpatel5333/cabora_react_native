@@ -13,7 +13,7 @@ export async function requestCameraPermission() {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
-          title: "Allow 'Cabora' to access your camera?",
+          title: "Allow 'Wagvaa' to access your camera?",
           message:
             'Camera access is required to photograph your documents for verification.',
           buttonPositive: 'Allow',
@@ -50,7 +50,7 @@ export async function requestGalleryPermission() {
       }
 
       const granted = await PermissionsAndroid.request(permission, {
-        title: "Allow 'Cabora' to access your photos?",
+        title: "Allow 'Wagvaa' to access your photos?",
         message: 'Photo access is required to select photos.',
         buttonPositive: 'Allow',
         buttonNegative: "Don't allow",

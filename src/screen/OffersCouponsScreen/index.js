@@ -18,10 +18,10 @@ import createStyles from './style';
 
 const AVAILABLE_OFFERS = [
   {
-    id: 'cabora50',
+    id: 'wagvaa50',
     title: 'Flat ₹50 off your ride',
     subtitle: 'Valid on all city rides · no minimum fare',
-    code: 'CABORA50',
+    code: 'WAGVAA50',
     discount: 50,
     expiry: 'Ends 30 Sep',
     accentColor: '#FF7A00',

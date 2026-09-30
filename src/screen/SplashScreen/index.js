@@ -160,13 +160,13 @@ export default function SplashScreen({
                   source={images.cabOraMark}
                   style={{width: ICON_SIZE, height: ICON_SIZE}}
                   resizeMode="cover"
-                  accessibilityLabel="Cabora"
+                  accessibilityLabel="Wagvaa"
                   fadeDuration={0}
                 />
               </View>
             </View>
           </View>
-          <Text style={styles.title}>Cabora</Text>
+          <Text style={styles.title}>Wagvaa</Text>
           <Text style={styles.tagline}>Move through your city.</Text>
         </View>
 

@@ -158,7 +158,7 @@ export default function LocationPermissionScreen({navigation, route}) {
               phone: profile.mobile || userPhone,
               role,
               name: profile.name,
-              email: profile.email || `${userPhone}@cabora.local`,
+              email: profile.email || `${userPhone}@wagvaa.local`,
               dob: profile.dob,
               photo: profile.photo,
               gender: profile.gender,

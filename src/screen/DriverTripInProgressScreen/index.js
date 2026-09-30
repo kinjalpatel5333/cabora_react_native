@@ -56,7 +56,7 @@ export default function DriverTripInProgressScreen() {
     try {
       await Share.share({
         message:
-          'Live Trip Status: En route to Kempegowda Intl. Airport, T2 with CabOra.',
+          'Live Trip Status: En route to Kempegowda Intl. Airport, T2 with Wagvaa.',
       });
     } catch {
       showToast({

@@ -125,7 +125,7 @@ export default function DrawerContent() {
   const photoPath = user?.photo || user?.profilePhoto;
   const avatarUri = formatImageUrl(photoPath);
   const displayName = user?.name || user?.fullName || (isDriver ? 'Driver' : 'Passenger');
-  const displayEmail = user?.email || user?.phone || (isDriver ? 'driver@cabora.app' : 'user@cabora.app');
+  const displayEmail = user?.email || user?.phone || (isDriver ? 'driver@wagvaa.app' : 'user@wagvaa.app');
 
   const initials = displayName
     .trim()
