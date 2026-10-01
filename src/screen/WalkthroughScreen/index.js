@@ -174,7 +174,7 @@ export default function WalkthroughScreen() {
       <View pointerEvents="box-none" style={[styles.header, { top: topPad }]}>
         <View style={styles.logoContainer}>
           <Image
-            source={images.cabOraMark}
+            source={images.wagvaaMark}
             style={styles.logoImage}
             resizeMode="contain"
             accessibilityLabel="Wagvaa"

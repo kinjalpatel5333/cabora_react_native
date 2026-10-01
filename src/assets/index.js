@@ -2,6 +2,8 @@ export const images = {
   // logo: require('./images/logo.png'),
   cabOraLogo: require('./images/cabOra_logo.png'),
   cabOraMark: require('./images/cabOra_mark.png'),
+  wagvaaLogo: require('./images/cabOra_logo.png'),
+  wagvaaMark: require('./images/cabOra_mark.png'),
   brandGlow: require('./images/Brand glow.png'),
   loginGlow: require('./images/Glow.png'),
   indiaFlag: require('./images/Flag.png'),

@@ -223,7 +223,7 @@ export default function ShareAndSaveModal({
             bounces={false}
             style={styles.list}
             contentContainerStyle={styles.listContent}>
-            {/* Featured Cabora Pool Card */}
+            {/* Featured Wagvaa Pool Card */}
             <TouchableOpacity
               activeOpacity={0.85}
               onPress={() => setSelectedRideId('pool')}

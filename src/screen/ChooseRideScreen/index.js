@@ -362,7 +362,7 @@ export default function ChooseRideModal({
           }}
         />
 
-        {/* 2nd Level Modal: "Share and save" (Cabora Pool Screen) */}
+        {/* 2nd Level Modal: "Share and save" (Wagvaa Pool Screen) */}
         <ShareAndSaveModal
           visible={shareAndSaveOpen}
           onClose={() => {
