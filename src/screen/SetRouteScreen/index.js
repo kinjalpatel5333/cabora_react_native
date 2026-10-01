@@ -397,7 +397,7 @@ export default function SetRouteModal({ visible, onClose, onConfirmLocations }) 
                     />
                   </View>
                   <Text style={styles.outOfAreaTitle}>
-                    Cabora doesn't reach here yet
+                    Wagvaa doesn't reach here yet
                   </Text>
                   <Text style={styles.outOfAreaBody}>
                     {outOfAreaPlace?.areaLabel || 'This place'} is outside our

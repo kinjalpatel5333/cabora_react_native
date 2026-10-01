@@ -378,7 +378,7 @@ export default function ProfileScreen({ navigation }) {
               <Feather name="trash-2" size={26} color={colors.red[600]} />
             </View>
 
-            <Text style={styles.modalTitle}>Delete your Cabora account?</Text>
+            <Text style={styles.modalTitle}>Delete your Wagvaa account?</Text>
             <Text style={styles.modalSub}>
               {"This can't be undone. Here's exactly what happens:"}
             </Text>

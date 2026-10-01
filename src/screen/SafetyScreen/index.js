@@ -109,7 +109,7 @@ export default function SafetyScreen() {
           </View>
           <Text style={styles.heroTitle}>Your rides are protected</Text>
           <Text style={styles.heroSub}>
-            Every trip is insured, tracked and monitored by the Cabora safety desk.
+            Every trip is insured, tracked and monitored by the Wagvaa safety desk.
           </Text>
         </View>
 

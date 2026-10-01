@@ -316,7 +316,7 @@ export const loginWithPhone = createAsyncThunk(
         _id: rawUser?._id || rawUser?.id || extracted.id,
         name: userName,
         fullName: userName,
-        email: extracted.email || rawUser?.email || email || `${phone}@cabora.local`,
+        email: extracted.email || rawUser?.email || email || `${phone}@wagvaa.local`,
         phone: rawUser?.mobile || rawUser?.phone || phone,
         mobile: rawUser?.mobile || rawUser?.phone || phone,
         role: roleStr,

@@ -158,7 +158,7 @@ export default function ServicesScreen() {
               <View style={styles.headerCopy}>
                 <Text style={styles.title}>All services</Text>
                 <Text style={styles.subtitle}>
-                  Everything Cabora can do in your city
+                  Everything Wagvaa can do in your city
                 </Text>
               </View>
 

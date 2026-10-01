@@ -21,7 +21,7 @@ const TEST_BLOCKED_NUMBER = '0000000000';
 const TEST_COOLDOWN_NUMBER = '1234567890';
 const COOLDOWN_SECONDS = 5 * 60;
 const MAX_SEND_ATTEMPTS = 3;
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = 'mailto:support@wagvaa.app';
 
 function formatTimer(seconds) {
   const mins = Math.floor(seconds / 60);
@@ -330,7 +330,7 @@ export default function LoginScreen({ navigation }) {
             />
             <Text style={styles.terms}>
               By continuing you agree to{' '}
-              <Text style={styles.termsBrand}>Cabora's</Text>{' '}
+              <Text style={styles.termsBrand}>Wagvaa's</Text>{' '}
               <Text style={styles.termsLink}>Terms of Service</Text>
               {'\n'}and{' '}
               <Text style={styles.termsLink}>Privacy Policy.</Text>

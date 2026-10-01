@@ -22,7 +22,7 @@ export function CoRiderMatchedSheet({ fare = 95, otp = '1053', onCancel }) {
       </View>
 
       <Text style={styles.headline}>Driver is 4 minutes away</Text>
-      <Text style={styles.subline}>Cabora Pool · 1 seat · ₹{fare}</Text>
+      <Text style={styles.subline}>Wagvaa Pool · 1 seat · ₹{fare}</Text>
 
       <View style={styles.driverCard}>
         <View style={styles.driverTop}>

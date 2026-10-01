@@ -24,7 +24,7 @@ import { Button, Header } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchDriverKycStatus } from '../../redux/slices/driverSlice';
 
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = 'mailto:support@wagvaa.app';
 
 export default function DriverVerificationStatusScreen({ navigation, route }) {
   const insets = useSafeAreaInsets();
@@ -207,7 +207,7 @@ export default function DriverVerificationStatusScreen({ navigation, route }) {
       showToast({
         type: 'info',
         title: 'Support Email',
-        message: 'Reach out to support@cabora.app for verification help.',
+        message: 'Reach out to support@wagvaa.app for verification help.',
       });
     });
   };

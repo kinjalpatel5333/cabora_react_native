@@ -12,7 +12,7 @@ import colors from '../../config/color';
 
 const CONTACTS = PASSENGER_SHARE_LIVE_CONTACTS;
 
-const TRACKING_LINK = 'cabora.in/t/8QK2-M4RD';
+const TRACKING_LINK = 'wagvaa.in/t/8QK2-M4RD';
 
 export default function ShareLiveTripScreen({
   visible,

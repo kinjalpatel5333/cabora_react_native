@@ -177,7 +177,7 @@ export default function WalkthroughScreen() {
             source={images.cabOraMark}
             style={styles.logoImage}
             resizeMode="contain"
-            accessibilityLabel="Cabora"
+            accessibilityLabel="Wagvaa"
             fadeDuration={0}
           />
         </View>

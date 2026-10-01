@@ -18,7 +18,7 @@ import {
 } from '../../utils/cameraPermission';
 import createStyles from './style';
 
-const SUPPORT_URL = 'mailto:support@cabora.app';
+const SUPPORT_URL = 'mailto:support@wagvaa.app';
 const MAX_BYTES = 5 * 1024 * 1024;
 
 const pickerOptions = {

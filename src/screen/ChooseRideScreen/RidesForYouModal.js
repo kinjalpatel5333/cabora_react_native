@@ -133,7 +133,7 @@ export default function RidesForYouModal({
   onClose,
   category = 'cab',
   paymentLabel = 'UPI · you@okaxis',
-  promoCode = 'CABORA50',
+  promoCode = 'WAGVAA50',
   onChangePayment,
   onConfirm,
 }) {

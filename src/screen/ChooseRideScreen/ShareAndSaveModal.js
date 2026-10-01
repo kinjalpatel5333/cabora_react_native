@@ -12,7 +12,7 @@ export const CATEGORY_DATA = {
   cab: {
     pool: {
       id: 'pool',
-      name: 'Cabora Pool',
+      name: 'Wagvaa Pool',
       subtitle: 'Up to 2 co-riders · door to door',
       price1Seat: 412,
       price2Seats: 515,
@@ -101,7 +101,7 @@ export default function ShareAndSaveModal({
   categoryId = 'cab',
   initialSelectedId = 'pool',
   routeSummary = '14.2 km · 38 min · via Airport Rd',
-  promoCode = 'CABORA50',
+  promoCode = 'WAGVAA50',
   promoDiscount = 50,
   paymentLabel = 'UPI · you@okaxis',
   onChangePayment,

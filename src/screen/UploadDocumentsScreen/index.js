@@ -570,7 +570,7 @@ export default function UploadDocumentsScreen({ navigation }) {
               style={{ marginTop: 2, marginRight: 10 }}
             />
             <Text style={styles.amberNoticeText}>
-              All documents must be valid and legible to start driving with Cabora. Verification usually takes 24–48 hours.
+              All documents must be valid and legible to start driving with Wagvaa. Verification usually takes 24–48 hours.
             </Text>
           </View>
         )}
