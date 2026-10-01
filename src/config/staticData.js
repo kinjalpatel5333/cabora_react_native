@@ -57,7 +57,8 @@ export const DRIVER_REGISTRATION_VEHICLE_TYPES = [
   { id: 'bike', name: 'Bike', meta: '2 seats · solo rider', icon: 'motorbike' },
   { id: 'auto', name: 'Auto', meta: '3 seats · metered', icon: 'rickshaw' },
   { id: 'mini', name: 'Cab Mini', meta: '4 seats · hatchback', icon: 'car-hatchback' },
-  { id: 'sedan', name: 'Cab Sedan', meta: '4 seats · AC sedan', icon: 'car-side' },
+  { id: 'sedan', name: 'Cab Sedan', meta: '5 seats · AC sedan', icon: 'car-side' },
+  { id: 'xl', name: 'Cab XL', meta: '7 seats · SUV / 7 seater', icon: 'car-estate' },
 ];
 
 export const DRIVER_REVIEW_ITEMS = [

@@ -32,6 +32,7 @@ import PaymentMethodsScreen from '../screen/PaymentMethodsScreen';
 import AddCardScreen from '../screen/AddCardScreen';
 import OffersCouponsScreen from '../screen/OffersCouponsScreen';
 import ReferEarnScreen from '../screen/ReferEarnScreen';
+import ScanVehicleScreen from '../screen/ScanVehicleScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -275,6 +276,14 @@ export default function DriverStack() {
             name="ReferEarn"
             component={ReferEarnScreen}
             options={{
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="ScanVehicle"
+            component={ScanVehicleScreen}
+            options={{
+              headerShown: false,
               animation: 'slide_from_right',
             }}
           />
