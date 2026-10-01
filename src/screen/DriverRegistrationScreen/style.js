@@ -563,6 +563,24 @@ export default function createStyles(colors) {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    regNumberHeaderRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 6,
+    },
+    scanPlateBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      paddingVertical: 2,
+      paddingHorizontal: 6,
+    },
+    scanPlateBtnText: {
+      fontFamily: colors.fonts.sora.bold,
+      fontSize: 12,
+      color: colors.orange[500],
+    },
 
     // Horizontal Upload Row Cards
     docRowCard: {

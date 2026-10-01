@@ -470,7 +470,15 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               if (driverData.vehicle.vehicleType) {
                 const vt = String(driverData.vehicle.vehicleType).toLowerCase();
                 setSelectedVehicle(
-                  vt.includes('sedan') ? 'sedan' : vt.includes('mini') ? 'mini' : vt.includes('auto') ? 'auto' : 'bike',
+                  vt.includes('xl') || vt.includes('suv') || vt.includes('7')
+                    ? 'xl'
+                    : vt.includes('sedan') || vt.includes('5')
+                      ? 'sedan'
+                      : vt.includes('mini') || vt.includes('4')
+                        ? 'mini'
+                        : vt.includes('auto')
+                          ? 'auto'
+                          : 'bike',
                 );
               }
               if (driverData.vehicle.registrationNumber || driverData.vehicle.numberPlate) {
@@ -677,9 +685,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
     if (currentStep === 2) {
       const stepErrors = {};
       const cleanDl = dlNumber.replace(/\s+/g, '').toUpperCase();
-      if (!cleanDl) {
-        stepErrors.dlNumber = 'Driving licence number is required';
-      } else if (cleanDl.length !== 15 || !/^[A-Z0-9]{15}$/.test(cleanDl)) {
+      if (cleanDl && (cleanDl.length !== 15 || !/^[A-Z0-9]{15}$/.test(cleanDl))) {
         stepErrors.dlNumber = 'Please enter a valid 15-character driving licence number';
       }
       if (!dlFrontUri && dlFrontStatus !== 'verified') {
@@ -908,7 +914,16 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       } else if (step === 3) {
         // PUT /api/v1/driver/onboarding/vehicle
         const formData = new FormData();
-        const vType = selectedVehicle === 'sedan' ? 'TAXI_SEDAN' : selectedVehicle === 'mini' ? 'TAXI_MINI' : selectedVehicle === 'auto' ? 'AUTO' : 'BIKE';
+        const vType =
+          selectedVehicle === 'xl' || selectedVehicle === 'suv'
+            ? 'TAXI_XL'
+            : selectedVehicle === 'sedan'
+              ? 'TAXI_SEDAN'
+              : selectedVehicle === 'mini'
+                ? 'TAXI_MINI'
+                : selectedVehicle === 'auto'
+                  ? 'AUTO'
+                  : 'BIKE';
         formData.append('vehicleType', vType);
         formData.append('registrationNumber', regNumber.replace(/\s+/g, '').toUpperCase());
         formData.append('numberPlate', regNumber.replace(/\s+/g, '').toUpperCase());
@@ -1181,7 +1196,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
   const renderStep2 = () => (
     <View>
       <View style={styles.fieldGroup}>
-        <Text style={[styles.fieldLabel, errors.dlNumber && { color: colors.red[500] || '#EF4444' }]}>Driving licence number *</Text>
+        <Text style={[styles.fieldLabel, errors.dlNumber && { color: colors.red[500] || '#EF4444' }]}>Driving licence number </Text>
         <View style={[styles.inputWrap, errors.dlNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={dlNumber}
@@ -1386,31 +1401,11 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               }}
               style={[styles.vehicleCard, active && styles.vehicleCardActive]}>
               <View style={[styles.vehicleIconWrap, active && styles.vehicleIconWrapActive]}>
-                {vt.icon === 'motorbike' ? (
-                  <MaterialDesignIcons
-                    name="motorbike"
-                    size={22}
-                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
-                  />
-                ) : vt.icon === 'rickshaw' ? (
-                  <MaterialDesignIcons
-                    name="rickshaw"
-                    size={22}
-                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
-                  />
-                ) : vt.icon === 'car-hatchback' ? (
-                  <MaterialDesignIcons
-                    name="car-hatchback"
-                    size={22}
-                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
-                  />
-                ) : (
-                  <MaterialDesignIcons
-                    name="car-side"
-                    size={22}
-                    color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
-                  />
-                )}
+                <MaterialDesignIcons
+                  name={vt.icon || 'car-side'}
+                  size={22}
+                  color={active ? colors.orange[500] : (colors.isDark ? colors.gray[300] : colors.gray[600])}
+                />
               </View>
               <Text style={styles.vehicleName}>{vt.name}</Text>
               <Text style={styles.vehicleMeta}>{vt.meta}</Text>
@@ -1425,7 +1420,36 @@ export default function DriverRegistrationScreen({ navigation, route }) {
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={[styles.fieldLabel, errors.regNumber && { color: colors.red[500] || '#EF4444' }]}>Vehicle registration number *</Text>
+        <View style={styles.regNumberHeaderRow}>
+          <Text style={[styles.fieldLabel, { marginBottom: 0 }, errors.regNumber && { color: colors.red[500] || '#EF4444' }]}>
+            Vehicle registration number *
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() =>
+              navigation.navigate('ScanVehicle', {
+                initialPlate: regNumber,
+                onScanComplete: result => {
+                  if (result?.plateNumber) {
+                    const formatted = formatVehicleRegNumber(result.plateNumber);
+                    setRegNumber(formatted || result.plateNumber);
+                    clearError('regNumber');
+                  }
+                  if (result?.imageUri) {
+                    setPlateUri(result.imageUri);
+                    setPlateDocStatus('uploaded');
+                    clearError('plateUri');
+                  }
+                },
+              })
+            }
+            style={styles.scanPlateBtn}>
+            <Feather name="camera" size={13} color={colors.orange[500]} />
+            <Text style={styles.scanPlateBtnText}>
+              Scan Plate
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={[styles.inputWrap, errors.regNumber && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
           <TextInput
             value={regNumber}
@@ -1810,8 +1834,9 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         } else if (item.id === 2) {
           metaText = dlNumber ? `DL: ${dlNumber}` : 'Driving licence details';
         } else if (item.id === 3) {
+          const matchedVt = VEHICLE_TYPES.find(v => v.id === selectedVehicle);
           metaText = regNumber
-            ? `${selectedVehicle ? selectedVehicle.toUpperCase() + ' · ' : ''}${regNumber}`
+            ? `${matchedVt ? matchedVt.name + ' · ' : selectedVehicle ? selectedVehicle.toUpperCase() + ' · ' : ''}${regNumber}`
             : 'Vehicle details';
         } else if (item.id === 4) {
           metaText = policyNumber ? `Policy: ${policyNumber}` : 'Insurance details';

@@ -10,6 +10,7 @@ import DocumentCaptureScreen from '../screen/DocumentCaptureScreen';
 import LocationPermissionScreen from '../screen/LocationPermissionScreen';
 import CompleteProfileScreen from '../screen/CompleteProfileScreen';
 import SignupScreen from '../screen/SignupScreen';
+import ScanVehicleScreen from '../screen/ScanVehicleScreen';
 import colors from '../config/color';
 
 const Stack = createNativeStackNavigator();
@@ -74,6 +75,11 @@ export default function AuthStack() {
         name="Signup"
         component={SignupScreen}
         options={{ title: 'Sign up' }}
+      />
+      <Stack.Screen
+        name="ScanVehicle"
+        component={ScanVehicleScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
