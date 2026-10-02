@@ -1,5 +1,5 @@
 /**
- * Cabora colour system
+ * Wagvaa colour system
  * Centralized dynamic color registry for driver and rider flows.
  * All color codes (hex, rgba, semantics) are defined here and exposed via themes.
  */

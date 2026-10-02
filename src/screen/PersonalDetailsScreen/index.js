@@ -30,6 +30,7 @@ import { updateDriverProfileApi } from '../../services/driverApi';
 import { extractUserProfile } from '../../utils/user';
 import { storageSetItem } from '../../utils/storage';
 import { STORAGE_KEYS } from '../../config/setting';
+import { calculateAge } from '../../utils/dateUtils';
 import createStyles from './style';
 
 function convertDobToApi(dobString) {
@@ -257,6 +258,13 @@ export default function PersonalDetailsScreen({ navigation, route }) {
     if (!name.trim()) {
       showToast({ type: 'error', message: 'Please enter your full name' });
       return;
+    }
+    if (dob && dob.trim()) {
+      const age = calculateAge(dob.trim());
+      if (age < 10) {
+        showToast({ type: 'error', message: 'You must be 10 years or older' });
+        return;
+      }
     }
     setIsSaving(true);
     try {
@@ -567,6 +575,8 @@ export default function PersonalDetailsScreen({ navigation, route }) {
         onClose={() => setDobPickerVisible(false)}
         value={dob}
         initialDate={dob}
+        maxYear={new Date().getFullYear() - 10}
+        title="Select Date of Birth"
         onSelectDate={selectedDate => {
           if (selectedDate) {
             setDob(selectedDate);

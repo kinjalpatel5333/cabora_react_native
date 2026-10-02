@@ -1,5 +1,5 @@
 /**
- * Cabora Typography & Font Configuration
+ * Wagvaa Typography & Font Configuration
  * Sora font family tokens and typographic presets.
  */
 

@@ -33,6 +33,7 @@ import {extractUserProfile} from '../../utils/user';
 import createStyles from './style';
 import {storageSetItem} from '../../utils/storage';
 import {STORAGE_KEYS} from '../../config/setting';
+import {calculateAge} from '../../utils/dateUtils';
 
 function convertDobToApi(dobString) {
   if (!dobString) {
@@ -110,6 +111,9 @@ export default function CompleteProfileScreen({navigation, route}) {
     initialProfile.dob ? convertDobToUi(initialProfile.dob) : '',
   );
   const [dobPickerVisible, setDobPickerVisible] = useState(false);
+  const [gender, setGender] = useState(
+    (initialProfile.gender || authUser?.gender || 'male').toLowerCase(),
+  );
   const [email, setEmail] = useState('');
   const [focusedField, setFocusedField] = useState(null);
   const [errors, setErrors] = useState({});
@@ -159,6 +163,9 @@ export default function CompleteProfileScreen({navigation, route}) {
           }
           if (profile.dob) {
             setDob(convertDobToUi(profile.dob));
+          }
+          if (profile.gender) {
+            setGender(profile.gender.toLowerCase());
           }
           if (profile.photo) {
             setPhotoUri(profile.photo);
@@ -217,8 +224,6 @@ export default function CompleteProfileScreen({navigation, route}) {
   };
 
   const onStartRiding = async () => {
-    const newErrors = {};
-
     if (!fullName || !fullName.trim()) {
       showToast({
         type: 'danger',
@@ -233,6 +238,16 @@ export default function CompleteProfileScreen({navigation, route}) {
         type: 'danger',
         title: 'Date of Birth Required',
         message: 'Please select your date of birth to continue.',
+      });
+      return;
+    }
+
+    const age = calculateAge(dob.trim());
+    if (age < 10) {
+      showToast({
+        type: 'danger',
+        title: 'Invalid Age',
+        message: 'You must be 10 years or older to continue.',
       });
       return;
     }
@@ -266,6 +281,9 @@ export default function CompleteProfileScreen({navigation, route}) {
       const apiDob = convertDobToApi(dob.trim());
       if (apiDob) {
         formData.append('dob', apiDob);
+      }
+      if (gender) {
+        formData.append('gender', gender.trim().toUpperCase());
       }
       if (email.trim()) {
         formData.append('email', email.trim());
@@ -323,7 +341,7 @@ export default function CompleteProfileScreen({navigation, route}) {
         photo: finalPhoto,
         profilePhoto: finalPhoto,
         avatar: finalPhoto,
-        gender: updatedUser?.gender || '',
+        gender: gender ? gender.trim().toUpperCase() : updatedUser?.gender || '',
         mobile: phone,
         phone: phone,
         role,
@@ -340,7 +358,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           email: finalEmail,
           dob: finalDob,
           photo: finalPhoto,
-          gender: updatedUser?.gender || '',
+          gender: gender ? gender.trim().toUpperCase() : updatedUser?.gender || '',
           token: route?.params?.token,
           user: {
             ...userObject,
@@ -481,6 +499,36 @@ export default function CompleteProfileScreen({navigation, route}) {
               />
             </View>
 
+            {/* Gender Selection */}
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>Gender</Text>
+              <View style={styles.genderRow}>
+                {['male', 'female', 'other'].map((g, idx) => {
+                  const isSelected = gender === g;
+                  const isLast = idx === 2;
+                  return (
+                    <TouchableOpacity
+                      key={g}
+                      activeOpacity={0.7}
+                      style={[
+                        styles.genderChip,
+                        isLast && styles.genderChipLast,
+                        isSelected && styles.genderChipActive,
+                      ]}
+                      onPress={() => setGender(g)}>
+                      <Text
+                        style={[
+                          styles.genderChipText,
+                          isSelected && styles.genderChipTextActive,
+                        ]}>
+                        {g.charAt(0).toUpperCase() + g.slice(1)}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+
             {/* Email */}
             <View style={styles.fieldGroup}>
               <Text style={[styles.label, errors.email && styles.labelError]}>
@@ -556,6 +604,7 @@ export default function CompleteProfileScreen({navigation, route}) {
           }
         }}
         value={dob}
+        maxYear={new Date().getFullYear() - 10}
         title="Select Date of Birth"
       />
     </View>

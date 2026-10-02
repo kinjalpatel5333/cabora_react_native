@@ -157,7 +157,7 @@ export default function SplashScreen({
                   },
                 ]}>
                 <Image
-                  source={images.cabOraMark}
+                  source={images.wagvaaMark}
                   style={{width: ICON_SIZE, height: ICON_SIZE}}
                   resizeMode="cover"
                   accessibilityLabel="Wagvaa"

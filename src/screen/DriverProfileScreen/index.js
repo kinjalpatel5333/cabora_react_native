@@ -149,6 +149,7 @@ export default function DriverProfileScreen() {
             activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
+            hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
             onPress={openDrawer}
             hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}
             pressRetentionOffset={{ top: 24, bottom: 24, left: 24, right: 24 }}

@@ -170,6 +170,38 @@ export default function createStyles(colors) {
       marginTop: 6,
       lineHeight: 17,
     },
+    genderRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 2,
+    },
+    genderChip: {
+      flex: 1,
+      height: 48,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.surface,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 8,
+    },
+    genderChipLast: {
+      marginRight: 0,
+    },
+    genderChipActive: {
+      borderColor: colors.primary,
+      backgroundColor: colors.isDark ? colors.alpha?.orange20 || 'rgba(255,107,0,0.15)' : colors.orange.subtleBg,
+    },
+    genderChipText: {
+      fontFamily: colors.fonts.sora.semiBold,
+      fontSize: 14,
+      color: colors.text,
+    },
+    genderChipTextActive: {
+      fontFamily: colors.fonts.sora.bold,
+      color: colors.primary,
+    },
     verifiedPhoneBox: {
       flexDirection: 'row',
       alignItems: 'center',

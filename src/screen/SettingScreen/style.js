@@ -13,7 +13,7 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.text,
-      fontSize: 28,
+      fontSize: 24,
       marginBottom: 18,
     },
     card: {

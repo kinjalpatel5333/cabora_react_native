@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-export const DRAWER_WIDTH = 300;
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+export const DRAWER_WIDTH = Math.min(Math.max(SCREEN_WIDTH * 0.78, 280), 330);
 
 export default function createStyles(colors) {
   return StyleSheet.create({
@@ -14,12 +15,14 @@ export default function createStyles(colors) {
       bottom: 0,
       left: 0,
       width: DRAWER_WIDTH,
+      maxWidth: '85%',
       backgroundColor: colors.surface,
       shadowColor: colors.isDark ? colors.black : colors.navy[900],
-      shadowOpacity: colors.isDark ? 0.4 : 0.18,
-      shadowRadius: 16,
+      shadowOpacity: colors.isDark ? 0.45 : 0.2,
+      shadowRadius: 20,
       shadowOffset: { width: 4, height: 0 },
-      elevation: 16,
+      elevation: 20,
+      zIndex: 9999,
     },
   });
 }

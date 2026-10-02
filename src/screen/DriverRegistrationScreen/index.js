@@ -662,8 +662,8 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         const birthDate = parseDateString(dob);
         const today = new Date();
         const age = calculateAge(dob);
-        if (birthDate > today || age < 18) {
-          stepErrors.dob = 'You must be 18 years or older to register as a driver';
+        if (birthDate > today || age < 10) {
+          stepErrors.dob = 'You must be 10 years or older to register as a driver';
         }
       }
       if (!mobileNum.trim() || mobileNum.replace(/\s+/g, '').length < 10) {
@@ -811,42 +811,19 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   const syncFreshMeState = async defaultNextStep => {
     try {
-      let meRes = null;
       try {
-        meRes = await getMeApi();
+        await getMeApi();
       } catch (e1) {
-        meRes = await getOnboardingStatusApi();
-      }
-
-      const rootData = meRes?.data || meRes;
-      const driverData = rootData?.driver || rootData;
-      const platform = driverData?.platform || rootData?.platform;
-
-      if (driverData) {
-        const nextStepNum =
-          driverData?.nextStepNumber ||
-          platform?.nextStepNumber ||
-          driverData?.pendingSteps?.[0]?.step ||
-          (driverData?.completedStepsCount !== undefined ? driverData.completedStepsCount + 1 : null);
-
-        let resolvedNext = defaultNextStep;
-        if (nextStepNum && typeof nextStepNum === 'number' && nextStepNum >= 1 && nextStepNum <= 6) {
-          resolvedNext = Math.max(defaultNextStep || 1, nextStepNum);
-        } else if (driverData?.completedStepsCount === 5 || driverData?.pendingStepsCount === 0) {
-          resolvedNext = Math.max(defaultNextStep || 1, 6);
-        }
-
-        setStep(resolvedNext);
-        await persistCurrentProgress(resolvedNext);
-        return resolvedNext;
+        await getOnboardingStatusApi();
       }
     } catch (err) {
       console.warn('syncFreshMeState warning:', err);
     }
 
-    setStep(defaultNextStep);
-    await persistCurrentProgress(defaultNextStep);
-    return defaultNextStep;
+    const next = defaultNextStep >= 1 && defaultNextStep <= 6 ? defaultNextStep : 1;
+    setStep(next);
+    await persistCurrentProgress(next);
+    return next;
   };
 
   const handleNextStep = async () => {
@@ -1004,7 +981,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
 
   const renderStep1 = () => (
     <View>
-      <View style={[styles.profileCard, errors.profilePhoto && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
+      <View style={[styles.profileCard, errors.profilePhoto && { borderColor: colors.red[500], borderWidth: 1.5, marginBottom: 4 }]}>
         <View style={styles.avatarWrap}>
           {profilePhotoUri ? (
             <Image
@@ -1036,7 +1013,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
       {errors.profilePhoto ? (
-        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 2, marginBottom: 12, marginHorizontal: 4 }}>
           {errors.profilePhoto}
         </Text>
       ) : null}
@@ -1475,7 +1452,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         )}
       </View>
 
-      <View style={[styles.docRowCard, (plateUri || plateDocStatus === 'uploaded') && styles.docRowCardVerified, errors.plateUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
+      <View style={[styles.docRowCard, (plateUri || plateDocStatus === 'uploaded') && styles.docRowCardVerified, errors.plateUri && { borderColor: colors.red[500], borderWidth: 1.5, marginBottom: 4 }]}>
         <View style={styles.docRowThumb}>
           {plateUri ? (
             <Image
@@ -1519,12 +1496,12 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </View>
       </View>
       {errors.plateUri ? (
-        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 2, marginBottom: 12, marginHorizontal: 4 }}>
           {errors.plateUri}
         </Text>
       ) : null}
 
-      <View style={[styles.docRowCard, (rcUri || rcDocStatus === 'uploaded') && styles.docRowCardVerified, errors.rcUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
+      <View style={[styles.docRowCard, (rcUri || rcDocStatus === 'uploaded') && styles.docRowCardVerified, errors.rcUri && { borderColor: colors.red[500], borderWidth: 1.5, marginBottom: 4 }]}>
         <View style={styles.docRowThumb}>
           {rcUri ? (
             <Image
@@ -1566,7 +1543,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </View>
       </View>
       {errors.rcUri ? (
-        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 2, marginBottom: 12, marginHorizontal: 4 }}>
           {errors.rcUri}
         </Text>
       ) : null}
@@ -1602,7 +1579,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         )}
       </View>
 
-      <View style={[styles.docRowCard, (insuranceUri || insuranceDocStatus === 'uploaded') && styles.docRowCardVerified, errors.insuranceUri && { borderColor: colors.red[500], borderWidth: 1.5 }]}>
+      <View style={[styles.docRowCard, (insuranceUri || insuranceDocStatus === 'uploaded') && styles.docRowCardVerified, errors.insuranceUri && { borderColor: colors.red[500], borderWidth: 1.5, marginBottom: 4 }]}>
         <View style={styles.docRowThumbTall}>
           {insuranceUri ? (
             <Image
@@ -1640,14 +1617,6 @@ export default function DriverRegistrationScreen({ navigation, route }) {
               </View>
             )}
             <View style={styles.docRowButtonsGroup}>
-              {insuranceUri || insuranceDocStatus === 'uploaded' ? (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => showToast({ type: 'info', message: 'Opening document preview' })}
-                  style={styles.btnPillOrange}>
-                  <Text style={styles.btnPillOrangeText}>View</Text>
-                </TouchableOpacity>
-              ) : null}
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() =>
@@ -1667,7 +1636,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         </View>
       </View>
       {errors.insuranceUri ? (
-        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 4, marginBottom: 12, marginHorizontal: 4 }}>
+        <Text style={{ color: colors.red[500] || '#EF4444', fontFamily: colors.fonts.sora.semiBold, fontSize: 12, marginTop: 2, marginBottom: 12, marginHorizontal: 4 }}>
           {errors.insuranceUri}
         </Text>
       ) : null}
@@ -2023,7 +1992,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
           if (dateStr) clearError('dob');
         }}
         value={dob}
-        maxYear={new Date().getFullYear() - 18}
+        maxYear={new Date().getFullYear() - 10}
         title="Select Date of Birth"
       />
 

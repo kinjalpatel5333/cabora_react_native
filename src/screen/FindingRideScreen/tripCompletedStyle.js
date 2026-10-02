@@ -92,7 +92,7 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.extraBold,
       color: colors.isDark ? colors.green[400] : colors.green[800],
-      fontSize: 28,
+      fontSize: 24,
       marginBottom: 8,
       textAlign: 'center',
       letterSpacing: -0.3,

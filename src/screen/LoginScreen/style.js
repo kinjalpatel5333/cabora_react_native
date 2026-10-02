@@ -58,8 +58,8 @@ export default function createStyles(colors) {
     title: {
       fontFamily: colors.fonts.sora.bold,
       color: colors.white,
-      fontSize: 28,
-      lineHeight: 34,
+      fontSize: 24,
+      lineHeight: 30,
       letterSpacing: -0.28,
     },
     subtitle: {

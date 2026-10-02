@@ -72,9 +72,10 @@ export default function Header({
     if (showMenu) {
       return (
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={0.65}
           accessibilityRole="button"
           accessibilityLabel="Open menu"
+          hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           onPress={handleMenu}
           hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
           style={styles.iconBtn}>

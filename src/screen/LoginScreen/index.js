@@ -210,7 +210,7 @@ export default function LoginScreen({ navigation }) {
           fadeDuration={0}
         />
         <View style={styles.logoContainer}>
-          <Image source={images.cabOraMark} style={styles.logoImage} resizeMode="contain" fadeDuration={0} />
+          <Image source={images.wagvaaMark} style={styles.logoImage} resizeMode="contain" fadeDuration={0} />
         </View>
         <View style={styles.badge}>
           <Feather name="shield" size={12} color={colors.orange[425]} />

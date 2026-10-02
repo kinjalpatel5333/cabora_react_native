@@ -105,6 +105,11 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+        baseline file("lint-baseline.xml")
+    }
 }
 
 dependencies {

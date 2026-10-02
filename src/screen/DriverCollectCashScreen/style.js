@@ -47,7 +47,7 @@ export default function createStyles(colors) {
     },
     heroTitle: {
       fontFamily: colors.fonts.sora.extraBold,
-      fontSize: 28,
+      fontSize: 24,
       color: colors.orange[950],
       marginBottom: 8,
       textAlign: 'center',

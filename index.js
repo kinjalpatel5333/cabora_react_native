@@ -13,7 +13,7 @@ import {name as appName} from './app.json';
 
 // Global font scaling prevention helper
 const patchFontScalingProps = (type, props) => {
-  if (
+  const isTextOrInput =
     type === Text ||
     type === TextInput ||
     type?.displayName === 'Text' ||
@@ -21,17 +21,42 @@ const patchFontScalingProps = (type, props) => {
     type?.name === 'Text' ||
     type?.name === 'TextInput' ||
     type?.render?.displayName === 'Text' ||
-    type?.render?.displayName === 'TextInput'
-  ) {
-    if (!props) props = {};
+    type?.render?.displayName === 'TextInput' ||
+    type?.render?.name === 'Text' ||
+    type?.render?.name === 'TextInput';
+
+  if (isTextOrInput) {
     return {
+      ...(props || {}),
       allowFontScaling: false,
       maxFontSizeMultiplier: 1,
-      ...props,
     };
   }
   return props;
 };
+
+// Patch Text.render and TextInput.render if present
+if (Text && Text.render) {
+  const origTextRender = Text.render;
+  Text.render = function (props, ref) {
+    return origTextRender.call(
+      this,
+      {...(props || {}), allowFontScaling: false, maxFontSizeMultiplier: 1},
+      ref,
+    );
+  };
+}
+
+if (TextInput && TextInput.render) {
+  const origInputRender = TextInput.render;
+  TextInput.render = function (props, ref) {
+    return origInputRender.call(
+      this,
+      {...(props || {}), allowFontScaling: false, maxFontSizeMultiplier: 1},
+      ref,
+    );
+  };
+}
 
 // 1. Patch React.createElement
 const originalCreateElement = React.createElement;
