@@ -273,6 +273,15 @@ export default colors =>
       backgroundColor: colors.orange[500],
       borderColor: colors.orange[500],
     },
+    actionBtnDanger: {
+      backgroundColor: '#DC2626',
+      borderColor: '#DC2626',
+    },
+    emptyStateContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 24,
+    },
     actionBtnText: {
       fontFamily: colors.fonts.sora.semiBold,
       fontSize: 14,

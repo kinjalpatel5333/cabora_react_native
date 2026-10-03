@@ -25,6 +25,14 @@ import {
 } from '../../services/userApi';
 import { bookRideApi, cancelRideApi } from '../../services/rideApi';
 import { formatImageUrl } from '../../utils/user';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { TourTarget, useTourPersistence } from '@wrack/react-native-tour-guide';
+// import {
+//   TOUR_IDS,
+//   getTourTheme,
+//   PASSENGER_DASHBOARD_STEPS,
+// } from '../../config/tourGuideConfig';
+const TourTarget = ({ children }) => <>{children}</>;
 import createStyles from './style';
 
 const EXPLORE = PASSENGER_HOME_EXPLORE;
@@ -83,6 +91,19 @@ export default function HomeScreen() {
   const [pickupConfirmTrip, setPickupConfirmTrip] = useState(null);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
   const [sheetExpanded, setSheetExpanded] = useState(true);
+
+  // Tour Guide for first-time dashboard walkthrough (commented out for now)
+  // const { startTour } = useTourPersistence(AsyncStorage);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     startTour(PASSENGER_DASHBOARD_STEPS, {
+  //       tourId: TOUR_IDS.PASSENGER_DASHBOARD,
+  //       ...getTourTheme(colors),
+  //     });
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, [colors, startTour]);
 
   const rawName = user?.name?.trim();
   const displayName = rawName || 'Rider';
@@ -385,14 +406,16 @@ export default function HomeScreen() {
 
       {!overlayOpen ? (
         <View style={[styles.header, {top: headerTop}]}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel="Open menu"
-            onPress={openDrawer}
-            style={styles.menuBtn}>
-            <Feather name="menu" size={22} color={colors.text} />
-          </TouchableOpacity>
+          <TourTarget id="passenger-menu-btn" style={{ borderRadius: 20 }}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Open menu"
+              onPress={openDrawer}
+              style={styles.menuBtn}>
+              <Feather name="menu" size={22} color={colors.text} />
+            </TouchableOpacity>
+          </TourTarget>
 
 
           <TouchableOpacity activeOpacity={0.7}
@@ -454,22 +477,24 @@ export default function HomeScreen() {
       ) : null}
 
       {!overlayOpen ? (
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Recenter map"
-          onPress={() =>
-            showToast({
-              type: 'success',
-              message: 'Centered on your location',
-            })
-          }
-          style={[styles.locateFab, {bottom: fabBottom}]}>
-          <MaterialDesignIcons
-            name="crosshairs-gps"
-            size={22}
-            color={colors.text}
-          />
-        </TouchableOpacity>
+        <TourTarget id="passenger-locate-btn" style={[styles.locateFab, {bottom: fabBottom}]}>
+          <TouchableOpacity activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Recenter map"
+            onPress={() =>
+              showToast({
+                type: 'success',
+                message: 'Centered on your location',
+              })
+            }
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <MaterialDesignIcons
+              name="crosshairs-gps"
+              size={22}
+              color={colors.text}
+            />
+          </TouchableOpacity>
+        </TourTarget>
       ) : null}
 
       {!overlayOpen ? (
@@ -509,71 +534,75 @@ export default function HomeScreen() {
               scrollEnabled={sheetExpanded}
               nestedScrollEnabled>
               <View onLayout={onSheetContentLayout}>
-              <TouchableOpacity activeOpacity={0.7}
-                style={styles.searchCard}
-                onPress={openRoute}
-                accessibilityRole="button"
-                accessibilityLabel="Where to?">
-                <View style={styles.searchIconBox}>
-                  <Feather name="search" size={20} color={colors.white} />
-                </View>
-                <View style={styles.searchCopy}>
-                  <Text style={styles.searchTitle}>Where to?</Text>
-                  <Text style={styles.searchSub}>Pickup: 12, Brigade Road</Text>
-                </View>
+              <TourTarget id="passenger-search-card" style={{ borderRadius: 16 }}>
                 <TouchableOpacity activeOpacity={0.7}
-                  style={styles.nowBtn}
-                  onPress={e => {
-                    e?.stopPropagation?.();
-                    openRoute();
-                    showToast({
-                      type: 'info',
-                      message: 'Leave now — set your destination',
-                    });
-                  }}
+                  style={styles.searchCard}
+                  onPress={openRoute}
                   accessibilityRole="button"
-                  accessibilityLabel="Leave now">
-                  <Feather name="clock" size={15} color={colors.orange[500]} />
-                  <Text style={styles.nowText}>Now</Text>
+                  accessibilityLabel="Where to?">
+                  <View style={styles.searchIconBox}>
+                    <Feather name="search" size={20} color={colors.white} />
+                  </View>
+                  <View style={styles.searchCopy}>
+                    <Text style={styles.searchTitle}>Where to?</Text>
+                    <Text style={styles.searchSub}>Pickup: 12, Brigade Road</Text>
+                  </View>
+                  <TouchableOpacity activeOpacity={0.7}
+                    style={styles.nowBtn}
+                    onPress={e => {
+                      e?.stopPropagation?.();
+                      openRoute();
+                      showToast({
+                        type: 'info',
+                        message: 'Leave now — set your destination',
+                      });
+                    }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Leave now">
+                    <Feather name="clock" size={15} color={colors.orange[500]} />
+                    <Text style={styles.nowText}>Now</Text>
+                  </TouchableOpacity>
                 </TouchableOpacity>
-              </TouchableOpacity>
+              </TourTarget>
 
-              <View style={styles.shortcuts}>
-                <TouchableOpacity activeOpacity={0.7}
-                  style={styles.shortcut}
-                  onPress={() => {
-                    openRoute();
-                    showToast({type: 'info', message: 'Going home'});
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel="Go home">
-                  <Feather name="home" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
-                  <Text style={styles.shortcutText}>Home</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7}
-                  style={styles.shortcut}
-                  onPress={() => {
-                    openRoute();
-                    showToast({type: 'info', message: 'Going to work'});
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel="Go to work">
-                  <Feather
-                    name="briefcase"
-                    size={16}
-                    color={colors.isDark ? colors.orange[500] : colors.navy[800]}
-                  />
-                  <Text style={styles.shortcutText}>Work</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7}
-                  style={styles.shortcut}
-                  onPress={() => navigation.navigate('SavedPlaces')}
-                  accessibilityRole="button"
-                  accessibilityLabel="Add saved place">
-                  <Feather name="plus" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
-                  <Text style={styles.shortcutText}>Add</Text>
-                </TouchableOpacity>
-              </View>
+              <TourTarget id="passenger-shortcuts-row" style={{ borderRadius: 12 }}>
+                <View style={styles.shortcuts}>
+                  <TouchableOpacity activeOpacity={0.7}
+                    style={styles.shortcut}
+                    onPress={() => {
+                      openRoute();
+                      showToast({type: 'info', message: 'Going home'});
+                    }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Go home">
+                    <Feather name="home" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
+                    <Text style={styles.shortcutText}>Home</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.7}
+                    style={styles.shortcut}
+                    onPress={() => {
+                      openRoute();
+                      showToast({type: 'info', message: 'Going to work'});
+                    }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Go to work">
+                    <Feather
+                      name="briefcase"
+                      size={16}
+                      color={colors.isDark ? colors.orange[500] : colors.navy[800]}
+                    />
+                    <Text style={styles.shortcutText}>Work</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.7}
+                    style={styles.shortcut}
+                    onPress={() => navigation.navigate('SavedPlaces')}
+                    accessibilityRole="button"
+                    accessibilityLabel="Add saved place">
+                    <Feather name="plus" size={16} color={colors.isDark ? colors.orange[500] : colors.navy[800]} />
+                    <Text style={styles.shortcutText}>Add</Text>
+                  </TouchableOpacity>
+                </View>
+              </TourTarget>
 
               <View style={styles.sectionHead}>
                 <Text style={styles.sectionTitle}>EXPLORE</Text>
@@ -584,39 +613,41 @@ export default function HomeScreen() {
                   <Text style={styles.sectionLink}>More</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.exploreRow}>
-                {EXPLORE.map(item => (
-                  <TouchableOpacity activeOpacity={0.7}
-                    key={item.id}
-                    style={[
-                      styles.exploreCard,
-                      item.more && styles.exploreCardMore,
-                    ]}
-                    onPress={() => onExplorePress(item)}
-                    accessibilityRole="button"
-                    accessibilityLabel={item.label}>
-                    <ExploreIcon
-                      icon={item.icon}
-                      more={item.more}
-                      colors={colors}
-                    />
-                    <Text
+              <TourTarget id="passenger-explore-section" style={{ borderRadius: 14 }}>
+                <View style={styles.exploreRow}>
+                  {EXPLORE.map(item => (
+                    <TouchableOpacity activeOpacity={0.7}
+                      key={item.id}
                       style={[
-                        styles.exploreLabel,
-                        item.more && styles.exploreLabelMore,
-                      ]}>
-                      {item.label}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.explorePrice,
-                        item.more && styles.explorePriceMore,
-                      ]}>
-                      {item.price}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+                        styles.exploreCard,
+                        item.more && styles.exploreCardMore,
+                      ]}
+                      onPress={() => onExplorePress(item)}
+                      accessibilityRole="button"
+                      accessibilityLabel={item.label}>
+                      <ExploreIcon
+                        icon={item.icon}
+                        more={item.more}
+                        colors={colors}
+                      />
+                      <Text
+                        style={[
+                          styles.exploreLabel,
+                          item.more && styles.exploreLabelMore,
+                        ]}>
+                        {item.label}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.explorePrice,
+                          item.more && styles.explorePriceMore,
+                        ]}>
+                        {item.price}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </TourTarget>
 
               <View style={styles.sectionHead}>
                 <Text style={styles.sectionTitle}>RECENT DESTINATIONS</Text>

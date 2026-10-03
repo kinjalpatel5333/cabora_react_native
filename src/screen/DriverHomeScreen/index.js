@@ -17,6 +17,14 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setDriverOnline, setDriverRestricted, fetchDriverKycStatus, updateDriverAvailability } from '../../redux/slices/driverSlice';
 import { fetchDriverProfile } from '../../redux/slices/authSlice';
 import { formatImageUrl } from '../../utils/user';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { TourTarget, useTourPersistence } from '@wrack/react-native-tour-guide';
+// import {
+//   TOUR_IDS,
+//   getTourTheme,
+//   DRIVER_DASHBOARD_STEPS,
+// } from '../../config/tourGuideConfig';
+const TourTarget = ({ children }) => <>{children}</>;
 import createStyles from './style';
 import DriverMapBackdrop from '../../components/DriverMapBackdrop';
 
@@ -88,6 +96,19 @@ export default function DriverHomeScreen() {
 
   const [kycReason, setKycReason] = useState('Insurance expired — re-upload to unblock');
   const [kycFailState, setKycFailState] = useState(false);
+
+  // Tour Guide for first-time driver dashboard walkthrough (commented out for now)
+  // const { startTour } = useTourPersistence(AsyncStorage);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     startTour(DRIVER_DASHBOARD_STEPS, {
+  //       tourId: TOUR_IDS.DRIVER_DASHBOARD,
+  //       ...getTourTheme(colors),
+  //     });
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, [colors, startTour]);
 
   const loadDriverData = useCallback(async () => {
     try {
@@ -228,13 +249,15 @@ export default function DriverHomeScreen() {
       </View>
 
       <View style={[styles.header, { top: headerTop }]}>
-        <TouchableOpacity activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel="Open menu"
-          onPress={openDrawer}
-          style={styles.menuBtn}>
-          <Feather name="menu" size={22} color={colors.isDark ? colors.white : colors.navy[800]} />
-        </TouchableOpacity>
+        <TourTarget id="driver-menu-btn" style={{ borderRadius: 20 }}>
+          <TouchableOpacity activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Open menu"
+            onPress={openDrawer}
+            style={styles.menuBtn}>
+            <Feather name="menu" size={22} color={colors.isDark ? colors.white : colors.navy[800]} />
+          </TouchableOpacity>
+        </TourTarget>
 
         <View style={styles.greetingPill}>
           <Text style={styles.greetingKicker}>{greeting}</Text>
@@ -320,45 +343,49 @@ export default function DriverHomeScreen() {
         </TouchableOpacity>
       ) : null}
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        accessibilityRole="button"
-        accessibilityLabel="Search ride request"
-        onPress={() => {
-          const parent = navigation.getParent();
-          if (parent) {
-            parent.navigate('NewRideRequest');
-            return;
-          }
-          navigation.navigate('NewRideRequest');
-        }}
-        style={[styles.locateFab, { bottom: fabBottom + 56 }]}>
-        <Feather
-          name="search"
-          size={20}
-          color={colors.isDark ? colors.white : colors.navy[800]}
-        />
-      </TouchableOpacity>
+      <TourTarget id="driver-search-fab" style={[styles.locateFab, { bottom: fabBottom + 56 }]}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Search ride request"
+          onPress={() => {
+            const parent = navigation.getParent();
+            if (parent) {
+              parent.navigate('NewRideRequest');
+              return;
+            }
+            navigation.navigate('NewRideRequest');
+          }}
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Feather
+            name="search"
+            size={20}
+            color={colors.isDark ? colors.white : colors.navy[800]}
+          />
+        </TouchableOpacity>
+      </TourTarget>
 
-      <TouchableOpacity activeOpacity={0.7}
-        accessibilityRole="button"
-        accessibilityLabel="Preferred destination"
-        onPress={() => {
-          const parent = navigation.getParent();
-          if (parent) {
-            parent.navigate('PreferredDestination');
-            return;
-          }
-          navigation.navigate('PreferredDestination');
-        }}
-        style={[styles.locateFab, { bottom: fabBottom }]}>
-        <FontAwesome6
-          name="location-crosshairs"
-          iconStyle="solid"
-          size={22}
-          color={colors.isDark ? colors.white : colors.navy[800]}
-        />
-      </TouchableOpacity>
+      <TourTarget id="driver-preferred-dest-fab" style={[styles.locateFab, { bottom: fabBottom }]}>
+        <TouchableOpacity activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Preferred destination"
+          onPress={() => {
+            const parent = navigation.getParent();
+            if (parent) {
+              parent.navigate('PreferredDestination');
+              return;
+            }
+            navigation.navigate('PreferredDestination');
+          }}
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <FontAwesome6
+            name="location-crosshairs"
+            iconStyle="solid"
+            size={22}
+            color={colors.isDark ? colors.white : colors.navy[800]}
+          />
+        </TouchableOpacity>
+      </TourTarget>
 
       <View
         style={[
@@ -378,92 +405,96 @@ export default function DriverHomeScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.sheetScroll}
             bounces={true}>
-            {restricted ? (
-              <View style={styles.restrictedCard}>
-                <View style={styles.restrictedIcon}>
-                  <Feather name="lock" size={20} color={colors.isDark ? colors.red[400] : '#DC2626'} />
+            <TourTarget id="driver-status-card" style={{ borderRadius: 16 }}>
+              {restricted ? (
+                <View style={styles.restrictedCard}>
+                  <View style={styles.restrictedIcon}>
+                    <Feather name="lock" size={20} color={colors.isDark ? colors.red[400] : '#DC2626'} />
+                  </View>
+                  <View style={styles.statusCopy}>
+                    <Text style={styles.restrictedTitle}>You can't go online</Text>
+                    <Text style={styles.restrictedSub}>
+                      {typeof kycReason === 'string'
+                        ? kycReason
+                        : typeof kycReason?.message === 'string'
+                          ? kycReason.message
+                          : typeof kycReason?.reason === 'string'
+                            ? kycReason.reason
+                            : 'Insurance expired — re-upload to unblock'}
+                    </Text>
+                  </View>
+                  <Toggle value={false} locked size="lg" />
                 </View>
-                <View style={styles.statusCopy}>
-                  <Text style={styles.restrictedTitle}>You can't go online</Text>
-                  <Text style={styles.restrictedSub}>
-                    {typeof kycReason === 'string'
-                      ? kycReason
-                      : typeof kycReason?.message === 'string'
-                        ? kycReason.message
-                        : typeof kycReason?.reason === 'string'
-                          ? kycReason.reason
-                          : 'Insurance expired — re-upload to unblock'}
-                  </Text>
-                </View>
-                <Toggle value={false} locked size="lg" />
-              </View>
-            ) : online ? (
-              <View style={styles.onlineCard}>
-                <View style={styles.onlineIcon}>
-                  <AntDesign
-                    name="check-circle"
-                    size={22}
-                    color={colors.white}
+              ) : online ? (
+                <View style={styles.onlineCard}>
+                  <View style={styles.onlineIcon}>
+                    <AntDesign
+                      name="check-circle"
+                      size={22}
+                      color={colors.white}
+                    />
+                  </View>
+                  <View style={styles.statusCopy}>
+                    <Text style={styles.onlineTitle}>You're online</Text>
+                    <Text style={styles.onlineSub}>
+                      Accepting requests · {driver.zones}
+                    </Text>
+                  </View>
+                  <Toggle
+                    value={true}
+                    tone="success"
+                    size="lg"
+                    onValueChange={next => {
+                      dispatch(setDriverOnline(false));
+                      dispatch(updateDriverAvailability({ online: false, latitude: 2.68962, longitude: 72.86399 }));
+                    }}
                   />
                 </View>
-                <View style={styles.statusCopy}>
-                  <Text style={styles.onlineTitle}>You're online</Text>
-                  <Text style={styles.onlineSub}>
-                    Accepting requests · {driver.zones}
-                  </Text>
-                </View>
-                <Toggle
-                  value={true}
-                  tone="success"
-                  size="lg"
-                  onValueChange={next => {
-                    dispatch(setDriverOnline(false));
-                    dispatch(updateDriverAvailability({ online: false, latitude: 2.68962, longitude: 72.86399 }));
-                  }}
-                />
-              </View>
-            ) : (
-              <View style={styles.offlineCard}>
-                <View style={styles.offlineIcon}>
-                  <Feather name="moon" size={20} color={colors.isDark ? colors.white : '#64748B'} />
-                </View>
-                <View style={styles.statusCopy}>
-                  <Text style={styles.offlineTitle}>You're offline</Text>
-                  <Text style={styles.offlineSub}>
-                    Go online to start receiving ride requests
-                  </Text>
-                </View>
-                <Toggle
-                  value={false}
-                  tone="success"
-                  size="lg"
-                  onValueChange={next => {
-                    dispatch(setDriverOnline(true));
-                    dispatch(updateDriverAvailability({ online: true, latitude: 2.68962, longitude: 72.86399 }));
-                  }}
-                />
-              </View>
-            )}
-
-            <View style={styles.statsRow}>
-              {stats.map(stat => {
-                const muted = !online && stat.id !== 'wallet';
-                const iconColor = muted ? colors.textMuted : (colors.isDark ? colors.orange[400] : colors.navy[600]);
-                return (
-                  <View key={stat.id} style={styles.stat}>
-                    <StatGlyph name={stat.icon} color={iconColor} />
-                    <Text
-                      style={[
-                        styles.statValue,
-                        muted && styles.statValueMuted,
-                      ]}>
-                      {stat.value}
-                    </Text>
-                    <Text style={styles.statLabel}>{stat.label}</Text>
+              ) : (
+                <View style={styles.offlineCard}>
+                  <View style={styles.offlineIcon}>
+                    <Feather name="moon" size={20} color={colors.isDark ? colors.white : '#64748B'} />
                   </View>
-                );
-              })}
-            </View>
+                  <View style={styles.statusCopy}>
+                    <Text style={styles.offlineTitle}>You're offline</Text>
+                    <Text style={styles.offlineSub}>
+                      Go online to start receiving ride requests
+                    </Text>
+                  </View>
+                  <Toggle
+                    value={false}
+                    tone="success"
+                    size="lg"
+                    onValueChange={next => {
+                      dispatch(setDriverOnline(true));
+                      dispatch(updateDriverAvailability({ online: true, latitude: 2.68962, longitude: 72.86399 }));
+                    }}
+                  />
+                </View>
+              )}
+            </TourTarget>
+
+            <TourTarget id="driver-stats-row" style={{ borderRadius: 14 }}>
+              <View style={styles.statsRow}>
+                {stats.map(stat => {
+                  const muted = !online && stat.id !== 'wallet';
+                  const iconColor = muted ? colors.textMuted : (colors.isDark ? colors.orange[400] : colors.navy[600]);
+                  return (
+                    <View key={stat.id} style={styles.stat}>
+                      <StatGlyph name={stat.icon} color={iconColor} />
+                      <Text
+                        style={[
+                          styles.statValue,
+                          muted && styles.statValueMuted,
+                        ]}>
+                        {stat.value}
+                      </Text>
+                      <Text style={styles.statLabel}>{stat.label}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </TourTarget>
 
             {restricted ? (
               <View style={styles.requireCard}>

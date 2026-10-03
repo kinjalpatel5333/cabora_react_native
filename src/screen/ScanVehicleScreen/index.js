@@ -183,6 +183,7 @@ export default function ScanVehicleScreen({ navigation, route }) {
    * Handle Gallery image selection
    */
   const handleUploadFromGallery = useCallback(async () => {
+    stopScan();
     const hasPermission = await requestGalleryPermission();
     if (!hasPermission) {
       showPermissionSettingsAlert(
@@ -222,10 +223,18 @@ export default function ScanVehicleScreen({ navigation, route }) {
   }, [processImage, showToast]);
 
   /**
-   * Start scanning when user clicks "Scan Vehicle" button
+   * Stop scanning
    */
-  const handleScanWithCamera = useCallback(async () => {
-    if (isScanning || isProcessing) return;
+  const stopScan = useCallback(() => {
+    isScanningActiveRef.current = false;
+    setIsScanning(false);
+  }, []);
+
+  /**
+   * Start auto-scanning with live camera
+   */
+  const startAutoScan = useCallback(async () => {
+    if (isScanningActiveRef.current || isProcessing) return;
 
     // Check camera permission
     const hasPermission = await requestCameraPermission();
@@ -237,83 +246,95 @@ export default function ScanVehicleScreen({ navigation, route }) {
       return;
     }
 
-    // If we already have a previous scan or image, clear it to start fresh scan in scan section
-    if (imageUri || detectedPlate) {
-      setImageUri(null);
-      setDetectedPlate(null);
-      setErrorMessage(null);
-    }
-
-    // 1. If Live In-App Camera is available in the scan section, capture frame and detect
-    setIsScanning(true);
+    // Reset previous image / results to start fresh scan
+    setImageUri(null);
+    setDetectedPlate(null);
     setErrorMessage(null);
+    setConfidence(null);
+    setIsScanning(true);
     isScanningActiveRef.current = true;
 
-    try {
-      let detected = null;
+    // Give Camera component a brief moment to mount and initialize hardware
+    await new Promise(resolve => setTimeout(resolve, 600));
 
-      // Perform rapid frame captures (up to 4 frames over ~2 seconds) for best accuracy
-      for (let attempt = 0; attempt < 4; attempt++) {
-        if (!isScanningActiveRef.current || !cameraRef.current?.capture) break;
+    try {
+      while (isScanningActiveRef.current) {
+        if (!cameraRef.current?.capture) {
+          await new Promise(resolve => setTimeout(resolve, 300));
+          continue;
+        }
 
         try {
           const capture = await cameraRef.current.capture();
+          if (!isScanningActiveRef.current) break;
+
           if (capture?.uri) {
-            const result = await scanNumberPlate(capture.uri, { minConfidence: 50 });
-            if (result?.plateNumber) {
-              const normalized = normalizeNumberPlate(result.plateNumber);
-              if (isValidNumberPlate(normalized)) {
-                detected = {
-                  plate: normalized,
-                  confidence: result.confidence ?? 95,
-                  uri: capture.uri,
-                };
-                break;
+            try {
+              const result = await scanNumberPlate(capture.uri, { minConfidence: 45 });
+              if (result?.plateNumber) {
+                const normalized = normalizeNumberPlate(result.plateNumber);
+                if (isValidNumberPlate(normalized)) {
+                  // Found valid plate! Stop scanning and set result
+                  isScanningActiveRef.current = false;
+                  setIsScanning(false);
+                  setImageUri(capture.uri);
+                  setDetectedPlate(normalized);
+                  setPlateInput(formatDisplayPlate(normalized));
+                  setConfidence(result.confidence ?? 95);
+                  showToast({
+                    type: 'success',
+                    message: `Plate detected: ${formatDisplayPlate(normalized)}`,
+                  });
+
+                  if (typeof onScanComplete === 'function') {
+                    onScanComplete({
+                      plateNumber: normalized,
+                      formattedPlate: formatDisplayPlate(normalized),
+                      confidence: result.confidence ?? 95,
+                      imageUri: capture.uri,
+                    });
+                  }
+                  break;
+                }
               }
+            } catch {
+              // Frame did not contain valid plate, keep continuous scan going
             }
           }
-        } catch {
-          // Next frame
+        } catch (capErr) {
+          console.log('Capture frame warning:', capErr);
         }
 
-        // Delay between frame scans
-        await new Promise(resolve => setTimeout(resolve, 400));
-      }
-
-      if (detected) {
-        setImageUri(detected.uri);
-        setDetectedPlate(detected.plate);
-        setPlateInput(formatDisplayPlate(detected.plate));
-        setConfidence(detected.confidence);
-        showToast({
-          type: 'success',
-          message: `Plate detected: ${formatDisplayPlate(detected.plate)}`,
-        });
-
-        if (typeof onScanComplete === 'function') {
-          onScanComplete({
-            plateNumber: detected.plate,
-            formattedPlate: formatDisplayPlate(detected.plate),
-            confidence: detected.confidence,
-            imageUri: detected.uri,
-          });
-        }
-      } else {
-        const userMsg = 'No Indian number plate detected. Please align the Indian plate inside the frame and tap Scan Vehicle again.';
-        setErrorMessage(userMsg);
-        showToast({
-          type: 'error',
-          message: userMsg,
-        });
+        // Delay between frame scans (350ms for smooth performance without throttling)
+        await new Promise(resolve => setTimeout(resolve, 350));
       }
     } catch (err) {
-      console.warn('Live scan error:', err);
-      setErrorMessage('Failed to capture frame. Please try again.');
+      console.warn('Auto-scan error:', err);
     } finally {
-      isScanningActiveRef.current = false;
-      setIsScanning(false);
+      if (isScanningActiveRef.current) {
+        isScanningActiveRef.current = false;
+        setIsScanning(false);
+      }
     }
-  }, [detectedPlate, imageUri, isProcessing, isScanning, onScanComplete, showToast]);
+  }, [isProcessing, onScanComplete, showToast]);
+
+  // Auto-start scanning on mount when opened to scan plate
+  useEffect(() => {
+    const shouldAutoStart = route?.params?.autoStart !== false;
+    if (shouldAutoStart && !imageUri && !detectedPlate) {
+      const timer = setTimeout(() => {
+        startAutoScan();
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [route?.params?.autoStart, startAutoScan]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isScanningActiveRef.current = false;
+    };
+  }, []);
 
   /**
    * Confirm the detected plate and return result to caller
@@ -349,7 +370,8 @@ export default function ScanVehicleScreen({ navigation, route }) {
     setConfidence(null);
     setErrorMessage(null);
     setImageUri(null);
-  }, []);
+    startAutoScan();
+  }, [startAutoScan]);
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -373,25 +395,42 @@ export default function ScanVehicleScreen({ navigation, route }) {
 
         {/* Scanner Viewfinder / Camera Section Area */}
         <View style={styles.scannerContainer}>
-          <CameraErrorBoundary>
-            <Camera
-              ref={cameraRef}
-              cameraType={CameraType.Back}
-              flashMode="auto"
-              torchMode={torchMode}
-              style={styles.liveCameraPreview}
-              resetFocusTimeout={0}
-              resetFocusWhenMotionDetected={true}
-            />
-          </CameraErrorBoundary>
+          {/* Standby placeholder when scan has not started and no captured image */}
+          {!isScanning && !imageUri && (
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={startAutoScan}
+              style={styles.emptyStateContainer}>
+              <View style={styles.emptyStateIconWrap}>
+                <Feather name="camera" size={32} color={colors.orange[500]} />
+              </View>
+              <Text style={styles.emptyStatePrompt}>Tap to Start Camera Scan</Text>
+              <Text style={styles.emptyStateSubtext}>Align Indian number plate inside the frame</Text>
+            </TouchableOpacity>
+          )}
+
+          {/* Live In-App Camera: Active and visible only when scan starts */}
+          {isScanning && !imageUri && (
+            <CameraErrorBoundary>
+              <Camera
+                ref={cameraRef}
+                cameraType={CameraType.Back}
+                flashMode="auto"
+                torchMode={torchMode}
+                style={styles.liveCameraPreview}
+                resetFocusTimeout={0}
+                resetFocusWhenMotionDetected={true}
+              />
+            </CameraErrorBoundary>
+          )}
 
           {/* Captured Image Freeze Overlay (when a plate has been detected) */}
           {imageUri && (
             <Image source={{ uri: imageUri }} style={styles.capturedImage} />
           )}
 
-          {/* Torch Toggle Button (only when live camera is visible) */}
-          {!imageUri && (
+          {/* Torch Toggle Button (only when live camera is scanning) */}
+          {isScanning && !imageUri && (
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => setTorchMode(prev => (prev === 'on' ? 'off' : 'on'))}
@@ -405,7 +444,7 @@ export default function ScanVehicleScreen({ navigation, route }) {
           )}
 
           {/* Viewfinder Target Frame with Animated Laser Scanning Line */}
-          {!imageUri && !isProcessing && (
+          {isScanning && !imageUri && !isProcessing && (
             <View style={styles.viewfinderOverlay} pointerEvents="none">
               <View style={styles.targetFrame}>
                 <View style={styles.targetCornerTL} />
@@ -416,7 +455,6 @@ export default function ScanVehicleScreen({ navigation, route }) {
                 <Animated.View
                   style={[
                     styles.scanLaserLine,
-                    !isScanning && styles.scanLaserLineInactive,
                     {
                       transform: [
                         {
@@ -430,18 +468,18 @@ export default function ScanVehicleScreen({ navigation, route }) {
                   ]}
                 />
                 <Text style={styles.frameHintText}>
-                  {isScanning ? 'SCANNING INDIAN PLATE' : 'INDIAN NUMBER PLATE ZONE'}
+                  SCANNING INDIAN PLATE
                 </Text>
               </View>
             </View>
           )}
 
           {/* Live Status Badge */}
-          {!imageUri && (
+          {isScanning && !imageUri && (
             <View style={styles.liveStatusBadge}>
-              <View style={[styles.pulseDot, isScanning && styles.pulseDotScanning]} />
+              <View style={[styles.pulseDot, styles.pulseDotScanning]} />
               <Text style={styles.liveStatusText}>
-                {isScanning ? 'Scanning plate... hold steady' : 'Align plate • Tap Scan Vehicle'}
+                Auto-scanning plate... hold steady
               </Text>
             </View>
           )}
@@ -460,16 +498,16 @@ export default function ScanVehicleScreen({ navigation, route }) {
         <View style={styles.actionButtonsRow}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={handleScanWithCamera}
-            disabled={isProcessing || isScanning}
-            style={[styles.actionBtn, styles.actionBtnPrimary]}>
+            onPress={isScanning ? stopScan : startAutoScan}
+            disabled={isProcessing}
+            style={[styles.actionBtn, isScanning ? styles.actionBtnDanger : styles.actionBtnPrimary]}>
             {isScanning ? (
-              <ActivityIndicator size="small" color={colors.white} />
+              <Feather name="square" size={18} color={colors.white} />
             ) : (
               <Feather name="camera" size={18} color={colors.white} />
             )}
             <Text style={[styles.actionBtnText, styles.actionBtnTextPrimary]}>
-              {isScanning ? 'Scanning...' : 'Scan Vehicle'}
+              {isScanning ? 'Stop Scan' : 'Scan Vehicle'}
             </Text>
           </TouchableOpacity>
 

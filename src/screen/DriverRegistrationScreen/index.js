@@ -413,7 +413,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             }
 
             if (isSubmittedForReview) {
-              navigation.replace('DriverVerificationStatus', { mode: 'in_progress' });
+              navigation.replace('DriverTabs');
               return;
             }
 
@@ -944,7 +944,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         dispatch(fetchDriverProfile());
         navigation.reset({
           index: 0,
-          routes: [{ name: 'DriverVerificationStatus', params: { mode: 'in_progress' } }],
+          routes: [{ name: 'DriverTabs' }],
         });
       }
     } catch (err) {
@@ -965,7 +965,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
         dispatch(fetchDriverProfile());
         navigation.reset({
           index: 0,
-          routes: [{ name: 'DriverVerificationStatus', params: { mode: 'in_progress' } }],
+          routes: [{ name: 'DriverTabs' }],
         });
       }
     } finally {
@@ -1406,6 +1406,7 @@ export default function DriverRegistrationScreen({ navigation, route }) {
             onPress={() =>
               navigation.navigate('ScanVehicle', {
                 initialPlate: regNumber,
+                autoStart: true,
                 onScanComplete: result => {
                   if (result?.plateNumber) {
                     const formatted = formatVehicleRegNumber(result.plateNumber);

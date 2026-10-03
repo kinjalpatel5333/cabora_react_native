@@ -95,12 +95,12 @@ export default function DriverStack() {
     driverStatus !== 'not_submitted';
 
   let initialRouteName = 'DriverRegistration';
-  if (kycComplete && locationResolved) {
+  if ((kycComplete || isSubmittedForReview) && locationResolved) {
     initialRouteName = 'DriverTabs';
   } else if (kycComplete) {
     initialRouteName = 'LocationPermission';
   } else if (isSubmittedForReview) {
-    initialRouteName = 'DriverVerificationStatus';
+    initialRouteName = 'DriverTabs';
   }
 
   return (
